@@ -46,12 +46,12 @@
 }
 
 .profile-card h2 {
-  color: #2c3e50;
+  color: #7d1231;
   font-size: 1.8rem;
   font-weight: bold;
-  border-bottom: 2px solid #00b894;
+  border-bottom: 2px solid #7d1231;
   padding-bottom: 0.5em;
-  margin-bottom: 1.5em;
+  margin-bottom: 0.5em;
 }
 
 .profile-content {

@@ -57,6 +57,8 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
           <el-menu-item index="5"><p style="font-size: 18px">News</p></el-menu-item>
 
+
+          <el-menu-item index="6"><p style="font-size: 18px">Contact</p></el-menu-item>
         </el-menu>
       </el-header>
 
