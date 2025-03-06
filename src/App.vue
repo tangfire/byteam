@@ -23,8 +23,12 @@ const handleSelect = (key: string, keyPath: string[]) => {
             active-text-color="#7d1231"
             @select="handleSelect"
             :router="true"
+
+            text-color="#2f3542"
+
+
         >
-          <el-menu-item index="/">
+          <el-menu-item>
             <img
                 style="width: 100px"
                 src="/images/logo.svg"
@@ -32,18 +36,18 @@ const handleSelect = (key: string, keyPath: string[]) => {
             />
           </el-menu-item>
 
-          <el-menu-item index="/">Home</el-menu-item>
+          <el-menu-item index="/"><p style="font-size: 18px">Home</p></el-menu-item>
           <el-sub-menu  index="/research">
-            <template #title >Research</template>
+            <template #title ><p style="font-size: 18px">Research</p></template>
             <el-menu-item index="/current-projects">Current Projects</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="/our-team">
-            <template #title>Our Team</template>
+            <template #title><p style="font-size: 18px">Our Team</p></template>
             <el-menu-item index="/dr-Baoyao-Yang">Yang Bao Yao</el-menu-item>
             <el-menu-item index="3-2" >Our Group</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="4">
-            <template #title>Publications</template>
+            <template #title><p style="font-size: 18px">Publications</p></template>
             <el-menu-item index="4-1">
               <div style="line-height: 1.2; margin: 0;">
                 International <br> Journals/Conferences
@@ -51,7 +55,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
             </el-menu-item>
           </el-sub-menu>
 
-          <el-menu-item index="5">News</el-menu-item>
+          <el-menu-item index="5"><p style="font-size: 18px">News</p></el-menu-item>
 
         </el-menu>
       </el-header>
@@ -64,7 +68,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
       <!-- 页脚 -->
       <el-footer :height="120" class="custom-footer">
-        <div class="footer-content">
+        <div class="footer-content" style="height: 100px">
           <p>© 2025 Your Company Name. All Rights Reserved.</p>
           <div class="social-links">
             <a href="#" class="social-icon">Facebook</a>
@@ -79,17 +83,40 @@ const handleSelect = (key: string, keyPath: string[]) => {
 </template>
 
 <style scoped>
+
+
+.el-menu {
+
+  height: 120px;
+
+
+}
+
+
+
+
+.is-opened /deep/.el-submenu__title {
+  background: #f4f4f4 !important;
+}
+
+.el-submenu.is-active:not(.is-opened) /deep/.el-submenu__title,
+/deep/.el-submenu__title:hover,
+/deep/.el-menu-item:hover,
+/deep/.el-menu-item.is-active {
+  i {
+    color: #ffffff !important;
+  }
+
+  color: #ffffff !important;
+  background: #7d1231 !important;
+}
+
+
 .el-menu--horizontal > .el-menu-item:nth-child(1) {
   margin-right: auto;
 }
 
-.el-menu--horizontal {
-  --el-menu-horizontal-height: 100px;
-}
 
-.demonstration {
-  color: var(--el-text-color-secondary);
-}
 
 .el-carousel__item h3 {
   color: #475669;
@@ -99,13 +126,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
   text-align: center;
 }
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
 
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
 
 .footer-content {
   text-align: center;

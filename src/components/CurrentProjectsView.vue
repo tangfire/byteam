@@ -96,7 +96,7 @@ const count = ref(0)
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="../../public/images/006.png"
+              src="../../public/images/004.jpg"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
@@ -179,9 +179,17 @@ const count = ref(0)
 
   </el-space>
 
+  <el-backtop :right="100" :bottom="100"  />
+
 </template>
 
 <style scoped>
+
+
+::v-deep(.el-icon svg) {
+  color: #7d1231 !important;
+}
+
 .module h3 {
   font-size: 20px;
   color: #2980b9;
