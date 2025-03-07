@@ -43,7 +43,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
           </el-sub-menu>
           <el-sub-menu index="/our-team">
             <template #title><p style="font-size: 18px">Our Team</p></template>
-            <el-menu-item index="/dr-Baoyao-Yang">Yang Bao Yao</el-menu-item>
+            <el-menu-item index="/dr-Baoyao-Yang">Baoyao Yang</el-menu-item>
             <el-menu-item index="3-2" >Our Group</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="4">
@@ -71,7 +71,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
       <!-- 页脚 -->
       <el-footer :height="120" class="custom-footer">
         <div class="footer-content" style="height: 100px">
-          <p>© 2025 Your Company Name. All Rights Reserved.</p>
+          <p>© 2025 By Baoyao Yang.</p>
           <div class="social-links">
             <a href="#" class="social-icon">Facebook</a>
             <a href="#" class="social-icon">Twitter</a>
