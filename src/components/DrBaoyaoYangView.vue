@@ -10,7 +10,7 @@
 
     <div class="profile-content">
       <img
-          src="/images/yangbaoyao.png"
+          src="/currentprojects/yangbaoyao.png"
           alt="Dr. Baoyao Yang"
           class="profile-image"
       />

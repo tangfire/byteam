@@ -23,7 +23,7 @@ defineProps<{ msg: string }>()
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <!-- 图片左边 -->
           <img
-              src="/images/001.jpg"
+              src="/currentprojects/001.jpg"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <!-- 文字右边 -->
           <div>
@@ -48,7 +48,7 @@ defineProps<{ msg: string }>()
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="/images/002.jpg"
+              src="/currentprojects/002.jpg"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
@@ -71,7 +71,7 @@ defineProps<{ msg: string }>()
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="/images/003.jpg"
+              src="/currentprojects/003.png"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
@@ -96,7 +96,7 @@ defineProps<{ msg: string }>()
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="/images/004.jpg"
+              src="/currentprojects/004.jpg"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
@@ -119,7 +119,7 @@ defineProps<{ msg: string }>()
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="/images/005.jpg"
+              src="/currentprojects/005.jpg"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
@@ -141,7 +141,7 @@ defineProps<{ msg: string }>()
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="/images/006.png"
+              src="/currentprojects/006.png"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
@@ -163,7 +163,7 @@ defineProps<{ msg: string }>()
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="/images/007.png"
+              src="/currentprojects/007.png"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 

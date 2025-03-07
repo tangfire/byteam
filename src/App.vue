@@ -43,7 +43,7 @@ if (import.meta.env.MODE === 'production') {
 
 <!--          <img-->
 <!--              style="width: 100px"-->
-<!--              src="/images/logo.svg"-->
+<!--              src="/currentprojects/logo.svg"-->
 <!--              alt="Element logo"-->
 <!--          />-->
 
@@ -63,16 +63,16 @@ if (import.meta.env.MODE === 'production') {
             <el-menu-item index="/dr-Baoyao-Yang">Baoyao Yang</el-menu-item>
             <el-menu-item index="3-2" >Our Group</el-menu-item>
           </el-sub-menu>
-          <el-sub-menu index="4">
+          <el-sub-menu index="/publications">
             <template #title><p style="font-size: 18px">Publications</p></template>
-            <el-menu-item index="4-1">
+            <el-menu-item index="/international-journals-conferences">
               <div style="line-height: 1.2; margin: 0;">
                 International <br> Journals/Conferences
               </div>
             </el-menu-item>
           </el-sub-menu>
 
-          <el-menu-item index="5"><p style="font-size: 18px">News</p></el-menu-item>
+<!--          <el-menu-item index="5"><p style="font-size: 18px">News</p></el-menu-item>-->
 
 
           <el-menu-item index="/contact"><p style="font-size: 18px">Contact</p></el-menu-item>
@@ -226,5 +226,53 @@ if (import.meta.env.MODE === 'production') {
   background-color: #2c2c2c;
   color: white;
   padding: 20px 0;
+}
+
+
+/* 设置整个页面的布局为 flexbox */
+.common-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;  /* 设置页面的总高度为视口高度 */
+}
+
+.el-container {
+  flex: 1;  /* 让容器占据剩余的空间 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 页脚保持在底部 */
+.custom-footer {
+  background-color: #2c2c2c;
+  color: white;
+  padding: 20px 0;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-content {
+  text-align: center;
+  padding: 20px;
+  color: #fff;
+}
+
+.footer-content p {
+  margin: 5px 0;
+}
+
+.social-links {
+  margin-top: 10px;
+}
+
+.social-icon {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #fff;
+}
+
+.social-icon:hover {
+  color: #35495e;
 }
 </style>

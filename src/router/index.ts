@@ -6,6 +6,7 @@ import HomeView from '../components/HomeView.vue'
 import CurrentProjectsView from "../components/CurrentProjectsView.vue";
 import DrBaoyaoYangView from "../components/DrBaoyaoYangView.vue";
 import ContactView from "../components/ContactView.vue";
+import InternationalJournalsConferencesView from "../components/InternationalJournalsConferencesView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       path:'/contact',
       name:'contact',
       component:ContactView
+    },
+    {
+      path:'/international-journals-conferences',
+      name:'international-journals-conferences',
+      component:InternationalJournalsConferencesView
     }
 
 
