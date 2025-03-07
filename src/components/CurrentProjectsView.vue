@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {ref} from 'vue'
+
 import {ArrowRightBold} from "@element-plus/icons-vue";
 
 defineProps<{ msg: string }>()
 
-const count = ref(0)
+
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const count = ref(0)
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <!-- 图片左边 -->
           <img
-              src="../../public/images/001.jpg"
+              src="/images/001.jpg"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <!-- 文字右边 -->
           <div>
@@ -48,7 +48,7 @@ const count = ref(0)
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="../../public/images/002.jpg"
+              src="/images/002.jpg"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
@@ -71,7 +71,7 @@ const count = ref(0)
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="../../public/images/003.jpg"
+              src="/images/003.jpg"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
@@ -96,7 +96,7 @@ const count = ref(0)
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="../../public/images/004.jpg"
+              src="/images/004.jpg"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
@@ -119,7 +119,7 @@ const count = ref(0)
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="../../public/images/005.jpg"
+              src="/images/005.jpg"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
@@ -141,7 +141,7 @@ const count = ref(0)
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="../../public/images/006.png"
+              src="/images/006.png"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
@@ -163,7 +163,7 @@ const count = ref(0)
       <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="../../public/images/007.png"
+              src="/images/007.png"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 

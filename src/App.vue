@@ -9,6 +9,16 @@ const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
 
+// 在代码中直接判断
+if (import.meta.env.MODE === 'production') {
+  console.log('生产环境');
+} else if (import.meta.env.MODE === 'test') {
+  console.log('测试环境');
+} else {
+  console.log('开发环境');
+}
+
+
 </script>
 
 <template>
@@ -31,11 +41,17 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
         >
 
-          <img
-              style="width: 100px"
-              src="/images/logo.svg"
-              alt="Element logo"
-          />
+<!--          <img-->
+<!--              style="width: 100px"-->
+<!--              src="/images/logo.svg"-->
+<!--              alt="Element logo"-->
+<!--          />-->
+
+          <div class="logo">
+
+            <span>BY Group</span>
+          </div>
+
 
           <el-menu-item index="/"><p style="font-size: 18px">Home</p></el-menu-item>
           <el-sub-menu  index="/research">
@@ -74,8 +90,9 @@ const handleSelect = (key: string, keyPath: string[]) => {
       <el-footer :height="120" class="custom-footer">
         <div class="footer-content" style="height: 100px">
           <p>Welcome to BY Group @ Guangdong University of Technology</p>
-          <p>© 2025 By Baoyao Yang.</p>
-          <p style="margin-top: 20px">Email: ybaoyao@gdut.edu.cn</p>
+
+          <p >Email: ybaoyao@gdut.edu.cn</p>
+          <p style="margin-top: 20px">© 2025 By Baoyao Yang.</p>
 <!--          <div class="social-links" style="line-height: 100px">-->
 <!--            <a href="#" class="social-icon">Facebook</a>-->
 <!--            <a href="#" class="social-icon">Twitter</a>-->
@@ -89,6 +106,34 @@ const handleSelect = (key: string, keyPath: string[]) => {
 </template>
 
 <style scoped>
+
+.logo{
+  font-size: 36px;
+}
+
+.logo span {
+  position: relative;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.logo span::before {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #7d1231;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.logo:hover span::before {
+  transform: scaleX(1);
+}
+
+
 
 
 .el-menu {
@@ -119,7 +164,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
 
 .el-menu--horizontal > .el-menu-item:nth-child(1) {
-  //margin-right: auto;
+  /*margin-right: auto;*/
 }
 
 .el-menu--horizontal {
@@ -129,7 +174,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
 }
 
 /* Logo保持靠左 */
-.el-menu--horizontal > img {
+.el-menu--horizontal > .logo {
   margin-right: auto;
   order: -1; /* 确保logo在最左侧 */
 }
