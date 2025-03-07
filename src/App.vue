@@ -15,6 +15,8 @@ const handleSelect = (key: string, keyPath: string[]) => {
   <div class="common-layout">
     <el-container>
       <el-header>
+
+
         <el-menu
             :default-active="activeIndex"
             class="el-menu-demo"
@@ -29,16 +31,11 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
         >
 
-          <el-menu-item>
-            <img
-                style="width: 100px"
-                src="/images/logo.svg"
-                alt="Element logo"
-            />
-          </el-menu-item>
-
-
-
+          <img
+              style="width: 100px"
+              src="/images/logo.svg"
+              alt="Element logo"
+          />
 
           <el-menu-item index="/"><p style="font-size: 18px">Home</p></el-menu-item>
           <el-sub-menu  index="/research">
@@ -122,7 +119,25 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
 
 .el-menu--horizontal > .el-menu-item:nth-child(1) {
+  //margin-right: auto;
+}
+
+.el-menu--horizontal {
+  display: flex;
+  align-items: center;
+  gap: 2px; /* 控制菜单项之间的间距 */
+}
+
+/* Logo保持靠左 */
+.el-menu--horizontal > img {
   margin-right: auto;
+  order: -1; /* 确保logo在最左侧 */
+}
+
+/* 菜单项靠右 */
+.el-menu--horizontal > .el-menu-item,
+.el-menu--horizontal > .el-sub-menu {
+  margin-left: 0; /* 取消自动边距 */
 }
 
 
