@@ -179,6 +179,9 @@ const count = ref(0)
 
   </el-space>
 
+<!--  底部间隔-->
+  <div style="height: 50px"></div>
+
   <el-backtop :right="100" :bottom="100"  />
 
 </template>
