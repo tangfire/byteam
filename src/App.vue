@@ -28,6 +28,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
 
 
         >
+
           <el-menu-item>
             <img
                 style="width: 100px"
@@ -35,6 +36,9 @@ const handleSelect = (key: string, keyPath: string[]) => {
                 alt="Element logo"
             />
           </el-menu-item>
+
+
+
 
           <el-menu-item index="/"><p style="font-size: 18px">Home</p></el-menu-item>
           <el-sub-menu  index="/research">
@@ -58,7 +62,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
           <el-menu-item index="5"><p style="font-size: 18px">News</p></el-menu-item>
 
 
-          <el-menu-item index="6"><p style="font-size: 18px">Contact</p></el-menu-item>
+          <el-menu-item index="/contact"><p style="font-size: 18px">Contact</p></el-menu-item>
         </el-menu>
       </el-header>
 
@@ -68,15 +72,18 @@ const handleSelect = (key: string, keyPath: string[]) => {
         <router-view />
       </el-main>
 
+
       <!-- 页脚 -->
       <el-footer :height="120" class="custom-footer">
         <div class="footer-content" style="height: 100px">
+          <p>Welcome to BY Group @ Guangdong University of Technology</p>
           <p>© 2025 By Baoyao Yang.</p>
-          <div class="social-links">
-            <a href="#" class="social-icon">Facebook</a>
-            <a href="#" class="social-icon">Twitter</a>
-            <a href="#" class="social-icon">Instagram</a>
-          </div>
+          <p style="margin-top: 20px">Email: ybaoyao@gdut.edu.cn</p>
+<!--          <div class="social-links" style="line-height: 100px">-->
+<!--            <a href="#" class="social-icon">Facebook</a>-->
+<!--            <a href="#" class="social-icon">Twitter</a>-->
+<!--            <a href="#" class="social-icon">Instagram</a>-->
+<!--          </div>-->
         </div>
       </el-footer>
 

@@ -5,7 +5,7 @@ import HomeView from '../components/HomeView.vue'
 
 import CurrentProjectsView from "../components/CurrentProjectsView.vue";
 import DrBaoyaoYangView from "../components/DrBaoyaoYangView.vue";
-
+import ContactView from "../components/ContactView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,7 +29,13 @@ const router = createRouter({
       path:'/dr-Baoyao-Yang',
       name:'dr-Baoyao-Yang',
       component:DrBaoyaoYangView
+    },
+    {
+      path:'/contact',
+      name:'contact',
+      component:ContactView
     }
+
 
     // {
     //   path: '/about',
