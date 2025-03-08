@@ -7,6 +7,8 @@ import CurrentProjectsView from "../components/CurrentProjectsView.vue";
 import DrBaoyaoYangView from "../components/DrBaoyaoYangView.vue";
 import ContactView from "../components/ContactView.vue";
 import InternationalJournalsConferencesView from "../components/InternationalJournalsConferencesView.vue";
+import GroupView from "../components/GroupView.vue";
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +42,11 @@ const router = createRouter({
       path:'/international-journals-conferences',
       name:'international-journals-conferences',
       component:InternationalJournalsConferencesView
+    },
+    {
+      path:'/our-group',
+      name:"our-group",
+      component:GroupView
     }
 
 

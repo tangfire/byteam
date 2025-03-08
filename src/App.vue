@@ -62,7 +62,7 @@ if (import.meta.env.MODE === 'production') {
           <el-sub-menu index="/our-team">
             <template #title><p style="font-size: 18px">Our Team</p></template>
             <el-menu-item index="/dr-Baoyao-Yang">Baoyao Yang</el-menu-item>
-            <el-menu-item index="3-2" >Our Group</el-menu-item>
+            <el-menu-item index="/our-group" >Our Group</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="/publications">
             <template #title><p style="font-size: 18px">Publications</p></template>
