@@ -39,9 +39,9 @@ defineProps<{ msg: string }>()
 
     <div class="content">
 
-      <p>Welcome to BY Group</p>
+      <p class="title">Welcome to BY Group</p>
 
-      <p>Our team focuses on medical time series representation learning and multimodal data fusion, privacy-preserving
+      <p class="text">Our team focuses on medical time series representation learning and multimodal data fusion, privacy-preserving
         federated learning with heterogeneous collaboration, automated lesion annotation with weakly supervised models,
         short video multimodal understanding and contrastive learning, intelligent perception and privacy security in
         industrial IoT, theoretical research on algorithm generalization and interpretability, as well as reinforcement
@@ -56,11 +56,11 @@ defineProps<{ msg: string }>()
 
       <el-space direction="vertical" :size="30" style="width: 100%">
 
-        <p style="font-size: 32px;color: #7d1231;">Latest Research</p>
+        <p class="title_research" style="font-size: 32px;color: #7d1231;">Latest Research</p>
         <div>
           <div style=" align-items: center;">
 
-            <el-card
+            <el-card class="card_1"
                 style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
               <div style="display: flex; align-items: center; justify-content: flex-start;">
                 <!-- 图片左边 -->
@@ -107,6 +107,7 @@ defineProps<{ msg: string }>()
             <div style="height: 35px"></div>
 
             <el-card
+                class="card_2"
                 style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
               <div style="display: flex; align-items: center; justify-content: flex-start;">
                 <!-- 图片左边 -->
@@ -154,6 +155,7 @@ defineProps<{ msg: string }>()
 
             <!-- 每个卡片 -->
             <el-card
+                class="card_3"
                 style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
               <div style="display: flex; align-items: center; justify-content: flex-start;">
                 <!-- 图片左边 -->
@@ -199,6 +201,7 @@ defineProps<{ msg: string }>()
             <div style="height: 35px"></div>
 
             <el-card
+                class="card_4"
                 style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
               <div style="display: flex; align-items: center; justify-content: flex-start;">
                 <!-- 图片左边 -->
@@ -321,4 +324,74 @@ body {
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }
+
+.title{
+  opacity: 0;
+  animation: fadeInTitle 1.5s forwards; /* 标题渐显 */
+  animation-delay: 0.5s; /* 延迟出现 */
+}
+
+.text{
+  opacity: 0;
+  animation: fadeInText 2.5s forwards; /* 渐显效果 */
+  animation-delay: 1s; /* 延迟出现 */
+}
+
+.title_research{
+  opacity: 0;
+  animation: fadeInTitle 1.5s forwards; /* 渐显效果 */
+  animation-delay: 1.5s; /* 延迟出现 */
+}
+
+.card_1{
+  opacity: 0;
+  animation: fadeInCard 2s forwards; /* 渐显效果 */
+  animation-delay: 2s; /* 延迟出现 */
+}
+
+.card_2{
+  opacity: 0;
+  animation: fadeInCard 2s forwards; /* 渐显效果 */
+  animation-delay: 2.5s; /* 延迟出现 */
+}
+
+.card_3{
+  opacity: 0;
+  animation: fadeInCard 2s forwards; /* 渐显效果 */
+  animation-delay: 3s; /* 延迟出现 */
+}
+
+.card_4{
+  opacity: 0;
+  animation: fadeInCard 2s forwards; /* 渐显效果 */
+  animation-delay: 3.5s; /* 延迟出现 */
+}
+
+
+
+/* 渐变出现的动画 */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInTitle {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInText {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInCard {
+  to{
+    opacity: 1;
+  }
+}
+
 </style>
