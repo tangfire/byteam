@@ -57,6 +57,7 @@ if (import.meta.env.MODE === 'production') {
           <el-sub-menu  index="/research">
             <template #title ><p style="font-size: 18px">Research</p></template>
             <el-menu-item index="/current-projects">Current Projects</el-menu-item>
+            <el-menu-item ><a class="githublink" href="https://github.com/BaoyaoGroup" style="text-decoration: none;color: #333b49" target="_blank">Github-Repositories</a></el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="/our-team">
             <template #title><p style="font-size: 18px">Our Team</p></template>
@@ -107,6 +108,10 @@ if (import.meta.env.MODE === 'production') {
 
 <style scoped>
 
+.githublink:hover {
+  color: white !important;
+}
+
 .logo{
   font-size: 36px;
 }
@@ -134,17 +139,12 @@ if (import.meta.env.MODE === 'production') {
 }
 
 
-
-
 .el-menu {
 
   height: 120px;
 
 
 }
-
-
-
 
 .is-opened /deep/.el-submenu__title {
   background: #f4f4f4 !important;
@@ -160,11 +160,7 @@ if (import.meta.env.MODE === 'production') {
 
   color: #ffffff !important;
   background: #7d1231 !important;
-}
 
-
-.el-menu--horizontal > .el-menu-item:nth-child(1) {
-  /*margin-right: auto;*/
 }
 
 .el-menu--horizontal {
