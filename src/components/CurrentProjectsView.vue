@@ -12,8 +12,11 @@ defineProps<{ msg: string }>()
   <el-space direction="vertical" :size="30" style="width: 100%">
     <div>
       <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;"><ArrowRightBold /></el-icon> <!-- 增加图标大小 -->
-        <h3 style="margin-left: 8px; color: #7d1231; font-size: 26px;">Medical Time-Series Representation Learning</h3> <!-- 增加文字大小 -->
+        <el-icon color="#7d1231" style="font-size: 24px;">
+          <ArrowRightBold/>
+        </el-icon> <!-- 增加图标大小 -->
+        <h3 style="margin-left: 8px; color: #7d1231; font-size: 26px;">Medical Time-Series Representation Learning</h3>
+        <!-- 增加文字大小 -->
       </div>
 
 
@@ -40,19 +43,23 @@ defineProps<{ msg: string }>()
 
     <div>
       <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;"><ArrowRightBold /></el-icon>
+        <el-icon color="#7d1231" style="font-size: 24px;">
+          <ArrowRightBold/>
+        </el-icon>
         <h3 style="margin-left: 8px;color: #7d1231 ;font-size: 26px;">Federated Learning for Medical Applications</h3>
       </div>
 
       <!-- 其他卡片 -->
-      <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+      <el-card
+          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
               src="/currentprojects/002.jpg"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
-            <p><strong>Challenges:</strong> Data privacy constraints, siloed datasets, heterogeneous model architectures.
+            <p><strong>Challenges:</strong> Data privacy constraints, siloed datasets, heterogeneous model
+              architectures.
             </p>
             <p><strong>Innovations:</strong> Privacy-preserving collaborative training protocols (e.g., differential
               autoencoders) with adaptive aggregation mechanisms for cross-institutional knowledge sharing.</p>
@@ -62,13 +69,15 @@ defineProps<{ msg: string }>()
     </div>
 
 
-
     <div>
       <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;"><ArrowRightBold /></el-icon>
+        <el-icon color="#7d1231" style="font-size: 24px;">
+          <ArrowRightBold/>
+        </el-icon>
         <h3 style="margin-left: 8px;color: #7d1231;font-size: 26px;">Automated Lesion Annotation</h3>
       </div>
-      <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+      <el-card
+          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
               src="/currentprojects/003.png"
@@ -77,7 +86,8 @@ defineProps<{ msg: string }>()
 
             <p><strong>Challenges:</strong> Labor-intensive manual labeling, limited annotated samples, cross-modal
               discrepancies.</p>
-            <p><strong>Approaches:</strong> Weakly supervised and prompt-based learning to localize lesions in multimodal
+            <p><strong>Approaches:</strong> Weakly supervised and prompt-based learning to localize lesions in
+              multimodal
               MRI/CT scans while minimizing clinician workload.</p>
           </div>
         </div>
@@ -85,15 +95,17 @@ defineProps<{ msg: string }>()
     </div>
 
 
-
     <div>
       <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;"><ArrowRightBold /></el-icon>
+        <el-icon color="#7d1231" style="font-size: 24px;">
+          <ArrowRightBold/>
+        </el-icon>
         <h3 style="margin-left: 8px;color: #7d1231;font-size: 26px;">Short-Form Video Content Intelligence</h3>
       </div>
 
       <!-- 其他卡片 -->
-      <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+      <el-card
+          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
               src="/currentprojects/004.jpg"
@@ -112,11 +124,14 @@ defineProps<{ msg: string }>()
 
     <div>
       <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;"><ArrowRightBold /></el-icon>
+        <el-icon color="#7d1231" style="font-size: 24px;">
+          <ArrowRightBold/>
+        </el-icon>
         <h3 style="margin-left: 8px;color: #7d1231;font-size: 26px;">Industrial IoT & Supply Chain Optimization</h3>
       </div>
 
-      <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+      <el-card
+          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
               src="/currentprojects/005.jpg"
@@ -134,18 +149,22 @@ defineProps<{ msg: string }>()
 
     <div>
       <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;"><ArrowRightBold /></el-icon>
+        <el-icon color="#7d1231" style="font-size: 24px;">
+          <ArrowRightBold/>
+        </el-icon>
         <h3 style="margin-left: 8px;color: #7d1231;font-size: 26px;">Foundational Algorithm Research</h3>
       </div>
 
-      <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+      <el-card
+          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
               src="/currentprojects/006.png"
               style="width: 400px; height: auto; margin-right: 20px;"/>
           <div>
 
-            <p><strong>Focus Areas:</strong> Model explainability in black-box AI, memory-efficient architectures, robust
+            <p><strong>Focus Areas:</strong> Model explainability in black-box AI, memory-efficient architectures,
+              robust
               generalization under limited labels.</p>
             <p><strong>Breakthroughs:</strong> Hybrid frameworks combining causal reasoning, prompt engineering, and
               adversarial robustness testing.</p>
@@ -156,11 +175,14 @@ defineProps<{ msg: string }>()
 
     <div>
       <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;"><ArrowRightBold /></el-icon>
+        <el-icon color="#7d1231" style="font-size: 24px;">
+          <ArrowRightBold/>
+        </el-icon>
         <h3 style="margin-left: 8px;color: #7d1231;font-size: 26px;">Weak supervised instance segmentation</h3>
       </div>
 
-      <el-card style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+      <el-card
+          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
               src="/currentprojects/007.png"
@@ -168,7 +190,8 @@ defineProps<{ msg: string }>()
           <div>
 
             <p><strong>Challenges:</strong> Mask merging often occurs for densely packed objects of the same class.</p>
-            <p><strong>Solutions:</strong> Contrastive learning to enhance instance discrimination; leveraging motion cues
+            <p><strong>Solutions:</strong> Contrastive learning to enhance instance discrimination; leveraging motion
+              cues
               (in video data) or geometric priors.</p>
           </div>
         </div>
@@ -176,13 +199,12 @@ defineProps<{ msg: string }>()
     </div>
 
 
-
   </el-space>
 
-<!--  底部间隔-->
+  <!--  底部间隔-->
   <div style="height: 50px"></div>
 
-  <el-backtop :right="100" :bottom="100"  />
+  <el-backtop :right="100" :bottom="100"/>
 
 </template>
 

@@ -30,7 +30,7 @@
 
 /* 标题样式 */
 .title {
-  font-size: 4rem;  /* 更大的字体 */
+  font-size: 4rem; /* 更大的字体 */
   font-weight: 800; /* 更加加粗 */
   color: #2c3e50; /* 设置正常颜色 */
   opacity: 0;
@@ -53,7 +53,7 @@
 .divider {
   width: 200px;
   height: 2px;
-  background: #7d1231;  /* 设置正常颜色 */
+  background: #7d1231; /* 设置正常颜色 */
   margin: 1.5rem auto;
   position: relative;
   transition: all 0.3s ease;
@@ -73,7 +73,6 @@
   animation: fadeInText 2s forwards; /* 渐显效果 */
   animation-delay: 1.5s; /* 延迟出现 */
 }
-
 
 
 /* 渐变出现的动画 */
