@@ -27,7 +27,7 @@ defineProps<{ msg: string }>()
           <!-- 图片左边 -->
           <img
               src="/currentprojects/001.jpg"
-              style="width: 400px; height: auto; margin-right: 20px;"/>
+              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
           <!-- 文字右边 -->
           <div>
 
@@ -54,8 +54,8 @@ defineProps<{ msg: string }>()
           style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
-              src="/currentprojects/002.jpg"
-              style="width: 400px; height: auto; margin-right: 20px;"/>
+              src="/currentprojects/002.png"
+              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
           <div>
 
             <p><strong>Challenges:</strong> Data privacy constraints, siloed datasets, heterogeneous model
@@ -81,7 +81,7 @@ defineProps<{ msg: string }>()
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
               src="/currentprojects/003.png"
-              style="width: 400px; height: auto; margin-right: 20px;"/>
+              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
           <div>
 
             <p><strong>Challenges:</strong> Labor-intensive manual labeling, limited annotated samples, cross-modal
@@ -109,7 +109,7 @@ defineProps<{ msg: string }>()
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
               src="/currentprojects/004.jpg"
-              style="width: 400px; height: auto; margin-right: 20px;"/>
+              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
           <div>
 
             <p><strong>Challenges:</strong> Multimodal data fusion (audio, text, video), real-time interpretation,
@@ -135,7 +135,7 @@ defineProps<{ msg: string }>()
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
               src="/currentprojects/005.jpg"
-              style="width: 400px; height: auto; margin-right: 20px;"/>
+              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
           <div>
 
             <p><strong>Challenges:</strong> Multi-tier communication latency, dynamic resource allocation, cybersecurity
@@ -160,7 +160,7 @@ defineProps<{ msg: string }>()
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
               src="/currentprojects/006.png"
-              style="width: 400px; height: auto; margin-right: 20px;"/>
+              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
           <div>
 
             <p><strong>Focus Areas:</strong> Model explainability in black-box AI, memory-efficient architectures,
@@ -186,7 +186,7 @@ defineProps<{ msg: string }>()
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <img
               src="/currentprojects/007.png"
-              style="width: 400px; height: auto; margin-right: 20px;"/>
+              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
           <div>
 
             <p><strong>Challenges:</strong> Mask merging often occurs for densely packed objects of the same class.</p>
