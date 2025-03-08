@@ -54,7 +54,7 @@ defineProps<{ msg: string }>()
 
       <el-space direction="vertical" :size="30" style="width: 100%">
 
-        <p style="font-size: 32px;color: #7d1231;">Latest research</p>
+        <p style="font-size: 32px;color: #7d1231;">Latest Research</p>
         <div>
           <div style=" align-items: center;">
 
