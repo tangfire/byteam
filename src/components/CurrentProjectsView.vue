@@ -26,7 +26,7 @@ defineProps<{ msg: string }>()
         <div style="display: flex; align-items: center; justify-content: flex-start;">
           <!-- 图片左边 -->
           <img
-              src="/currentprojects/001.jpg"
+              src="/currentprojects/001.png"
               style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
           <!-- 文字右边 -->
           <div>
