@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 
-import { ref } from 'vue'
+import {ref} from 'vue'
 
 const activeIndex = ref('1')
 
@@ -41,11 +41,11 @@ if (import.meta.env.MODE === 'production') {
 
         >
 
-<!--          <img-->
-<!--              style="width: 100px"-->
-<!--              src="/currentprojects/logo.svg"-->
-<!--              alt="Element logo"-->
-<!--          />-->
+          <!--          <img-->
+          <!--              style="width: 100px"-->
+          <!--              src="/currentprojects/logo.svg"-->
+          <!--              alt="Element logo"-->
+          <!--          />-->
 
           <div class="logo">
 
@@ -54,15 +54,17 @@ if (import.meta.env.MODE === 'production') {
 
 
           <el-menu-item index="/"><p style="font-size: 18px">Home</p></el-menu-item>
-          <el-sub-menu  index="/research">
-            <template #title ><p style="font-size: 18px">Research</p></template>
-            <el-menu-item style="height: 50px"  index="/current-projects">Current Projects</el-menu-item>
-            <el-menu-item style="height: 50px"  ><a class="githublink" href="https://github.com/BaoyaoGroup" style="text-decoration: none;color: #333b49" target="_blank">Github-Repositories</a></el-menu-item>
+          <el-sub-menu index="/research">
+            <template #title><p style="font-size: 18px">Research</p></template>
+            <el-menu-item style="height: 50px" index="/current-projects">Current Projects</el-menu-item>
+            <el-menu-item style="height: 50px"><a class="githublink" href="https://github.com/BaoyaoGroup"
+                                                  style="text-decoration: none;color: #333b49" target="_blank">Github-Repositories</a>
+            </el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="/our-team">
             <template #title><p style="font-size: 18px">Our Team</p></template>
             <el-menu-item style="height: 50px" index="/dr-Baoyao-Yang">Baoyao Yang</el-menu-item>
-            <el-menu-item style="height: 50px" index="/our-group" >Our Group</el-menu-item>
+            <el-menu-item style="height: 50px" index="/our-group">Our Group</el-menu-item>
           </el-sub-menu>
           <el-sub-menu index="/publications">
             <template #title><p style="font-size: 18px">Publications</p></template>
@@ -73,7 +75,7 @@ if (import.meta.env.MODE === 'production') {
             </el-menu-item>
           </el-sub-menu>
 
-<!--          <el-menu-item index="5"><p style="font-size: 18px">News</p></el-menu-item>-->
+          <!--          <el-menu-item index="5"><p style="font-size: 18px">News</p></el-menu-item>-->
 
 
           <el-menu-item index="/contact"><p style="font-size: 18px">Contact</p></el-menu-item>
@@ -83,22 +85,24 @@ if (import.meta.env.MODE === 'production') {
       <div style="height: 100px"></div>
 
       <el-main>
-        <router-view />
+        <router-view/>
       </el-main>
 
 
       <!-- 页脚 -->
       <el-footer :height="120" class="custom-footer">
         <div class="footer-content" style="height: 100px">
-          <p>Welcome to BY Group @ <a class="gdutlink" href="https://www.gdut.edu.cn/" style="text-decoration: none;color: white" target="_blank">Guangdong University of Technology</a> </p>
+          <p>Welcome to BY Group @ <a class="gdutlink" href="https://www.gdut.edu.cn/"
+                                      style="text-decoration: none;color: white" target="_blank">Guangdong University of
+            Technology</a></p>
 
-          <p >Email: ybaoyao@gdut.edu.cn</p>
+          <p>Email: ybaoyao@gdut.edu.cn</p>
           <p style="margin-top: 20px">© 2025 By Baoyao Yang.</p>
-<!--          <div class="social-links" style="line-height: 100px">-->
-<!--            <a href="#" class="social-icon">Facebook</a>-->
-<!--            <a href="#" class="social-icon">Twitter</a>-->
-<!--            <a href="#" class="social-icon">Instagram</a>-->
-<!--          </div>-->
+          <!--          <div class="social-links" style="line-height: 100px">-->
+          <!--            <a href="#" class="social-icon">Facebook</a>-->
+          <!--            <a href="#" class="social-icon">Twitter</a>-->
+          <!--            <a href="#" class="social-icon">Instagram</a>-->
+          <!--          </div>-->
         </div>
       </el-footer>
 
@@ -122,7 +126,7 @@ if (import.meta.env.MODE === 'production') {
   color: white !important;
 }
 
-.logo{
+.logo {
   font-size: 36px;
 }
 
@@ -156,14 +160,14 @@ if (import.meta.env.MODE === 'production') {
 
 }
 
-.is-opened /deep/.el-submenu__title {
+.is-opened /deep/ .el-submenu__title {
   background: #F2F2F2 !important;
 }
 
-.el-submenu.is-active:not(.is-opened) /deep/.el-submenu__title,
-/deep/.el-submenu__title:hover,
-/deep/.el-menu-item:hover,
-/deep/.el-menu-item.is-active {
+.el-submenu.is-active:not(.is-opened) /deep/ .el-submenu__title,
+/deep/ .el-submenu__title:hover,
+/deep/ .el-menu-item:hover,
+/deep/ .el-menu-item.is-active {
   i {
     color: #F2F2F2 !important;
   }
@@ -192,7 +196,6 @@ if (import.meta.env.MODE === 'production') {
 }
 
 
-
 .el-carousel__item h3 {
   color: #475669;
   opacity: 0.75;
@@ -202,11 +205,10 @@ if (import.meta.env.MODE === 'production') {
 }
 
 
-
 .footer-content {
   text-align: center;
   padding: 20px;
-  color: #fff;  /* 设置文字为白色 */
+  color: #fff; /* 设置文字为白色 */
 }
 
 .footer-content p {
@@ -220,7 +222,7 @@ if (import.meta.env.MODE === 'production') {
 .social-icon {
   margin: 0 10px;
   text-decoration: none;
-  color: #fff;  /* 设置图标文字颜色为白色 */
+  color: #fff; /* 设置图标文字颜色为白色 */
 }
 
 .social-icon:hover {
@@ -239,11 +241,11 @@ if (import.meta.env.MODE === 'production') {
 .common-layout {
   display: flex;
   flex-direction: column;
-  height: 100vh;  /* 设置页面的总高度为视口高度 */
+  height: 100vh; /* 设置页面的总高度为视口高度 */
 }
 
 .el-container {
-  flex: 1;  /* 让容器占据剩余的空间 */
+  flex: 1; /* 让容器占据剩余的空间 */
   display: flex;
   flex-direction: column;
 }
