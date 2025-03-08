@@ -58,7 +58,45 @@ defineProps<{ msg: string }>()
         <div>
           <div style=" align-items: center;">
 
+            <el-card
+                style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+              <div style="display: flex; align-items: center; justify-content: flex-start;">
+                <!-- 图片左边 -->
+                <img
+                    src="/publications/004.png"
+                    style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+                <!-- 文字右边 -->
+                <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+                  <!-- 使文字稍微往上移 -->
+                  <p style="margin-top: -10px;font-size: 18px">X. Zheng, B. Yang, X. Fang, W. Yao and M. Ye, "Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations," ICASSP 2025 - 2025 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), Hyderabad, India, 2025, pp. 1-5, doi: 10.1109/ICASSP49660.2025.10888997.</p>
 
+                  <!-- 水平排列的超链接 -->
+                  <div style="display: flex; gap: 70px; align-items: center;">
+                    <!-- 第一个链接（Code） -->
+                    <!--                <div style="display: flex; align-items: center;">-->
+                    <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                    <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                    <!--                      <Promotion />-->
+                    <!--                    </el-icon>-->
+                    <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                    <!--                  </a>-->
+                    <!--                </div>-->
+
+                    <!-- 第二个链接（Paper） -->
+                    <div style="display: flex; align-items: center;">
+                      <a href="https://ieeexplore.ieee.org/document/10888997" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                        <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                          <Tickets />
+                        </el-icon>
+                        <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </el-card>
+
+            <div style="height: 35px"></div>
 
             <el-card
                 style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">

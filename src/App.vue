@@ -35,7 +35,7 @@ if (import.meta.env.MODE === 'production') {
             active-text-color="#7d1231"
             @select="handleSelect"
             :router="true"
-
+            :popper-offset="16"
             text-color="#2f3542"
 
 
@@ -90,7 +90,7 @@ if (import.meta.env.MODE === 'production') {
       <!-- 页脚 -->
       <el-footer :height="120" class="custom-footer">
         <div class="footer-content" style="height: 100px">
-          <p>Welcome to BY Group @ Guangdong University of Technology</p>
+          <p>Welcome to BY Group @ <a class="gdutlink" href="https://www.gdut.edu.cn/" style="text-decoration: none;color: white" target="_blank">Guangdong University of Technology</a> </p>
 
           <p >Email: ybaoyao@gdut.edu.cn</p>
           <p style="margin-top: 20px">© 2025 By Baoyao Yang.</p>
@@ -107,6 +107,16 @@ if (import.meta.env.MODE === 'production') {
 </template>
 
 <style scoped>
+
+.gdutlink {
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s ease; /* 让颜色变化时有 0.3 秒的过渡效果 */
+}
+
+.gdutlink:hover {
+  color: #747d8c !important;
+}
 
 .githublink:hover {
   color: white !important;
@@ -147,7 +157,7 @@ if (import.meta.env.MODE === 'production') {
 }
 
 .is-opened /deep/.el-submenu__title {
-  background: #f4f4f4 !important;
+  background: #F2F2F2 !important;
 }
 
 .el-submenu.is-active:not(.is-opened) /deep/.el-submenu__title,
@@ -155,10 +165,10 @@ if (import.meta.env.MODE === 'production') {
 /deep/.el-menu-item:hover,
 /deep/.el-menu-item.is-active {
   i {
-    color: #ffffff !important;
+    color: #F2F2F2 !important;
   }
 
-  color: #ffffff !important;
+  color: #F2F2F2 !important;
   background: #7d1231 !important;
 
 }
