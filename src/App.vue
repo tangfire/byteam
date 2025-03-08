@@ -97,6 +97,11 @@ if (import.meta.env.MODE === 'production') {
             Technology</a></p>
 
           <p>Email: ybaoyao@gdut.edu.cn</p>
+
+          <a class="BaoyaoGroupLink" href="https://github.com/BaoyaoGroup"
+             style="text-decoration: none;color: white" target="_blank">Github-BaoyaoGroup</a>
+
+
           <p style="margin-top: 20px">© 2025 By Baoyao Yang.</p>
           <!--          <div class="social-links" style="line-height: 100px">-->
           <!--            <a href="#" class="social-icon">Facebook</a>-->
@@ -119,6 +124,16 @@ if (import.meta.env.MODE === 'production') {
 }
 
 .gdutlink:hover {
+  color: #747d8c !important;
+}
+
+.BaoyaoGroupLink{
+  text-decoration: none;
+  color: white;
+  transition: color 0.3s ease; /* 让颜色变化时有 0.3 秒的过渡效果 */
+}
+
+.BaoyaoGroupLink:hover{
   color: #747d8c !important;
 }
 
