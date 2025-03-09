@@ -171,8 +171,18 @@ if (import.meta.env.MODE === 'production') {
 .el-menu {
 
   height: 120px;
+  position: relative; /* 重要：为伪元素提供定位上下文 */
 
+}
 
+.el-menu::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
 }
 
 .is-opened /deep/ .el-submenu__title {
@@ -202,12 +212,14 @@ if (import.meta.env.MODE === 'production') {
 .el-menu--horizontal > .logo {
   margin-right: auto;
   order: -1; /* 确保logo在最左侧 */
+  margin-left: 30px;
 }
 
 /* 菜单项靠右 */
 .el-menu--horizontal > .el-menu-item,
 .el-menu--horizontal > .el-sub-menu {
   margin-left: 0; /* 取消自动边距 */
+  margin-right: 30px;
 }
 
 
