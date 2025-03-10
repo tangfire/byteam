@@ -5,12 +5,12 @@
 <template>
   <el-card class="profile-card">
     <template #header>
-      <h2>Professor Baoyao Yang</h2>
+      <h2>Dr. Baoyao Yang(Associate Professor)</h2>
     </template>
 
     <div class="profile-content">
       <img
-          src="/currentprojects/yangbaoyao.png"
+          src="/currentprojects/yangbaoyao.jpg"
           alt="Dr. Baoyao Yang"
           class="profile-image"
       />
@@ -74,6 +74,9 @@
   line-height: 1.8;
   color: #2d3436;
   font-size: 1rem;
+  text-align: justify;  /* 添加两端对齐 */
+  hyphens: auto;        /* 允许自动断字 */
+  word-break: break-word; /* 长单词强制换行 */
 }
 
 .profile-description p {
