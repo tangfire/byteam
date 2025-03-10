@@ -39,7 +39,7 @@ defineProps<{ msg: string }>()
 
     <div class="content">
 
-      <p class="title">Welcome to BY Group</p>
+      <p class="title">Welcome to BYML</p>
 
       <p class="text">Our team focuses on medical time series representation learning and multimodal data fusion,
         privacy-preserving

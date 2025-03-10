@@ -49,7 +49,7 @@ if (import.meta.env.MODE === 'production') {
 
           <div class="logo">
 
-            <span>BY Group</span>
+            <span>BYML</span>
           </div>
 
 
@@ -71,6 +71,11 @@ if (import.meta.env.MODE === 'production') {
             <el-menu-item style="height: 50px" index="/international-journals-conferences">
               <div style="line-height: 1.2; margin: 0;">
                 International <br> Journals/Conferences
+              </div>
+            </el-menu-item>
+            <el-menu-item style="height: 50px" index="/patents">
+              <div style="line-height: 1.2; margin: 0;">
+                Patents
               </div>
             </el-menu-item>
           </el-sub-menu>

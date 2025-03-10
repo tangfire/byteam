@@ -8,6 +8,7 @@ import DrBaoyaoYangView from "../components/DrBaoyaoYangView.vue";
 import ContactView from "../components/ContactView.vue";
 import InternationalJournalsConferencesView from "../components/InternationalJournalsConferencesView.vue";
 import GroupView from "../components/GroupView.vue";
+import PatentsView from '../components/PatentViews.vue'
 
 
 const router = createRouter({
@@ -47,6 +48,11 @@ const router = createRouter({
       path:'/our-group',
       name:"our-group",
       component:GroupView
+    },
+    {
+      path:'/patents',
+      name:'patents',
+      component:PatentsView
     }
 
 
