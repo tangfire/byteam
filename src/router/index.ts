@@ -3,12 +3,13 @@ import {createRouter, createWebHashHistory} from 'vue-router'
 
 import HomeView from '../components/HomeView.vue'
 
-import CurrentProjectsView from "../components/CurrentProjectsView.vue";
+import ResearchDirectionView from "../components/ResearchDirectionView.vue";
 import DrBaoyaoYangView from "../components/DrBaoyaoYangView.vue";
 import ContactView from "../components/ContactView.vue";
 import InternationalJournalsConferencesView from "../components/InternationalJournalsConferencesView.vue";
 import GroupView from "../components/GroupView.vue";
 import PatentsView from '../components/PatentViews.vue'
+import ResearchProjectsView from "../components/ResearchProjectsView.vue";
 
 
 const router = createRouter({
@@ -25,9 +26,9 @@ const router = createRouter({
     //   component: ResearchView,
     // },
     {
-      path:'/current-projects',
-      name:'current-projects',
-      component: CurrentProjectsView
+      path:'/research-direction',
+      name:'research-direction',
+      component: ResearchDirectionView
     },
     {
       path:'/dr-Baoyao-Yang',
@@ -53,7 +54,14 @@ const router = createRouter({
       path:'/patents',
       name:'patents',
       component:PatentsView
+    },
+    {
+      path:'/research-projects',
+      name:'research-projects',
+      component:ResearchProjectsView
+
     }
+
 
 
     // {

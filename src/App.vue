@@ -56,7 +56,11 @@ if (import.meta.env.MODE === 'production') {
           <el-menu-item index="/"><p style="font-size: 18px">Home</p></el-menu-item>
           <el-sub-menu index="/research">
             <template #title><p style="font-size: 18px">Research</p></template>
-            <el-menu-item style="height: 50px" index="/current-projects">Current Projects</el-menu-item>
+            <el-menu-item style="height: 50px" index="/research-direction">Research Direction</el-menu-item>
+
+            <el-menu-item style="height: 50px" index="/research-projects">Research Projects</el-menu-item>
+
+
             <el-menu-item style="height: 50px"><a class="githublink" href="https://github.com/BaoyaoGroup"
                                                   style="text-decoration: none;color: #333b49" target="_blank">Github-Repositories</a>
             </el-menu-item>
@@ -97,14 +101,14 @@ if (import.meta.env.MODE === 'production') {
       <!-- 页脚 -->
       <el-footer :height="120" class="custom-footer">
         <div class="footer-content" style="height: 100px">
-          <p>Welcome to BY Group @ <a class="gdutlink" href="https://www.gdut.edu.cn/"
+          <p>Welcome to BYML @ <a class="gdutlink" href="https://www.gdut.edu.cn/"
                                       style="text-decoration: none;color: white" target="_blank">Guangdong University of
             Technology</a></p>
 
           <p>Email: ybaoyao@gdut.edu.cn</p>
 
           <a class="BaoyaoGroupLink" href="https://github.com/BaoyaoGroup"
-             style="text-decoration: none;color: white" target="_blank">Github-BaoyaoGroup</a>
+             style="text-decoration: none;color: white" target="_blank">Github-BYML</a>
 
 
           <p style="margin-top: 20px">© 2025 By Baoyao Yang.</p>

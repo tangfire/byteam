@@ -42,6 +42,31 @@ const download_HBAI_Poster = () => {
 }
 
 
+const download_WJC001_Poster = () => {
+  const pptPath = '/files/wjcposter001.pdf'
+
+  const link = document.createElement('a')
+  link.href = pptPath
+  link.download = 'Team_Poster.pdf'
+
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+
+const download_WJC002_Poster = () => {
+  const pptPath = '/files/wjcposter002.pptx'
+
+  const link = document.createElement('a')
+  link.href = pptPath
+  link.download = 'Team_Poster.pptx'
+
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
 
 
 
@@ -325,7 +350,7 @@ const download_HBAI_Poster = () => {
                   </a>
                 </div>
                 <div>
-                  <el-button
+                  <el-button class="custom-button"
                     type="primary"
                     @click="download_MMS_PPT"
                     style="background-color: white; border-color: white;"
@@ -380,6 +405,7 @@ const download_HBAI_Poster = () => {
                 </div>
                 <div>
                   <el-button
+                      class="custom-button"
                       type="primary"
                       @click="download_HBAI_PPT"
                       style="background-color: white; border-color: white;"
@@ -391,9 +417,146 @@ const download_HBAI_Poster = () => {
                   </el-button></div>
                 <div>
                   <el-button
-
+                      class="custom-button"
                       type="primary"
                       @click="download_HBAI_Poster"
+                      style="background-color: white; border-color: white;"
+                  >
+
+                    <el-icon  size="25" style="margin-right: 8px; vertical-align: middle;"><Postcard /></el-icon>
+
+                    <p  style="color: #7d1231;font-size: 18px">Poster</p>
+                  </el-button></div>
+              </div>
+            </div>
+          </div>
+        </el-card>
+
+        <div style="height: 35px"></div>
+
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/008.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+
+
+              <p style="margin-top: -10px;font-size: 18px">Wang J, Deng Z, Lin T, et al. Beyond Direct Relationships: Exploring Multi-Order Label Pair Dependencies for Knowledge Distillation[C]//Proceedings of the 32nd ACM International Conference on Multimedia. 2024: 8527-8535.</p>
+
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!-- 第一个链接（Code） -->
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
+
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://dl.acm.org/doi/abs/10.1145/3664647.3681029"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+<!--                <div>-->
+<!--                  <el-button-->
+<!--                      class="custom-button"-->
+<!--                      type="primary"-->
+<!--                      @click="download_HBAI_PPT"-->
+<!--                      style="background-color: white; border-color: white;"-->
+<!--                  >-->
+
+<!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><Files /></el-icon>-->
+
+<!--                    <p style="color: #7d1231;font-size: 18px">PPT</p>-->
+<!--                  </el-button></div>-->
+                <div>
+                  <el-button
+                      class="custom-button"
+                      type="primary"
+                      @click="download_WJC001_Poster"
+                      style="background-color: white; border-color: white;"
+                  >
+
+                    <el-icon  size="25" style="margin-right: 8px; vertical-align: middle;"><Postcard /></el-icon>
+
+                    <p  style="color: #7d1231;font-size: 18px">Poster</p>
+                  </el-button></div>
+              </div>
+            </div>
+          </div>
+        </el-card>
+
+        <div style="height: 35px"></div>
+
+
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/009.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+
+
+              <p style="margin-top: -10px;font-size: 18px">Wang J, Deng Z, Lin T, et al. A Novel Prompt Tuning for Graph Transformers: Tailoring Prompts to Graph Topologies[C]//Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining. 2024: 3116-3127.</p>
+
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!-- 第一个链接（Code） -->
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
+
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://dl.acm.org/doi/10.1145/3637528.3671804"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+                <!--                <div>-->
+                <!--                  <el-button-->
+                <!--                      class="custom-button"-->
+                <!--                      type="primary"-->
+                <!--                      @click="download_HBAI_PPT"-->
+                <!--                      style="background-color: white; border-color: white;"-->
+                <!--                  >-->
+
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><Files /></el-icon>-->
+
+                <!--                    <p style="color: #7d1231;font-size: 18px">PPT</p>-->
+                <!--                  </el-button></div>-->
+                <div>
+                  <el-button
+                      class="custom-button"
+                      type="primary"
+                      @click="download_WJC002_Poster"
                       style="background-color: white; border-color: white;"
                   >
 
@@ -648,7 +811,13 @@ const download_HBAI_Poster = () => {
   color: #7d1231 !important;
 }
 
-
+/* 添加按钮悬停效果 */
+.custom-button:hover ::v-deep(.el-icon svg) {
+  color: #13393e !important;
+}
+.custom-button:hover p {
+  color: #13393e !important;
+}
 
 
 
