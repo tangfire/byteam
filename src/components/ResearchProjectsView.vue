@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import {Tickets} from "@element-plus/icons-vue";
 
 defineProps<{ msg: string }>()
 
