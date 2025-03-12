@@ -9,7 +9,7 @@ const app = createApp(App)
 
 // 预加载背景图片
 const preloadBackgroundImage = new Image()
-preloadBackgroundImage.src = '/background/background.png'
+preloadBackgroundImage.src = '/background/ContactBackground.png'
 
 // 预加载 currentprojects 目录下的图片
 const preloadCurrentProjectsImages = [
