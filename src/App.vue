@@ -2,6 +2,29 @@
 
 
 import {ref} from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+
+// 定义需要隐藏滚动条的路径
+const noScrollRoutes = ['/', '/contact']
+
+router.afterEach((to) => {
+  const html = document.documentElement
+  const body = document.body
+
+  if (noScrollRoutes.includes(to.path)) {
+    // 隐藏滚动条
+    html.style.overflow = 'hidden'
+    body.style.overflow = 'hidden'
+  } else {
+    // 恢复滚动条
+    html.style.overflow = 'auto'
+    body.style.overflow = 'auto'
+  }
+})
+
 
 const activeIndex = ref('1')
 

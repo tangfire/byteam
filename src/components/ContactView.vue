@@ -26,7 +26,7 @@
   top: 140px;
   left: 0;
   width: 100%;
-  height: calc(100vh - 140px - 190px); /* 使用视口高度减去顶部偏移 */
+  height: calc(100vh - 130px - 190px); /* 使用视口高度减去顶部偏移 */
   background:
       linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)),
       url('/background/background.png');
