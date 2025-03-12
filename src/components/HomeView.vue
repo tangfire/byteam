@@ -98,6 +98,10 @@ const download_WJC002_Poster = () => {
     <!--      </el-carousel-item>-->
 
     <!--    </el-carousel>-->
+<!--    首页图片-->
+<!--    <div class="home-page">-->
+
+<!--    </div>-->
 
     <div class="content">
 
@@ -628,6 +632,21 @@ const download_WJC002_Poster = () => {
 </template>
 
 <style scoped>
+
+.home-page {
+  position: relative; /* 改为relative */
+  width: 100%;
+  height: 600px;
+  background:
+      linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)),
+      url('/background/background.png');
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  z-index: 1;
+}
+
+
 
 ::v-deep(.el-icon svg) {
   color: #7d1231 !important;

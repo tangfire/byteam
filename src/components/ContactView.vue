@@ -3,6 +3,7 @@
 </script>
 
 <template>
+  <div class="contact-page">
   <div class="contact-container">
     <h1 class="title">Contact Me</h1>
 
@@ -15,17 +16,37 @@
       Email: ybaoyao@gdut.edu.cn
     </p>
   </div>
+  </div>
 </template>
 
 <style scoped>
-/* 基础布局 */
+
+.contact-page {
+  position: fixed;
+  top: 140px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 140px - 190px); /* 使用视口高度减去顶部偏移 */
+  background:
+      linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)),
+      url('/background/background.png');
+  background-position: center center;
+  background-size: cover; /* 保持cover属性 */
+  background-attachment: scroll; /* 改为scroll让背景随滚动移动 */
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
 .contact-container {
   max-width: 600px;
-  margin: 2rem auto;
+  width: 90%;
+  margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  opacity: 0;
-  animation: fadeIn 1s forwards; /* 使整体内容渐变出现 */
+
 }
 
 /* 标题样式 */
