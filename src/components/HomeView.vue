@@ -649,7 +649,7 @@ defineProps<{ msg: string }>()
   top: 140px;
   left: 0;
   width: 100%;
-  height: calc(100vh - 130px - 190px); /* 使用视口高度减去顶部偏移 */
+  height: calc(100vh - 90px - 190px); /* 使用视口高度减去顶部偏移 */
   background:
       linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)),
       url('/background/background.png');
@@ -694,7 +694,7 @@ body {
 
 
 .title {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   font-family: 'Poppins', sans-serif; /* 现代感更强的字体 */
   font-weight: 600;
   color: #7d1231; /* Welcome标题颜色 */
@@ -702,17 +702,19 @@ body {
   margin-bottom: 2rem;
   letter-spacing: -0.5px;
   line-height: 1.2;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
   opacity: 0;
   animation: fadeInTitle 1.5s forwards; /* 标题渐显 */
   animation-delay: 0.5s; /* 延迟出现 */
 }
 
 .text {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-family: 'Roboto', sans-serif; /* 更易读的正文字体 */
-  font-weight: 550;
+  font-weight: 600;
   line-height: 1.8;
   color: #2c3e50; /* 正文颜色 */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 
 
   text-align: justify;
