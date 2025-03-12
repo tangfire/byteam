@@ -24,8 +24,8 @@
 .contact-page {
   position: fixed;
   top: 140px;
-  left: 0;
-  width: 100%;
+  left: 10px;
+  width: 99%;
   height: calc(100vh - 130px - 190px); /* 使用视口高度减去顶部偏移 */
   background:
       linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)),
@@ -33,7 +33,6 @@
   background-position: center center;
   background-size: cover; /* 保持cover属性 */
   background-attachment: scroll; /* 改为scroll让背景随滚动移动 */
-  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
