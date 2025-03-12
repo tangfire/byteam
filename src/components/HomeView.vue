@@ -625,7 +625,7 @@ defineProps<{ msg: string }>()
     </div>
 
     <!--  底部间隔-->
-    <div style="height: 50px"></div>
+<!--    <div style="height: 50px"></div>-->
 
     <el-backtop :right="100" :bottom="100"/>
   </div>
@@ -634,9 +634,11 @@ defineProps<{ msg: string }>()
 <style scoped>
 
 .content {
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
   padding: 2rem;
+  text-align: center;
+  width: 90%;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -649,7 +651,7 @@ defineProps<{ msg: string }>()
   top: 140px;
   left: 0;
   width: 100%;
-  height: calc(100vh - 90px - 190px); /* 使用视口高度减去顶部偏移 */
+  height: calc(100vh - 130px - 190px); /* 使用视口高度减去顶部偏移 */
   background:
       linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)),
       url('/background/background.png');
