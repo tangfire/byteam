@@ -57,6 +57,8 @@ if (import.meta.env.MODE === 'production') {
 
 
           <el-menu-item index="/"><p style="font-size: 18px">Home</p></el-menu-item>
+          <el-menu-item index="/news"><p style="font-size: 18px">News</p></el-menu-item>
+
           <el-sub-menu index="/research">
             <template #title><p style="font-size: 18px">Research</p></template>
             <el-menu-item style="height: 50px" index="/research-direction">Research Direction</el-menu-item>
@@ -231,7 +233,7 @@ if (import.meta.env.MODE === 'production') {
 .el-menu--horizontal > .el-menu-item,
 .el-menu--horizontal > .el-sub-menu {
   margin-left: 0; /* 取消自动边距 */
-  margin-right: 30px;
+
 }
 
 
