@@ -15,7 +15,7 @@ defineProps<{ msg: string }>()
         <el-icon color="#7d1231" style="font-size: 24px;">
           <ArrowRightBold/>
         </el-icon> <!-- 增加图标大小 -->
-        <h3 style="margin-left: 8px; color: #7d1231; font-size: 26px;">Medical Time-Series Representation Learning</h3>
+        <p style="margin-left: 8px; color: #7d1231; font-size: 26px;">Medical Time-Series Representation Learning</p>
         <!-- 增加文字大小 -->
       </div>
 
@@ -46,7 +46,7 @@ defineProps<{ msg: string }>()
         <el-icon color="#7d1231" style="font-size: 24px;">
           <ArrowRightBold/>
         </el-icon>
-        <h3 style="margin-left: 8px;color: #7d1231 ;font-size: 26px;">Federated Learning for Medical Applications</h3>
+        <p style="margin-left: 8px;color: #7d1231 ;font-size: 26px;">Federated Learning for Medical Applications</p>
       </div>
 
       <!-- 其他卡片 -->
@@ -74,7 +74,7 @@ defineProps<{ msg: string }>()
         <el-icon color="#7d1231" style="font-size: 24px;">
           <ArrowRightBold/>
         </el-icon>
-        <h3 style="margin-left: 8px;color: #7d1231;font-size: 26px;">Automated Lesion Annotation</h3>
+        <p style="margin-left: 8px;color: #7d1231;font-size: 26px;">Automated Lesion Annotation</p>
       </div>
       <el-card
           style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
@@ -100,7 +100,7 @@ defineProps<{ msg: string }>()
         <el-icon color="#7d1231" style="font-size: 24px;">
           <ArrowRightBold/>
         </el-icon>
-        <h3 style="margin-left: 8px;color: #7d1231;font-size: 26px;">Short-Form Video Content Intelligence</h3>
+        <p style="margin-left: 8px;color: #7d1231;font-size: 26px;">Short-Form Video Content Intelligence</p>
       </div>
 
       <!-- 其他卡片 -->
@@ -127,7 +127,7 @@ defineProps<{ msg: string }>()
         <el-icon color="#7d1231" style="font-size: 24px;">
           <ArrowRightBold/>
         </el-icon>
-        <h3 style="margin-left: 8px;color: #7d1231;font-size: 26px;">Industrial IoT & Supply Chain Optimization</h3>
+        <p style="margin-left: 8px;color: #7d1231;font-size: 26px;">Industrial IoT & Supply Chain Optimization</p>
       </div>
 
       <el-card
@@ -152,7 +152,7 @@ defineProps<{ msg: string }>()
         <el-icon color="#7d1231" style="font-size: 24px;">
           <ArrowRightBold/>
         </el-icon>
-        <h3 style="margin-left: 8px;color: #7d1231;font-size: 26px;">Foundational Algorithm Research</h3>
+        <p style="margin-left: 8px;color: #7d1231;font-size: 26px;">Foundational Algorithm Research</p>
       </div>
 
       <el-card
@@ -178,7 +178,7 @@ defineProps<{ msg: string }>()
         <el-icon color="#7d1231" style="font-size: 24px;">
           <ArrowRightBold/>
         </el-icon>
-        <h3 style="margin-left: 8px;color: #7d1231;font-size: 26px;">Weak supervised instance segmentation</h3>
+        <p style="margin-left: 8px;color: #7d1231;font-size: 26px;">Weak supervised instance segmentation</p>
       </div>
 
       <el-card
@@ -215,7 +215,7 @@ defineProps<{ msg: string }>()
   color: #7d1231 !important;
 }
 
-.module h3 {
+.module p {
   font-size: 20px;
   color: #2980b9;
   margin-bottom: 10px;
