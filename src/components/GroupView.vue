@@ -3,70 +3,217 @@
 </script>
 
 <template>
-  <div class="members-container">
-    <h2 class="section-title">Current Members</h2>
-    <ul class="members-list">
-      <li class="member-item">Dixin Chen</li>
-      <li class="member-item">Huahong Deng</li>
-      <li class="member-item">Canrong Du</li>
-      <li class="member-item">Yuehui Fan</li>
-      <li class="member-item">Jianxuan Huang</li>
-      <li class="member-item">Yanhao Huang</li>
-      <li class="member-item">Jingsong Lin</li>
-      <li class="member-item">Yali Ma</li>
-      <li class="member-item">Yanchao Tang</li>
-      <li class="member-item">Kexin Xie</li>
-      <li class="member-item">Yuebin Xie</li>
-      <li class="member-item">Yufei Xu</li>
-      <li class="member-item">Xianrun Xu</li>
-      <li class="member-item">Xiaoqi Zheng</li>
-      <li class="member-item">Sijia Zhou</li>
-    </ul>
-  </div>
+
+
+
+
+
+
+  <el-space direction="vertical"  style="width: 100%">
+    <p style="margin-left: -550px; color: #7d1231; font-size: 26px;">Graduate Students</p>
+  <el-row :gutter="30">
+    <el-col :span="6">
+      <div class="block">
+        <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+        <p class="name">Dixin Chen</p>
+        <p class="work">Short video understanding</p>
+      </div>
+    </el-col>
+    <el-col :span="6">
+      <div class="block">
+        <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+        <p class="name">Huahong Deng</p>
+        <p class="work">Industrial software</p>
+      </div>
+    </el-col>
+    <el-col :span="6">
+      <div class="block">
+        <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+        <p class="name">Canrong Du</p>
+        <p class="work">Short video understanding</p>
+      </div>
+    </el-col>
+    <el-col :span="6">
+      <div class="block">
+        <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+        <p class="name">Yuehui Fan</p>
+        <p class="work">Short video understanding</p>
+      </div>
+    </el-col>
+  </el-row>
+
+    <!--  底部间隔-->
+    <div style="height: 50px"></div>
+
+
+
+    <el-row :gutter="30">
+      <el-col :span="6">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Jianxuan Huang</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Yanhao Huang</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Jingsong Lin</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Yali Ma</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+    </el-row>
+
+    <!--  底部间隔-->
+    <div style="height: 50px"></div>
+
+
+
+    <el-row :gutter="30">
+      <el-col :span="6">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Yanchao Tang</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Kexin Xie</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Yuebin Xie</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+      <el-col :span="6">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Yufei Xu</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+    </el-row>
+
+    <div style="height: 50px"></div>
+
+    <el-row :gutter="30">
+      <el-col :span="8">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Xianrun Xu</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Xiaoqi Zheng</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Sijia Zhou</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+<!--      <el-col :span="6">-->
+<!--        <div class="block">-->
+<!--          <el-avatar shape="square" :size="250" src="/avatar/001.png" />-->
+<!--          <p>Yufei Xu</p>-->
+<!--          <p>Short video understanding</p>-->
+<!--        </div>-->
+<!--      </el-col>-->
+    </el-row>
+
+    <div style="height: 50px"></div>
+
+    <p style="margin-left: -550px; color: #7d1231; font-size: 26px;">Undergraduate Students</p>
+    <el-row :gutter="30">
+      <el-col :span="8">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Jingchao Wang</p>
+          <p class="work">Industrial software</p>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Dongzhe Li</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/001.png" />
+          <p class="name">Yuehui Fan</p>
+          <p class="work">Short video understanding</p>
+        </div>
+      </el-col>
+    </el-row>
+
+    <!--  底部间隔-->
+    <div style="height: 50px"></div>
+
+
+  </el-space>
+
+  <el-backtop :right="100" :bottom="100"/>
+
+
+
+
 </template>
 
 <style scoped>
-.members-container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1.5rem;
+
+.block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px; /* 控制整体间距 */
 }
 
-.section-title {
-  color: #2c3e50;
-  font-size: 1.8rem;
-  border-bottom: 2px solid #7d1231;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
+
+
+
+.name{
+  color: #2c2f3b;
+  font-size: 1.6rem;
+  margin-top: -5px;  /* 上移文字 */
+  margin-bottom: 2px;
 }
 
-.members-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  list-style: none;
-  padding: 0;
+.work{
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  margin-top: -3px;
 }
 
-.member-item {
-  padding: 0.8rem 1.2rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  color: #34495e;
-  font-weight: 500;
+::v-deep(.el-icon svg) {
+  color: #7d1231 !important;
 }
 
-.member-item:hover {
-  background-color: #7d1231;
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-@media (max-width: 600px) {
-  .members-list {
-    grid-template-columns: 1fr;
-  }
-}
 </style>
