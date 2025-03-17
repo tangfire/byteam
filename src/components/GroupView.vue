@@ -6,9 +6,6 @@
 
 
 
-
-
-
   <el-space direction="vertical"  style="width: 100%">
     <p style="margin-left: -550px; color: #7d1231; font-size: 26px;">Graduate Students</p>
   <el-row :gutter="30">

@@ -51,8 +51,12 @@ if (import.meta.env.MODE === 'production') {
           <!--          />-->
 
           <div class="logo">
+            <img
+                class="logo-img"
+                src="/logo/001.png"
+                alt="BYML Logo"
+            />
 
-            <span>BYML</span>
           </div>
 
 
@@ -130,6 +134,12 @@ if (import.meta.env.MODE === 'production') {
 </template>
 
 <style scoped>
+
+.logo-img {
+  width: 180px;   /* 根据需求调整宽度 */
+  height: auto;   /* 高度自适应，保持原始比例 */
+  margin: 0 20px; /* 左右留白，避免贴边 */
+}
 
 .gdutlink {
   text-decoration: none;
