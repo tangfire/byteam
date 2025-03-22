@@ -1,16 +1,16 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 
 
-import HomeView from '../components/HomeView.vue'
+import HomeView from '../pages/HomeView.vue'
 
-import ResearchDirectionView from "../components/ResearchDirectionView.vue";
-import DrBaoyaoYangView from "../components/DrBaoyaoYangView.vue";
-import ContactView from "../components/ContactView.vue";
-import InternationalJournalsConferencesView from "../components/InternationalJournalsConferencesView.vue";
-import GroupView from "../components/GroupView.vue";
-import PatentsView from '../components/PatentViews.vue'
-import ResearchProjectsView from "../components/ResearchProjectsView.vue";
-import NewsView from "../components/NewsView.vue";
+import ResearchDirectionView from "../pages/ResearchDirectionView.vue";
+import DrBaoyaoYangView from "../pages/DrBaoyaoYangView.vue";
+import ContactView from "../pages/ContactView.vue";
+import InternationalJournalsConferencesView from "../pages/InternationalJournalsConferencesView.vue";
+import GroupView from "../pages/GroupView.vue";
+import PatentsView from '../pages/PatentViews.vue'
+import ResearchProjectsView from "../pages/ResearchProjectsView.vue";
+import NewsView from "../pages/NewsView.vue";
 
 
 const router = createRouter({

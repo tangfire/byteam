@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {Files, Postcard, Tickets} from "@element-plus/icons-vue";
+import {Files, Postcard, Tickets, VideoPlay} from "@element-plus/icons-vue";
 
 defineProps<{ msg: string }>()
 
@@ -124,6 +124,16 @@ const download_WJC002_Poster = () => {
                       <Tickets/>
                     </el-icon>
                     <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+
+                <div style="display: flex; align-items: center;">
+                  <a href="#"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <VideoPlay />
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Video</span>
                   </a>
                 </div>
               </div>
