@@ -61,6 +61,7 @@ if (import.meta.env.MODE === 'production') {
 
 
           <el-menu-item index="/"><p style="font-size: 18px">Home</p></el-menu-item>
+          <el-menu-item index="/about"><p style="font-size: 18px">About</p></el-menu-item>
           <el-menu-item index="/news"><p style="font-size: 18px">News</p></el-menu-item>
 
           <el-sub-menu index="/research">

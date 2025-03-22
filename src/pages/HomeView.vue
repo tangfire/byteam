@@ -105,14 +105,9 @@ defineProps<{ msg: string }>()
 
     <div class="content">
 
-      <p class="title">Welcome to BYML</p>
+      <p class="title">Beyond Machine Learning Group</p>
 
-      <p class="text" >Our team focuses on medical time series representation learning and multimodal data fusion,
-        privacy-preserving
-        federated learning with heterogeneous collaboration, automated lesion annotation with weakly supervised models,
-        short video multimodal understanding and contrastive learning, intelligent perception and privacy security in
-        industrial IoT, theoretical research on algorithm generalization and interpretability, as well as reinforcement
-        learning and intelligent scheduling in industrial software.</p>
+      <p class="text" >Beyond Algorithms, Towards Omni-Intelligence</p>
     </div>
 
 <!--    <el-divider/>-->

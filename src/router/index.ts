@@ -2,7 +2,7 @@ import {createRouter, createWebHashHistory} from 'vue-router'
 
 
 import HomeView from '../pages/HomeView.vue'
-
+import AboutView from '../pages/AboutView.vue'
 import ResearchDirectionView from "../pages/ResearchDirectionView.vue";
 import DrBaoyaoYangView from "../pages/DrBaoyaoYangView.vue";
 import ContactView from "../pages/ContactView.vue";
@@ -13,6 +13,7 @@ import ResearchProjectsView from "../pages/ResearchProjectsView.vue";
 import NewsView from "../pages/NewsView.vue";
 import VideoPlayerXiaoqiZheng01View from "../pages/VideoPlayerXiaoqiZheng01View.vue";
 
+
 const router = createRouter({
     history: createWebHashHistory(import.meta.env.BASE_URL),
     routes: [
@@ -20,6 +21,11 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: HomeView,
+        },
+        {
+            path:'/about',
+            name:'About',
+            component: AboutView,
         },
         // {
         //   path:'/research',
