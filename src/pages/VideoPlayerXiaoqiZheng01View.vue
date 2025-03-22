@@ -8,8 +8,8 @@
             @click="goBack"
             style="background-color: #7d1231; border-color: #7d1231; margin-bottom: 20px"
         >
-          <el-icon><ArrowLeft /></el-icon>
-          返回
+          <el-icon :size="24"><ArrowLeft /></el-icon>
+
         </el-button>
       </div>
 
@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { ArrowLeft } from '@element-plus/icons-vue'
+import {ArrowLeft, ArrowLeftBold, Back, DArrowLeft} from '@element-plus/icons-vue'
 
 const router = useRouter()
 
