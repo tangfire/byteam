@@ -128,13 +128,15 @@ const download_WJC002_Poster = () => {
                 </div>
 
                 <div style="display: flex; align-items: center;">
-                  <a href="#"
-                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                  <router-link
+                      :to="{ name: 'video-player-XiaoqiZheng01' }"
+                      style="color: #7d1231; text-decoration: none; display: flex; align-items: center;"
+                  >
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <VideoPlay />
                     </el-icon>
                     <span style="font-size: 18px; font-weight: 520;">Video</span>
-                  </a>
+                  </router-link>
                 </div>
               </div>
             </div>

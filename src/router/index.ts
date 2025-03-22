@@ -11,7 +11,7 @@ import GroupView from "../pages/GroupView.vue";
 import PatentsView from '../pages/PatentViews.vue'
 import ResearchProjectsView from "../pages/ResearchProjectsView.vue";
 import NewsView from "../pages/NewsView.vue";
-
+import VideoPlayerXiaoqiZheng01View from "../pages/VideoPlayerXiaoqiZheng01View.vue";
 
 const router = createRouter({
     history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -66,6 +66,11 @@ const router = createRouter({
             path:'/news',
             name:'news',
             component: NewsView
+        },
+        {
+            path: '/video-player-XiaoqiZheng01',
+            name: 'video-player-XiaoqiZheng01',
+            component: VideoPlayerXiaoqiZheng01View
         }
 
 
