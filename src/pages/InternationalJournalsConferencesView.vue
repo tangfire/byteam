@@ -534,7 +534,7 @@ const download_WJC002_Poster = () => {
               <div style="display: flex; gap: 70px; align-items: center;">
                 <!-- 第一个链接（Code） -->
                                 <div style="display: flex; align-items: center;">
-                                  <a href="https://github.com/BaoyaoGroup/TGPT_main" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                                  <a href="https://github.com/BaoyaoGroup/TGPT_main-main" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
                                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                                       <Promotion />
                                     </el-icon>
