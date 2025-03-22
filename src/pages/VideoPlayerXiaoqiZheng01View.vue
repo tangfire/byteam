@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import {ArrowLeft, ArrowLeftBold, Back, DArrowLeft} from '@element-plus/icons-vue'
+import {ArrowLeft} from '@element-plus/icons-vue'
 
 const router = useRouter()
 
