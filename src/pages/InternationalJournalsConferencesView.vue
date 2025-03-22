@@ -598,17 +598,43 @@ const download_WJC002_Poster = () => {
 
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;"> Conference</p> <!-- 增加文字大小 -->
         <!-- 每个卡片 -->
+
+
         <el-card
             style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
           <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/010.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Yi Li, Baoyao Yang, Dan Pan, An  Zeng, Yang Yang, "Early diagnosis of Alzheimer's disease based on multimodal hypergraph attention network", International Conference on Multimedia and Expo (ICME), 2023.</p>
 
-            <ul class="patent-list">
-              <li>Yi Li, Baoyao Yang, Dan Pan, An  Zeng, Yang Yang, "Early diagnosis of Alzheimer's disease based on multimodal hypergraph attention network", International Conference on Multimedia and Expo (ICME), 2023.</li>
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
 
-
-            </ul>
-
-
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://ieeexplore.ieee.org/abstract/document/10219893"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </el-card>
 
@@ -627,22 +653,127 @@ const download_WJC002_Poster = () => {
 
 
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;"> Journal</p> <!-- 增加文字大小 -->
-        <!-- 每个卡片 -->
+
+
         <el-card
             style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
           <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/011.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Baoyao Yang, Hao-wei Yeh, Tatsuya Harada, and Pong C. Yuen*, "Model-induced Generalization Error Bound for Information-theoretic Representation Learning in Source-data-free Unsupervised Domain Adaptation," IEEE Transactions on Image Processing (TIP), 2022.</p>
 
-            <ul class="patent-list">
-              <li>Baoyao Yang, Hao-wei Yeh, Tatsuya Harada, and Pong C. Yuen*, "Model-induced Generalization Error Bound for Information-theoretic Representation Learning in Source-data-free Unsupervised Domain Adaptation," IEEE Transactions on Image Processing (TIP), 2022.</li>
-              <li>Baoyao Yang and Pong C. Yuen*, "Revealing Task-relevant Model Memorization for Source-Protected Unsupervised Domain Adaptation," IEEE Transactions on Information Forensics and Security (TIFS), 2022.</li>
-              <li>Baoyao Yang, Mang Ye, Qingxiong Tan and Pong C. Yuen*, "Cross-domain Missingness-aware Time Series Adaptation with Similarity Distillation in Medical Applications," IEEE Transactions on Cybernetics (TCYB), 2022.</li>
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
 
-            </ul>
-
-
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://ieeexplore.ieee.org/abstract/document/9640468"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </el-card>
 
+        <div style="height: 35px"></div>
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/012.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Baoyao Yang and Pong C. Yuen*, "Revealing Task-relevant Model Memorization for Source-Protected Unsupervised Domain Adaptation," IEEE Transactions on Information Forensics and Security (TIFS), 2022.</p>
+
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
+
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://ieeexplore.ieee.org/abstract/document/9705526"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </el-card>
+
+        <div style="height: 35px"></div>
+
+
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/013.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Baoyao Yang, Mang Ye, Qingxiong Tan and Pong C. Yuen*, "Cross-domain Missingness-aware Time Series Adaptation with Similarity Distillation in Medical Applications," IEEE Transactions on Cybernetics (TCYB), 2022.</p>
+
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
+
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://ieeexplore.ieee.org/abstract/document/9167415"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </el-card>
 
       </div>
 
@@ -659,33 +790,87 @@ const download_WJC002_Poster = () => {
 
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;">Journal</p> <!-- 增加文字大小 -->
 
+
+
+
+
         <el-card
             style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
           <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/015.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Baoyao Yang and Pong C. Yuen*, "Learning Adaptive Geometry for Unsupervised Domain Adaptation," Pattern Recognition (PR), 2021.</p>
 
-            <ul class="patent-list">
-              <li>Baoyao Yang and Pong C. Yuen*, "Learning Adaptive Geometry for Unsupervised Domain Adaptation," Pattern Recognition (PR), 2021.</li>
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
 
-
-            </ul>
-
-
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://www.sciencedirect.com/science/article/abs/pii/S0031320320304416"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </el-card>
 
+
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;"> Conference</p> <!-- 增加文字大小 -->
-        <!-- 每个卡片 -->
+
+
         <el-card
             style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
           <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/016.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Fei Lyu, Baoyao Yang, Andy J. Ma and Pong C. Yuen*, "A Segmentation-Assisted Model for Universal Lesion Detection with Partial Labels," International Conference on Medical Image Computing & Computer Assisted Intervention (MICCAI), 2021.</p>
 
-            <ul class="patent-list">
-              <li>Fei Lyu, Baoyao Yang, Andy J. Ma and Pong C. Yuen*, "A Segmentation-Assisted Model for Universal Lesion Detection with Partial Labels," International Conference on Medical Image Computing & Computer Assisted Intervention (MICCAI), 2021. </li>
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
 
-
-            </ul>
-
-
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://link.springer.com/chapter/10.1007/978-3-030-87240-3_12"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </el-card>
 
@@ -706,33 +891,85 @@ const download_WJC002_Poster = () => {
 
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;"> Journal</p> <!-- 增加文字大小 -->
 
+
+
         <el-card
             style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
           <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/017.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Baoyao Yang, Andy J. Ma and Pong C. Yuen*, "Body Parts Synthesis for Cross-Quality Pose Estimation." IEEE Transactions on Circuits and Systems for Video Technology (TCSVT), 2019. </p>
 
-            <ul class="patent-list">
-              <li>Baoyao Yang, Andy J. Ma and Pong C. Yuen*, "Body Parts Synthesis for Cross-Quality Pose Estimation." IEEE Transactions on Circuits and Systems for Video Technology (TCSVT), 2019. </li>
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
 
-
-            </ul>
-
-
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://ieeexplore.ieee.org/document/8245864"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </el-card>
 
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;"> Conference</p> <!-- 增加文字大小 -->
         <!-- 每个卡片 -->
+
+
         <el-card
             style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
           <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/018.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Baoyao Yang and Pong C. Yuen*, "Cross-Domain Visual Representations via Unsupervised Graph Alignment," the 33rd AAAI Conference on Artificial Intelligence (AAAI), 2019.</p>
 
-            <ul class="patent-list">
-              <li>Baoyao Yang and Pong C. Yuen*, "Cross-Domain Visual Representations via Unsupervised Graph Alignment," the 33rd AAAI Conference on Artificial Intelligence (AAAI), 2019.</li>
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
 
-
-            </ul>
-
-
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://ojs.aaai.org/index.php/AAAI/article/view/4504"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </el-card>
 
@@ -752,34 +989,86 @@ const download_WJC002_Poster = () => {
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;"> Journal</p> <!-- 增加文字大小 -->
 
 
+
+
         <el-card
             style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
           <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/019.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Baoyao Yang, Andy J. Ma and Pong C. Yuen*, "Learning Domain-Shared Group-Sparse Representation for Unsupervised Domain Adaptation," Pattern Recognition (PR), 2018. </p>
 
-            <ul class="patent-list">
-              <li>Baoyao Yang, Andy J. Ma and Pong C. Yuen*, "Learning Domain-Shared Group-Sparse Representation for Unsupervised Domain Adaptation," Pattern Recognition (PR), 2018. </li>
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
 
-
-            </ul>
-
-
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://www.sciencedirect.com/science/article/pii/S0031320318301614"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </el-card>
 
 
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;"> Conference</p> <!-- 增加文字大小 -->
         <!-- 每个卡片 -->
+
+
         <el-card
             style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
           <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/020.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Baoyao Yang, Andy J. Ma and Pong C. Yuen*, "Domain-shared Group-sparse Dictionary Learning for Unsupervised Domain Adaptation," the 32nd AAAI Conference on Artificial Intelligence (AAAI), 2018.</p>
 
-            <ul class="patent-list">
-              <li>Baoyao Yang, Andy J. Ma and Pong C. Yuen*, "Domain-shared Group-sparse Dictionary Learning for Unsupervised Domain Adaptation," the 32nd AAAI Conference on Artificial Intelligence (AAAI), 2018.</li>
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
 
-
-            </ul>
-
-
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://ojs.aaai.org/index.php/AAAI/article/view/12227"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </el-card>
 
