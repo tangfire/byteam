@@ -90,9 +90,14 @@ button:focus-visible {
     width: calc(100% - 20px);
   }
 
+  /* 基础字号调整 */
+  body {
+    font-size: 14px;
+  }
+
   /* 修复菜单遮挡内容的问题 */
   .el-main {
-    padding: 20px 10px;
+    padding:  10px !important;
   }
 
   /* 调整GroupView头像大小 */

@@ -186,6 +186,35 @@
 
 <style scoped>
 
+@media (max-width: 768px) {
+  /* 头像布局调整为单列 */
+  .el-col {
+    width: 100%;
+    margin-bottom: 30px;
+  }
+
+  /* 调整头像大小 */
+  .el-avatar {
+    width: 200px !important;
+    height: 200px !important;
+  }
+
+  /* 调整文字大小 */
+  .name {
+    font-size: 1.4rem;
+  }
+
+  .work {
+    font-size: 1.1rem;
+  }
+
+  /* 移除左边距 */
+  p[style*="margin-left"] {
+    margin-left: 0 !important;
+    text-align: center;
+  }
+}
+
 .block {
   display: flex;
   flex-direction: column;

@@ -235,32 +235,46 @@ if (import.meta.env.MODE === 'production') {
   }
 
   .hamburger-btn {
-    padding: 8px;
-    border: none;
-    background: none;
+    padding: 4px;
+    margin-left: auto;
   }
 
   .hamburger-btn:hover {
     background: #f5f5f5;
   }
 
+  /* 调整子菜单项间距 */
+  .el-sub-menu .el-menu-item {
+    padding-left: 40px !important;
+  }
+
   .mobile-menu-content {
-    background: white;
-    border-top: 1px solid #eee;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .custom-footer {
+    padding: 15px 0;
+    height: auto !important;
   }
 
   .vertical-menu {
     border-right: none;
   }
 
+  .common-layout {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
   .vertical-menu .el-menu-item,
   .vertical-menu .el-sub-menu__title {
     height: 48px;
     line-height: 48px;
+    font-size: 16px;
   }
 
   .el-main {
-    margin-top: 60px; /* 为固定导航留出空间 */
+    padding: 10px;
   }
 }
 

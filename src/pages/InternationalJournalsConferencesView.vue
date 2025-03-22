@@ -1088,6 +1088,37 @@ const download_WJC002_Poster = () => {
 
 <style scoped>
 
+@media (max-width: 768px) {
+  /* 卡片布局调整为垂直 */
+  .el-card > div {
+    flex-direction: column;
+  }
+
+  /* 图片调整 */
+  img {
+    width: 100% !important;
+    height: auto !important;
+    margin-right: 0 !important;
+    margin-bottom: 15px;
+  }
+
+  /* 链接布局调整 */
+  .el-space {
+    flex-wrap: wrap;
+    gap: 15px !important;
+  }
+
+  /* 按钮组调整 */
+  .el-button {
+    margin: 5px;
+  }
+
+  /* 文字大小调整 */
+  p {
+    font-size: 14px !important;
+  }
+}
+
 .patent-list {
   list-style-type: disc;
   padding-left: 20px;

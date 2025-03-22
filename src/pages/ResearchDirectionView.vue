@@ -210,6 +210,31 @@ defineProps<{ msg: string }>()
 
 <style scoped>
 
+@media (max-width: 768px) {
+  /* 调整标题布局 */
+  .el-icon + p {
+    font-size: 1.2rem !important;
+    margin-left: 8px !important;
+  }
+
+  /* 卡片垂直布局 */
+  .el-card > div {
+    flex-direction: column;
+  }
+
+  /* 图片调整 */
+  img {
+    width: 100% !important;
+    height: auto !important;
+    margin-right: 0 !important;
+  }
+
+  /* 文字调整 */
+  p {
+    font-size: 14px !important;
+  }
+}
+
 
 ::v-deep(.el-icon svg) {
   color: #7d1231 !important;
