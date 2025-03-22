@@ -8,7 +8,7 @@
     <!-- 内容区块 -->
     <main class="hero-content">
       <h1 class="lab-title">
-        <span class="lab-acronym">Beyond Machine Learning Lab</span>
+        <span class="lab-acronym">Beyond Machine Learning Group</span>
 <!--        <span class="lab-fullname">Beyond Machine Learning Lab</span>-->
       </h1>
 
