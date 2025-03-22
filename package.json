@@ -4,8 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "prebuild": "node scripts/generatePreloadList",
+    "dev": "npm run prebuild && vite",
+    "build": "npm run prebuild && vue-tsc -b && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
