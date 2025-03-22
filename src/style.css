@@ -77,3 +77,34 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+/* 添加移动端基础样式 */
+@media (max-width: 768px) {
+  #app {
+    padding: 0;
+  }
+
+  .el-card {
+    margin: 10px;
+    width: calc(100% - 20px);
+  }
+
+  /* 修复菜单遮挡内容的问题 */
+  .el-main {
+    padding: 20px 10px;
+  }
+
+  /* 调整GroupView头像大小 */
+  .el-avatar {
+    width: 150px !important;
+    height: 150px !important;
+  }
+
+  /* 调整国际期刊页面的图片布局 */
+  .el-card img {
+    width: 100% !important;
+    margin-right: 0 !important;
+    margin-bottom: 15px;
+  }
+}

@@ -29,6 +29,32 @@
 </template>
 
 <style scoped>
+@media (max-width: 768px) {
+  .home-container {
+    position: static;
+    width: 100%;
+    height: auto;
+    min-height: calc(100vh - 180px);
+  }
+
+  .hero-content {
+    padding: 4rem 1rem;
+  }
+
+  .lab-acronym {
+    font-size: 2rem;
+  }
+
+  .sub-slogan {
+    font-size: 1.2rem;
+  }
+
+  .tech-ornament {
+    display: none;
+  }
+}
+
+
 /* 基础重置 */
 .home-container {
   --primary-color: #7d1231;

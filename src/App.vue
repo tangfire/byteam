@@ -1,14 +1,34 @@
 <script setup lang="ts">
 
 
-import {ref} from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 
 const activeIndex = ref('1')
+const isMobile = ref(false)
+const isMenuCollapsed = ref(true) // 移动端菜单折叠状态
 
-const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
+const checkScreenSize = () => {
+  isMobile.value = window.innerWidth <= 768
 }
+
+
+
+const handleSelect = () => {
+  if (isMobile.value) {
+    isMenuCollapsed.value = true // 选择菜单项后自动折叠
+  }
+}
+
+// 添加窗口大小监听
+onMounted(() => {
+  checkScreenSize()
+  window.addEventListener('resize', checkScreenSize)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', checkScreenSize)
+})
 
 // 在代码中直接判断
 if (import.meta.env.MODE === 'production') {
@@ -27,7 +47,65 @@ if (import.meta.env.MODE === 'production') {
 
 
     <el-container>
-      <el-header>
+
+      <!-- 移动端导航 -->
+      <div v-if="isMobile" class="mobile-nav">
+        <div class="mobile-nav-header">
+          <img class="logo-img" src="/logo/001.png" alt="BYML Logo" />
+          <el-button
+              @click="isMenuCollapsed = !isMenuCollapsed"
+              class="hamburger-btn"
+          >
+            <el-icon :size="24">
+              <component :is="isMenuCollapsed ? 'Menu' : 'Close'" />
+            </el-icon>
+          </el-button>
+        </div>
+
+        <el-collapse-transition>
+          <div v-show="!isMenuCollapsed" class="mobile-menu-content">
+            <el-menu
+                :default-active="activeIndex"
+                active-text-color="#7d1231"
+                @select="handleSelect"
+                :router="true"
+                class="vertical-menu"
+            >
+              <el-menu-item index="/">Home</el-menu-item>
+              <el-menu-item index="/about">About</el-menu-item>
+              <el-menu-item index="/news">News</el-menu-item>
+
+              <el-sub-menu index="research">
+                <template #title>Research</template>
+                <el-menu-item index="/research-direction">Research Direction</el-menu-item>
+                <el-menu-item index="/research-projects">Research Projects</el-menu-item>
+                <el-menu-item>
+                  <a href="https://github.com/BaoyaoGroup" target="_blank">Github-Repositories</a>
+                </el-menu-item>
+              </el-sub-menu>
+
+              <el-sub-menu index="our-team">
+                <template #title>Our Team</template>
+                <el-menu-item index="/dr-Baoyao-Yang">Baoyao Yang</el-menu-item>
+                <el-menu-item index="/our-group">Our Group</el-menu-item>
+              </el-sub-menu>
+
+              <el-sub-menu index="publications">
+                <template #title>Publications</template>
+                <el-menu-item index="/international-journals-conferences">
+                  International Journals/Conferences
+                </el-menu-item>
+                <el-menu-item index="/patents">Patents</el-menu-item>
+              </el-sub-menu>
+
+              <el-menu-item index="/contact">Contact</el-menu-item>
+            </el-menu>
+          </div>
+        </el-collapse-transition>
+      </div>
+
+      <!-- PC端导航（保持原有代码不变） -->
+      <el-header v-if="!isMobile">
 
 
         <el-menu
@@ -135,6 +213,56 @@ if (import.meta.env.MODE === 'production') {
 </template>
 
 <style scoped>
+
+/* 新增移动端样式 */
+@media (max-width: 768px) {
+  .mobile-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: white;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .mobile-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 60px;
+  }
+
+  .hamburger-btn {
+    padding: 8px;
+    border: none;
+    background: none;
+  }
+
+  .hamburger-btn:hover {
+    background: #f5f5f5;
+  }
+
+  .mobile-menu-content {
+    background: white;
+    border-top: 1px solid #eee;
+  }
+
+  .vertical-menu {
+    border-right: none;
+  }
+
+  .vertical-menu .el-menu-item,
+  .vertical-menu .el-sub-menu__title {
+    height: 48px;
+    line-height: 48px;
+  }
+
+  .el-main {
+    margin-top: 60px; /* 为固定导航留出空间 */
+  }
+}
 
 .logo-img {
   width: 180px;   /* 根据需求调整宽度 */
