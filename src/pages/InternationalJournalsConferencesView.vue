@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {Files, Postcard, Tickets, VideoPlay} from "@element-plus/icons-vue";
+import {Files, Postcard, Promotion, Tickets, VideoPlay} from "@element-plus/icons-vue";
 
 defineProps<{ msg: string }>()
 
@@ -106,15 +106,15 @@ const download_WJC002_Poster = () => {
 
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
-                <!-- 第一个链接（Code） -->
-                <!--                <div style="display: flex; align-items: center;">-->
-                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
-                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
-                <!--                      <Promotion />-->
-                <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
-                <!--                  </a>-->
-                <!--                </div>-->
+<!--                 第一个链接（Code）-->
+                                <div style="display: flex; align-items: center;">
+                                  <a href="https://github.com/BaoyaoGroup/LabelCompletion" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                                      <Promotion />
+                                    </el-icon>
+                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                  </a>
+                                </div>
 
                 <!-- 第二个链接（Paper） -->
                 <div style="display: flex; align-items: center;">
@@ -172,14 +172,14 @@ const download_WJC002_Poster = () => {
 
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
-                <!--                <div style="display: flex; align-items: center;">-->
-                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
-                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
-                <!--                      <Promotion />-->
-                <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
-                <!--                  </a>-->
-                <!--                </div>-->
+                                <div style="display: flex; align-items: center;">
+                                  <a href="https://github.com/BaoyaoGroup/DNA-T" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                                      <Promotion />
+                                    </el-icon>
+                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                  </a>
+                                </div>
 
                 <!-- 第二个链接（Paper） -->
                 <div style="display: flex; align-items: center;">
@@ -256,14 +256,14 @@ const download_WJC002_Poster = () => {
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
                 <!-- 第一个链接（Code） -->
-                <!--                <div style="display: flex; align-items: center;">-->
-                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
-                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
-                <!--                      <Promotion />-->
-                <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
-                <!--                  </a>-->
-                <!--                </div>-->
+                                <div style="display: flex; align-items: center;">
+                                  <a href="https://github.com/BaoyaoGroup/CAM_Guided" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                                      <Promotion />
+                                    </el-icon>
+                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                  </a>
+                                </div>
 
                 <!-- 第二个链接（Paper） -->
                 <div style="display: flex; align-items: center;">
@@ -299,14 +299,14 @@ const download_WJC002_Poster = () => {
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
                 <!-- 第一个链接（Code） -->
-                <!--                <div style="display: flex; align-items: center;">-->
-                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
-                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
-                <!--                      <Promotion />-->
-                <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
-                <!--                  </a>-->
-                <!--                </div>-->
+                                <div style="display: flex; align-items: center;">
+                                  <a href="https://github.com/BaoyaoGroup/Domain_Dilation_for_Single_Domain_Generalization" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                                      <Promotion />
+                                    </el-icon>
+                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                  </a>
+                                </div>
 
                 <!-- 第二个链接（Paper） -->
                 <div style="display: flex; align-items: center;">
@@ -342,14 +342,14 @@ const download_WJC002_Poster = () => {
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
                 <!-- 第一个链接（Code） -->
-                <!--                <div style="display: flex; align-items: center;">-->
-                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
-                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
-                <!--                      <Promotion />-->
-                <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
-                <!--                  </a>-->
-                <!--                </div>-->
+                                <div style="display: flex; align-items: center;">
+                                  <a href="https://github.com/BaoyaoGroup/MMS" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                                      <Promotion />
+                                    </el-icon>
+                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                  </a>
+                                </div>
 
                 <!-- 第二个链接（Paper） -->
                 <div style="display: flex; align-items: center;">
@@ -396,14 +396,14 @@ const download_WJC002_Poster = () => {
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
                 <!-- 第一个链接（Code） -->
-                <!--                <div style="display: flex; align-items: center;">-->
-                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
-                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
-                <!--                      <Promotion />-->
-                <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
-                <!--                  </a>-->
-                <!--                </div>-->
+                                <div style="display: flex; align-items: center;">
+                                  <a href="https://github.com/BaoyaoGroup/Graph-Co-reasoning" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                                      <Promotion />
+                                    </el-icon>
+                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                  </a>
+                                </div>
 
                 <!-- 第二个链接（Paper） -->
                 <div style="display: flex; align-items: center;">
@@ -464,14 +464,14 @@ const download_WJC002_Poster = () => {
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
                 <!-- 第一个链接（Code） -->
-                <!--                <div style="display: flex; align-items: center;">-->
-                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
-                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
-                <!--                      <Promotion />-->
-                <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
-                <!--                  </a>-->
-                <!--                </div>-->
+                                <div style="display: flex; align-items: center;">
+                                  <a href="https://github.com/BaoyaoGroup/Beyond-Direct-Relationships--Exploring-Multi-Order-Distillation-main" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                                      <Promotion />
+                                    </el-icon>
+                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                  </a>
+                                </div>
 
                 <!-- 第二个链接（Paper） -->
                 <div style="display: flex; align-items: center;">
@@ -533,14 +533,14 @@ const download_WJC002_Poster = () => {
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
                 <!-- 第一个链接（Code） -->
-                <!--                <div style="display: flex; align-items: center;">-->
-                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
-                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
-                <!--                      <Promotion />-->
-                <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
-                <!--                  </a>-->
-                <!--                </div>-->
+                                <div style="display: flex; align-items: center;">
+                                  <a href="https://github.com/BaoyaoGroup/TGPT_main" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                                      <Promotion />
+                                    </el-icon>
+                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                  </a>
+                                </div>
 
                 <!-- 第二个链接（Paper） -->
                 <div style="display: flex; align-items: center;">
