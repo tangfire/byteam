@@ -190,4 +190,9 @@
     margin: 0 auto;
   }
 }
+
+/* 保证 el-icon 的图标颜色在初始时是正确的 */
+::v-deep(.el-icon svg) {
+  color: #7d1231 !important;
+}
 </style>

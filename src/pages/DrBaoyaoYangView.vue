@@ -16,19 +16,12 @@
       />
       <div class="profile-description">
         <p>
-          Dr. Baoyao Yang is a distinguished young talent from Guangdong University of Technology. He earned his
-          bachelor's degree from South China University of Technology in 2014 and completed his doctorate at
-          Hong Kong Baptist University in 2018. Dr. Yang has led various prestigious projects, including National
-          Natural Science Foundation of China projects, the Youth Science Foundation of China, and numerous
-          provincial and ministerial scientific research initiatives. In 2023, he was awarded the second prize
-          for Guangdong Province Science and Technology Progress (ranked fourth individually).
+          Dr. Baoyao Yang, a distinguished young faculty member recruited under the "Youth Hundred Talents Program" at Guangdong University of Technology, obtained her Bachelor’s degree from South China University of Technology in 2014 and her Ph.D. from Hong Kong Baptist University in 2018. She has spearheaded several key research projects, including the National Natural Science Foundation General Program, Youth Science Fund, and multiple provincial/ministerial-level scientific research initiatives. Her contributions were recognized with the 2023 Guangdong Province Science and Technology Progress Award (Second Prize, ranked fourth individually).
+
         </p>
         <p>
-          In recent years, Dr. Yang has published over 30 papers in top-tier international journals such as IEEE
-          TIP, TIFS, and TNNLS, as well as leading conferences like AAAI and MICCAI. He has also been granted
-          6 national invention patents. His focus is on the integration of industry, academia, and research. He
-          has successfully guided students to win numerous awards in national competitions, and many of his
-          outstanding undergraduate students have gone on to study at renowned universities.
+          Dr. Yang has authored over 30 publications in top-tier journals such as IEEE TIP, TIFS, and TNNLS, as well as leading conferences like AAAI and MICCAI. She holds six authorized national invention patents and emphasizes the integration of industry, academia, and research. Committed to mentorship, she has guided students to win awards in national competitions and helped numerous undergraduates gain admission to prestigious institutions for advanced studies.
+
         </p>
       </div>
     </div>
