@@ -299,6 +299,35 @@ if (import.meta.env.MODE === 'production') {
   .el-main {
     margin-top: 60px; /* 为固定菜单留出空间 */
   }
+
+
+
+  /* 新增穿透选择器 */
+  .vertical-menu :deep(.el-menu-item) {
+    background-color: rgba(0,0,0,0) !important;
+  }
+
+  .vertical-menu :deep(.el-menu-item.is-active) {
+    color: #7d1231 !important;
+    background-color: transparent !important;
+  }
+
+  .vertical-menu :deep(.el-sub-menu.is-active) > .el-sub-menu__title {
+    color: #7d1231 !important;
+  }
+
+  /* 子菜单激活项 */
+  .vertical-menu :deep(.el-menu--inline) .el-menu-item.is-active {
+    color: #7d1231 !important;
+    background: transparent !important;
+  }
+
+  /* 悬停同步 */
+  .vertical-menu :deep(.el-menu-item:hover),
+  .vertical-menu :deep(.el-sub-menu__title:hover) {
+    background-color: #7d1231 !important;
+    color: #f2f2f2 !important;
+  }
 }
 
 .logo-img {
