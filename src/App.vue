@@ -255,8 +255,19 @@ if (import.meta.env.MODE === 'production') {
 
   /* 调整子菜单项间距 */
   .el-sub-menu .el-menu-item {
-    padding-left: 40px !important;
+    padding-left: 30px !important;
   }
+
+  .vertical-menu .el-sub-menu .el-menu {
+    border-left: none !important;
+  }
+
+  .el-menu--vertical::after {
+    display: none !important;
+  }
+
+
+
 
   .mobile-menu-content {
     max-height: 70vh;

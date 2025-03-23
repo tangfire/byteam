@@ -217,16 +217,28 @@ defineProps<{ msg: string }>()
     margin-left: 8px !important;
   }
 
-  /* 卡片垂直布局 */
   .el-card > div {
-    flex-direction: column;
+    display: flex;
+    flex-direction: column; /* 移动端垂直排列 */
+    align-items: center; /* 居中对齐 */
   }
 
-  /* 图片调整 */
-  img {
-    width: 100% !important;
+  .el-card img {
+    width: 100% !important; /* 图片宽度100% */
+    max-width: 350px; /* 最大宽度保持不变 */
     height: auto !important;
     margin-right: 0 !important;
+    margin-bottom: 15px; /* 图片和文字之间添加间距 */
+    object-fit: contain;
+  }
+
+  /* 文字部分样式 */
+  .el-card > div > div:last-child {
+    width: 100%; /* 文字区域占满宽度 */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 文字和链接居中 */
+    text-align: center; /* 文字居中 */
   }
 
   /* 文字调整 */

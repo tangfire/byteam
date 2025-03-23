@@ -112,7 +112,7 @@ const download_WJC002_Poster = () => {
                                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                                       <Promotion />
                                     </el-icon>
-                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                    <span style="font-size: 18px; font-weight: 500;">Code</span>
                                   </a>
                                 </div>
 
@@ -123,7 +123,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
 
@@ -135,7 +135,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <VideoPlay />
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Video</span>
+                    <span style="font-size: 18px; font-weight: 500;">Video</span>
                   </router-link>
                 </div>
               </div>
@@ -177,7 +177,7 @@ const download_WJC002_Poster = () => {
                                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                                       <Promotion />
                                     </el-icon>
-                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                    <span style="font-size: 18px; font-weight: 500;">Code</span>
                                   </a>
                                 </div>
 
@@ -188,7 +188,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -217,7 +217,7 @@ const download_WJC002_Poster = () => {
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
                 <!--                      <Promotion />-->
                 <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
                 <!--                  </a>-->
                 <!--                </div>-->
 
@@ -228,7 +228,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -261,7 +261,7 @@ const download_WJC002_Poster = () => {
                                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                                       <Promotion />
                                     </el-icon>
-                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                    <span style="font-size: 18px; font-weight: 500;">Code</span>
                                   </a>
                                 </div>
 
@@ -272,7 +272,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -304,7 +304,7 @@ const download_WJC002_Poster = () => {
                                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                                       <Promotion />
                                     </el-icon>
-                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                    <span style="font-size: 18px; font-weight: 500;">Code</span>
                                   </a>
                                 </div>
 
@@ -315,7 +315,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -347,7 +347,7 @@ const download_WJC002_Poster = () => {
                                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                                       <Promotion />
                                     </el-icon>
-                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                    <span style="font-size: 18px; font-weight: 500;">Code</span>
                                   </a>
                                 </div>
 
@@ -358,7 +358,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
                 <div>
@@ -370,7 +370,7 @@ const download_WJC002_Poster = () => {
 
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><Files /></el-icon>
 
-                  <p style="color: #7d1231;font-size: 18px">PPT</p>
+                  <span style="font-size: 18px; font-weight: 500; color: #7d1231;">PPT</span>
                 </el-button></div>
               </div>
             </div>
@@ -401,7 +401,7 @@ const download_WJC002_Poster = () => {
                                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                                       <Promotion />
                                     </el-icon>
-                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                    <span style="font-size: 18px; font-weight: 500;">Code</span>
                                   </a>
                                 </div>
 
@@ -412,7 +412,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
                 <div>
@@ -425,7 +425,7 @@ const download_WJC002_Poster = () => {
 
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><Files /></el-icon>
 
-                    <p style="color: #7d1231;font-size: 18px">PPT</p>
+                    <span style="font-size: 18px; font-weight: 500; color: #7d1231;">PPT</span>
                   </el-button></div>
                 <div>
                   <el-button
@@ -437,7 +437,7 @@ const download_WJC002_Poster = () => {
 
                     <el-icon  size="25" style="margin-right: 8px; vertical-align: middle;"><Postcard /></el-icon>
 
-                    <p  style="color: #7d1231;font-size: 18px">Poster</p>
+                    <span style="font-size: 18px; font-weight: 500; color: #7d1231;">Poster</span>
                   </el-button></div>
               </div>
             </div>
@@ -469,7 +469,7 @@ const download_WJC002_Poster = () => {
                                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                                       <Promotion />
                                     </el-icon>
-                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                    <span style="font-size: 18px; font-weight: 500;">Code</span>
                                   </a>
                                 </div>
 
@@ -480,7 +480,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
 <!--                <div>-->
@@ -493,7 +493,7 @@ const download_WJC002_Poster = () => {
 
 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><Files /></el-icon>-->
 
-<!--                    <p style="color: #7d1231;font-size: 18px">PPT</p>-->
+<!--                    <span style="font-size: 18px; font-weight: 500; color: #7d1231;">PPT</span>-->
 <!--                  </el-button></div>-->
                 <div>
                   <el-button
@@ -505,7 +505,7 @@ const download_WJC002_Poster = () => {
 
                     <el-icon  size="25" style="margin-right: 8px; vertical-align: middle;"><Postcard /></el-icon>
 
-                    <p  style="color: #7d1231;font-size: 18px">Poster</p>
+                    <span style="font-size: 18px; font-weight: 500; color: #7d1231;">Poster</span>
                   </el-button></div>
               </div>
             </div>
@@ -538,7 +538,7 @@ const download_WJC002_Poster = () => {
                                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                                       <Promotion />
                                     </el-icon>
-                                    <span style="font-size: 18px; font-weight: 520;">Code</span>
+                                    <span style="font-size: 18px; font-weight: 500;">Code</span>
                                   </a>
                                 </div>
 
@@ -549,7 +549,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
                 <!--                <div>-->
@@ -562,7 +562,7 @@ const download_WJC002_Poster = () => {
 
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><Files /></el-icon>-->
 
-                <!--                    <p style="color: #7d1231;font-size: 18px">PPT</p>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500; color: #7d1231;">PPT</span>-->
                 <!--                  </el-button></div>-->
                 <div>
                   <el-button
@@ -574,7 +574,7 @@ const download_WJC002_Poster = () => {
 
                     <el-icon  size="25" style="margin-right: 8px; vertical-align: middle;"><Postcard /></el-icon>
 
-                    <p  style="color: #7d1231;font-size: 18px">Poster</p>
+                    <span style="font-size: 18px; font-weight: 500; color: #7d1231;">Poster</span>
                   </el-button></div>
               </div>
             </div>
@@ -619,7 +619,7 @@ const download_WJC002_Poster = () => {
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
                 <!--                      <Promotion />-->
                 <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
                 <!--                  </a>-->
                 <!--                </div>-->
 
@@ -630,7 +630,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -674,7 +674,7 @@ const download_WJC002_Poster = () => {
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
                 <!--                      <Promotion />-->
                 <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
                 <!--                  </a>-->
                 <!--                </div>-->
 
@@ -685,7 +685,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -714,7 +714,7 @@ const download_WJC002_Poster = () => {
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
                 <!--                      <Promotion />-->
                 <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
                 <!--                  </a>-->
                 <!--                </div>-->
 
@@ -725,7 +725,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -756,7 +756,7 @@ const download_WJC002_Poster = () => {
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
                 <!--                      <Promotion />-->
                 <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
                 <!--                  </a>-->
                 <!--                </div>-->
 
@@ -767,7 +767,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -813,7 +813,7 @@ const download_WJC002_Poster = () => {
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
                 <!--                      <Promotion />-->
                 <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
                 <!--                  </a>-->
                 <!--                </div>-->
 
@@ -824,7 +824,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -855,7 +855,7 @@ const download_WJC002_Poster = () => {
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
                 <!--                      <Promotion />-->
                 <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
                 <!--                  </a>-->
                 <!--                </div>-->
 
@@ -866,7 +866,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -912,7 +912,7 @@ const download_WJC002_Poster = () => {
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
                 <!--                      <Promotion />-->
                 <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
                 <!--                  </a>-->
                 <!--                </div>-->
 
@@ -923,7 +923,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -954,7 +954,7 @@ const download_WJC002_Poster = () => {
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
                 <!--                      <Promotion />-->
                 <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
                 <!--                  </a>-->
                 <!--                </div>-->
 
@@ -965,7 +965,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -1010,7 +1010,7 @@ const download_WJC002_Poster = () => {
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
                 <!--                      <Promotion />-->
                 <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
                 <!--                  </a>-->
                 <!--                </div>-->
 
@@ -1021,7 +1021,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -1053,7 +1053,7 @@ const download_WJC002_Poster = () => {
                 <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
                 <!--                      <Promotion />-->
                 <!--                    </el-icon>-->
-                <!--                    <span style="font-size: 18px; font-weight: 520;">Code</span>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
                 <!--                  </a>-->
                 <!--                </div>-->
 
@@ -1064,7 +1064,7 @@ const download_WJC002_Poster = () => {
                     <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                       <Tickets/>
                     </el-icon>
-                    <span style="font-size: 18px; font-weight: 520;">Paper</span>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
               </div>
@@ -1089,33 +1089,49 @@ const download_WJC002_Poster = () => {
 <style scoped>
 
 @media (max-width: 768px) {
+
+  /* 添加这个规则 */
+  .el-button span {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+
+  }
   /* 卡片布局调整为垂直 */
   .el-card > div {
-    flex-direction: column;
+    display: flex;
+    flex-direction: column; /* 移动端垂直排列 */
+    align-items: center; /* 居中对齐 */
   }
 
-  .el-card {
-    padding: 10px !important;
-
-    img {
-      margin: 0 auto !important;
-    }
-
-    .el-space {
-      flex-direction: column !important;
-    }
-
-    a {
-      font-size: 14px !important;
-    }
+  /* 保持PC端的悬停效果在移动端也有效 */
+  .custom-button:hover span {
+    color: #13393e !important;
   }
 
-  /* 图片调整 */
-  img {
-    width: 100% !important;
+  .el-card img {
+    width: 100% !important; /* 图片宽度100% */
+    max-width: 350px; /* 最大宽度保持不变 */
     height: auto !important;
     margin-right: 0 !important;
-    margin-bottom: 15px;
+    margin-bottom: 15px; /* 图片和文字之间添加间距 */
+    object-fit: contain;
+  }
+
+  /* 文字部分样式 */
+  .el-card > div > div:last-child {
+    width: 100%; /* 文字区域占满宽度 */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 文字和链接居中 */
+    text-align: center; /* 文字居中 */
+  }
+
+  /* 链接区域居中 */
+  .el-card div[style*="display: flex; gap: 70px; align-items: center;"] {
+    justify-content: center; /* 链接水平居中 */
+    flex-wrap: wrap; /* 允许换行 */
+    gap: 20px !important; /* 调整间距 */
+    row-gap: 10px !important;
   }
 
   /* 链接布局调整 */
@@ -1124,14 +1140,49 @@ const download_WJC002_Poster = () => {
     gap: 15px !important;
   }
 
-  /* 按钮组调整 */
-  .el-button {
-    margin: 5px;
+
+  /* 调整按钮组垂直间距 */
+  .el-card .el-button {
+    margin: 5px 0;
+  }
+
+  /* 保持图标和文字对齐 */
+  .el-button p {
+    margin: 0;
+    line-height: 1.2;
   }
 
   /* 文字大小调整 */
   p {
     font-size: 14px !important;
+  }
+
+  /* 统一所有链接的移动端样式 */
+  .el-button span,
+  a[target="_blank"] span {
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.5px; /* 增加字母间距提升可读性 */
+  }
+
+  /* 保持图标与文字对齐 */
+  .el-button,
+  a[target="_blank"] {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* 调整年份标题 */
+  p[style*="font-size: 26px;"] {
+    font-size: 30px !important;
+    margin-left: 15px !important;
+  }
+
+  /* 调整Journal/Conference子标题 */
+  p[style*="font-size: 26px;"] + p[style*="font-size: 26px;"] {
+    font-size: 28px !important;
+    margin-left: 15px !important;
+    margin-top: 10px !important;
   }
 }
 
@@ -1140,6 +1191,8 @@ const download_WJC002_Poster = () => {
   padding-left: 20px;
   line-height: 1.8; /* 增加行间距 */
 }
+
+
 
 .patent-list li {
   color: #333; /* 正文文字颜色 */
@@ -1163,9 +1216,11 @@ const download_WJC002_Poster = () => {
 .custom-button:hover ::v-deep(.el-icon svg) {
   color: #13393e !important;
 }
-.custom-button:hover p {
+.custom-button:hover span {
   color: #13393e !important;
 }
+
+
 
 
 

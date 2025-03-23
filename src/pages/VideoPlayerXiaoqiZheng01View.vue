@@ -44,6 +44,10 @@ const goBack = () => {
 </script>
 
 <style scoped>
+
+
+
+
 .video-container {
   padding: 20px;
   min-height: 100vh;
@@ -68,7 +72,7 @@ const goBack = () => {
   }
 
   h2 {
-    font-size: 1.2rem;
+    font-size: 0.8rem !important;
     padding: 0 10px;
   }
 
