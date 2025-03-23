@@ -101,7 +101,7 @@
   height: 100%;
   background:
       linear-gradient(135deg, rgba(125,18,49,0.08) 0%, rgba(19,57,62,0.12) 100%),
-      url('/background/ContactBackground.png') center/cover fixed;
+      url('/background/ContactBackground.jpg') center/cover fixed;
   z-index: 0;
 }
 
