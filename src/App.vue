@@ -381,53 +381,16 @@ if (import.meta.env.MODE === 'production') {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     /* 新增以下属性 */
     height: calc(100vh - 60px); /* 占据剩余屏幕高度 */
-    transform: none !important; /* 禁用原有动画的位移 */
-    opacity: 1 !important;
-  }
-
-  /* 菜单项样式优化 */
-  .mobile-menu-content .el-menu {
-    padding: 15px 0;
-  }
-
-  .mobile-menu-content .el-menu-item,
-  .mobile-menu-content .el-sub-menu__title {
-    height: 48px;
-    line-height: 48px;
-    font-size: 16px;
-    transition: all 0.2s ease;
-  }
-
-  /* 菜单动画优化 */
-  .el-collapse-transition {
-    transition: all 0.3s ease;
-  }
-
-  /* 菜单展开动画 */
-  .mobile-menu-content {
-    transform: translateY(-20px);
-    opacity: 0;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* 移除原有动画相关代码 */
-  .mobile-menu-content-enter-active,
-  .mobile-menu-content-leave-active {
-    transition: opacity 0.3s ease;
-  }
 
-  .mobile-menu-content-enter-from,
-  .mobile-menu-content-leave-to {
-    opacity: 0;
-  }
 
   .common-layout {
     padding-top: 60px;  /* 将导航栏高度转为padding */
   }
 
-  .el-container {
-    padding-top: 0;
-  }
+
 
   .custom-footer {
     position: relative;
