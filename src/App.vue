@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import {ref, onMounted, onBeforeUnmount} from 'vue'
 
 
 const activeIndex = ref('1')
@@ -17,17 +17,41 @@ const checkScreenSize = () => {
 }
 
 
-
 // App.vue script部分修改
+// 修改handleSelect方法
 const handleSelect = () => {
+  isMenuCollapsed.value = true
+  // 添加滚动复位逻辑
   if (isMobile.value) {
-    isMenuCollapsed.value = true
-    // 添加轻微延迟确保菜单收起后再跳转
-    setTimeout(() => {
-      window.scrollTo(0, 0)
-    }, 300)
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    })
   }
 }
+
+// 添加点击外部关闭菜单的逻辑
+const clickOutsideHandler = (e: MouseEvent) => {
+  const menu = document.querySelector('.mobile-menu-content')
+  const button = document.querySelector('.hamburger-btn')
+
+  if (
+      menu &&
+      !menu.contains(e.target as Node) &&
+      !button?.contains(e.target as Node)
+  ) {
+    isMenuCollapsed.value = true
+  }
+}
+
+onMounted(() => {
+  // 添加全局点击监听
+  document.addEventListener('click', clickOutsideHandler)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', clickOutsideHandler)
+})
 
 // 添加窗口大小监听
 // 修改后的onMounted逻辑
@@ -66,25 +90,30 @@ if (import.meta.env.MODE === 'production') {
       <!-- 移动端导航 -->
       <div v-if="isMobile" class="mobile-nav">
         <div class="mobile-nav-header">
-          <img class="logo-img" src="/logo/001.png" alt="BYML Logo" />
+          <img class="logo-img" src="/logo/001.png" alt="BYML Logo"/>
           <el-button
               @click="isMenuCollapsed = !isMenuCollapsed"
               class="hamburger-btn"
+              :style="{
+        background: isMenuCollapsed ? 'transparent' : '#7d1231',
+        color: isMenuCollapsed ? '#7d1231' : 'white'
+      }"
           >
             <el-icon :size="24">
-              <component :is="isMenuCollapsed ? 'Menu' : 'Close'" />
+              <component :is="isMenuCollapsed ? 'Menu' : 'Close'"/>
             </el-icon>
           </el-button>
         </div>
 
         <el-collapse-transition>
-          <div v-show="!isMenuCollapsed" class="mobile-menu-content">
+          <div v-show="!isMenuCollapsed" class="mobile-menu-content" :style="{top: isMobile ? '60px' : 'auto'}">
             <el-menu
                 :default-active="activeIndex"
                 active-text-color="#7d1231"
                 @select="handleSelect"
                 :router="true"
                 class="vertical-menu"
+                @click.stop
             >
               <el-menu-item index="/">Home</el-menu-item>
               <el-menu-item index="/about">About</el-menu-item>
@@ -205,7 +234,7 @@ if (import.meta.env.MODE === 'production') {
       <el-footer :height="120" class="custom-footer">
         <div class="footer-content" style="height: 100px">
           <p>Welcome to BYML @ <a class="gdutlink" href="https://www.gdut.edu.cn/"
-                                      style="text-decoration: none;color: white" target="_blank">Guangdong University of
+                                  style="text-decoration: none;color: white" target="_blank">Guangdong University of
             Technology</a></p>
 
           <p>Email: ybaoyao@gdut.edu.cn</p>
@@ -239,6 +268,7 @@ if (import.meta.env.MODE === 'production') {
     z-index: 1001;
     background: white;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    height: auto;
   }
 
   .mobile-nav-header {
@@ -279,13 +309,6 @@ if (import.meta.env.MODE === 'production') {
 
 
 
-  .mobile-menu-content {
-    max-height: 70vh;
-    overflow-y: auto;
-    position: relative;
-    z-index: 1001; /* 确保菜单内容在顶层 */
-  }
-
   .custom-footer {
     padding: 15px 0;
     height: auto !important;
@@ -307,14 +330,15 @@ if (import.meta.env.MODE === 'production') {
   }
 
   .el-main {
-    margin-top: 60px; /* 为固定菜单留出空间 */
+    margin-top: 60px !important; /* 固定顶部间距 */
+    padding-top: 0 !important;
+    transition: none !important;
   }
-
 
 
   /* 新增穿透选择器 */
   .vertical-menu :deep(.el-menu-item) {
-    background-color: rgba(0,0,0,0) !important;
+    background-color: rgba(0, 0, 0, 0) !important;
   }
 
   .vertical-menu :deep(.el-menu-item.is-active) {
@@ -338,11 +362,65 @@ if (import.meta.env.MODE === 'production') {
     background-color: #7d1231 !important;
     color: #f2f2f2 !important;
   }
+
+  .mobile-menu-content {
+    position: fixed;
+    top: 60px; /* 固定在导航栏下方 */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    overflow-y: auto;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    /* 新增以下属性 */
+    height: calc(100vh - 60px); /* 占据剩余屏幕高度 */
+    transform: none !important; /* 禁用原有动画的位移 */
+    opacity: 1 !important;
+  }
+
+  /* 菜单项样式优化 */
+  .mobile-menu-content .el-menu {
+    padding: 15px 0;
+  }
+
+  .mobile-menu-content .el-menu-item,
+  .mobile-menu-content .el-sub-menu__title {
+    height: 48px;
+    line-height: 48px;
+    font-size: 16px;
+    transition: all 0.2s ease;
+  }
+
+  /* 菜单动画优化 */
+  .el-collapse-transition {
+    transition: all 0.3s ease;
+  }
+
+  /* 菜单展开动画 */
+  .mobile-menu-content {
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 移除原有动画相关代码 */
+  .mobile-menu-content-enter-active,
+  .mobile-menu-content-leave-active {
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-menu-content-enter-from,
+  .mobile-menu-content-leave-to {
+    opacity: 0;
+  }
+
 }
 
 .logo-img {
-  width: 180px;   /* 根据需求调整宽度 */
-  height: auto;   /* 高度自适应，保持原始比例 */
+  width: 180px; /* 根据需求调整宽度 */
+  height: auto; /* 高度自适应，保持原始比例 */
   margin: 0 20px; /* 左右留白，避免贴边 */
 }
 
@@ -356,13 +434,13 @@ if (import.meta.env.MODE === 'production') {
   color: #747d8c !important;
 }
 
-.BaoyaoGroupLink{
+.BaoyaoGroupLink {
   text-decoration: none;
   color: white;
   transition: color 0.3s ease; /* 让颜色变化时有 0.3 秒的过渡效果 */
 }
 
-.BaoyaoGroupLink:hover{
+.BaoyaoGroupLink:hover {
   color: #747d8c !important;
 }
 
