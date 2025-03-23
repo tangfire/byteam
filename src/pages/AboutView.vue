@@ -93,7 +93,7 @@
 /* 响应式设计 */
 @media (max-width: 768px) {
   .section-title {
-    font-size: 1.8rem;
+    font-size: 1.6rem !important;
   }
 
   .content-card {

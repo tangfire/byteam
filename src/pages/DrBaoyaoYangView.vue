@@ -5,7 +5,7 @@
 <template>
   <el-card class="profile-card">
     <template #header>
-      <h2>Dr. Baoyao Yang(Associate Professor)</h2>
+      <h2 class="teachName">Dr. Baoyao Yang(Associate Professor)</h2>
     </template>
 
     <div class="profile-content">
@@ -29,6 +29,26 @@
 </template>
 
 <style scoped>
+
+
+@media (max-width: 768px) {
+  .profile-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-image {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .teachName{
+    font-size: 1.2rem !important;
+  }
+
+
+}
+
 .profile-card {
   max-width: 1000px;
   margin: 2rem auto;
@@ -80,15 +100,5 @@
   margin-bottom: 0;
 }
 
-@media (max-width: 768px) {
-  .profile-content {
-    flex-direction: column;
-    align-items: center;
-  }
 
-  .profile-image {
-    width: 100%;
-    max-width: 400px;
-  }
-}
 </style>

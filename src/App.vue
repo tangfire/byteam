@@ -2,6 +2,7 @@
 
 
 import {ref, onMounted, onBeforeUnmount} from 'vue'
+import {Menu} from "@element-plus/icons-vue";
 
 
 const activeIndex = ref('1')
@@ -100,7 +101,7 @@ if (import.meta.env.MODE === 'production') {
       }"
           >
             <el-icon :size="24">
-              <component :is="isMenuCollapsed ? 'Menu' : 'Close'"/>
+              <Menu/>
             </el-icon>
           </el-button>
         </div>
@@ -223,6 +224,8 @@ if (import.meta.env.MODE === 'production') {
         </el-menu>
       </el-header>
 
+      <div v-if="!isMobile" style="height: 100px"></div>
+
 
 
       <el-main>
@@ -333,6 +336,8 @@ if (import.meta.env.MODE === 'production') {
     margin-top: 0 !important; /* 固定顶部间距 */
     padding-top: 0 !important;
     transition: none !important;
+    overflow-x: hidden !important; /* 禁用水平滚动 */
+    overflow-y: hidden !important; /* 禁用垂直滚动 */
   }
 
 

@@ -8,7 +8,7 @@ interface ActivityType extends Partial<TimelineItemProps> {
 
 const activities2025: ActivityType[] = [
   {
-    content:'Our research lab has achieved a significant milestone with two papers accepted to ICME 2025: \"Action Decomposition-based Actor-Critic for Supply Chain Optimization\" and \"Unifying Spatio-Temporal Contexts for Advanced Text-Video Retrieval\". We are proud to showcase our cutting-edge research at this prestigious conference.',
+    content:'Two of our papers were accepted by ICME: \"Unifying Spatio-Temporal Contexts for Advanced Text-Video Retrieval\" and \"Action Decomposition-based Actor-Critic for Supply Chain Optimization\".',
     timestamp:'2025-03-21',
     color:'#7d1231',
   },
