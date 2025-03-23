@@ -9,7 +9,11 @@ const isMobile = ref(false)
 const isMenuCollapsed = ref(true) // 移动端菜单折叠状态
 
 const checkScreenSize = () => {
-  isMobile.value = window.innerWidth <= 768
+  // 增加touch事件检测作为辅助判断
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+  const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+
+  isMobile.value = viewportWidth <= 768 && isTouchDevice
 }
 
 
@@ -26,8 +30,14 @@ const handleSelect = () => {
 }
 
 // 添加窗口大小监听
+// 修改后的onMounted逻辑
 onMounted(() => {
-  checkScreenSize()
+  // 添加延迟确保DOM渲染完成
+  setTimeout(() => {
+    checkScreenSize()
+    // 强制触发resize事件
+    window.dispatchEvent(new Event('resize'))
+  }, 100)
   window.addEventListener('resize', checkScreenSize)
 })
 
