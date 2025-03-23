@@ -85,28 +85,28 @@
         <div class="block">
           <el-avatar class="YanchaoTang" shape="square" :size="250" src="/avatar/YanchaoTang.jpg" />
           <p class="name">Yanchao Tang</p>
-          <p class="work">Short video understanding</p>
+<!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
       <el-col :span="6">
         <div class="block">
           <el-avatar class="KexinXie" shape="square" :size="250" src="/avatar/KexinXie.jpg" />
           <p class="name">Kexin Xie</p>
-          <p class="work">Short video understanding</p>
+<!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
       <el-col :span="6">
         <div class="block">
           <el-avatar shape="square" :size="250" src="/avatar/YuebinXie.jpg" />
           <p class="name">Yuebin Xie</p>
-          <p class="work">Short video understanding</p>
+<!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
       <el-col :span="6">
         <div class="block">
           <el-avatar shape="square" :size="250" src="/avatar/YufeiXu.jpg" />
           <p class="name">Yufei Xu</p>
-          <p class="work">Short video understanding</p>
+<!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
     </el-row>
@@ -118,21 +118,21 @@
         <div class="block">
           <el-avatar class="XianrunXu" shape="square" :size="250" src="/avatar/XianrunXu.jpg" />
           <p class="name">Xianrun Xu</p>
-          <p class="work">Short video understanding</p>
+<!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
       <el-col :span="8">
         <div class="block">
           <el-avatar class="XiaoqiZheng" shape="square" :size="250" src="/avatar/XiaoqiZheng.jpg" />
           <p class="name">Xiaoqi Zheng</p>
-          <p class="work">Short video understanding</p>
+<!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
       <el-col :span="8">
         <div class="block">
           <el-avatar class="SijiaZhou" shape="square" :size="250" src="/avatar/SijiaZhou.jpg" />
           <p class="name">Sijia Zhou</p>
-          <p class="work">Short video understanding</p>
+<!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
 <!--      <el-col :span="6">-->
@@ -152,21 +152,21 @@
         <div class="block">
           <el-avatar class="JingchaoWang" style="background-color: white" shape="square" :size="250" src="/avatar/JingchaoWang.jpg" />
           <p class="name">Jingchao Wang</p>
-          <p class="work">Industrial software</p>
+<!--          <p class="work">Industrial software</p>-->
         </div>
       </el-col>
       <el-col :span="6">
         <div class="block">
           <el-avatar class="DongzheLi" style="background-color: white" shape="square" :size="250" src="/avatar/DongzheLi.jpg" />
           <p class="name">Dongzhe Li</p>
-          <p class="work">Short video understanding</p>
+<!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
       <el-col :span="6">
         <div class="block">
           <el-avatar class="XiaochenHe" style="background-color: white" shape="square" :size="250" src="/avatar/XiaochenHe.jpg" />
           <p class="name">Xiaochen He</p>
-          <p class="work">Short video understanding</p>
+<!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
 
@@ -174,7 +174,7 @@
         <div class="block">
           <el-avatar class="WeideZhan" style="background-color: white" shape="square" :size="250" src="/avatar/WeideZhan.jpg" />
           <p class="name">Weide Zhan</p>
-          <p class="work">Short video understanding</p>
+<!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
     </el-row>
