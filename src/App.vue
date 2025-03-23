@@ -381,8 +381,14 @@ if (import.meta.env.MODE === 'production') {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     /* 新增以下属性 */
     height: calc(100vh - 60px); /* 占据剩余屏幕高度 */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: calc(100vh - 60px); /* 新增最大高度限制 */
+    overscroll-behavior: contain; /* 防止滚动链 */
+    transition:
+        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 同步过渡属性 */
   }
+
 
 
 
