@@ -85,14 +85,31 @@ button:focus-visible {
     padding: 0;
   }
 
+  /* 修复Element Plus组件在移动端的默认样式 */
+  .el-menu--vertical {
+    max-width: 100vw !important;
+  }
+
+  .el-sub-menu__title,
+  .el-menu-item {
+    font-size: 16px !important;
+    height: 48px !important;
+    line-height: 48px !important;
+  }
+
   .el-card {
     margin: 10px;
     width: calc(100% - 20px);
   }
 
-  /* 基础字号调整 */
+  /* 防止内容溢出 */
+  html {
+    overflow-x: hidden;
+  }
+
   body {
-    font-size: 14px;
+    overflow-x: hidden;
+    position: relative;
   }
 
   /* 修复菜单遮挡内容的问题 */

@@ -1094,6 +1094,22 @@ const download_WJC002_Poster = () => {
     flex-direction: column;
   }
 
+  .el-card {
+    padding: 10px !important;
+
+    img {
+      margin: 0 auto !important;
+    }
+
+    .el-space {
+      flex-direction: column !important;
+    }
+
+    a {
+      font-size: 14px !important;
+    }
+  }
+
   /* 图片调整 */
   img {
     width: 100% !important;

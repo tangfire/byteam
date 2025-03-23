@@ -21,6 +21,18 @@
 
 <style scoped>
 
+/* ContactView.vue 样式修改 */
+@media (max-width: 768px) {
+  .contact-page {
+    position: static; /* 移除fixed定位 */
+    width: 100%;
+    height: auto;
+    min-height: calc(100vh - 180px);
+    margin-top: 60px; /* 为固定菜单留出空间 */
+    background-attachment: scroll; /* 移除固定背景 */
+  }
+}
+
 .contact-page {
   position: fixed;
   top: 140px;

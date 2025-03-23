@@ -186,11 +186,23 @@
 
 <style scoped>
 
+
+
 @media (max-width: 768px) {
-  /* 头像布局调整为单列 */
+  .el-row {
+    justify-content: center !important;
+  }
+
   .el-col {
-    width: 100%;
+    width: 50% !important;
+    max-width: 200px !important;
     margin-bottom: 30px;
+  }
+
+  p[style*="margin-left"] {
+    text-align: center !important;
+    margin-left: 0 !important;
+    width: 100%;
   }
 
   /* 调整头像大小 */
@@ -213,6 +225,8 @@
     margin-left: 0 !important;
     text-align: center;
   }
+
+
 }
 
 .block {

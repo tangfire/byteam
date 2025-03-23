@@ -14,9 +14,14 @@ const checkScreenSize = () => {
 
 
 
+// App.vue script部分修改
 const handleSelect = () => {
   if (isMobile.value) {
-    isMenuCollapsed.value = true // 选择菜单项后自动折叠
+    isMenuCollapsed.value = true
+    // 添加轻微延迟确保菜单收起后再跳转
+    setTimeout(() => {
+      window.scrollTo(0, 0)
+    }, 300)
   }
 }
 
@@ -221,7 +226,7 @@ if (import.meta.env.MODE === 'production') {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 1001;
     background: white;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   }
@@ -230,8 +235,13 @@ if (import.meta.env.MODE === 'production') {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 15px;
     height: 60px;
+  }
+
+  .logo-img {
+    width: 120px !important; /* 移动端缩小logo */
+    margin: 0 !important;
   }
 
   .hamburger-btn {
@@ -251,6 +261,8 @@ if (import.meta.env.MODE === 'production') {
   .mobile-menu-content {
     max-height: 70vh;
     overflow-y: auto;
+    position: relative;
+    z-index: 1001; /* 确保菜单内容在顶层 */
   }
 
   .custom-footer {
@@ -274,7 +286,7 @@ if (import.meta.env.MODE === 'production') {
   }
 
   .el-main {
-    padding: 10px;
+    margin-top: 60px; /* 为固定菜单留出空间 */
   }
 }
 
