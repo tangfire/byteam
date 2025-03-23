@@ -50,13 +50,25 @@ const activities2025: ActivityType[] = [
   </el-timeline>
   </div>
   </el-space>
+
+  <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
+
 </template>
 
 
 
 <style scoped>
+@media (max-width: 768px) {
+  .mobile-backtop {
+    right: 20px !important;
+    bottom: 80px !important;
+  }
+}
 
-
+/* 保证 el-icon 的图标颜色在初始时是正确的 */
+::v-deep(.el-icon svg) {
+  color: #7d1231 !important;
+}
 
 .news-item{
   color: #333; /* 正文文字颜色 */

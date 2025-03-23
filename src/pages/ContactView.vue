@@ -4,6 +4,12 @@
 
 <template>
   <div class="contact-page">
+
+    <!-- 背景图层 -->
+    <div class="hero-background">
+      <div class="gradient-overlay"></div>
+    </div>
+
   <div class="contact-container">
     <h1 class="title">Contact Me</h1>
 
@@ -24,13 +30,16 @@
 /* ContactView.vue 样式修改 */
 @media (max-width: 768px) {
   .contact-page {
-    position: static; /* 移除fixed定位 */
+    position: static !important;
     width: 100%;
     height: auto;
     min-height: calc(100vh - 180px);
-    margin-top: 0 !important; /* 为固定菜单留出空间 */
-    background-attachment: scroll; /* 移除固定背景 */
+    margin-top: 0 !important;
+    overflow-x: hidden !important; /* 禁用水平滚动 */
+    overflow-y: hidden !important; /* 禁用垂直滚动 */
   }
+
+
 
   /* 标题样式 */
   .title {
@@ -47,9 +56,16 @@
   }
 
   .email-link{
-    font-size: 1rem !important;
+    font-size: 1.2rem !important;
     margin-bottom: 200px;
   }
+
+  .hero-background {
+    position: relative; /* 改为相对定位 */
+    background-attachment: scroll; /* 移除固定背景 */
+
+  }
+
 }
 
 .contact-page {
@@ -58,9 +74,6 @@
   left: 10px;
   width: 99%;
   height: calc(100vh - 130px - 190px); /* 使用视口高度减去顶部偏移 */
-  background:
-      linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)),
-      url('/background/ContactBackground.png');
   background-position: center center;
   background-size: cover; /* 保持cover属性 */
   background-attachment: scroll; /* 改为scroll让背景随滚动移动 */
@@ -77,6 +90,26 @@
   padding: 2rem;
   text-align: center;
 
+}
+
+/* 背景层 */
+.hero-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+      linear-gradient(135deg, rgba(125,18,49,0.08) 0%, rgba(19,57,62,0.12) 100%),
+      url('/background/ContactBackground.png') center/cover fixed;
+  z-index: 0;
+}
+
+.gradient-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 30%, rgba(248,249,250,0.6) 20%, rgba(248,249,250,0.9) 80%);
 }
 
 /* 标题样式 */

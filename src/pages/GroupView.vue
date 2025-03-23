@@ -177,7 +177,7 @@
 
   </el-space>
 
-  <el-backtop :right="100" :bottom="100"/>
+  <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
 
 
 
@@ -189,6 +189,12 @@
 
 
 @media (max-width: 768px) {
+
+  .mobile-backtop {
+    right: 20px !important;
+    bottom: 80px !important;
+  }
+
   .el-row {
     justify-content: center !important;
   }

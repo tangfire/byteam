@@ -1082,13 +1082,18 @@ const download_WJC002_Poster = () => {
   <!--  底部间隔-->
   <div style="height: 50px"></div>
 
-  <el-backtop :right="100" :bottom="100"/>
+  <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
 
 </template>
 
 <style scoped>
 
 @media (max-width: 768px) {
+
+  .mobile-backtop {
+    right: 20px !important;
+    bottom: 80px !important;
+  }
 
   /* 添加这个规则 */
   .el-button span {

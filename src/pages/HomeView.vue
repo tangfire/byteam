@@ -36,6 +36,8 @@
     height: auto;
     min-height: calc(100vh - 180px);
     margin-top: 0 !important;
+    overflow-x: hidden; /* 禁用水平滚动 */
+    overflow-y: hidden; /* 禁用垂直滚动 */
 
   }
 
@@ -54,14 +56,9 @@
 
   }
 
-  .tech-ornament {
-    display: none;
-
-
-    .hero-background {
-      position: relative; /* 改为相对定位 */
-      background-attachment: scroll; /* 移除固定背景 */
-    }
+  .hero-background {
+    position: relative; /* 改为相对定位 */
+    background-attachment: scroll; /* 移除固定背景 */
   }
 
   .lab-acronym {

@@ -85,10 +85,29 @@
 
   <!-- 底部间隔 -->
   <div style="height: 50px"></div>
-  <el-backtop :right="100" :bottom="100"/>
+  <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
 </template>
 
 <style scoped>
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .content-card {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .mobile-backtop {
+    right: 20px !important;
+    bottom: 80px !important;
+  }
+
+}
+
 /* 统一字体设置 */
 .research-content {
   font-family: 'Segoe UI', system-ui, sans-serif;
@@ -179,17 +198,7 @@
   font-size: 1.1rem;
 }
 
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .section-title {
-    font-size: 1.8rem;
-  }
 
-  .content-card {
-    width: 95%;
-    margin: 0 auto;
-  }
-}
 
 /* 保证 el-icon 的图标颜色在初始时是正确的 */
 ::v-deep(.el-icon svg) {
