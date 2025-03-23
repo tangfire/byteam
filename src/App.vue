@@ -274,6 +274,16 @@ if (import.meta.env.MODE === 'production') {
     height: auto;
   }
 
+  .el-menu-item a {
+    color: #333b49 !important;  /* 与PC端保持一致 */
+    text-decoration: none;
+
+  }
+
+  .el-menu-item a:hover {
+    color: white !important;
+  }
+
   .mobile-nav-header {
     display: flex;
     justify-content: space-between;
