@@ -31,6 +31,25 @@
     margin-top: 60px; /* 为固定菜单留出空间 */
     background-attachment: scroll; /* 移除固定背景 */
   }
+
+  /* 标题样式 */
+  .title {
+    font-size: 2.6rem !important; /* 更大的字体 */
+    font-weight: 800 !important; /* 更加加粗 */
+
+  }
+
+  /* 可用时间段落 */
+  .availability {
+
+    font-size: 1.4rem !important; /* 更大字体 */
+
+  }
+
+  .email-link{
+    font-size: 1rem !important;
+    margin-bottom: 200px;
+  }
 }
 
 .contact-page {

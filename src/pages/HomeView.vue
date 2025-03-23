@@ -38,16 +38,19 @@
     margin-top: 60px;
   }
 
+
+
   .hero-content {
     padding: 4rem 1rem;
   }
 
   .lab-acronym {
-    font-size: 2rem;
+    font-size: 1.6rem !important;
   }
 
   .sub-slogan {
-    font-size: 1.2rem;
+    font-size: 1.2rem !important;
+
   }
 
   .tech-ornament {
