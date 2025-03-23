@@ -31,14 +31,13 @@
 <style scoped>
 @media (max-width: 768px) {
   .home-container {
-    position: static;
+    position: static !important;
     width: 100%;
     height: auto;
     min-height: calc(100vh - 180px);
-    margin-top: 60px;
+    margin-top: 0 !important;
+
   }
-
-
 
 
 
@@ -63,6 +62,19 @@
       position: relative; /* 改为相对定位 */
       background-attachment: scroll; /* 移除固定背景 */
     }
+  }
+
+  .lab-acronym {
+    font-size: 3.5rem;
+  }
+
+  .main-slogan {
+    font-size: 1.8rem;
+    padding: 1rem;
+  }
+
+  .sub-slogan {
+    font-size: 1.1rem;
   }
 }
 
@@ -207,19 +219,5 @@
   100% { left: 150%; }
 }
 
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .lab-acronym {
-    font-size: 3.5rem;
-  }
 
-  .main-slogan {
-    font-size: 1.8rem;
-    padding: 1rem;
-  }
-
-  .sub-slogan {
-    font-size: 1.1rem;
-  }
-}
 </style>

@@ -330,7 +330,7 @@ if (import.meta.env.MODE === 'production') {
   }
 
   .el-main {
-    margin-top: 60px !important; /* 固定顶部间距 */
+    margin-top: 0 !important; /* 固定顶部间距 */
     padding-top: 0 !important;
     transition: none !important;
   }
@@ -414,6 +414,19 @@ if (import.meta.env.MODE === 'production') {
   .mobile-menu-content-enter-from,
   .mobile-menu-content-leave-to {
     opacity: 0;
+  }
+
+  .common-layout {
+    padding-top: 60px;  /* 将导航栏高度转为padding */
+  }
+
+  .el-container {
+    padding-top: 0;
+  }
+
+  .custom-footer {
+    position: relative;
+    margin-top: auto;  /* 确保页脚贴底 */
   }
 
 }
