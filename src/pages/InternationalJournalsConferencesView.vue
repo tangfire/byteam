@@ -1120,8 +1120,8 @@ const download_WJC002_Poster = () => {
     margin-right: 0 !important;
     margin-bottom: 15px; /* 图片和文字之间添加间距 */
     object-fit: contain;
-    -webkit-flex-shrink: 0 !important;
-    flex-shrink: 0 !important;
+    -webkit-flex-shrink: 1 !important;
+    flex-shrink: 1 !important;
   }
 
   /* 文字部分样式 */
@@ -1203,6 +1203,8 @@ const download_WJC002_Poster = () => {
     flex-wrap: wrap !important;
     min-width: 0 !important;
     flex-shrink: 0 !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-flex-direction: column !important;
   }
 
   /* 加强链接容器控制 */
@@ -1222,9 +1224,15 @@ const download_WJC002_Poster = () => {
     .el-card p {
       word-break: break-word; /* 强制换行 */
     }
-    .el-card {
+    ::v-deep(.el-card) {
       -webkit-transform: translateZ(0); /* 触发硬件加速 */
     }
+  }
+
+  /* 防止按钮文字截断 */
+  .custom-button span {
+    white-space: nowrap !important;
+    -webkit-flex-shrink: 0 !important;
   }
 
   /* 修复卡片溢出问题 */
