@@ -1222,7 +1222,7 @@ const download_WJC002_Poster = () => {
   }
 
   /* 修复卡片溢出问题 */
-  .el-card {
+  ::v-deep(.el-card) {
     max-width: 100% !important;
     margin: 0 10px !important; /* 增加安全边距 */
     box-sizing: border-box !important;
