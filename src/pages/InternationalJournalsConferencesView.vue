@@ -1142,7 +1142,7 @@ const download_WJC002_Poster = () => {
   }
 
   /* 链接布局调整 */
-  .el-space {
+  ::v-deep(.el-space) {
     flex-wrap: wrap;
     gap: 15px !important;
   }
@@ -1173,7 +1173,7 @@ const download_WJC002_Poster = () => {
   }
 
   /* 保持图标与文字对齐 */
-  .el-button,
+  ::v-deep(.el-button),
   a[target="_blank"] {
     display: inline-flex;
     align-items: center;
@@ -1201,6 +1201,7 @@ const download_WJC002_Poster = () => {
     display: flex !important;
     -webkit-flex-wrap: wrap !important;
     flex-wrap: wrap !important;
+    min-width: 0 !important;
   }
 
   /* 加强链接容器控制 */
@@ -1226,6 +1227,7 @@ const download_WJC002_Poster = () => {
     max-width: 100% !important;
     margin: 0 10px !important; /* 增加安全边距 */
     box-sizing: border-box !important;
+    width: calc(100% - 20px) !important;
   }
 
   /* Safari特定修复 */
@@ -1245,6 +1247,8 @@ const download_WJC002_Poster = () => {
     -webkit-hyphens: auto !important;
     hyphens: auto !important;
     max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+    -webkit-line-clamp: 8;
   }
 
   /* 按钮组间距优化 */
