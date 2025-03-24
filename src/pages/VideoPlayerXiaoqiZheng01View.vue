@@ -29,8 +29,17 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import {ArrowLeft} from '@element-plus/icons-vue'
+import { onMounted } from 'vue'
 
 const router = useRouter()
+
+
+// 新增：组件挂载时滚动到顶部
+onMounted(() => {
+  window.scrollTo(0, 0)
+  document.documentElement.scrollTop = 0
+})
+
 
 const goBack = () => {
   // 优先使用历史记录返回
