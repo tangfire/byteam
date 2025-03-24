@@ -1115,16 +1115,16 @@ const download_WJC002_Poster = () => {
 
   .el-card img {
     width: 100% !important; /* 图片宽度100% */
-    max-width: 350px !important; /* 保留最大宽度与PC端一致 */
+    max-width: 350px; /* 最大宽度保持不变 */
     height: auto !important;
-    margin: 0 auto 15px !important; /* 居中图片 */
+    margin-right: 0 !important;
+    margin-bottom: 15px; /* 图片和文字之间添加间距 */
     object-fit: contain;
   }
 
   /* 文字部分样式 */
   .el-card > div > div:last-child {
-    width: 100% !important; /* 文字区域占满宽度 */
-    padding: 0  10px;
+    width: 100%; /* 文字区域占满宽度 */
     display: flex;
     flex-direction: column;
     align-items: center; /* 文字和链接居中 */
@@ -1214,8 +1214,6 @@ const download_WJC002_Poster = () => {
       word-break: break-word; /* 强制换行 */
     }
   }
-
-
 
 
 
