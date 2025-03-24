@@ -1115,11 +1115,13 @@ const download_WJC002_Poster = () => {
 
   .el-card img {
     width: 100% !important; /* 图片宽度100% */
-    max-width: 350px; /* 最大宽度保持不变 */
+    max-width: 100% !important;
     height: auto !important;
     margin-right: 0 !important;
     margin-bottom: 15px; /* 图片和文字之间添加间距 */
     object-fit: contain;
+    -webkit-flex-shrink: 0 !important;
+    flex-shrink: 0 !important;
   }
 
   /* 文字部分样式 */
@@ -1195,6 +1197,10 @@ const download_WJC002_Poster = () => {
   .el-card > div[style*="display: flex"] {
     flex-direction: column !important;
     padding: 10px !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+    -webkit-flex-wrap: wrap !important;
+    flex-wrap: wrap !important;
   }
 
   /* 加强链接容器控制 */
@@ -1215,6 +1221,38 @@ const download_WJC002_Poster = () => {
     }
   }
 
+  /* 修复卡片溢出问题 */
+  .el-card {
+    max-width: 100% !important;
+    margin: 0 10px !important; /* 增加安全边距 */
+    box-sizing: border-box !important;
+  }
+
+  /* Safari特定修复 */
+  @media not all and (min-resolution:.001dpcx) {
+    .el-card {
+      -webkit-transform: translateZ(0); /* 触发硬件加速 */
+    }
+    .el-card > div {
+      -webkit-box-orient: vertical !important;
+    }
+  }
+
+
+  /* 文字强制换行 */
+  .el-card p {
+    word-break: break-word !important;
+    -webkit-hyphens: auto !important;
+    hyphens: auto !important;
+    max-width: 100% !important;
+  }
+
+  /* 按钮组间距优化 */
+  div[style*="gap: 70px"] {
+    -webkit-column-gap: 20px !important;
+    column-gap: 20px !important;
+    row-gap: 15px !important;
+  }
 
 
 }
