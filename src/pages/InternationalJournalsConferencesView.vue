@@ -1115,10 +1115,9 @@ const download_WJC002_Poster = () => {
 
   .el-card img {
     width: 100% !important; /* 图片宽度100% */
-    max-width: 100% !important; /* 最大宽度保持不变 */
+    max-width: 350px !important; /* 保留最大宽度与PC端一致 */
     height: auto !important;
-    margin-right: 0 !important;
-    margin-bottom: 15px; /* 图片和文字之间添加间距 */
+    margin: 0 auto 15px !important; /* 居中图片 */
     object-fit: contain;
   }
 
@@ -1198,10 +1197,21 @@ const download_WJC002_Poster = () => {
     padding: 10px !important;
   }
 
-  /* 修复Safari的flex间隙问题 */
+  /* 加强链接容器控制 */
+  div[style*="gap: 70px"] {
+    gap: 8px !important;
+    margin-top: 10px !important;
+  }
+
+  /* 加强Safari适配 */
   @supports (-webkit-touch-callout: none) {
     .el-card > div {
-      gap: 0 !important;
+      row-gap: 0 !important;
+      column-gap: 0 !important;
+      padding: 0 5px !important;
+    }
+    .el-card p {
+      word-break: break-word; /* 强制换行 */
     }
   }
 
