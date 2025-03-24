@@ -1106,6 +1106,8 @@ const download_WJC002_Poster = () => {
     display: flex;
     flex-direction: column; /* 移动端垂直排列 */
     align-items: center; /* 居中对齐 */
+    max-width: 100vw !important;
+    overflow: hidden !important;
   }
 
   /* 保持PC端的悬停效果在移动端也有效 */
@@ -1210,8 +1212,24 @@ const download_WJC002_Poster = () => {
   /* 加强链接容器控制 */
   div[style*="gap: 70px"] {
     gap: 8px !important;
-    margin-top: 10px !important;
+    -webkit-column-gap: 20px !important;
+    column-gap: 20px !important;
+    row-gap: 15px !important;
+    margin: -5px; /* 补偿margin */
+    & > * {
+      margin: 5px;
+    }
   }
+
+  .el-card div[style*="gap: 70px;"] {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    justify-content: center !important;
+  }
+
+
+
+
 
   /* 加强Safari适配 */
   @supports (-webkit-touch-callout: none) {
@@ -1243,23 +1261,15 @@ const download_WJC002_Poster = () => {
     width: calc(100% - 20px) !important;
   }
 
-  /* Safari特定修复 */
+  /* 针对Safari 15+的特殊适配 */
   @media not all and (min-resolution:.001dpcx) {
     .el-card {
-      -webkit-transform: translateZ(0); /* 触发硬件加速 */
-    }
-    .el-card > div {
-      -webkit-box-orient: vertical !important;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
   }
 
-  /* 替换 gap 属性 */
-  div[style*="gap: 70px"] {
-    margin: -5px; /* 补偿margin */
-    & > * {
-      margin: 5px;
-    }
-  }
+
 
 
   /* 文字强制换行 */
@@ -1272,16 +1282,25 @@ const download_WJC002_Poster = () => {
     -webkit-line-clamp: 8;
   }
 
-  /* 按钮组间距优化 */
-  div[style*="gap: 70px"] {
-    -webkit-column-gap: 20px !important;
-    column-gap: 20px !important;
-    row-gap: 15px !important;
+  /* 确保按钮组内元素最小宽度 */
+  .el-card .custom-button {
+    min-width: 120px;
+    margin: 5px !important;
   }
 
 
 
 
+
+
+}
+
+@media (max-width: 390px) { /* 针对iPhone 14的特殊尺寸 */
+  .el-card img {
+    max-width: 90vw !important;
+    height: auto !important;
+    margin: 0 auto 15px !important;
+  }
 }
 
 .patent-list {
