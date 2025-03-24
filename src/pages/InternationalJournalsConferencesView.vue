@@ -1202,6 +1202,7 @@ const download_WJC002_Poster = () => {
     -webkit-flex-wrap: wrap !important;
     flex-wrap: wrap !important;
     min-width: 0 !important;
+    flex-shrink: 0 !important;
   }
 
   /* 加强链接容器控制 */
@@ -1216,9 +1217,13 @@ const download_WJC002_Poster = () => {
       row-gap: 0 !important;
       column-gap: 0 !important;
       padding: 0 5px !important;
+      -webkit-box-orient: vertical !important;
     }
     .el-card p {
       word-break: break-word; /* 强制换行 */
+    }
+    .el-card {
+      -webkit-transform: translateZ(0); /* 触发硬件加速 */
     }
   }
 
@@ -1240,6 +1245,14 @@ const download_WJC002_Poster = () => {
     }
   }
 
+  /* 替换 gap 属性 */
+  div[style*="gap: 70px"] {
+    margin: -5px; /* 补偿margin */
+    & > * {
+      margin: 5px;
+    }
+  }
+
 
   /* 文字强制换行 */
   .el-card p {
@@ -1257,6 +1270,8 @@ const download_WJC002_Poster = () => {
     column-gap: 20px !important;
     row-gap: 15px !important;
   }
+
+
 
 
 }
