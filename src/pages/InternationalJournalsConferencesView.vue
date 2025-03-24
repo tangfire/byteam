@@ -1115,7 +1115,7 @@ const download_WJC002_Poster = () => {
 
   .el-card img {
     width: 100% !important; /* 图片宽度100% */
-    max-width: 350px; /* 最大宽度保持不变 */
+    max-width: 100% !important; /* 最大宽度保持不变 */
     height: auto !important;
     margin-right: 0 !important;
     margin-bottom: 15px; /* 图片和文字之间添加间距 */
@@ -1124,7 +1124,8 @@ const download_WJC002_Poster = () => {
 
   /* 文字部分样式 */
   .el-card > div > div:last-child {
-    width: 100%; /* 文字区域占满宽度 */
+    width: 100% !important; /* 文字区域占满宽度 */
+    padding: 0  10px;
     display: flex;
     flex-direction: column;
     align-items: center; /* 文字和链接居中 */
@@ -1189,6 +1190,25 @@ const download_WJC002_Poster = () => {
     margin-left: 15px !important;
     margin-top: 10px !important;
   }
+
+
+  /* 强制卡片内容垂直布局 */
+  .el-card > div[style*="display: flex"] {
+    flex-direction: column !important;
+    padding: 10px !important;
+  }
+
+  /* 修复Safari的flex间隙问题 */
+  @supports (-webkit-touch-callout: none) {
+    .el-card > div {
+      gap: 0 !important;
+    }
+  }
+
+
+
+
+
 }
 
 .patent-list {
