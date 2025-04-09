@@ -594,6 +594,46 @@ const download_WJC002_Poster = () => {
 
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;">2023</p> <!-- 增加文字大小 -->
         <!--        <p style="margin-left: 8px; color: #7d1231; font-size: 26px;">Journal</p> &lt;!&ndash; 增加文字大小 &ndash;&gt;-->
+        <p style="margin-left: 8px; color: #7d1231; font-size: 26px;"> Journal</p> <!-- 增加文字大小 -->
+
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/021.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Pan D, Zeng A, Yang B, et al. Deep learning for brain MRI confirms patterned pathological progression in Alzheimer's disease[J]. Advanced Science, 2023, 10(6): 2204717.</p>
+
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                <div style="display: flex; align-items: center;">-->
+                <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                <!--                      <Promotion />-->
+                <!--                    </el-icon>-->
+                <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
+                <!--                  </a>-->
+                <!--                </div>-->
+
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/advs.202204717"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </el-card>
 
 
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;"> Conference</p> <!-- 增加文字大小 -->
@@ -653,6 +693,8 @@ const download_WJC002_Poster = () => {
 
 
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;"> Journal</p> <!-- 增加文字大小 -->
+
+
 
 
         <el-card
