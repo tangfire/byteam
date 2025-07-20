@@ -17,6 +17,8 @@ defineProps<{ msg: string }>()
         <div style="display: flex; align-items: center; justify-content: flex-start;">
 
           <ul class="patent-list">
+            <li>甘孟坤;潘丹;曾安;杨宝瑶;张逸群，一种主动脉弓再缩窄的预后方法及系统，2025-04-01,中国, ZL202210655677.3</li>
+            <li>杨宝瑶; 陈俊祥; 黄彦浩; 姚文彬，一种基于多模态大模型的视频-文本检索方法, 2025-06-13,中国, ZL202411271756.X</li>
             <li>杨宝瑶；郑晓琦，一种噪声标注的血管图像分割方法及系统2025-02-11, 中国, ZL 202311792631.7</li>
             <li>Dan Pan, An Zeng, Baoyao Yang, Method for extracting neuroimaging biomarker based on interpretable ensemble 3dcnn,US Patent App. 18/450,338, 2024.</li>
             <li>詹伟德; 杨宝瑶; 方志祥; 李东哲; 胡子逸; 吴恺盈; 一种基于多级智联的数据异构性联邦学习方法及存储介质, 2024-06-21,中国, ZL 202410159303.1</li>

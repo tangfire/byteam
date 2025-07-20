@@ -8,6 +8,34 @@ interface ActivityType extends Partial<TimelineItemProps> {
 
 const activities2025: ActivityType[] = [
   {
+    content:'Our paper \"Multi-Agent Reinforcement Learning Algorithm Using Dynamic OW-QMIX in Complex Supply Chain Scenarios\" is online now on IEEE SMC.Congrats,Liu,Zhu and co-authors!',
+    timestamp:'2025-07-11',
+    color:'#7d1231',
+  },
+
+  {
+    content:'Our paper \"FairFed++: Closing the Fairness Gap in Federated Learning through Self-Evolving Clustered Optimization\" is online now on ECAI.Congrats,Xu,Yang and co-authors!',
+    timestamp:'2025-07-11',
+    color:'#7d1231',
+  },
+  {
+    content:'Our paper \"Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation\" is online now on ACM Multimedia.Congrats,Xu,Yang and co-authors!',
+    timestamp:'2025-07-06',
+    color:'#7d1231',
+  },
+
+  {
+    content:'Warm welcome to new group members AoqiYan,GuangyangLin,HaifengLin,JiahaoLian,XiaojieChen,XiWang & YuhaoChen',
+    timestamp:'2025-05-06',
+    color:'#7d1231',
+  },
+  {
+    content:'Beyond Machine Learning team introduction official website officially launched!',
+    timestamp:'2025-04-08',
+    color:'#7d1231',
+  },
+
+  {
     content:'Two of our papers were accepted by ICME: \"Unifying Spatio-Temporal Contexts for Advanced Text-Video Retrieval\" and \"Action Decomposition-based Actor-Critic for Supply Chain Optimization\".',
     timestamp:'2025-03-21',
     color:'#7d1231',

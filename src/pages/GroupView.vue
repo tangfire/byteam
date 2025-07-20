@@ -32,8 +32,8 @@
     </el-col>
     <el-col :span="6">
       <div class="block">
-        <el-avatar shape="square" :size="250" src="/avatar/YuehuiFan.jpg" />
-        <p class="name">Yuehui Fan</p>
+        <el-avatar shape="square" :size="250" src="/avatar/AoqiYan.jpg" />
+        <p class="name">Aoqi Yan</p>
 <!--        <p class="work">Short video understanding</p>-->
       </div>
     </el-col>
@@ -47,8 +47,8 @@
     <el-row :gutter="30">
       <el-col :span="6">
         <div class="block">
-          <el-avatar class="jianxuanHuang" shape="square" :size="250" src="/avatar/JianxuanHuang.jpg" />
-          <p class="name">Jianxuan Huang</p>
+          <el-avatar class="HaifengLin" shape="square" :size="250" src="/avatar/HaifengLin.jpg" />
+          <p class="name">Haifeng Lin</p>
 <!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
@@ -97,8 +97,8 @@
       </el-col>
       <el-col :span="6">
         <div class="block">
-          <el-avatar shape="square" :size="250" src="/avatar/YuebinXie.jpg" />
-          <p class="name">Yuebin Xie</p>
+          <el-avatar shape="square" :size="250" src="/avatar/YuhaoChen.jpg" />
+          <p class="name">YuhaoChen</p>
 <!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
@@ -114,73 +114,106 @@
     <div style="height: 50px"></div>
 
     <el-row :gutter="30">
-      <el-col :span="8">
+      <el-col :span="6">
         <div class="block">
           <el-avatar class="XianrunXu" shape="square" :size="250" src="/avatar/XianrunXu.jpg" />
           <p class="name">Xianrun Xu</p>
 <!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="6">
         <div class="block">
           <el-avatar class="XiaoqiZheng" shape="square" :size="250" src="/avatar/XiaoqiZheng.jpg" />
           <p class="name">Xiaoqi Zheng</p>
 <!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="6">
         <div class="block">
           <el-avatar class="SijiaZhou" shape="square" :size="250" src="/avatar/SijiaZhou.jpg" />
           <p class="name">Sijia Zhou</p>
 <!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
+      <el-col :span="6">
+        <div class="block">
+          <el-avatar shape="square" :size="250" src="/avatar/XiaojieChen.jpg" />
+          <p>Xiaojie Chen</p>
+<!--          <p>Short video understanding</p>-->
+        </div>
+      </el-col>
+    </el-row>
+
+    <div style="height: 50px"></div>
+
+    <el-row :gutter="30">
+      <el-col :span="8">
+        <div class="block">
+          <el-avatar class="XiWang" shape="square" :size="250" src="/avatar/XiWang.jpg" />
+          <p class="name">Xi Wang</p>
+          <!--          <p class="work">Short video understanding</p>-->
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="block">
+          <el-avatar class="JiahaoLian" shape="square" :size="250" src="/avatar/JiahaoLian.jpg" />
+          <p class="name">Jiahao Lian</p>
+          <!--          <p class="work">Short video understanding</p>-->
+        </div>
+      </el-col>
+      <el-col :span="8">
+        <div class="block">
+          <el-avatar class="SijiaZhou" shape="square" :size="250" src="/avatar/GuangyangLin.jpg" />
+          <p class="name">Guangyang Lin</p>
+          <!--          <p class="work">Short video understanding</p>-->
+        </div>
+      </el-col>
 <!--      <el-col :span="6">-->
 <!--        <div class="block">-->
-<!--          <el-avatar shape="square" :size="250" src="/avatar/001.png" />-->
-<!--          <p>Yufei Xu</p>-->
-<!--          <p>Short video understanding</p>-->
+<!--          <el-avatar shape="square" :size="250" src="/avatar/XiaojieChen.jpg" />-->
+<!--          <p>Xiaojie Chen</p>-->
+<!--          &lt;!&ndash;          <p>Short video understanding</p>&ndash;&gt;-->
 <!--        </div>-->
 <!--      </el-col>-->
     </el-row>
 
     <div style="height: 50px"></div>
 
-    <p style="margin-left: -550px; color: #7d1231; font-size: 26px;">Research-based undergraduates</p>
-    <el-row :gutter="30">
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="JingchaoWang" style="background-color: white" shape="square" :size="250" src="/avatar/JingchaoWang.jpg" />
-          <p class="name">Jingchao Wang</p>
-<!--          <p class="work">Industrial software</p>-->
-        </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="DongzheLi" style="background-color: white" shape="square" :size="250" src="/avatar/DongzheLi.jpg" />
-          <p class="name">Dongzhe Li</p>
-<!--          <p class="work">Short video understanding</p>-->
-        </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="XiaochenHe" style="background-color: white" shape="square" :size="250" src="/avatar/XiaochenHe.jpg" />
-          <p class="name">Xiaochen He</p>
-<!--          <p class="work">Short video understanding</p>-->
-        </div>
-      </el-col>
+<!--    <p style="margin-left: -550px; color: #7d1231; font-size: 26px;">Research-based undergraduates</p>-->
+<!--    <el-row :gutter="30">-->
+<!--      <el-col :span="6">-->
+<!--        <div class="block">-->
+<!--          <el-avatar class="JingchaoWang" style="background-color: white" shape="square" :size="250" src="/avatar/JingchaoWang.jpg" />-->
+<!--          <p class="name">Jingchao Wang</p>-->
+<!--&lt;!&ndash;          <p class="work">Industrial software</p>&ndash;&gt;-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--      <el-col :span="6">-->
+<!--        <div class="block">-->
+<!--          <el-avatar class="DongzheLi" style="background-color: white" shape="square" :size="250" src="/avatar/DongzheLi.jpg" />-->
+<!--          <p class="name">Dongzhe Li</p>-->
+<!--&lt;!&ndash;          <p class="work">Short video understanding</p>&ndash;&gt;-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--      <el-col :span="6">-->
+<!--        <div class="block">-->
+<!--          <el-avatar class="XiaochenHe" style="background-color: white" shape="square" :size="250" src="/avatar/XiaochenHe.jpg" />-->
+<!--          <p class="name">Xiaochen He</p>-->
+<!--&lt;!&ndash;          <p class="work">Short video understanding</p>&ndash;&gt;-->
+<!--        </div>-->
+<!--      </el-col>-->
 
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="WeideZhan" style="background-color: white" shape="square" :size="250" src="/avatar/WeideZhan.jpg" />
-          <p class="name">Weide Zhan</p>
-<!--          <p class="work">Short video understanding</p>-->
-        </div>
-      </el-col>
-    </el-row>
+<!--      <el-col :span="6">-->
+<!--        <div class="block">-->
+<!--          <el-avatar class="WeideZhan" style="background-color: white" shape="square" :size="250" src="/avatar/WeideZhan.jpg" />-->
+<!--          <p class="name">Weide Zhan</p>-->
+<!--&lt;!&ndash;          <p class="work">Short video understanding</p>&ndash;&gt;-->
+<!--        </div>-->
+<!--      </el-col>-->
+<!--    </el-row>-->
 
-    <!--  底部间隔-->
-    <div style="height: 50px"></div>
+<!--    &lt;!&ndash;  底部间隔&ndash;&gt;-->
+<!--    <div style="height: 50px"></div>-->
 
 
   </el-space>
@@ -370,6 +403,39 @@
   /* 保持原有设置 */
   object-position: center 100%;
   object-fit: cover;
+}
+
+
+
+::v-deep .XiWang img{
+  /* 新增缩放相关属性 */
+  width: 100%; /* 按比例缩小到85%（可根据需要调整） */
+  max-width: 100%; /* 防止溢出容器 */
+  height: auto; /* 保持高度自适应 */
+  margin-top: 30px;
+  /* 保持原有设置 */
+  object-position: center 100%;
+  object-fit: cover;
+}
+
+
+
+::v-deep .JiahaoLian img{
+  /* 新增缩放相关属性 */
+  width: 100%; /* 按比例缩小到85%（可根据需要调整） */
+  max-width: 100%; /* 防止溢出容器 */
+  height: auto; /* 保持高度自适应 */
+  margin-top: 70px;
+  /* 保持原有设置 */
+  object-position: center 100%;
+  object-fit: cover;
+}
+
+
+
+::v-deep .HaifengLin img{
+  object-position: center 15%; /* 垂直方向向下偏移 */
+  object-fit: cover; /* 保持图片比例 */
 }
 
 ::v-deep .WeideZhan img{

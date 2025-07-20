@@ -143,6 +143,246 @@ const download_WJC002_Poster = () => {
           </div>
         </el-card>
 
+        <div style="height: 35px"></div>
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+<!--            <img-->
+<!--                src="/publications/005.png"-->
+<!--                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>-->
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Yanhao Huang, Baoyao Yang*, Junxiang Chen, Wenbin Yao, Dixin Chen, "Unifying Spatio-Temporal Contexts for Advanced Text-Video Retrieval", IEEE International Conference on Multimedia and Expo (ICME), 2025.</p>
+
+              <!-- 水平排列的超链接 -->
+<!--              <div style="display: flex; gap: 70px; align-items: center;">-->
+<!--                &lt;!&ndash;                <div style="display: flex; align-items: center;">&ndash;&gt;-->
+<!--                &lt;!&ndash;                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">&ndash;&gt;-->
+<!--                &lt;!&ndash;                      <Promotion />&ndash;&gt;-->
+<!--                &lt;!&ndash;                    </el-icon>&ndash;&gt;-->
+<!--                &lt;!&ndash;                    <span style="font-size: 18px; font-weight: 500;">Code</span>&ndash;&gt;-->
+<!--                &lt;!&ndash;                  </a>&ndash;&gt;-->
+<!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+
+<!--                 第二个链接（Paper） -->
+<!--                <div style="display: flex; align-items: center;">-->
+<!--                  <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
+<!--                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+<!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+<!--                      <Tickets/>-->
+<!--                    </el-icon>-->
+<!--                    <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
+<!--                  </a>-->
+<!--                </div>-->
+<!--              </div>-->
+            </div>
+          </div>
+        </el-card>
+
+        <div style="height: 35px"></div>
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <!--            <img-->
+            <!--                src="/publications/005.png"-->
+            <!--                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>-->
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Zhixiang Fang, Baoyao Yang*, Weide Zhan, Yanchao Tang, Yiqun Zhang, "FairFed++: Closing the Fairness Gap in Federated Learning through Self-Evolving Clustered Optimization," the 28th European Conference on Artificial Intelligence (ECAI), 2025. </p>
+
+              <!-- 水平排列的超链接 -->
+              <!--              <div style="display: flex; gap: 70px; align-items: center;">-->
+              <!--                &lt;!&ndash;                <div style="display: flex; align-items: center;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                      <Promotion />&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    </el-icon>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <span style="font-size: 18px; font-weight: 500;">Code</span>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  </a>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+
+              <!--                 第二个链接（Paper） -->
+              <!--                <div style="display: flex; align-items: center;">-->
+              <!--                  <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
+              <!--                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+              <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+              <!--                      <Tickets/>-->
+              <!--                    </el-icon>-->
+              <!--                    <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
+              <!--                  </a>-->
+              <!--                </div>-->
+              <!--              </div>-->
+            </div>
+          </div>
+        </el-card>
+
+        <div style="height: 35px"></div>
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <!--            <img-->
+            <!--                src="/publications/005.png"-->
+            <!--                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>-->
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Baoyao Yang, Junxiang Chen, Wenbin Yao, "Unlocking the Potential of mLLMs: Enhancing Video-Text Retrieval through Caption Supplementation and Conical Embedding Optimization," the 28th European Conference on Artificial Intelligence (ECAI), 2025.</p>
+
+              <!-- 水平排列的超链接 -->
+              <!--              <div style="display: flex; gap: 70px; align-items: center;">-->
+              <!--                &lt;!&ndash;                <div style="display: flex; align-items: center;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                      <Promotion />&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    </el-icon>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <span style="font-size: 18px; font-weight: 500;">Code</span>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  </a>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+
+              <!--                 第二个链接（Paper） -->
+              <!--                <div style="display: flex; align-items: center;">-->
+              <!--                  <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
+              <!--                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+              <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+              <!--                      <Tickets/>-->
+              <!--                    </el-icon>-->
+              <!--                    <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
+              <!--                  </a>-->
+              <!--                </div>-->
+              <!--              </div>-->
+            </div>
+          </div>
+        </el-card>
+
+        <div style="height: 35px"></div>
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <!--            <img-->
+            <!--                src="/publications/005.png"-->
+            <!--                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>-->
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Xianrun Xu, Baoyao Yang*, Wanyun Li, Jingsong Lin, Yufei Xu, "Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation," the 33rd ACM International Conference on Multimedia (ACM MM), 2025.</p>
+
+              <!-- 水平排列的超链接 -->
+              <!--              <div style="display: flex; gap: 70px; align-items: center;">-->
+              <!--                &lt;!&ndash;                <div style="display: flex; align-items: center;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                      <Promotion />&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    </el-icon>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <span style="font-size: 18px; font-weight: 500;">Code</span>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  </a>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+
+              <!--                 第二个链接（Paper） -->
+              <!--                <div style="display: flex; align-items: center;">-->
+              <!--                  <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
+              <!--                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+              <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+              <!--                      <Tickets/>-->
+              <!--                    </el-icon>-->
+              <!--                    <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
+              <!--                  </a>-->
+              <!--                </div>-->
+              <!--              </div>-->
+            </div>
+          </div>
+        </el-card>
+
+        <div style="height: 35px"></div>
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <!--            <img-->
+            <!--                src="/publications/005.png"-->
+            <!--                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>-->
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">ZhiQi Liu, QingHua Zhu*, An Zeng, YuZhu Ji, BaoYao Yang, "Multi-Agent Reinforcement Learning Algorithm Using Dynamic OW-QMIX in Complex Supply Chain Scenarios," IEEE International Conference on Systems, Man, and Cybernetics (IEEE SMC), 2025.</p>
+
+              <!-- 水平排列的超链接 -->
+              <!--              <div style="display: flex; gap: 70px; align-items: center;">-->
+              <!--                &lt;!&ndash;                <div style="display: flex; align-items: center;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                      <Promotion />&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    </el-icon>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <span style="font-size: 18px; font-weight: 500;">Code</span>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  </a>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+
+              <!--                 第二个链接（Paper） -->
+              <!--                <div style="display: flex; align-items: center;">-->
+              <!--                  <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
+              <!--                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+              <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+              <!--                      <Tickets/>-->
+              <!--                    </el-icon>-->
+              <!--                    <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
+              <!--                  </a>-->
+              <!--                </div>-->
+              <!--              </div>-->
+            </div>
+          </div>
+        </el-card>
+
+        <div style="height: 35px"></div>
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <!--            <img-->
+            <!--                src="/publications/005.png"-->
+            <!--                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>-->
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Zhengrong Chen, Qinghua Zhu*, An Zeng, Yuzhu Ji, Baoyao Yang, Dan Pan, " Action Decomposition-based Actor-Critic for Supply Chain Optimization", IEEE International Conference on Multimedia and Expo (ICME), 2025.</p>
+
+              <!-- 水平排列的超链接 -->
+              <!--              <div style="display: flex; gap: 70px; align-items: center;">-->
+              <!--                &lt;!&ndash;                <div style="display: flex; align-items: center;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                      <Promotion />&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    </el-icon>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <span style="font-size: 18px; font-weight: 500;">Code</span>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  </a>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+
+              <!--                 第二个链接（Paper） -->
+              <!--                <div style="display: flex; align-items: center;">-->
+              <!--                  <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
+              <!--                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+              <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+              <!--                      <Tickets/>-->
+              <!--                    </el-icon>-->
+              <!--                    <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
+              <!--                  </a>-->
+              <!--                </div>-->
+              <!--              </div>-->
+            </div>
+          </div>
+        </el-card>
+
 
       </div>
 
