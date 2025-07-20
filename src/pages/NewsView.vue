@@ -9,7 +9,7 @@ interface ActivityType extends Partial<TimelineItemProps> {
 const activities2025: ActivityType[] = [
   {
     content:'Our paper \"Multi-Agent Reinforcement Learning Algorithm Using Dynamic OW-QMIX in Complex Supply Chain Scenarios\" is online now on IEEE SMC.Congrats,Liu,Zhu and co-authors!',
-    timestamp:'2025-07-11',
+    timestamp:'2025-07-20',
     color:'#7d1231',
   },
 
