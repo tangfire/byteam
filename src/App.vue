@@ -142,6 +142,7 @@ if (import.meta.env.MODE === 'production') {
                   International Journals/Conferences
                 </el-menu-item>
                 <el-menu-item index="/patents">Patents</el-menu-item>
+                <el-menu-item index="/VideoMind">Datasets</el-menu-item>
               </el-sub-menu>
 
               <el-menu-item index="/contact">Contact</el-menu-item>
@@ -216,6 +217,11 @@ if (import.meta.env.MODE === 'production') {
             <el-menu-item style="height: 50px" index="/patents">
               <div style="line-height: 1.2; margin: 0;">
                 Patents
+              </div>
+            </el-menu-item>
+            <el-menu-item style="height: 50px" index="/VideoMind">
+              <div style="line-height: 1.2; margin: 0;">
+                Datasets
               </div>
             </el-menu-item>
           </el-sub-menu>

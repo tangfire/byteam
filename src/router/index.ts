@@ -13,6 +13,7 @@ import ResearchProjectsView from "../pages/ResearchProjectsView.vue";
 import NewsView from "../pages/NewsView.vue";
 import VideoPlayerXiaoqiZheng01View from "../pages/VideoPlayerXiaoqiZheng01View.vue";
 import AlumniView from "../pages/AlumniView.vue";
+import VideoMindView from "../pages/VideoMindView.vue";
 
 
 const router = createRouter({
@@ -83,7 +84,13 @@ const router = createRouter({
             path:'/Alumni',
             name:'Alumni',
             component: AlumniView
-        }
+        },
+        // VideoMind
+        {
+            path: '/VideoMind',
+            name: 'VideoMind',
+            component: VideoMindView
+        },
 
 
 
