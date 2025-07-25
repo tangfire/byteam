@@ -99,10 +99,7 @@ const download_WJC002_Poster = () => {
             <!-- 文字右边 -->
             <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
               <!-- 使文字稍微往上移 -->
-              <p style="margin-top: -10px;font-size: 18px">X. Zheng, B. Yang, X. Fang, W. Yao and M. Ye, "Image-assisted
-                Label Connective Completion for Vessel Segmentation with Insufficient Annotations," ICASSP 2025 - 2025
-                IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP), Hyderabad, India,
-                2025, pp. 1-5, doi: 10.1109/ICASSP49660.2025.10888997.</p>
+              <p style="margin-top: -10px;font-size: 18px">Xiaoqi Zheng, Baoyao Yang*, Xiuwen Fang, Xiuwen Fang, Mang Ye, "Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations," IEEE International Conference on Acoustics, Speech, and Signal Processing (ICASSP), 2025.</p>
 
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
@@ -235,7 +232,7 @@ const download_WJC002_Poster = () => {
             <!-- 文字右边 -->
             <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
               <!-- 使文字稍微往上移 -->
-              <p style="margin-top: -10px;font-size: 18px">Baoyao Yang, Junxiang Chen, Wenbin Yao, "Unlocking the Potential of mLLMs: Enhancing Video-Text Retrieval through Caption Supplementation and Conical Embedding Optimization," the 28th European Conference on Artificial Intelligence (ECAI), 2025.</p>
+              <p style="margin-top: -10px;font-size: 18px">Baoyao Yang*, Junxiang Chen, Wenbin Yao, "Unlocking the Potential of mLLMs: Enhancing Video-Text Retrieval through Caption Supplementation and Conical Embedding Optimization," the 28th European Conference on Artificial Intelligence (ECAI), 2025.</p>
 
               <!-- 水平排列的超链接 -->
               <!--              <div style="display: flex; gap: 70px; align-items: center;">-->
@@ -383,6 +380,46 @@ const download_WJC002_Poster = () => {
           </div>
         </el-card>
 
+        <div style="height: 35px"></div>
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <!--            <img-->
+            <!--                src="/publications/005.png"-->
+            <!--                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>-->
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Yali Ma, Baoyao Yang*, Yanchao Tang, Weide Zhan, Wenyin Yang, "Harnessing Feature Distribution Consistency for Federated Learning with Noisy," IEEE International Conference on Image Processing (ICIP), 2025.</p>
+
+              <!-- 水平排列的超链接 -->
+              <!--              <div style="display: flex; gap: 70px; align-items: center;">-->
+              <!--                &lt;!&ndash;                <div style="display: flex; align-items: center;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                      <Promotion />&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    </el-icon>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <span style="font-size: 18px; font-weight: 500;">Code</span>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  </a>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+
+              <!--                 第二个链接（Paper） -->
+              <!--                <div style="display: flex; align-items: center;">-->
+              <!--                  <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
+              <!--                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+              <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+              <!--                      <Tickets/>-->
+              <!--                    </el-icon>-->
+              <!--                    <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
+              <!--                  </a>-->
+              <!--                </div>-->
+              <!--              </div>-->
+            </div>
+          </div>
+        </el-card>
+
 
       </div>
 
@@ -406,9 +443,7 @@ const download_WJC002_Poster = () => {
             <!-- 文字右边 -->
             <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
               <!-- 使文字稍微往上移 -->
-              <p style="margin-top: -10px;font-size: 18px">Huang J, Yang B, Yin K, et al. Dna-t: Deformable neighborhood
-                attention transformer for irregular medical time series[J]. IEEE Journal of Biomedical and Health
-                Informatics, 2024.</p>
+              <p style="margin-top: -10px;font-size: 18px">Jianxuan Huang, Baoyao Yang*, Kejing Yin, Jingwen Xu, " DNA-T: Deformable Neighborhood Attention Transformer for Irregular Medical Time Series," IEEE Journal of Biomedical and Health Informatics (JBHI), 2024.</p>
 
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
@@ -489,9 +524,7 @@ const download_WJC002_Poster = () => {
             <!-- 文字右边 -->
             <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
               <!-- 使文字稍微往上移 -->
-              <p style="margin-top: -10px;font-size: 18px">Xie Y, He X, Yang B, et al. CAM-Guided Translation for
-                Unpaired Weakly-Supervised Medical Image Segmentation[C]//2024 IEEE International Conference on
-                Multimedia and Expo (ICME). IEEE, 2024: 1-6.</p>
+              <p style="margin-top: -10px;font-size: 18px">Yuebin Xie, Xiaochen He, Baoyao Yang*, Fei Lyu, Siqi Liu, "CAM-Guided translation for unpaired weakly-supervised medical image segmentation," IEEE International Conference on Multimedia and Expo (ICME), 2024.</p>
 
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
@@ -532,9 +565,7 @@ const download_WJC002_Poster = () => {
             <!-- 文字右边 -->
             <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
               <!-- 使文字稍微往上移 -->
-              <p style="margin-top: -10px;font-size: 18px">Fan Y, Yang B, Shen M, et al. Domain Dilation for Single
-                Domain Generalization[C]//2024 IEEE International Conference on Image Processing (ICIP). IEEE, 2024:
-                3931-3937.</p>
+              <p style="margin-top: -10px;font-size: 18px">Yuehui Fan, Baoyao Yang*, Meng Shen, Fei Lyu, "Domain Dilation for Single Domain Generalization," IEEE International Conference on Image Processing (ICIP), 2024.</p>
 
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
@@ -847,7 +878,7 @@ const download_WJC002_Poster = () => {
             <!-- 文字右边 -->
             <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
               <!-- 使文字稍微往上移 -->
-              <p style="margin-top: -10px;font-size: 18px">Pan D, Zeng A, Yang B, et al. Deep learning for brain MRI confirms patterned pathological progression in Alzheimer's disease[J]. Advanced Science, 2023, 10(6): 2204717.</p>
+              <p style="margin-top: -10px;font-size: 18px">Dan Pan, An Zeng*, Baoyao Yang*, Gangyong Lai, Bing Hu, Xiaowei Song, Tianzi Jiang, "Deep Learning for Brain MRI Confirms Patterned Pathological Progression in Alzheimer's Disease," Advanced Science, 2023.</p>
 
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
@@ -890,7 +921,7 @@ const download_WJC002_Poster = () => {
             <!-- 文字右边 -->
             <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
               <!-- 使文字稍微往上移 -->
-              <p style="margin-top: -10px;font-size: 18px">Yi Li, Baoyao Yang, Dan Pan, An  Zeng, Yang Yang, "Early diagnosis of Alzheimer's disease based on multimodal hypergraph attention network", International Conference on Multimedia and Expo (ICME), 2023.</p>
+              <p style="margin-top: -10px;font-size: 18px">Yi Li, Baoyao Yang*, Dan Pan, An  Zeng, Yang Yang, "Early diagnosis of Alzheimer's disease based on multimodal hypergraph attention network", International Conference on Multimedia and Expo (ICME), 2023.</p>
 
               <!-- 水平排列的超链接 -->
               <div style="display: flex; gap: 70px; align-items: center;">
