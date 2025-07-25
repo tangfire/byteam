@@ -16,7 +16,7 @@
       <div class="block">
         <el-avatar shape="square" :size="250" src="/avatar/YuehuiFan.jpg" />
         <p class="name">Yuehui Fan</p>
-        <p class="work">(~2025.07)</p>
+        <p class="work">(2025.07)</p>
       </div>
     </el-col>
 
@@ -24,7 +24,7 @@
       <div class="block">
         <el-avatar class="jianxuanHuang" shape="square" :size="250" src="/avatar/JianxuanHuang.jpg" />
         <p class="name">Jianxuan Huang</p>
-        <p class="work">(~2025.07)</p>
+        <p class="work">(2025.07)</p>
         <!--          <p class="work">Short video understanding</p>-->
       </div>
     </el-col>
@@ -33,7 +33,7 @@
       <div class="block">
         <el-avatar shape="square" :size="250" src="/avatar/YuebinXie.jpg" />
         <p class="name">Yuebin Xie</p>
-        <p class="work">(~2025.07)</p>
+        <p class="work">(2025.07)</p>
         <!--          <p class="work">Short video understanding</p>-->
       </div>
     </el-col>
@@ -51,7 +51,7 @@
         <div class="block">
           <el-avatar class="JingchaoWang" style="background-color: white" shape="square" :size="250" src="/avatar/JingchaoWang.jpg" />
           <p class="name">Jingchao Wang</p>
-          <p class="work">(~2025.07)</p>
+          <p class="work">(2025.07)</p>
 <!--          <p class="work">Industrial software</p>-->
         </div>
       </el-col>
@@ -59,7 +59,7 @@
         <div class="block">
           <el-avatar class="DongzheLi" style="background-color: white" shape="square" :size="250" src="/avatar/DongzheLi.jpg" />
           <p class="name">Dongzhe Li</p>
-          <p class="work">(~2025.07)</p>
+          <p class="work">(2025.07)</p>
 <!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
@@ -67,7 +67,7 @@
         <div class="block">
           <el-avatar class="XiaochenHe" style="background-color: white" shape="square" :size="250" src="/avatar/XiaochenHe.jpg" />
           <p class="name">Xiaochen He</p>
-          <p class="work">(~2025.07)</p>
+          <p class="work">(2025.07)</p>
 <!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
@@ -76,7 +76,7 @@
         <div class="block">
           <el-avatar class="WeideZhan" style="background-color: white" shape="square" :size="250" src="/avatar/WeideZhan.jpg" />
           <p class="name">Weide Zhan</p>
-          <p class="work">(~2025.07)</p>
+          <p class="work">(2025.07)</p>
 <!--          <p class="work">Short video understanding</p>-->
         </div>
       </el-col>
@@ -90,7 +90,7 @@
         <div class="block">
           <el-avatar class="ZhixiangFang" style="background-color: white" shape="square" :size="250" src="/avatar/ZhixiangFang.jpg" />
           <p class="name">Zhixiang Fang</p>
-          <p class="work">(~2025.07)</p>
+          <p class="work">(2025.07)</p>
           <!--          <p class="work">Industrial software</p>-->
         </div>
       </el-col>
