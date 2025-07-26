@@ -57,41 +57,31 @@ const activities2025: ActivityType[] = [
 </script>
 
 <template>
-  <el-space direction="vertical" style="width: 80%">
-  <div class="container">
-    <p style="margin-left: 8px; color: #7d1231; font-size: 26px;">2025</p> <!-- 增加文字大小 -->
+  <!-- 外层容器改为响应式宽度 -->
+  <div class="main-container">
+    <p class="year-title">2025</p>
 
-  <el-timeline style="max-width: 800px; margin: 0 auto">
-    <el-timeline-item
-        v-for="(activity, index) in activities2025"
-        :key="index"
-        :icon="activity.icon"
-        :type="activity.type"
-        :color="activity.color"
-        :size="activity.size"
-        :hollow="activity.hollow"
-        :timestamp="activity.timestamp"
-        class="news-item"
-    >
-      {{ activity.content }}
-    </el-timeline-item>
-  </el-timeline>
+    <!-- 时间线容器增加响应式 -->
+    <el-timeline class="timeline-container">
+      <el-timeline-item
+          v-for="(activity, index) in activities2025"
+          :key="index"
+          :timestamp="activity.timestamp"
+          :color="activity.color"
+          class="news-item"
+      >
+        <div class="content-box">{{ activity.content }}</div>
+      </el-timeline-item>
+    </el-timeline>
   </div>
-  </el-space>
 
   <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
-
 </template>
 
 
 
 <style scoped>
-@media (max-width: 768px) {
-  .mobile-backtop {
-    right: 20px !important;
-    bottom: 80px !important;
-  }
-}
+
 
 /* 保证 el-icon 的图标颜色在初始时是正确的 */
 ::v-deep(.el-icon svg) {
@@ -123,6 +113,93 @@ const activities2025: ActivityType[] = [
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;  /* 增加边距防止贴边 */
+}
+
+
+/* 新增：主容器响应式 */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.year-title {
+  color: #7d1231;
+  font-size: 26px;
+  margin: 0 0 20px 100px;
+}
+
+/* 时间线容器响应式 */
+.timeline-container {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .main-container {
+    padding: 0 15px;
+  }
+
+  .timeline-container {
+    padding-left: 10px;
+    padding-right: 0;
+  }
+
+  .year-title {
+    font-size: 22px;
+    margin-left: 5px;
+  }
+
+  /* 时间戳移动端优化 */
+  :deep(.el-timeline-item__timestamp) {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    padding-left: 0 !important;
+  }
+
+  /* 内容框移动端优化 */
+  .content-box {
+    padding: 10px 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 5px;
+  }
+}
+
+/* 内容区域优化 */
+.news-item {
+  font-size: 16px;
+  line-height: 1.6;
+  padding-bottom: 25px;
+}
+
+/* 内容换行优化 */
+:deep(.el-timeline-item__content) {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* 返回顶部按钮移动端适配 */
+.mobile-backtop {
+  right: 100px;
+  bottom: 100px;
+}
+@media (max-width: 768px) {
+  .mobile-backtop {
+    right: 20px !important;
+    bottom: 80px !important;
+  }
+}
+
+/* 时间线图标颜色 */
+:deep(.el-timeline-item__node) {
+  background-color: #7d1231 !important;
 }
 
 </style>

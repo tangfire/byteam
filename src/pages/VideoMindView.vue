@@ -11,7 +11,7 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
         <div class="project-content">
           <!-- 项目介绍 -->
           <div class="introduction">
-            <h3 class="subsection-title">What is VideoMind?</h3>
+            <h3 class="subsection-title first-subtitle">What is VideoMind?</h3>
 
             <p class="vision-text">
               VideoMind is <span class="highlight">a large-scale video-centric multimodal dataset </span>that can be used to
@@ -49,9 +49,9 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
           <div class="relevant-links">
             <h3 class="subsection-title">Download</h3>
             <!-- 水平排列的超链接 -->
-            <div style="display: flex; gap: 70px; align-items: center;">
+            <div class="relevant-links-container" style="display: flex; gap: 70px; align-items: center;margin-left: 20px;">
               <!--                 第一个链接（Code）-->
-              <div style="display: flex; align-items: center; margin-left: 20px;">
+              <div style="display: flex; align-items: center; ">
                 <a href="https://github.com/cdx-cindy/VideoMind" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
                   <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                     <Promotion />
@@ -116,11 +116,14 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
 /* 响应式设计 */
 @media (max-width: 768px) {
   .section-title {
-    font-size: 1.1rem !important;
+    font-size: 0.85rem !important;
   }
 
   .subsection-title{
-    font-size: 1.1rem !important;
+    font-size: 1rem !important;
+  }
+  .first-subtitle{
+    margin-top: -1rem !important;
   }
   .content-card,
   .project-content,
@@ -141,13 +144,13 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
     gap: 1rem !important;
   }
   .pillar {
-    max-width: 400px;
+    max-width: 350px;
     margin: 0 auto;
   }
 
   .example2-image,
   .caterogy-image {
-    max-width: 500px;
+    max-width: 360px;
     margin: 0 auto;
   }
 
@@ -163,6 +166,10 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
   .mobile-backtop {
     right: 20px !important;
     bottom: 80px !important;
+  }
+
+  .relevant-links-container {
+    gap: 30px !important;
   }
 }
 
