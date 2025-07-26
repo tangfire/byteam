@@ -8,19 +8,24 @@ interface ActivityType extends Partial<TimelineItemProps> {
 
 const activities2025: ActivityType[] = [
   {
-    content:'Our paper \"Multi-Agent Reinforcement Learning Algorithm Using Dynamic OW-QMIX in Complex Supply Chain Scenarios\" is online now on IEEE SMC.Congrats,Liu,Zhu and co-authors!',
+    content:'Our paper \"Multi-Agent Reinforcement Learning Algorithm Using Dynamic OW-QMIX in Complex Supply Chain Scenarios\" has been accepted by IEEE SMC.Congrats,Liu,Zhu and co-authors!',
     timestamp:'2025-07-20',
     color:'#7d1231',
   },
 
   {
-    content:'Our paper \"FairFed++: Closing the Fairness Gap in Federated Learning through Self-Evolving Clustered Optimization\" is online now on ECAI.Congrats,Xu,Yang and co-authors!',
+    content:'Two of our papers were accepted by ECAI: \"FairFed++: Closing the Fairness Gap in Federated Learning through Self-Evolving Clustered Optimization\" and \"Unlocking the Potential of mLLMs: Enhancing Video-Text Retrieval through Caption Supplementation and Conical Embedding Optimization\".',
     timestamp:'2025-07-11',
     color:'#7d1231',
   },
   {
-    content:'Our paper \"Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation\" is online now on ACM Multimedia.Congrats,Xu,Yang and co-authors!',
+    content:'Our paper \"Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation\" has been accepted by ACM Multimedia.Congrats,Xu,Yang and co-authors!',
     timestamp:'2025-07-06',
+    color:'#7d1231',
+  },
+  {
+    content:'Our paper \"Harnessing Feature Distribution Consistency for Federated Learning with Noisy\" has been accepted by IEEE International Conference on Image Processing (ICIP).Congrats,Ma,Yang and co-authors!',
+    timestamp:'2025-05-20',
     color:'#7d1231',
   },
 
@@ -42,7 +47,7 @@ const activities2025: ActivityType[] = [
   },
 
   {
-    content: 'Our paper \"Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations\" is online now on ICASSP.Congrats,Zheng,Yang and co-authors!',
+    content: 'Our paper \"Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations\" has been accepted by ICASSP.Congrats,Zheng,Yang and co-authors!',
     timestamp: '2025-03-08',
     color: '#7d1231',
   },
