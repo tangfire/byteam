@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
+import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
 </script>
 
 <template>
@@ -8,17 +8,7 @@
       <h1 class="section-title">VideoMind: An Omni-Modal Video Dataset with <br>Intent Grounding for Deep-Cognitive Video Understanding</h1>
 
       <el-card class="content-card">
-        <div class="research-content">
-
-          <!-- 导语部分 -->
-          <!-- <div class="overview-box">
-            <p class="lead-text">
-              Our core contribution lies in developing <span class="highlight">an automated dataset generation method, autonomously 
-              constructing high-quality video-text datasets using large models</span>, and demonstrating its effectiveness in large-scale 
-              learning of video-text representations.
-            </p>
-          </div> -->
-
+        <div class="project-content">
           <!-- 项目介绍 -->
           <div class="introduction">
             <h3 class="subsection-title">What is VideoMind?</h3>
@@ -26,13 +16,13 @@
             <p class="vision-text">
               VideoMind is <span class="highlight">a large-scale video-centric multimodal dataset </span>that can be used to
               learn powerful and transferable text-video representations for video understanding tasks such as video question answering and video retrieval.
-              The corresponding description of each video corresponds to three layers, namely factual layer, abstract layer, intentional layer. 
+              The corresponding description of each video corresponds to three layers, namely factual layer, abstract layer, intentional layer.
             </p>
             <ul class="styled-list">
-                <li>The factual layer includes visual description, OCR of video frames, ASR of videos, description of audio, and the title of the original video</li>
-                <li>The intentional layer consists of two parts: the intent of the video uploader and the intent of the video main character </li>
+              <li>The factual layer includes visual description, OCR of video frames, ASR of videos, description of audio, and the title of the original video</li>
+              <li>The intentional layer consists of two parts: the intent of the video uploader and the intent of the video main character </li>
             </ul>
-              <img src="/VideoMind/Examples-v2.jpg" style="width: 100%; height: 100%; object-fit: contain;">
+            <img src="/VideoMind/Examples-v2.jpg" class="example2-image">
           </div>
 
           <!-- 数据集统计 -->
@@ -41,16 +31,16 @@
             <p class="vision-text">
               The dataset contains <span class="highlight">110K</span> video samples, each of which is <span class="highlight">ac-companied by audio, as well as systematic and detailed textual descriptions.</span>
             </p>
-            <img src="/VideoMind/caterogy.png" style="width: 100%; height: 100%; object-fit: contain;">
+            <img src="/VideoMind/caterogy.png" class="caterogy-image">
             <div class="pillar-container">
               <div class="pillar">
-                <img src="/VideoMind/ASR_length.png" style="width: 100%; height: 100%; object-fit: contain;">
+                <img src="/VideoMind/ASR_length.png" class="dataset-images">
               </div>
               <div class="pillar">
-                <img src="/VideoMind/duration.png" style="width: 100%; height: 100%; object-fit: contain;">
+                <img src="/VideoMind/duration.png" class="dataset-images">
               </div>
               <div class="pillar">
-                <img src="/VideoMind/OCR_length.png" style="width: 100%; height: 100%; object-fit: contain;">
+                <img src="/VideoMind/OCR_length.png" class="dataset-images">
               </div>
             </div>
           </div>
@@ -60,7 +50,7 @@
             <h3 class="subsection-title">Download</h3>
             <!-- 水平排列的超链接 -->
             <div style="display: flex; gap: 70px; align-items: center;">
-<!--                 第一个链接（Code）-->
+              <!--                 第一个链接（Code）-->
               <div style="display: flex; align-items: center; margin-left: 20px;">
                 <a href="https://github.com/cdx-cindy/VideoMind" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
                   <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
@@ -73,7 +63,7 @@
               <!-- 第二个链接（Paper） -->
               <div style="display: flex; align-items: center;">
                 <a href="https://arxiv.org/abs/2507.18552"
-                    style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                   style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
                   <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                     <Tickets/>
                   </el-icon>
@@ -84,7 +74,7 @@
               <!-- 第三个链接（Data） -->
               <div style="display: flex; align-items: center;">
                 <a href="https://opendatalab.com/Dixin/VideoMind"
-                    style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                   style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
                   <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                     <Collection/>
                   </el-icon>
@@ -94,21 +84,21 @@
             </div>
           </div>
 
-           <!-- 引用 -->
-           <div class="Citation">
+          <!-- 引用 -->
+          <div class="Citation">
             <h3 class="subsection-title">Citation</h3>
             <p class="vision-text">
               If you find this work useful in your research, please cite the following paper:
             </p>
             <pre class="pillar citation-block">
 @misc{yang2025videomindomnimodalvideodataset,
-  title={VideoMind: An Omni-Modal Video Dataset with Intent Grounding for Deep-Cognitive Video Understanding}, 
+  title={VideoMind: An Omni-Modal Video Dataset with Intent Grounding for Deep-Cognitive Video Understanding},
   author={Baoyao Yang and Wanyun Li and Dixin Chen and Junxiang Chen and Wenbin Yao and Haifeng Lin},
   year={2025},
   eprint={2507.18552},
   archivePrefix={arXiv},
   primaryClass={cs.CV},
-  url={https://arxiv.org/abs/2507.18552}, 
+  url={https://arxiv.org/abs/2507.18552},
 }</pre>
           </div>
         </div>
@@ -126,23 +116,58 @@
 /* 响应式设计 */
 @media (max-width: 768px) {
   .section-title {
-    font-size: 1.6rem !important;
+    font-size: 1.1rem !important;
   }
 
-  .content-card {
-    width: 95%;
+  .subsection-title{
+    font-size: 1.1rem !important;
+  }
+  .content-card,
+  .project-content,
+  .introduction,
+  .Dataset-statistics,
+  .relevant-links,
+  .Citation {
+    width: 98%;
+    max-width: 100%;
     margin: 0 auto;
+    box-sizing: border-box;
+    padding: 0.8rem 0.5rem;
+  }
+
+  .pillar-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  .pillar {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .example2-image,
+  .caterogy-image {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .dataset-images{
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .citation-block {
+    font-size: 0.9rem !important;
   }
 
   .mobile-backtop {
     right: 20px !important;
     bottom: 80px !important;
   }
-
 }
 
 /* 统一字体设置 */
-.research-content {
+.project-content {
   font-family: 'Segoe UI', system-ui, sans-serif;
   line-height: 1.7;
   color: #2c3e50;
@@ -238,5 +263,14 @@
   box-shadow: 0 2px 8px rgba(44,62,80,0.06);
   overflow-x: auto;
   white-space: pre;
+}
+
+.example2-image,
+.caterogy-image,
+.dataset-images {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
 </style>
