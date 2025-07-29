@@ -45,6 +45,20 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
             </div>
           </div>
 
+          <!-- 结果展示 -->
+          <div class="Results">
+            <h3 class="subsection-title">Results</h3>
+            <p class="vision-text">
+              we present the cross-modal retrieval results of several standard video-centric
+              foundation models, including InternVideo, UMT-L,CLIP-VIP, mPLUG-2, and VAST.
+            </p>
+            <div class="results-container">
+              <h4 class="results-title">Results of hybrid-cognitive text-to-video retrieval on VideoMind-3K</h4>
+              <img src="/VideoMind/results001.jpg" class="results-image">
+              <h4 class="results-title">Results of hybrid-cognitive video-to-text retrieval on VideoMind-3K</h4>
+              <img src="/VideoMind/results002.jpg" class="results-image">
+            </div>
+          </div>
           <!-- 相关链接 -->
           <div class="relevant-links">
             <h3 class="subsection-title">Download</h3>
@@ -122,6 +136,9 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
   .subsection-title{
     font-size: 1rem !important;
   }
+  .results-title{
+    font-size: 0.9rem !important;
+  }
   .first-subtitle{
     margin-top: -1rem !important;
   }
@@ -149,7 +166,8 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
   }
 
   .example2-image,
-  .caterogy-image {
+  .caterogy-image,
+  .results-image {
     max-width: 360px;
     margin: 0 auto;
   }
@@ -254,7 +272,12 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
   margin: 0 0 0.5rem;
   font-size: 1.1rem;
 }
-
+/* 结果展示标题 */
+.results-title {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
 
 
 /* 保证 el-icon 的图标颜色在初始时是正确的 */
@@ -271,9 +294,10 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
   overflow-x: auto;
   white-space: pre;
 }
-
+/* 图片样式 */
 .example2-image,
 .caterogy-image,
+.results-image,
 .dataset-images {
   width: 100%;
   height: auto;

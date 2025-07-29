@@ -14,6 +14,7 @@ import NewsView from "../pages/NewsView.vue";
 import VideoPlayerXiaoqiZheng01View from "../pages/VideoPlayerXiaoqiZheng01View.vue";
 import AlumniView from "../pages/AlumniView.vue";
 import VideoMindView from "../pages/VideoMindView.vue";
+import Vknow from "../pages/VknowView.vue";
 
 
 const router = createRouter({
@@ -90,6 +91,12 @@ const router = createRouter({
             path: '/VideoMind',
             name: 'VideoMind',
             component: VideoMindView
+        },
+        // vKnow
+        {
+            path: '/vKnow',
+            name: 'vKnow',
+            component: Vknow
         },
 
 
