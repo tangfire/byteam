@@ -5,39 +5,39 @@
 <template>
   <el-space direction="vertical" :size="30" style="width: 100%">
     <div style="display: flex; flex-direction: column; align-items: center;">
-      <h1 class="section-title">vKnow: Decode Your Video Intent</h1>
-          
-          <!-- 项目介绍卡片 -->
-          <el-card class="intro-card">
-            <div class="introduction">
-              <h3 class="subsection-title first-subtitle">Introduction</h3>
-              <p class="vision-text">
-                vKnow is <span class="highlight">an open framework for video intent intelligence</span>, which mainly includes the following two modules:
-              </p>
-              <ul class="styled-list">
-                  <li>Publicly releasing VideoMind-100K, the first multimodal dataset annotating factual layer, abstract layer, and intent layer across 100K+ curated videos</li>
-                  <li>Open-sourcing DeME-7B, a transformer-based architecture specifically designed for deep-cognitive video understanding with video-centric alignment.</li>
-              </ul>
+      <h1 class="section-title">vKnow: Decode Omni-modal Intent</h1>
+
+      <!-- 项目介绍卡片 -->
+      <el-card class="intro-card">
+        <div class="introduction">
+          <h3 class="subsection-title first-subtitle">Introduction</h3>
+          <p class="vision-text">
+            vKnow is <span class="highlight">an open framework for video intent intelligence</span>, which mainly includes the following two modules:
+          </p>
+          <ul class="styled-list">
+            <li>Publicly releasing VideoMind-100K, the first multimodal dataset annotating factual layer, abstract layer, and intent layer across 100K+ curated videos</li>
+            <li>Open-sourcing DeME-7B, a transformer-based architecture specifically designed for deep-cognitive video understanding with video-centric alignment.</li>
+          </ul>
+        </div>
+      </el-card>
+
+      <!-- 数据集介绍 -->
+      <el-card class="dataset-card">
+        <div class="dataset-card-content">
+          <!-- 图片左边 -->
+          <img src="/VideoMind/Examples-v2.jpg" alt="VideoMind Example" class="dataset-card-image" />
+          <!-- 文字右边 -->
+          <div class="dataset-card-info">
+            <h3 class="dataset-title">VideoMind-100K Dataset</h3>
+            <p class="dataset-desc">
+              VideoMind is a large-scale, video-centric multimodal dataset for learning robust text-video representations. Each video is annotated with three layers: factual, abstract, and intentional, supporting advanced video understanding tasks
+            </p>
+            <div class="dataset-link-row">
+              <router-link to="/videomind" class="dataset-link">Learn more &rarr;</router-link>
             </div>
-          </el-card>
-          
-          <!-- 数据集介绍 -->
-          <el-card class="dataset-card">
-            <div class="dataset-card-content">
-              <!-- 图片左边 -->
-              <img src="/VideoMind/Examples-v2.jpg" alt="VideoMind Example" class="dataset-card-image" />
-              <!-- 文字右边 -->
-              <div class="dataset-card-info">
-                <h3 class="dataset-title">VideoMind-100K Dataset</h3>
-                <p class="dataset-desc">
-                  VideoMind is a large-scale, video-centric multimodal dataset for learning robust text-video representations. Each video is annotated with three layers: factual, abstract, and intentional, supporting advanced video understanding tasks
-                </p>
-                <div class="dataset-link-row">
-                  <router-link to="/videomind" class="dataset-link">Learn more &rarr;</router-link>
-                </div>
-              </div>
-            </div>
-          </el-card>
+          </div>
+        </div>
+      </el-card>
     </div>
   </el-space>
 

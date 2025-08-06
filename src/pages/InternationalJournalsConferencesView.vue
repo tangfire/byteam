@@ -17,6 +17,18 @@ const download_MMS_PPT = () => {
   document.body.removeChild(link)
 }
 
+const download_ICIP2025_PPT = () => {
+  const pptPath = '/files/icip2025.pptx'
+
+  const link = document.createElement('a')
+  link.href = pptPath
+  link.download = 'Team_Presentation.pptx'
+
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
 const download_HBAI_PPT = () => {
   const pptPath = '/files/HBAI.pptx'
 
@@ -391,28 +403,57 @@ const download_WJC002_Poster = () => {
               <!-- 使文字稍微往上移 -->
               <p style="margin-top: -10px;font-size: 18px">Yali Ma, Baoyao Yang*, Yanchao Tang, Weide Zhan, Wenyin Yang, "Harnessing Feature Distribution Consistency for Federated Learning with Noisy," IEEE International Conference on Image Processing (ICIP), 2025.</p>
 
-              <!-- 水平排列的超链接 -->
-              <!--              <div style="display: flex; gap: 70px; align-items: center;">-->
-              <!--                &lt;!&ndash;                <div style="display: flex; align-items: center;">&ndash;&gt;-->
-              <!--                &lt;!&ndash;                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">&ndash;&gt;-->
-              <!--                &lt;!&ndash;                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">&ndash;&gt;-->
-              <!--                &lt;!&ndash;                      <Promotion />&ndash;&gt;-->
-              <!--                &lt;!&ndash;                    </el-icon>&ndash;&gt;-->
-              <!--                &lt;!&ndash;                    <span style="font-size: 18px; font-weight: 500;">Code</span>&ndash;&gt;-->
-              <!--                &lt;!&ndash;                  </a>&ndash;&gt;-->
-              <!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+<!--               水平排列的超链接-->
+                            <div style="display: flex; gap: 70px; align-items: center;">
+                              <!--                <div style="display: flex; align-items: center;">-->
+                              <!--                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+                              <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+                              <!--                      <Promotion />-->
+                              <!--                    </el-icon>-->
+                              <!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
+                              <!--                  </a>-->
+                              <!--                </div>-->
 
-              <!--                 第二个链接（Paper） -->
-              <!--                <div style="display: flex; align-items: center;">-->
-              <!--                  <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
-              <!--                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
-              <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
-              <!--                      <Tickets/>-->
-              <!--                    </el-icon>-->
-              <!--                    <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
-              <!--                  </a>-->
-              <!--                </div>-->
-              <!--              </div>-->
+<!--                               第二个链接（Paper） -->
+<!--                              <div style="display: flex; align-items: center;">-->
+<!--                                <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
+<!--                                   style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+<!--                                  <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+<!--                                    <Tickets/>-->
+<!--                                  </el-icon>-->
+<!--                                  <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
+<!--                                </a>-->
+<!--                              </div>-->
+
+
+                              <div>
+                                <el-button class="custom-button"
+                                           type="primary"
+                                           @click="download_ICIP2025_PPT"
+                                           style="background-color: white; border-color: white;"
+                                >
+
+                                  <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><Files /></el-icon>
+
+                                  <span style="font-size: 18px; font-weight: 500; color: #7d1231;">PPT</span>
+                                </el-button></div>
+
+                              <div style="display: flex; align-items: center;">
+                                <router-link
+                                    :to="{ name: 'video-player-YaliMa01' }"
+                                    style="color: #7d1231; text-decoration: none; display: flex; align-items: center;"
+                                >
+                                  <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                                    <VideoPlay />
+                                  </el-icon>
+                                  <span style="font-size: 18px; font-weight: 500;">Video</span>
+                                </router-link>
+                              </div>
+
+
+                            </div>
+
+
             </div>
           </div>
         </el-card>
