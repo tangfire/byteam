@@ -724,18 +724,7 @@ const download_WJC002_Poster = () => {
                     <span style="font-size: 18px; font-weight: 500;">Paper</span>
                   </a>
                 </div>
-                <div>
-                  <el-button
-                      class="custom-button"
-                      type="primary"
-                      @click="download_HBAI_PPT"
-                      style="background-color: white; border-color: white;"
-                  >
 
-                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><Files /></el-icon>
-
-                    <span style="font-size: 18px; font-weight: 500; color: #7d1231;">PPT</span>
-                  </el-button></div>
                 <div>
                   <el-button
                       class="custom-button"
@@ -747,6 +736,55 @@ const download_WJC002_Poster = () => {
                     <el-icon  size="25" style="margin-right: 8px; vertical-align: middle;"><Postcard /></el-icon>
 
                     <span style="font-size: 18px; font-weight: 500; color: #7d1231;">Poster</span>
+                  </el-button></div>
+              </div>
+            </div>
+          </div>
+        </el-card>
+
+        <div style="height: 35px"></div>
+
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/022.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+
+
+              <p style="margin-top: -10px;font-size: 18px">Dongzhe Li, Baoyao Yang*, Yuebin Xie, Weide Zhan and Jingsong Lin, "Multi-category Brain Tumor Segmentation via Multi-scale and Cross-category Relation Modeling," HBAI2024: JJCAI Workshop on Human Brain and Artificial Intelligence, 2024.</p>
+
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+
+
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://link.springer.com/chapter/10.1007/978-981-96-4001-0_19"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
+                  </a>
+                </div>
+
+                <div>
+                  <el-button
+                      class="custom-button"
+                      type="primary"
+                      @click="download_HBAI_PPT"
+                      style="background-color: white; border-color: white;"
+                  >
+
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><Files /></el-icon>
+
+                    <span style="font-size: 18px; font-weight: 500; color: #7d1231;">PPT</span>
                   </el-button></div>
               </div>
             </div>
