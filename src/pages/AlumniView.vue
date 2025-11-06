@@ -3,255 +3,373 @@
 </script>
 
 <template>
+  <div class="alumni-container">
+    <!-- 研究生校友部分 -->
+    <section class="alumni-section">
+      <h2 class="section-title">Graduate Alumni</h2>
+      <div class="alumni-grid">
+        <div class="alumni-card">
+          <div class="avatar-container">
+            <el-avatar shape="square" :size="200" src="/avatar/YuehuiFan.jpg" />
+          </div>
+          <div class="alumni-info">
+            <h3 class="name">Yuehui Fan</h3>
+            <div class="graduation-info">
+              <span class="graduation-icon">🎓</span>
+              <span class="graduation-date">Graduated: 2025.07</span>
+            </div>
+          </div>
+        </div>
 
+        <div class="alumni-card">
+          <div class="avatar-container">
+            <el-avatar class="jianxuanHuang" shape="square" :size="200" src="/avatar/JianxuanHuang.jpg" />
+          </div>
+          <div class="alumni-info">
+            <h3 class="name">Jianxuan Huang</h3>
+            <div class="graduation-info">
+              <span class="graduation-icon">🎓</span>
+              <span class="graduation-date">Graduated: 2025.07</span>
+            </div>
+          </div>
+        </div>
 
-
-  <el-space direction="vertical"  style="width: 100%">
-    <p style="margin-left: -550px; color: #7d1231; font-size: 26px;">Graduate Students</p>
-  <el-row :gutter="30">
-
-
-
-    <el-col :span="8">
-      <div class="block">
-        <el-avatar shape="square" :size="250" src="/avatar/YuehuiFan.jpg" />
-        <p class="name">Yuehui Fan</p>
-        <p class="work">(2025.07)</p>
+        <div class="alumni-card">
+          <div class="avatar-container">
+            <el-avatar shape="square" :size="200" src="/avatar/YuebinXie.jpg" />
+          </div>
+          <div class="alumni-info">
+            <h3 class="name">Yuebin Xie</h3>
+            <div class="graduation-info">
+              <span class="graduation-icon">🎓</span>
+              <span class="graduation-date">Graduated: 2025.07</span>
+            </div>
+          </div>
+        </div>
       </div>
-    </el-col>
+    </section>
 
-    <el-col :span="8">
-      <div class="block">
-        <el-avatar class="jianxuanHuang" shape="square" :size="250" src="/avatar/JianxuanHuang.jpg" />
-        <p class="name">Jianxuan Huang</p>
-        <p class="work">(2025.07)</p>
-        <!--          <p class="work">Short video understanding</p>-->
+    <!-- 本科生校友部分 -->
+    <section class="alumni-section">
+      <h2 class="section-title">Undergraduate Research Alumni</h2>
+      <div class="alumni-grid">
+        <div class="alumni-card">
+          <div class="avatar-container">
+            <el-avatar class="JingchaoWang" shape="square" :size="200" src="/avatar/JingchaoWang.jpg" />
+          </div>
+          <div class="alumni-info">
+            <h3 class="name">Jingchao Wang</h3>
+            <div class="graduation-info">
+              <span class="graduation-icon">🎓</span>
+              <span class="graduation-date">Graduated: 2025.07</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="alumni-card">
+          <div class="avatar-container">
+            <el-avatar class="DongzheLi" shape="square" :size="200" src="/avatar/DongzheLi.jpg" />
+          </div>
+          <div class="alumni-info">
+            <h3 class="name">Dongzhe Li</h3>
+            <div class="graduation-info">
+              <span class="graduation-icon">🎓</span>
+              <span class="graduation-date">Graduated: 2025.07</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="alumni-card">
+          <div class="avatar-container">
+            <el-avatar class="XiaochenHe" shape="square" :size="200" src="/avatar/XiaochenHe.jpg" />
+          </div>
+          <div class="alumni-info">
+            <h3 class="name">Xiaochen He</h3>
+            <div class="graduation-info">
+              <span class="graduation-icon">🎓</span>
+              <span class="graduation-date">Graduated: 2025.07</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="alumni-card">
+          <div class="avatar-container">
+            <el-avatar class="WeideZhan" shape="square" :size="200" src="/avatar/WeideZhan.jpg" />
+          </div>
+          <div class="alumni-info">
+            <h3 class="name">Weide Zhan</h3>
+            <div class="graduation-info">
+              <span class="graduation-icon">🎓</span>
+              <span class="graduation-date">Graduated: 2025.07</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="alumni-card">
+          <div class="avatar-container">
+            <el-avatar class="ZhixiangFang" shape="square" :size="200" src="/avatar/ZhixiangFang.jpg" />
+          </div>
+          <div class="alumni-info">
+            <h3 class="name">Zhixiang Fang</h3>
+            <div class="graduation-info">
+              <span class="graduation-icon">🎓</span>
+              <span class="graduation-date">Graduated: 2025.07</span>
+            </div>
+          </div>
+        </div>
       </div>
-    </el-col>
-
-    <el-col :span="8">
-      <div class="block">
-        <el-avatar shape="square" :size="250" src="/avatar/YuebinXie.jpg" />
-        <p class="name">Yuebin Xie</p>
-        <p class="work">(2025.07)</p>
-        <!--          <p class="work">Short video understanding</p>-->
-      </div>
-    </el-col>
-  </el-row>
-
-
-
-
-
-    <div style="height: 50px"></div>
-
-    <p style="margin-left: -550px; color: #7d1231; font-size: 26px;">Research-based undergraduates</p>
-    <el-row :gutter="30">
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="JingchaoWang" style="background-color: white" shape="square" :size="250" src="/avatar/JingchaoWang.jpg" />
-          <p class="name">Jingchao Wang</p>
-          <p class="work">(2025.07)</p>
-<!--          <p class="work">Industrial software</p>-->
-        </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="DongzheLi" style="background-color: white" shape="square" :size="250" src="/avatar/DongzheLi.jpg" />
-          <p class="name">Dongzhe Li</p>
-          <p class="work">(2025.07)</p>
-<!--          <p class="work">Short video understanding</p>-->
-        </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="XiaochenHe" style="background-color: white" shape="square" :size="250" src="/avatar/XiaochenHe.jpg" />
-          <p class="name">Xiaochen He</p>
-          <p class="work">(2025.07)</p>
-<!--          <p class="work">Short video understanding</p>-->
-        </div>
-      </el-col>
-
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="WeideZhan" style="background-color: white" shape="square" :size="250" src="/avatar/WeideZhan.jpg" />
-          <p class="name">Weide Zhan</p>
-          <p class="work">(2025.07)</p>
-<!--          <p class="work">Short video understanding</p>-->
-        </div>
-      </el-col>
-    </el-row>
-
-    <!--  底部间隔-->
-    <div style="height: 50px"></div>
-
-    <el-row :gutter="30">
-      <el-col :span="24">
-        <div class="block">
-          <el-avatar class="ZhixiangFang" style="background-color: white" shape="square" :size="250" src="/avatar/ZhixiangFang.jpg" />
-          <p class="name">Zhixiang Fang</p>
-          <p class="work">(2025.07)</p>
-          <!--          <p class="work">Industrial software</p>-->
-        </div>
-      </el-col>
-      <!-- 补全剩余空间 -->
-      <el-col :span="18"></el-col> <!-- 6 + 18 = 24 -->
-
-    </el-row>
-
-    <!--  底部间隔-->
-    <div style="height: 50px"></div>
-
-
-  </el-space>
+    </section>
+  </div>
 
   <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
-
-
-
-
 </template>
 
 <style scoped>
+.alumni-container {
+  width: 100%;
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+.alumni-section {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 60px;
+  padding: 0 20px;
+}
 
+.section-title {
+  color: #7d1231;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 40px;
+  text-align: center;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: #7d1231;
+  border-radius: 2px;
+}
+
+.alumni-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 40px 30px;
+  justify-content: center;
+}
+
+.alumni-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+  padding: 25px 20px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.alumni-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #7d1231, #a51c41);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.alumni-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(125, 18, 49, 0.15);
+}
+
+.alumni-card:hover::before {
+  opacity: 1;
+}
+
+.avatar-container {
+  margin-bottom: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.alumni-card:hover .avatar-container {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  transform: scale(1.03);
+}
+
+.alumni-info {
+  text-align: center;
+  width: 100%;
+}
+
+.name {
+  color: #2c2f3b;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+  transition: color 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.name::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #7d1231;
+  transition: width 0.3s ease;
+}
+
+.alumni-card:hover .name::after {
+  width: 100%;
+}
+
+.graduation-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.graduation-icon {
+  font-size: 1.2rem;
+}
+
+.graduation-date {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .alumni-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px 25px;
+  }
+}
+
+@media (max-width: 900px) {
+  .alumni-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 20px;
+  }
+
+  .section-title {
+    font-size: 26px;
+  }
+}
 
 @media (max-width: 768px) {
-
   .mobile-backtop {
     right: 20px !important;
     bottom: 80px !important;
   }
 
-  .el-row {
-    justify-content: center !important;
+  .alumni-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 15px;
   }
 
-  .el-col {
-    width: 50% !important;
-    max-width: 200px !important;
+  .section-title {
+    font-size: 24px;
     margin-bottom: 30px;
   }
 
-  p[style*="margin-left"] {
-    text-align: center !important;
-    margin-left: 0 !important;
-    width: 100%;
+  .alumni-card {
+    padding: 20px 15px;
   }
 
-  /* 调整头像大小 */
-  .el-avatar {
-    width: 200px !important;
-    height: 200px !important;
-  }
-
-  /* 调整文字大小 */
   .name {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
 
-  .work {
-    font-size: 1.1rem;
+  .alumni-container {
+    padding: 20px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .alumni-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
-  /* 移除左边距 */
-  p[style*="margin-left"] {
-    margin-left: 0 !important;
-    text-align: center;
+  .section-title {
+    font-size: 22px;
   }
 
-
+  .alumni-section {
+    padding: 0 15px;
+  }
 }
 
-.block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px; /* 控制整体间距 */
-}
-
-
-
-
-.name{
-  color: #2c2f3b;
-  font-size: 1.6rem;
-  margin-top: -5px;  /* 上移文字 */
-  margin-bottom: 2px;
-}
-
-.work{
-  font-size: 1.2rem;
-  color: #7f8c8d;
-  margin-top: -3px;
-}
-
+/* 头像样式调整 */
 ::v-deep(.el-icon svg) {
   color: #7d1231 !important;
 }
 
-
-
-
-
-
-::v-deep .jianxuanHuang img{
-  object-position: center 5%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
+/* 通用头像样式 */
+::v-deep(.el-avatar) {
+  transition: transform 0.3s ease;
 }
 
+.alumni-card:hover ::v-deep(.el-avatar) {
+  transform: scale(1.05);
+}
 
-
-
-
-::v-deep .DongzheLi img{
-  /* 新增缩放相关属性 */
-  width: 70%; /* 按比例缩小到85%（可根据需要调整） */
-  max-width: 100%; /* 防止溢出容器 */
-  height: auto; /* 保持高度自适应 */
-  margin-top: 10px;
-  /* 保持原有设置 */
-  object-position: center 100%;
+/* 特定头像调整 */
+::v-deep(.jianxuanHuang img) {
+  object-position: center 5%;
   object-fit: cover;
 }
 
-::v-deep .XiaochenHe img{
-  /* 新增缩放相关属性 */
-  width: 70%; /* 按比例缩小到85%（可根据需要调整） */
-  max-width: 100%; /* 防止溢出容器 */
-  height: auto; /* 保持高度自适应 */
-  margin-top: 10px;
-  /* 保持原有设置 */
-  object-position: center 100%;
+::v-deep(.DongzheLi img) {
+  object-position: center 50%;
   object-fit: cover;
 }
 
-::v-deep .JingchaoWang img{
-  /* 新增缩放相关属性 */
-  width: 70%; /* 按比例缩小到85%（可根据需要调整） */
-  max-width: 100%; /* 防止溢出容器 */
-  height: auto; /* 保持高度自适应 */
-  margin-top: 10px;
-  /* 保持原有设置 */
-  object-position: center 100%;
+::v-deep(.XiaochenHe img) {
+  object-position: center 50%;
   object-fit: cover;
 }
 
-::v-deep .WeideZhan img{
-  /* 新增缩放相关属性 */
-  width: 70%; /* 按比例缩小到85%（可根据需要调整） */
-  max-width: 100%; /* 防止溢出容器 */
-  height: auto; /* 保持高度自适应 */
-  margin-top: 10px;
-  /* 保持原有设置 */
-  object-position: center 100%;
+::v-deep(.JingchaoWang img) {
+  object-position: center 60%;
   object-fit: cover;
 }
 
-::v-deep .ZhixiangFang img{
-  object-position: center 5%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
+::v-deep(.WeideZhan img) {
+  object-position: center 40%;
+  object-fit: cover;
 }
 
-
+::v-deep(.ZhixiangFang img) {
+  object-position: center 5%;
+  object-fit: cover;
+}
 </style>

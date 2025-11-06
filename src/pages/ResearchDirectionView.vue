@@ -359,7 +359,7 @@ defineProps<{ msg: string }>()
   transform: translateY(-50%);
   width: 8px;
   height: 8px;
-  background: #3498db;
+  background: #7d1231;
   border-radius: 50%;
 }
 

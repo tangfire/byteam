@@ -3,451 +3,425 @@
 </script>
 
 <template>
+  <div class="group-container">
+    <h1 class="section-title">Graduate Students</h1>
 
-
-
-  <el-space direction="vertical"  style="width: 100%">
-    <p style="margin-left: -550px; color: #7d1231; font-size: 26px;">Graduate Students</p>
-  <el-row :gutter="30">
-    <el-col :span="6">
-      <div class="block">
-        <el-avatar class="DixinChen"  shape="square" :size="250" src="/avatar/DixinChen.jpg" />
-        <p class="name">Dixin Chen</p>
-<!--        <p class="work">Short video understanding</p>-->
+    <div class="members-grid">
+      <!-- 第一行 -->
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="DixinChen" shape="square" :size="220" src="/avatar/DixinChen.jpg" />
+        </div>
+        <div class="member-info">
+          <p class="name">Dixin Chen</p>
+          <!-- <p class="work">Short video understanding</p> -->
+        </div>
       </div>
-    </el-col>
-    <el-col :span="6">
-      <div class="block">
-        <el-avatar class="HuahongDeng" shape="square"  :size="250" src="/avatar/HuahongDeng.jpg" />
-        <p class="name">Huahong Deng</p>
-<!--        <p class="work">Industrial software</p>-->
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="HuahongDeng" shape="square" :size="220" src="/avatar/HuahongDeng.jpg" />
+        </div>
+        <div class="member-info">
+          <p class="name">Huahong Deng</p>
+          <!-- <p class="work">Industrial software</p> -->
+        </div>
       </div>
-    </el-col>
-    <el-col :span="6">
-      <div class="block">
-        <el-avatar class="CanrongDu" shape="square" :size="250" src="/avatar/CanrongDu.jpg" />
-        <p class="name">Canrong Du</p>
-<!--        <p class="work">Short video understanding</p>-->
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="CanrongDu" shape="square" :size="220" src="/avatar/CanrongDu.jpg" />
+        </div>
+        <div class="member-info">
+          <p class="name">Canrong Du</p>
+          <!-- <p class="work">Short video understanding</p> -->
+        </div>
       </div>
-    </el-col>
-    <el-col :span="6">
-      <div class="block">
-        <el-avatar shape="square" :size="250" src="/avatar/AoqiYan.jpg" />
-        <p class="name">Aoqi Yan</p>
-<!--        <p class="work">Short video understanding</p>-->
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar shape="square" :size="220" src="/avatar/AoqiYan.jpg" />
+        </div>
+        <div class="member-info">
+          <p class="name">Aoqi Yan</p>
+          <!-- <p class="work">Short video understanding</p> -->
+        </div>
       </div>
-    </el-col>
-  </el-row>
 
-    <!--  底部间隔-->
-    <div style="height: 50px"></div>
-
-
-
-    <el-row :gutter="30">
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="HaifengLin" shape="square" :size="250" src="/avatar/HaifengLin.jpg" />
+      <!-- 第二行 -->
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="HaifengLin" shape="square" :size="220" src="/avatar/HaifengLin.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Haifeng Lin</p>
-<!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="YanhaoHuang" shape="square" :size="250" src="/avatar/YanhaoHuang.jpg" />
+      </div>
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="YanhaoHuang" shape="square" :size="220" src="/avatar/YanhaoHuang.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Yanhao Huang</p>
-<!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="JingsongLin" shape="square" :size="250" src="/avatar/JingsongLin.jpg" />
+      </div>
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="JingsongLin" shape="square" :size="220" src="/avatar/JingsongLin.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Jingsong Lin</p>
-<!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="YaliMa" shape="square" :size="250" src="/avatar/YaliMa.jpg" />
+      </div>
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="YaliMa" shape="square" :size="220" src="/avatar/YaliMa.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Yali Ma</p>
-<!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-    </el-row>
+      </div>
 
-    <!--  底部间隔-->
-    <div style="height: 50px"></div>
-
-
-
-    <el-row :gutter="30">
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="YanchaoTang" shape="square" :size="250" src="/avatar/YanchaoTang.jpg" />
+      <!-- 第三行 -->
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="YanchaoTang" shape="square" :size="220" src="/avatar/YanchaoTang.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Yanchao Tang</p>
-<!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="KexinXie" shape="square" :size="250" src="/avatar/KexinXie.jpg" />
+      </div>
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="KexinXie" shape="square" :size="220" src="/avatar/KexinXie.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Kexin Xie</p>
-<!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar shape="square" :size="250" src="/avatar/YuhaoChen.jpg" />
-          <p class="name">YuhaoChen</p>
-<!--          <p class="work">Short video understanding</p>-->
+      </div>
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar shape="square" :size="220" src="/avatar/YuhaoChen.jpg" />
         </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar shape="square" :size="250" src="/avatar/YufeiXu.jpg" />
+        <div class="member-info">
+          <p class="name">Yuhao Chen</p>
+        </div>
+      </div>
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar shape="square" :size="220" src="/avatar/YufeiXu.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Yufei Xu</p>
-<!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-    </el-row>
+      </div>
 
-    <div style="height: 50px"></div>
-
-    <el-row :gutter="30">
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="XianrunXu" shape="square" :size="250" src="/avatar/XianrunXu.jpg" />
+      <!-- 第四行 -->
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="XianrunXu" shape="square" :size="220" src="/avatar/XianrunXu.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Xianrun Xu</p>
-<!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="XiaoqiZheng" shape="square" :size="250" src="/avatar/XiaoqiZheng.jpg" />
+      </div>
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="XiaoqiZheng" shape="square" :size="220" src="/avatar/XiaoqiZheng.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Xiaoqi Zheng</p>
-<!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar class="SijiaZhou" shape="square" :size="250" src="/avatar/SijiaZhou.jpg" />
+      </div>
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="SijiaZhou" shape="square" :size="220" src="/avatar/SijiaZhou.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Sijia Zhou</p>
-<!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-      <el-col :span="6">
-        <div class="block">
-          <el-avatar shape="square" :size="250" src="/avatar/XiaojieChen.jpg" />
-          <p>Xiaojie Chen</p>
-<!--          <p>Short video understanding</p>-->
+      </div>
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar shape="square" :size="220" src="/avatar/XiaojieChen.jpg" />
         </div>
-      </el-col>
-    </el-row>
+        <div class="member-info">
+          <p class="name">Xiaojie Chen</p>
+        </div>
+      </div>
 
-    <div style="height: 50px"></div>
-
-    <el-row :gutter="30">
-      <el-col :span="8">
-        <div class="block">
-          <el-avatar class="XiWang" shape="square" :size="250" src="/avatar/XiWang.jpg" />
+      <!-- 第五行 -->
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="XiWang" shape="square" :size="220" src="/avatar/XiWang.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Xi Wang</p>
-          <!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-      <el-col :span="8">
-        <div class="block">
-          <el-avatar class="JiahaoLian" shape="square" :size="250" src="/avatar/JiahaoLian.jpg" />
+      </div>
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="JiahaoLian" shape="square" :size="220" src="/avatar/JiahaoLian.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Jiahao Lian</p>
-          <!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-      <el-col :span="8">
-        <div class="block">
-          <el-avatar class="SijiaZhou" shape="square" :size="250" src="/avatar/GuangyangLin.jpg" />
+      </div>
+
+      <div class="member-card">
+        <div class="avatar-container">
+          <el-avatar class="SijiaZhou" shape="square" :size="220" src="/avatar/GuangyangLin.jpg" />
+        </div>
+        <div class="member-info">
           <p class="name">Guangyang Lin</p>
-          <!--          <p class="work">Short video understanding</p>-->
         </div>
-      </el-col>
-<!--      <el-col :span="6">-->
-<!--        <div class="block">-->
-<!--          <el-avatar shape="square" :size="250" src="/avatar/XiaojieChen.jpg" />-->
-<!--          <p>Xiaojie Chen</p>-->
-<!--          &lt;!&ndash;          <p>Short video understanding</p>&ndash;&gt;-->
-<!--        </div>-->
-<!--      </el-col>-->
-    </el-row>
-
-    <div style="height: 50px"></div>
-
-<!--    <p style="margin-left: -550px; color: #7d1231; font-size: 26px;">Research-based undergraduates</p>-->
-<!--    <el-row :gutter="30">-->
-<!--      <el-col :span="6">-->
-<!--        <div class="block">-->
-<!--          <el-avatar class="JingchaoWang" style="background-color: white" shape="square" :size="250" src="/avatar/JingchaoWang.jpg" />-->
-<!--          <p class="name">Jingchao Wang</p>-->
-<!--&lt;!&ndash;          <p class="work">Industrial software</p>&ndash;&gt;-->
-<!--        </div>-->
-<!--      </el-col>-->
-<!--      <el-col :span="6">-->
-<!--        <div class="block">-->
-<!--          <el-avatar class="DongzheLi" style="background-color: white" shape="square" :size="250" src="/avatar/DongzheLi.jpg" />-->
-<!--          <p class="name">Dongzhe Li</p>-->
-<!--&lt;!&ndash;          <p class="work">Short video understanding</p>&ndash;&gt;-->
-<!--        </div>-->
-<!--      </el-col>-->
-<!--      <el-col :span="6">-->
-<!--        <div class="block">-->
-<!--          <el-avatar class="XiaochenHe" style="background-color: white" shape="square" :size="250" src="/avatar/XiaochenHe.jpg" />-->
-<!--          <p class="name">Xiaochen He</p>-->
-<!--&lt;!&ndash;          <p class="work">Short video understanding</p>&ndash;&gt;-->
-<!--        </div>-->
-<!--      </el-col>-->
-
-<!--      <el-col :span="6">-->
-<!--        <div class="block">-->
-<!--          <el-avatar class="WeideZhan" style="background-color: white" shape="square" :size="250" src="/avatar/WeideZhan.jpg" />-->
-<!--          <p class="name">Weide Zhan</p>-->
-<!--&lt;!&ndash;          <p class="work">Short video understanding</p>&ndash;&gt;-->
-<!--        </div>-->
-<!--      </el-col>-->
-<!--    </el-row>-->
-
-<!--    &lt;!&ndash;  底部间隔&ndash;&gt;-->
-<!--    <div style="height: 50px"></div>-->
-
-
-  </el-space>
+      </div>
+    </div>
+  </div>
 
   <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
-
-
-
-
 </template>
 
 <style scoped>
+.group-container {
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
+.section-title {
+  color: #7d1231;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 40px;
+  text-align: center;
+  position: relative;
+  padding-bottom: 10px;
+}
 
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #7d1231, transparent);
+}
+
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px 30px;
+  max-width: 1200px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.member-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.member-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.avatar-container {
+  margin-bottom: 15px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.member-card:hover .avatar-container {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.member-info {
+  text-align: center;
+}
+
+.name {
+  color: #2c2f3b;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.member-card:hover .name {
+  color: #7d1231;
+}
+
+.work {
+  font-size: 1rem;
+  color: #7f8c8d;
+  margin: 5px 0 0 0;
+}
+
+.bottom-spacing {
+  height: 50px;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+  .members-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px 25px;
+  }
+}
+
+@media (max-width: 900px) {
+  .members-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 20px;
+  }
+
+  .section-title {
+    font-size: 28px;
+  }
+}
 
 @media (max-width: 768px) {
-
   .mobile-backtop {
     right: 20px !important;
     bottom: 80px !important;
   }
 
-  .el-row {
-    justify-content: center !important;
+  .members-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 15px;
+    width: 95%;
   }
 
-  .el-col {
-    width: 50% !important;
-    max-width: 200px !important;
+  .section-title {
+    font-size: 26px;
     margin-bottom: 30px;
   }
 
-  p[style*="margin-left"] {
-    text-align: center !important;
-    margin-left: 0 !important;
-    width: 100%;
+  .member-card {
+    padding: 10px;
   }
 
-  /* 调整头像大小 */
-  .el-avatar {
-    width: 200px !important;
-    height: 200px !important;
-  }
-
-  /* 调整文字大小 */
   .name {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .members-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
-  .work {
-    font-size: 1.1rem;
+  .section-title {
+    font-size: 24px;
   }
-
-  /* 移除左边距 */
-  p[style*="margin-left"] {
-    margin-left: 0 !important;
-    text-align: center;
-  }
-
-
 }
 
-.block {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px; /* 控制整体间距 */
-}
-
-
-
-
-.name{
-  color: #2c2f3b;
-  font-size: 1.6rem;
-  margin-top: -5px;  /* 上移文字 */
-  margin-bottom: 2px;
-}
-
-.work{
-  font-size: 1.2rem;
-  color: #7f8c8d;
-  margin-top: -3px;
-}
-
+/* 头像样式调整 */
 ::v-deep(.el-icon svg) {
   color: #7d1231 !important;
 }
 
-::v-deep .DixinChen img{
-  object-position: center 5%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
+/* 通用头像样式 */
+::v-deep(.el-avatar) {
+  transition: transform 0.3s ease;
 }
 
-
-::v-deep .HuahongDeng img{
-  object-position: center 10%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
+.member-card:hover ::v-deep(.el-avatar) {
+  transform: scale(1.05);
 }
 
-::v-deep .CanrongDu img{
-  object-position: center 5%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
+/* 特定头像调整 */
+::v-deep(.DixinChen img) {
+  object-position: center 5%;
+  object-fit: cover;
 }
 
-::v-deep .jianxuanHuang img{
-  object-position: center 5%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
+::v-deep(.HuahongDeng img) {
+  object-position: center 10%;
+  object-fit: cover;
 }
 
-::v-deep .YanhaoHuang img{
-  object-position: center 35%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
+::v-deep(.CanrongDu img) {
+  object-position: center 5%;
+  object-fit: cover;
 }
 
-::v-deep .JingsongLin img{
-  /* 新增缩放相关属性 */
-  width: 100%; /* 按比例缩小到85%（可根据需要调整） */
-  max-width: 100%; /* 防止溢出容器 */
-  height: auto; /* 保持高度自适应 */
-  margin-top: 60px;
-  /* 保持原有设置 */
+::v-deep(.YanhaoHuang img) {
+  object-position: center 35%;
+  object-fit: cover;
+}
+
+::v-deep(.JingsongLin img) {
   object-position: center 20%;
   object-fit: cover;
-
-
 }
 
-::v-deep .YaliMa img{
-  object-position: center 10%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
+::v-deep(.YaliMa img) {
+  object-position: center 10%;
+  object-fit: cover;
 }
 
-::v-deep .YanchaoTang img{
-  object-position: center 15%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
+::v-deep(.YanchaoTang img) {
+  object-position: center 15%;
+  object-fit: cover;
 }
 
-::v-deep .KexinXie img{
-  object-position: center 100%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
-}
-
-::v-deep .XianrunXu img{
-  object-position: center 15%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
-}
-
-::v-deep .XiaoqiZheng img{
-  object-position: center 100%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
-}
-
-::v-deep .SijiaZhou img{
-  object-position: center 15%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
-}
-
-::v-deep .DongzheLi img{
-  /* 新增缩放相关属性 */
-  width: 70%; /* 按比例缩小到85%（可根据需要调整） */
-  max-width: 100%; /* 防止溢出容器 */
-  height: auto; /* 保持高度自适应 */
-  margin-top: 10px;
-  /* 保持原有设置 */
+::v-deep(.KexinXie img) {
   object-position: center 100%;
   object-fit: cover;
 }
 
-::v-deep .XiaochenHe img{
-  /* 新增缩放相关属性 */
-  width: 70%; /* 按比例缩小到85%（可根据需要调整） */
-  max-width: 100%; /* 防止溢出容器 */
-  height: auto; /* 保持高度自适应 */
-  margin-top: 10px;
-  /* 保持原有设置 */
+::v-deep(.XianrunXu img) {
+  object-position: center 15%;
+  object-fit: cover;
+}
+
+::v-deep(.XiaoqiZheng img) {
   object-position: center 100%;
   object-fit: cover;
 }
 
-::v-deep .JingchaoWang img{
-  /* 新增缩放相关属性 */
-  width: 70%; /* 按比例缩小到85%（可根据需要调整） */
-  max-width: 100%; /* 防止溢出容器 */
-  height: auto; /* 保持高度自适应 */
-  margin-top: 10px;
-  /* 保持原有设置 */
-  object-position: center 100%;
+::v-deep(.SijiaZhou img) {
+  object-position: center 15%;
   object-fit: cover;
 }
 
-
-
-::v-deep .XiWang img{
-  /* 新增缩放相关属性 */
-  width: 100%; /* 按比例缩小到85%（可根据需要调整） */
-  max-width: 100%; /* 防止溢出容器 */
-  height: auto; /* 保持高度自适应 */
-  margin-top: 30px;
-  /* 保持原有设置 */
-  object-position: center 100%;
+::v-deep(.XiWang img) {
+  object-position: center 30%;
   object-fit: cover;
 }
 
-
-
-::v-deep .JiahaoLian img{
-  /* 新增缩放相关属性 */
-  width: 100%; /* 按比例缩小到85%（可根据需要调整） */
-  max-width: 100%; /* 防止溢出容器 */
-  height: auto; /* 保持高度自适应 */
-  margin-top: 70px;
-  /* 保持原有设置 */
-  object-position: center 100%;
+::v-deep(.JiahaoLian img) {
+  object-position: center 20%;
   object-fit: cover;
 }
 
-
-
-::v-deep .HaifengLin img{
-  object-position: center 15%; /* 垂直方向向下偏移 */
-  object-fit: cover; /* 保持图片比例 */
-}
-
-::v-deep .WeideZhan img{
-  /* 新增缩放相关属性 */
-  width: 70%; /* 按比例缩小到85%（可根据需要调整） */
-  max-width: 100%; /* 防止溢出容器 */
-  height: auto; /* 保持高度自适应 */
-  margin-top: 10px;
-  /* 保持原有设置 */
-  object-position: center 100%;
+::v-deep(.HaifengLin img) {
+  object-position: center 15%;
   object-fit: cover;
 }
-
-
 </style>
