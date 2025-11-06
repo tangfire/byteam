@@ -1,291 +1,479 @@
 <script setup lang="ts">
-
-import {ArrowRightBold} from "@element-plus/icons-vue";
+import { ArrowRightBold } from "@element-plus/icons-vue";
 
 defineProps<{ msg: string }>()
-
-
 </script>
 
 <template>
+  <div class="research-container">
+    <el-space direction="vertical" :size="30" style="width: 100%">
 
-  <el-space direction="vertical" :size="30" style="width: 100%">
-    <div>
-      <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;">
-          <ArrowRightBold/>
-        </el-icon> <!-- 增加图标大小 -->
-        <p style="margin-left: 8px; color: #7d1231; font-size: 26px;">Medical Time-Series Representation Learning</p>
-        <!-- 增加文字大小 -->
-      </div>
-
-
-      <!-- 每个卡片 -->
-      <el-card
-          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
-        <div style="display: flex; align-items: center; justify-content: flex-start;">
-          <!-- 图片左边 -->
-          <img
-              src="/currentprojects/001.png"
-              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
-          <!-- 文字右边 -->
-          <div>
-
-            <p><strong>Challenges:</strong> Irregular sampling intervals, missing/contaminated data, patient-specific
-              variability.</p>
-            <p><strong>Solutions:</strong> Multimodal alignment networks for fusing EHRs, imaging, and sensor data;
-              contrastive learning frameworks to reconstruct regularized time-series patterns.</p>
+      <!-- 研究方向1 -->
+      <div class="research-item">
+        <div class="research-header">
+          <div class="title-wrapper">
+            <el-icon class="header-icon">
+              <ArrowRightBold/>
+            </el-icon>
+            <h2 class="research-title">Medical Time-Series Representation Learning</h2>
           </div>
         </div>
-      </el-card>
 
-    </div>
-
-    <div>
-      <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;">
-          <ArrowRightBold/>
-        </el-icon>
-        <p style="margin-left: 8px;color: #7d1231 ;font-size: 26px;">Federated Learning for Medical Applications</p>
+        <el-card class="research-card" shadow="hover">
+          <div class="card-content">
+            <div class="image-wrapper">
+              <img
+                  src="/currentprojects/001.png"
+                  alt="Medical Time-Series Research"
+                  class="research-image"
+              />
+            </div>
+            <div class="text-content">
+              <div class="content-section">
+                <h3 class="section-title">Challenges</h3>
+                <p class="content-text">Irregular sampling intervals, missing/contaminated data, patient-specific variability.</p>
+              </div>
+              <div class="content-section">
+                <h3 class="section-title">Solutions</h3>
+                <p class="content-text">Multimodal alignment networks for fusing EHRs, imaging, and sensor data; contrastive learning frameworks to reconstruct regularized time-series patterns.</p>
+              </div>
+            </div>
+          </div>
+        </el-card>
       </div>
 
-      <!-- 其他卡片 -->
-      <el-card
-          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
-        <div style="display: flex; align-items: center; justify-content: flex-start;">
-          <img
-              src="/currentprojects/002.png"
-              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
-          <div>
-
-            <p><strong>Challenges:</strong> Data privacy constraints, siloed datasets, heterogeneous model
-              architectures.
-            </p>
-            <p><strong>Innovations:</strong> Privacy-preserving collaborative training protocols (e.g., differential
-              autoencoders) with adaptive aggregation mechanisms for cross-institutional knowledge sharing.</p>
+      <!-- 研究方向2 -->
+      <div class="research-item">
+        <div class="research-header">
+          <div class="title-wrapper">
+            <el-icon class="header-icon">
+              <ArrowRightBold/>
+            </el-icon>
+            <h2 class="research-title">Federated Learning for Medical Applications</h2>
           </div>
         </div>
-      </el-card>
-    </div>
 
-
-    <div>
-      <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;">
-          <ArrowRightBold/>
-        </el-icon>
-        <p style="margin-left: 8px;color: #7d1231;font-size: 26px;">Automated Lesion Annotation</p>
-      </div>
-      <el-card
-          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
-        <div style="display: flex; align-items: center; justify-content: flex-start;">
-          <img
-              src="/currentprojects/003.png"
-              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
-          <div>
-
-            <p><strong>Challenges:</strong> Labor-intensive manual labeling, limited annotated samples, cross-modal
-              discrepancies.</p>
-            <p><strong>Approaches:</strong> Weakly supervised and prompt-based learning to localize lesions in
-              multimodal
-              MRI/CT scans while minimizing clinician workload.</p>
+        <el-card class="research-card" shadow="hover">
+          <div class="card-content reverse-layout">
+            <div class="image-wrapper">
+              <img
+                  src="/currentprojects/002.png"
+                  alt="Federated Learning Research"
+                  class="research-image"
+              />
+            </div>
+            <div class="text-content">
+              <div class="content-section">
+                <h3 class="section-title">Challenges</h3>
+                <p class="content-text">Data privacy constraints, siloed datasets, heterogeneous model architectures.</p>
+              </div>
+              <div class="content-section">
+                <h3 class="section-title">Innovations</h3>
+                <p class="content-text">Privacy-preserving collaborative training protocols (e.g., differential autoencoders) with adaptive aggregation mechanisms for cross-institutional knowledge sharing.</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </el-card>
-    </div>
-
-
-    <div>
-      <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;">
-          <ArrowRightBold/>
-        </el-icon>
-        <p style="margin-left: 8px;color: #7d1231;font-size: 26px;">Short-Form Video Content Intelligence</p>
+        </el-card>
       </div>
 
-      <!-- 其他卡片 -->
-      <el-card
-          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
-        <div style="display: flex; align-items: center; justify-content: flex-start;">
-          <img
-              src="/currentprojects/004.jpg"
-              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
-          <div>
-
-            <p><strong>Challenges:</strong> Multimodal data fusion (audio, text, video), real-time interpretation,
-              copyright/ethics compliance.</p>
-            <p><strong>Tools:</strong> Large-scale pretrained models with attention mechanisms for contextual reasoning;
-              AI-driven metadata tagging for content authorization.</p>
+      <!-- 研究方向3 -->
+      <div class="research-item">
+        <div class="research-header">
+          <div class="title-wrapper">
+            <el-icon class="header-icon">
+              <ArrowRightBold/>
+            </el-icon>
+            <h2 class="research-title">Automated Lesion Annotation</h2>
           </div>
         </div>
-      </el-card>
-    </div>
 
-
-    <div>
-      <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;">
-          <ArrowRightBold/>
-        </el-icon>
-        <p style="margin-left: 8px;color: #7d1231;font-size: 26px;">Industrial IoT & Supply Chain Optimization</p>
+        <el-card class="research-card" shadow="hover">
+          <div class="card-content">
+            <div class="image-wrapper">
+              <img
+                  src="/currentprojects/003.png"
+                  alt="Automated Lesion Annotation"
+                  class="research-image"
+              />
+            </div>
+            <div class="text-content">
+              <div class="content-section">
+                <h3 class="section-title">Challenges</h3>
+                <p class="content-text">Labor-intensive manual labeling, limited annotated samples, cross-modal discrepancies.</p>
+              </div>
+              <div class="content-section">
+                <h3 class="section-title">Approaches</h3>
+                <p class="content-text">Weakly supervised and prompt-based learning to localize lesions in multimodal MRI/CT scans while minimizing clinician workload.</p>
+              </div>
+            </div>
+          </div>
+        </el-card>
       </div>
 
-      <el-card
-          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
-        <div style="display: flex; align-items: center; justify-content: flex-start;">
-          <img
-              src="/currentprojects/005.jpg"
-              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
-          <div>
-
-            <p><strong>Challenges:</strong> Multi-tier communication latency, dynamic resource allocation, cybersecurity
-              risks.</p>
-            <p><strong>Solutions:</strong> Reinforcement learning for adaptive scheduling; federated edge computing to
-              balance efficiency and data sovereignty.</p>
+      <!-- 研究方向4 -->
+      <div class="research-item">
+        <div class="research-header">
+          <div class="title-wrapper">
+            <el-icon class="header-icon">
+              <ArrowRightBold/>
+            </el-icon>
+            <h2 class="research-title">Short-Form Video Content Intelligence</h2>
           </div>
         </div>
-      </el-card>
-    </div>
 
-    <div>
-      <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;">
-          <ArrowRightBold/>
-        </el-icon>
-        <p style="margin-left: 8px;color: #7d1231;font-size: 26px;">Foundational Algorithm Research</p>
+        <el-card class="research-card" shadow="hover">
+          <div class="card-content reverse-layout">
+            <div class="image-wrapper">
+              <img
+                  src="/currentprojects/004.jpg"
+                  alt="Video Content Intelligence"
+                  class="research-image"
+              />
+            </div>
+            <div class="text-content">
+              <div class="content-section">
+                <h3 class="section-title">Challenges</h3>
+                <p class="content-text">Multimodal data fusion (audio, text, video), real-time interpretation, copyright/ethics compliance.</p>
+              </div>
+              <div class="content-section">
+                <h3 class="section-title">Tools</h3>
+                <p class="content-text">Large-scale pretrained models with attention mechanisms for contextual reasoning; AI-driven metadata tagging for content authorization.</p>
+              </div>
+            </div>
+          </div>
+        </el-card>
       </div>
 
-      <el-card
-          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
-        <div style="display: flex; align-items: center; justify-content: flex-start;">
-          <img
-              src="/currentprojects/006.png"
-              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
-          <div>
-
-            <p><strong>Focus Areas:</strong> Model explainability in black-box AI, memory-efficient architectures,
-              robust
-              generalization under limited labels.</p>
-            <p><strong>Breakthroughs:</strong> Hybrid frameworks combining causal reasoning, prompt engineering, and
-              adversarial robustness testing.</p>
+      <!-- 研究方向5 -->
+      <div class="research-item">
+        <div class="research-header">
+          <div class="title-wrapper">
+            <el-icon class="header-icon">
+              <ArrowRightBold/>
+            </el-icon>
+            <h2 class="research-title">Industrial IoT & Supply Chain Optimization</h2>
           </div>
         </div>
-      </el-card>
-    </div>
 
-    <div>
-      <div style="display: flex; align-items: center;">
-        <el-icon color="#7d1231" style="font-size: 24px;">
-          <ArrowRightBold/>
-        </el-icon>
-        <p style="margin-left: 8px;color: #7d1231;font-size: 26px;">Weak supervised instance segmentation</p>
+        <el-card class="research-card" shadow="hover">
+          <div class="card-content">
+            <div class="image-wrapper">
+              <img
+                  src="/currentprojects/005.jpg"
+                  alt="IoT Supply Chain"
+                  class="research-image"
+              />
+            </div>
+            <div class="text-content">
+              <div class="content-section">
+                <h3 class="section-title">Challenges</h3>
+                <p class="content-text">Multi-tier communication latency, dynamic resource allocation, cybersecurity risks.</p>
+              </div>
+              <div class="content-section">
+                <h3 class="section-title">Solutions</h3>
+                <p class="content-text">Reinforcement learning for adaptive scheduling; federated edge computing to balance efficiency and data sovereignty.</p>
+              </div>
+            </div>
+          </div>
+        </el-card>
       </div>
 
-      <el-card
-          style="max-width: 800px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
-        <div style="display: flex; align-items: center; justify-content: flex-start;">
-          <img
-              src="/currentprojects/007.png"
-              style="width: 400px; height: auto; margin-right: 20px;object-fit: contain;"/>
-          <div>
-
-            <p><strong>Challenges:</strong> Mask merging often occurs for densely packed objects of the same class.</p>
-            <p><strong>Solutions:</strong> Contrastive learning to enhance instance discrimination; leveraging motion
-              cues
-              (in video data) or geometric priors.</p>
+      <!-- 研究方向6 -->
+      <div class="research-item">
+        <div class="research-header">
+          <div class="title-wrapper">
+            <el-icon class="header-icon">
+              <ArrowRightBold/>
+            </el-icon>
+            <h2 class="research-title">Foundational Algorithm Research</h2>
           </div>
         </div>
-      </el-card>
-    </div>
 
+        <el-card class="research-card" shadow="hover">
+          <div class="card-content reverse-layout">
+            <div class="image-wrapper">
+              <img
+                  src="/currentprojects/006.png"
+                  alt="Algorithm Research"
+                  class="research-image"
+              />
+            </div>
+            <div class="text-content">
+              <div class="content-section">
+                <h3 class="section-title">Focus Areas</h3>
+                <p class="content-text">Model explainability in black-box AI, memory-efficient architectures, robust generalization under limited labels.</p>
+              </div>
+              <div class="content-section">
+                <h3 class="section-title">Breakthroughs</h3>
+                <p class="content-text">Hybrid frameworks combining causal reasoning, prompt engineering, and adversarial robustness testing.</p>
+              </div>
+            </div>
+          </div>
+        </el-card>
+      </div>
 
-  </el-space>
+      <!-- 研究方向7 -->
+      <div class="research-item">
+        <div class="research-header">
+          <div class="title-wrapper">
+            <el-icon class="header-icon">
+              <ArrowRightBold/>
+            </el-icon>
+            <h2 class="research-title">Weak Supervised Instance Segmentation</h2>
+          </div>
+        </div>
 
-  <!--  底部间隔-->
-  <div style="height: 50px"></div>
+        <el-card class="research-card" shadow="hover">
+          <div class="card-content">
+            <div class="image-wrapper">
+              <img
+                  src="/currentprojects/007.png"
+                  alt="Instance Segmentation"
+                  class="research-image"
+              />
+            </div>
+            <div class="text-content">
+              <div class="content-section">
+                <h3 class="section-title">Challenges</h3>
+                <p class="content-text">Mask merging often occurs for densely packed objects of the same class.</p>
+              </div>
+              <div class="content-section">
+                <h3 class="section-title">Solutions</h3>
+                <p class="content-text">Contrastive learning to enhance instance discrimination; leveraging motion cues (in video data) or geometric priors.</p>
+              </div>
+            </div>
+          </div>
+        </el-card>
+      </div>
 
-  <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
+    </el-space>
 
+    <!-- 底部间隔 -->
+    <div style="height: 50px"></div>
+
+    <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
+  </div>
 </template>
 
 <style scoped>
+.research-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
+.research-item {
+  margin-bottom: 40px;
+}
+
+.research-header {
+  margin-bottom: 20px;
+}
+
+.title-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.header-icon {
+  color: #7d1231;
+  font-size: 28px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.research-title {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+  background: linear-gradient(135deg, #7d1231, #3498db);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.research-card {
+  max-width: 1000px;
+  margin: 0 auto;
+  border: none;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.research-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+.image-wrapper {
+  position: relative;
+  flex: 0 0 400px;
+  margin-right: 30px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.research-image {
+  width: 100%;
+  height: auto;
+  max-height: 250px;
+  object-fit: contain;
+  display: block;
+}
+
+.text-content {
+  flex: 1;
+  padding: 10px;
+}
+
+.content-section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  color: #7d1231;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 16px;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: #3498db;
+  border-radius: 50%;
+}
+
+.content-text {
+  color: #5a6c7d;
+  line-height: 1.6;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* 交替布局 - 桌面端 */
+@media (min-width: 769px) {
+  .reverse-layout {
+    flex-direction: row-reverse;
+  }
+
+  .reverse-layout .image-wrapper {
+    margin-right: 0;
+    margin-left: 30px;
+  }
+}
+
+/* 移动端适配 */
 @media (max-width: 768px) {
+  .research-container {
+    padding: 15px;
+  }
 
   .mobile-backtop {
     right: 20px !important;
     bottom: 80px !important;
   }
 
-  /* 调整标题布局 */
-  .el-icon + p {
-    font-size: 1.2rem !important;
-    margin-left: 8px !important;
+  .research-title {
+    font-size: 1.3rem;
+    line-height: 1.4;
   }
 
-  .el-card > div {
-    display: flex;
-    flex-direction: column; /* 移动端垂直排列 */
-    align-items: center; /* 居中对齐 */
+  .header-icon {
+    font-size: 22px;
+    margin-right: 10px;
   }
 
-  .el-card img {
-    width: 100% !important; /* 图片宽度100% */
-    max-width: 350px; /* 最大宽度保持不变 */
-    height: auto !important;
-    margin-right: 0 !important;
-    margin-bottom: 15px; /* 图片和文字之间添加间距 */
+  .card-content {
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .image-wrapper {
+    flex: none;
+    width: 100%;
+    max-width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 20px;
+  }
+
+  .research-image {
+    width: 100%;
+    height: auto;
+    max-height: 220px;
     object-fit: contain;
   }
 
-  /* 文字部分样式 */
-  .el-card > div > div:last-child {
-    width: 100%; /* 文字区域占满宽度 */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 文字和链接居中 */
-    text-align: center; /* 文字居中 */
+  .text-content {
+    width: 100%;
+    padding: 0;
   }
 
-  /* 文字调整 */
-  p {
-    font-size: 14px !important;
+  .section-title {
+    font-size: 1.1rem;
+  }
+
+  .content-text {
+    font-size: 14px;
+    line-height: 1.5;
   }
 }
 
+/* 小屏手机适配 */
+@media (max-width: 480px) {
+  .research-container {
+    padding: 10px;
+  }
+
+  .research-title {
+    font-size: 1.1rem;
+  }
+
+  .research-card {
+    border-radius: 12px;
+  }
+
+  .card-content {
+    padding: 12px;
+  }
+
+  .research-image {
+    max-height: 180px;
+  }
+}
+
+/* 大屏幕优化 */
+@media (min-width: 1400px) {
+  .research-container {
+    max-width: 1300px;
+  }
+
+  .research-card {
+    max-width: 1100px;
+  }
+}
 
 ::v-deep(.el-icon svg) {
   color: #7d1231 !important;
-}
-
-.module p {
-  font-size: 20px;
-  color: #2980b9;
-  margin-bottom: 10px;
-}
-
-.module p {
-  margin: 8px 0;
-  font-size: 16px;
-  color: #34495e;
-}
-
-.module strong {
-  font-weight: bold;
-}
-
-.module p:first-child {
-  margin-top: 0;
-}
-
-.module p:last-child {
-  margin-bottom: 0;
-}
-
-.research-overview p {
-  font-size: 16px;
-  color: #34495e;
-  margin-bottom: 20px;
-  line-height: 1.7;
 }
 </style>
