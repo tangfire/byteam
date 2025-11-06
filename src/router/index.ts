@@ -16,6 +16,7 @@ import AlumniView from "../pages/AlumniView.vue";
 import VideoMindView from "../pages/VideoMindView.vue";
 import Vknow from "../pages/VknowView.vue";
 import VideoPlayerYaliMa01View from "../pages/VideoPlayerYaliMa01View.vue";
+import VideoPlayerXianrunXu01View from "../pages/VideoPlayerXianrunXu01View.vue";
 
 
 const router = createRouter({
@@ -81,6 +82,11 @@ const router = createRouter({
             path: '/video-player-XiaoqiZheng01',
             name: 'video-player-XiaoqiZheng01',
             component: VideoPlayerXiaoqiZheng01View
+        },
+        {
+            path: '/video-player-XianrunXu01',
+            name: 'video-player-XianrunXu01',
+            component: VideoPlayerXianrunXu01View
         },
         {
             path: '/video-player-YaliMa01',

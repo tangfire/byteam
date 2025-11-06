@@ -6,11 +6,11 @@ defineProps<{ msg: string }>()
 
 
 const download_MMS_PPT = () => {
-  const pptPath = '/files/MMS.pptx'
+  const pptPath = '/files/MMS.pdf'
 
   const link = document.createElement('a')
   link.href = pptPath
-  link.download = 'Team_Presentation.pptx'
+  link.download = 'Team_Presentation.pdf'
 
   document.body.appendChild(link)
   link.click()
@@ -18,11 +18,11 @@ const download_MMS_PPT = () => {
 }
 
 const download_ICIP2025_PPT = () => {
-  const pptPath = '/files/icip2025.pptx'
+  const pptPath = '/files/icip2025.pdf'
 
   const link = document.createElement('a')
   link.href = pptPath
-  link.download = 'Team_Presentation.pptx'
+  link.download = 'Team_Presentation.pdf'
 
   document.body.appendChild(link)
   link.click()
@@ -30,16 +30,42 @@ const download_ICIP2025_PPT = () => {
 }
 
 const download_HBAI_PPT = () => {
-  const pptPath = '/files/HBAI.pptx'
+  const pptPath = '/files/HBAI.pdf'
 
   const link = document.createElement('a')
   link.href = pptPath
-  link.download = 'Team_Presentation.pptx'
+  link.download = 'Team_Presentation.pdf'
 
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
 }
+
+const download_FairFed_PPT = () => {
+  const pptPath = '/files/FairFed.pdf'
+
+  const link = document.createElement('a')
+  link.href = pptPath
+  link.download = 'Team_Presentation.pdf'
+
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+const download_UnlockingThePotentialOfmLLMs_PPT = () => {
+  const pptPath = '/files/UnlockingThePotentialOfmLLMs.pdf'
+
+  const link = document.createElement('a')
+  link.href = pptPath
+  link.download = 'Team_Presentation.pdf'
+
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
+
+
 
 const download_HBAI_Poster = () => {
   const pptPath = '/files/ldzposter001.pdf'
@@ -96,10 +122,103 @@ const download_WJC002_Poster = () => {
       <div style=" align-items: center;">
 
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;">2025</p> <!-- 增加文字大小 -->
-        <!--        <p style="margin-left: 8px; color: #7d1231; font-size: 26px;">Journal</p> &lt;!&ndash; 增加文字大小 &ndash;&gt;-->
+        <p style="margin-left: 8px; color: #7d1231; font-size: 26px;">Journal</p> <!-- 增加文字大小 -->
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/026.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Jiangchao Wang, Baoyao Yang*, Siqi Liu, Xiaoqi Zheng, Wenbin Yao* and Junxiang Chen, "CAM-interacted Vision GNN for Multi-label Medical Images," IEEE Journal of Biomedical and Health Informatics (JBHI), 2025.</p>
+
+              <!-- 水平排列的超链接 -->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                 第一个链接（Code）-->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://github.com/BaoyaoGroup/JBHI_code" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Promotion />
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 500;">Code</span>
+                  </a>
+                </div>
+
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://ieeexplore.ieee.org/abstract/document/11205277"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
+                  </a>
+                </div>
+
+<!--                <div style="display: flex; align-items: center;">-->
+<!--                  <router-link-->
+<!--                      :to="{ name: 'video-player-XiaoqiZheng01' }"-->
+<!--                      style="color: #7d1231; text-decoration: none; display: flex; align-items: center;"-->
+<!--                  >-->
+<!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+<!--                      <VideoPlay />-->
+<!--                    </el-icon>-->
+<!--                    <span style="font-size: 18px; font-weight: 500;">Video</span>-->
+<!--                  </router-link>-->
+<!--                </div>-->
+              </div>
+            </div>
+          </div>
+        </el-card>
+
 
 
         <p style="margin-left: 8px; color: #7d1231; font-size: 26px;"> Conference</p> <!-- 增加文字大小 -->
+
+        <el-card
+            style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
+          <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <!-- 图片左边 -->
+            <img
+                src="/publications/027.png"
+                style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
+            <!-- 文字右边 -->
+            <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
+              <!-- 使文字稍微往上移 -->
+              <p style="margin-top: -10px;font-size: 18px">Weide Zhan, Baoyao Yang*, "FedCD: A Hybrid Federated Learning Framework for Adaptive Training under Data Heterogeneity", Chinese Conference on Pattern Recognition and Computer Vision (PRCV), 2025 </p>
+
+              <!-- 水平排列的超链接 -->
+              <!--              <div style="display: flex; gap: 70px; align-items: center;">-->
+              <!--                &lt;!&ndash;                <div style="display: flex; align-items: center;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">&ndash;&gt;-->
+              <!--                &lt;!&ndash;                      <Promotion />&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    </el-icon>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                    <span style="font-size: 18px; font-weight: 500;">Code</span>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                  </a>&ndash;&gt;-->
+              <!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+
+              <!--                 第二个链接（Paper） -->
+              <!--                <div style="display: flex; align-items: center;">-->
+              <!--                  <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
+              <!--                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+              <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+              <!--                      <Tickets/>-->
+              <!--                    </el-icon>-->
+              <!--                    <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
+              <!--                  </a>-->
+              <!--                </div>-->
+              <!--              </div>-->
+            </div>
+          </div>
+        </el-card>
+
+        <div style="height: 35px"></div>
+
         <!-- 每个卡片 -->
         <el-card
             style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
@@ -198,7 +317,7 @@ const download_WJC002_Poster = () => {
             style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
           <div style="display: flex; align-items: center; justify-content: flex-start;">
                         <img
-                            src="/publications/online.png"
+                            src="/publications/024.png"
                             style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
 
             <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
@@ -226,6 +345,18 @@ const download_WJC002_Poster = () => {
 <!--                                  <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
 <!--                                </a>-->
 <!--                              </div>-->
+                              <div>
+                                <el-button
+                                    class="custom-button"
+                                    type="primary"
+                                    @click="download_FairFed_PPT"
+                                    style="background-color: white; border-color: white;"
+                                >
+
+                                  <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><Files /></el-icon>
+
+                                  <span style="font-size: 18px; font-weight: 500; color: #7d1231;">PPT</span>
+                                </el-button></div>
                             </div>
             </div>
           </div>
@@ -267,6 +398,20 @@ const download_WJC002_Poster = () => {
               <!--                  </a>-->
               <!--                </div>-->
               <!--              </div>-->
+
+              <div>
+                <el-button
+                    class="custom-button"
+                    type="primary"
+                    @click="download_UnlockingThePotentialOfmLLMs_PPT"
+                    style="background-color: white; border-color: white;"
+                >
+
+                  <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><Files /></el-icon>
+
+                  <span style="font-size: 18px; font-weight: 500; color: #7d1231;">PPT</span>
+                </el-button></div>
+
             </div>
           </div>
         </el-card>
@@ -277,35 +422,48 @@ const download_WJC002_Poster = () => {
             style="max-width: 1000px; margin: 0 auto; display: flex; align-items: center; justify-content: flex-start;">
           <div style="display: flex; align-items: center; justify-content: flex-start;">
                         <img
-                            src="/publications/online.png"
+                            src="/publications/023.png"
                             style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
 
             <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
               <!-- 使文字稍微往上移 -->
               <p style="margin-top: -10px;font-size: 18px">Xianrun Xu, Baoyao Yang*, Wanyun Li, Jingsong Lin, Yufei Xu, "Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation," the 33rd ACM International Conference on Multimedia (ACM MM), 2025.</p>
 
-              <!-- 水平排列的超链接 -->
-              <!--              <div style="display: flex; gap: 70px; align-items: center;">-->
-              <!--                &lt;!&ndash;                <div style="display: flex; align-items: center;">&ndash;&gt;-->
-              <!--                &lt;!&ndash;                  <a href="" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">&ndash;&gt;-->
-              <!--                &lt;!&ndash;                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">&ndash;&gt;-->
-              <!--                &lt;!&ndash;                      <Promotion />&ndash;&gt;-->
-              <!--                &lt;!&ndash;                    </el-icon>&ndash;&gt;-->
-              <!--                &lt;!&ndash;                    <span style="font-size: 18px; font-weight: 500;">Code</span>&ndash;&gt;-->
-              <!--                &lt;!&ndash;                  </a>&ndash;&gt;-->
-              <!--                &lt;!&ndash;                </div>&ndash;&gt;-->
+              <div style="display: flex; gap: 70px; align-items: center;">
+                <!--                 第一个链接（Code）-->
+<!--                <div style="display: flex; align-items: center;">-->
+<!--                  <a href="https://github.com/BaoyaoGroup/LabelCompletion" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
+<!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
+<!--                      <Promotion />-->
+<!--                    </el-icon>-->
+<!--                    <span style="font-size: 18px; font-weight: 500;">Code</span>-->
+<!--                  </a>-->
+<!--                </div>-->
 
-              <!--                 第二个链接（Paper） -->
-              <!--                <div style="display: flex; align-items: center;">-->
-              <!--                  <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
-              <!--                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
-              <!--                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
-              <!--                      <Tickets/>-->
-              <!--                    </el-icon>-->
-              <!--                    <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
-              <!--                  </a>-->
-              <!--                </div>-->
-              <!--              </div>-->
+                <!-- 第二个链接（Paper） -->
+                <div style="display: flex; align-items: center;">
+                  <a href="https://dl.acm.org/doi/abs/10.1145/3746027.3755652"
+                     style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <Tickets/>
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 500;">Paper</span>
+                  </a>
+                </div>
+
+                <div style="display: flex; align-items: center;">
+                  <router-link
+                      :to="{ name: 'video-player-XianrunXu01' }"
+                      style="color: #7d1231; text-decoration: none; display: flex; align-items: center;"
+                  >
+                    <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                      <VideoPlay />
+                    </el-icon>
+                    <span style="font-size: 18px; font-weight: 500;">Video</span>
+                  </router-link>
+                </div>
+              </div>
+
             </div>
           </div>
         </el-card>
@@ -396,7 +554,7 @@ const download_WJC002_Poster = () => {
           <div style="display: flex; align-items: center; justify-content: flex-start;">
             <!-- 图片左边 -->
                         <img
-                            src="/publications/online.png"
+                            src="/publications/025.png"
                             style="width: 350px; height: 200px; margin-right: 20px;object-fit: contain;"/>
             <!-- 文字右边 -->
             <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;">
@@ -415,15 +573,15 @@ const download_WJC002_Poster = () => {
                               <!--                </div>-->
 
 <!--                               第二个链接（Paper） -->
-<!--                              <div style="display: flex; align-items: center;">-->
-<!--                                <a href="https://ieeexplore.ieee.org/abstract/document/10373104"-->
-<!--                                   style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">-->
-<!--                                  <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">-->
-<!--                                    <Tickets/>-->
-<!--                                  </el-icon>-->
-<!--                                  <span style="font-size: 18px; font-weight: 500;">Paper</span>-->
-<!--                                </a>-->
-<!--                              </div>-->
+                              <div style="display: flex; align-items: center;">
+                                <a href="https://ieeexplore.ieee.org/abstract/document/11084722"
+                                   style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                                  <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
+                                    <Tickets/>
+                                  </el-icon>
+                                  <span style="font-size: 18px; font-weight: 500;">Paper</span>
+                                </a>
+                              </div>
 
 
                               <div>
