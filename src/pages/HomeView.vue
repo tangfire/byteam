@@ -684,7 +684,6 @@ const scrollToResearch = () => {
 /* 亮点区域 */
 .highlights-section {
   padding: 4rem 0;
-  background: linear-gradient(135deg, rgba(125, 18, 49, 0.03) 0%, rgba(19, 57, 62, 0.03) 100%);
   border-radius: var(--border-radius-lg);
   margin: 2rem 0;
 }
@@ -772,7 +771,6 @@ const scrollToResearch = () => {
 
 /* 新闻模块样式 - 时间线布局 */
 .news-section {
-  background: linear-gradient(135deg, rgba(125, 18, 49, 0.02) 0%, rgba(19, 57, 62, 0.02) 100%);
   margin: 2rem 0;
   border-radius: var(--border-radius-lg);
 }
