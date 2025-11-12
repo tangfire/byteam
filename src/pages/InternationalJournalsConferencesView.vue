@@ -129,7 +129,7 @@ const publications = {
       },
       {
         id: 9,
-        image: "/publications/online.png",
+        image: "/publications/031.png",
         title: "Multi-Agent Reinforcement Learning Algorithm Using Dynamic OW-QMIX in Complex Supply Chain Scenarios",
         authors: "ZhiQi Liu, QingHua Zhu*, An Zeng, YuZhu Ji, BaoYao Yang",
         venue: "IEEE International Conference on Systems, Man, and Cybernetics (IEEE SMC), 2025",
