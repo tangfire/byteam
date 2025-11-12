@@ -1,220 +1,673 @@
+
 <template>
   <div class="home-container">
-    <!-- 背景图层 -->
-    <div class="hero-background">
-      <div class="gradient-overlay"></div>
+    <!-- 背景图片层 -->
+    <div class="background-image-layer">
+      <div class="image-overlay"></div>
     </div>
 
-    <!-- 内容区块 -->
-    <main class="hero-content">
-      <h1 class="lab-title">
-        <span class="lab-acronym">Beyond Machine Learning Group</span>
-<!--        <span class="lab-fullname">Beyond Machine Learning Lab</span>-->
-      </h1>
-
-      <div class="slogan-container">
-<!--        <p class="main-slogan">Where Machines Learn to Transcend</p>-->
-        <p class="sub-slogan">Beyond Algorithms, Towards Omni-Intelligence</p>
+    <!-- 科技感背景元素 -->
+    <div class="tech-background">
+      <div class="floating-particles">
+        <div v-for="n in 15" :key="n" class="particle" :style="particleStyle(n)"></div>
       </div>
+      <div class="gradient-mesh"></div>
+    </div>
 
-      <!-- 装饰性科技元素 -->
-      <div class="tech-ornament">
-        <div class="particle-dot"></div>
-        <div class="neon-line"></div>
-      </div>
-    </main>
+    <!-- 主要内容 -->
+    <div class="main-content">
+      <!-- 实验室介绍区域 -->
+      <section class="hero-section">
+        <div class="hero-content">
+          <div class="lab-badge">
+            <div class="badge-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 14C19 16.973 16.837 19.441 14 19.917V21H10V19.917C7.163 19.441 5 16.973 5 14V7C5 6.447 5.447 6 6 6H18C18.553 6 19 6.447 19 7V14Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 10V14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M9 12H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
 
-    <el-backtop :right="100" :bottom="100" />
+          <h1 class="lab-title">
+            <span class="title-main">Beyond Machine Learning Group</span>
+          </h1>
+
+          <p class="lab-mission">
+            Pioneering the next generation of intelligent systems through interdisciplinary research
+            in machine learning, computer vision, and biomedical computing.
+          </p>
+
+          <div class="mission-stats">
+            <div class="stat-item">
+              <span class="stat-number">30+</span>
+              <span class="stat-label">Publications</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">30+</span>
+              <span class="stat-label">Research Projects</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">20+</span>
+              <span class="stat-label">Team Members</span>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <el-button
+                type="primary"
+                size="large"
+                @click="scrollToResearch"
+                class="cta-button"
+            >
+              Explore Our Research
+              <el-icon><ArrowRight /></el-icon>
+            </el-button>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="floating-cards">
+            <div class="card card-1">
+              <div class="card-icon">🧠</div>
+              <span>AI Research</span>
+            </div>
+            <div class="card card-2">
+              <div class="card-icon">👁️</div>
+              <span>Computer Vision</span>
+            </div>
+            <div class="card card-3">
+              <div class="card-icon">🏥</div>
+              <span>Medical AI</span>
+            </div>
+            <div class="card card-4">
+              <div class="card-icon">🔄</div>
+              <span>Federated Learning</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 最新研究成果 -->
+      <section class="research-section" id="research-highlights">
+        <div class="section-header">
+          <h2 class="section-title">Latest Research</h2>
+          <p class="section-subtitle">Cutting-edge publications and breakthroughs from our team</p>
+        </div>
+
+        <research-carousel class="research-carousel-wrapper" />
+      </section>
+
+      <!-- 快速导航 -->
+      <section class="quick-nav-section">
+        <div class="section-header">
+          <h2 class="section-title">Explore More</h2>
+          <p class="section-subtitle">Discover our research areas and team</p>
+        </div>
+
+        <div class="nav-grid">
+          <el-card
+              class="nav-card"
+              shadow="hover"
+              @click="$router.push('/research-direction')"
+          >
+            <div class="nav-card-content">
+              <div class="nav-icon">🎯</div>
+              <h3>Research Directions</h3>
+              <p>Explore our innovative research areas and methodologies</p>
+              <span class="nav-arrow">→</span>
+            </div>
+          </el-card>
+
+          <el-card
+              class="nav-card"
+              shadow="hover"
+              @click="$router.push('/our-group')"
+          >
+            <div class="nav-card-content">
+              <div class="nav-icon">👥</div>
+              <h3>Our Team</h3>
+              <p>Meet our talented researchers and collaborators</p>
+              <span class="nav-arrow">→</span>
+            </div>
+          </el-card>
+
+          <el-card
+              class="nav-card"
+              shadow="hover"
+              @click="$router.push('/international-journals-conferences')"
+          >
+            <div class="nav-card-content">
+              <div class="nav-icon">📚</div>
+              <h3>Publications</h3>
+              <p>Browse our latest papers and conference proceedings</p>
+              <span class="nav-arrow">→</span>
+            </div>
+          </el-card>
+        </div>
+      </section>
+    </div>
+
+    <el-backtop class="mobile-backtop" :right="100" :bottom="100" />
   </div>
 </template>
 
-<style scoped>
-@media (max-width: 768px) {
-  .home-container {
-    position: static !important;
-    width: 100%;
-    height: auto;
-    min-height: calc(100vh - 180px);
-    margin-top: 0 !important;
-    overflow-x: hidden; /* 禁用水平滚动 */
-    overflow-y: hidden; /* 禁用垂直滚动 */
+<script setup lang="ts">
+import ResearchCarousel from '../components/ResearchCarousel.vue'
+import { ArrowRight } from '@element-plus/icons-vue'
+import { ref } from 'vue'
 
-  }
-
-
-
-  .hero-content {
-    padding: 4rem 1rem;
-  }
-
-  .lab-acronym {
-    font-size: 1.6rem !important;
-  }
-
-  .sub-slogan {
-    font-size: 1.2rem !important;
-
-  }
-
-  .hero-background {
-    position: relative; /* 改为相对定位 */
-    background-attachment: scroll; /* 移除固定背景 */
-  }
-
-  .lab-acronym {
-    font-size: 3.5rem;
-  }
-
-  .main-slogan {
-    font-size: 1.8rem;
-    padding: 1rem;
-  }
-
-  .sub-slogan {
-    font-size: 1.1rem;
+const particleStyle = (index: number) => {
+  const size = Math.random() * 4 + 2
+  const delay = Math.random() * 5
+  const duration = Math.random() * 8 + 8
+  return {
+    width: `${size}px`,
+    height: `${size}px`,
+    animationDelay: `${delay}s`,
+    animationDuration: `${duration}s`,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`
   }
 }
 
+const scrollToResearch = () => {
+  const element = document.getElementById('research-highlights')
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' })
+  }
+}
+</script>
 
-/* 基础重置 */
+<style scoped>
 .home-container {
   --primary-color: #7d1231;
-  --secondary-color: #2c3e50;
-  --accent-color: #13393e;
-  --light-bg: #f8f9fa;
+  --primary-light: #9a2c4d;
+  --secondary-color: #13393e;
+  --accent-color: #3498db;
   --text-primary: #2c3e50;
-  --text-secondary: #2c3e50;;
+  --text-secondary: #5d6d7e;
+  --bg-light: #f8f9fa;
+  --bg-white: #ffffff;
+  --gradient-primary: linear-gradient(135deg, #7d1231 0%, #9a2c4d 100%);
+  --gradient-secondary: linear-gradient(135deg, #13393e 0%, #3498db 100%);
+  --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 15px 40px rgba(0, 0, 0, 0.12);
 
-  position: fixed;
-  top: 140px;
-  left: 10px;
-  width: 99%;
-  height: calc(100vh - 130px - 190px); /* 使用视口高度减去顶部偏移 */
+  min-height: 100vh;
+  position: relative;
+  background: var(--bg-light);
+  overflow-x: hidden;
 }
 
-/* 背景层 */
-.hero-background {
+/* 背景图片层 */
+.background-image-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/background/ContactBackground.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  z-index: 0;
+}
+
+.image-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background:
-      linear-gradient(135deg, rgba(125,18,49,0.08) 0%, rgba(19,57,62,0.12) 100%),
-      url('/background/ContactBackground.jpg') center/cover fixed;
-  z-index: 0;
+  background: rgba(255, 255, 255, 0.55);
 }
 
-.gradient-overlay {
+/* 科技背景 */
+.tech-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.floating-particles {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 50% 30%, rgba(248,249,250,0.6) 20%, rgba(248,249,250,0.9) 80%);
+}
+
+.particle {
+  position: absolute;
+  background: var(--primary-color);
+  border-radius: 50%;
+  opacity: 0.15;
+  animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.05;
+  }
+  100% {
+    transform: translateY(-100vh) rotate(360deg);
+    opacity: 0.1;
+  }
+}
+
+.gradient-mesh {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background:
+      radial-gradient(circle at 20% 80%, rgba(125, 18, 49, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(19, 57, 62, 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(52, 152, 219, 0.02) 0%, transparent 50%);
 }
 
 /* 主内容 */
-.hero-content {
+.main-content {
   position: relative;
-  z-index: 1;
-  padding: 8rem 2rem 4rem;
-  max-width: 1200px;
+  z-index: 2;
+  max-width: 1400px;
   margin: 0 auto;
-  text-align: center;
+  padding: 2rem;
+}
+
+/* 英雄区域 */
+.hero-section {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.hero-content {
+  padding-right: 2rem;
+}
+
+.lab-badge {
+  margin-bottom: 2rem;
+}
+
+.badge-icon {
+  width: 80px;
+  height: 80px;
+  background: var(--gradient-primary);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.badge-icon svg {
+  width: 40px;
+  height: 40px;
 }
 
 .lab-title {
-  font-family: 'Poppins', sans-serif;
-  margin-bottom: 2.5rem;
-  line-height: 1.1;
+  margin-bottom: 1.5rem;
 }
 
-.lab-acronym {
+.title-main {
   display: block;
   font-size: 3.2rem;
   font-weight: 700;
-  color: var(--primary-color);
-  letter-spacing: -1.5px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.08);
-  animation: float 3s ease-in-out infinite;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+  white-space: nowrap; /* 防止换行 */
 }
 
-.lab-fullname {
-  display: block;
-  font-size: 1.8rem;
-  font-weight: 500;
+
+
+
+.lab-mission {
+  font-size: 1.2rem;
+  line-height: 1.7;
   color: var(--text-secondary);
-  margin-top: 1rem;
+  margin-bottom: 3rem;
+  font-weight: 400;
 }
 
-/* 口号样式 */
-.slogan-container {
-  max-width: 800px;
+.mission-stats {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.hero-actions {
+  margin-top: 2rem;
+}
+
+.cta-button {
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(125, 18, 49, 0.3);
+}
+
+/* 英雄区域视觉元素 */
+.hero-visual {
+  position: relative;
+  height: 400px;
+}
+
+.floating-cards {
+  position: relative;
+  height: 100%;
+}
+
+.card {
+  position: absolute;
+  background: var(--bg-white);
+  padding: 1.2rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  animation: floatCard 8s ease-in-out infinite;
+  border: 1px solid rgba(125, 18, 49, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.card-1 {
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.card-2 {
+  top: 40%;
+  right: 5%;
+  animation-delay: -2s;
+}
+
+.card-3 {
+  bottom: 20%;
+  left: 20%;
+  animation-delay: -4s;
+}
+
+.card-4 {
+  bottom: 10%;
+  right: 15%;
+  animation-delay: -6s;
+}
+
+.card-icon {
+  font-size: 1.8rem;
+}
+
+@keyframes floatCard {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+}
+
+/* 通用区域样式 */
+.research-section,
+.quick-nav-section {
+  padding: 6rem 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 600px;
   margin: 0 auto;
 }
 
-.main-slogan {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 2.2rem;
-  font-weight: 600;
-  color: var(--secondary-color);
-  line-height: 1.3;
-  margin: 2rem 0;
-  padding: 1.5rem;
-  background: rgba(255,255,255,0.9);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-  backdrop-filter: blur(8px);
+/* 快速导航网格 */
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.sub-slogan {
-  font-size: 1.8rem;
-  color: var(--text-secondary);
-  letter-spacing: 0.5px;
-  margin-top: 1.5rem;
-  opacity: 0.9;
+.nav-card {
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(125, 18, 49, 0.1);
 }
 
-/* 动态装饰元素 */
-.tech-ornament {
+.nav-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-medium);
+  border-color: var(--primary-color);
+}
+
+.nav-card-content {
+  padding: 2rem;
+  text-align: center;
   position: relative;
-  height: 100px;
-  margin-top: 4rem;
 }
 
-.particle-dot {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: var(--primary-color);
-  border-radius: 50%;
-  animation: particleMove 3s infinite;
+.nav-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
 }
 
-.neon-line {
-  position: absolute;
-  height: 2px;
-  width: 50%;
-  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
-  filter: drop-shadow(0 0 4px rgba(125,18,49,0.3));
-  animation: lineScan 4s linear infinite;
+.nav-card h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
 }
 
-/* 动画 */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+.nav-card p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
 }
 
-@keyframes particleMove {
-  0% { transform: translate(0, 0); opacity: 0; }
-  30% { opacity: 1; }
-  100% { transform: translate(200px, -150px); opacity: 0; }
+.nav-arrow {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: transform 0.3s ease;
 }
 
-@keyframes lineScan {
-  0% { left: -50%; }
-  100% { left: 150%; }
+.nav-card:hover .nav-arrow {
+  transform: translateX(5px);
 }
 
+/* 轮播图包装器 */
+.research-carousel-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+}
 
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+
+  .hero-content {
+    padding-right: 0;
+  }
+
+  .mission-stats {
+    justify-content: center;
+  }
+
+  .title-main {
+    font-size: 2.6rem;
+  }
+
+  .title-sub {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+  }
+
+  .hero-section {
+    padding: 1rem 0;
+    min-height: auto;
+  }
+
+  .title-main {
+    font-size: 2rem;
+  }
+
+  .title-sub {
+    font-size: 1.2rem;
+  }
+
+  .lab-mission {
+    font-size: 1rem;
+  }
+
+  .mission-stats {
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .stat-number {
+    font-size: 1.8rem;
+  }
+
+  .research-section,
+  .quick-nav-section {
+    padding: 4rem 0;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .nav-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .hero-visual {
+    height: 300px;
+  }
+
+  .card {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .background-image-layer {
+    background-attachment: scroll;
+  }
+
+  .mobile-backtop {
+    right: 20px !important;
+    bottom: 80px !important;
+  }
+
+}
+
+@media (max-width: 480px) {
+  .title-main {
+    font-size: 1.6rem;
+  }
+
+  .mission-stats {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+  }
+
+  .nav-card-content {
+    padding: 1.5rem;
+  }
+}
+
+/* 在移动端小屏幕上允许换行 */
+@media (max-width: 768px) {
+  .title-main {
+    white-space: normal; /* 允许换行 */
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+}
+
+/* 在更小的屏幕上确保可读性 */
+@media (max-width: 480px) {
+  .title-main {
+    font-size: 1.8rem;
+    white-space: normal; /* 确保在小屏幕上换行 */
+  }
+}
+
+/* 保证 el-icon 的图标颜色在初始时是正确的 */
+::v-deep(.el-icon svg) {
+  color: #7d1231 !important;
+}
 </style>

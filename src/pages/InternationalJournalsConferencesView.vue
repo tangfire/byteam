@@ -45,6 +45,17 @@ const publications = {
     journal: [
       {
         id: 1,
+        image: "/publications/028.png",
+        title: "Multi-modal Brain Tumor Segmentation via Multi-category Interaction and Graph Co-reasoning",
+        authors: "Baoyao Yang*, Dongzhe Li, Chong Yin, Fei Lyu, Xiaochen He ",
+        venue: "IEEE Transactions on Multimedia, 2025",
+        links: {
+          // code: "https://github.com/BaoyaoGroup/JBHI_code",
+          // paper: "https://ieeexplore.ieee.org/abstract/document/11205277"
+        }
+      },
+      {
+        id: 2,
         image: "/publications/026.png",
         title: "CAM-interacted Vision GNN for Multi-label Medical Images",
         authors: "Jiangchao Wang, Baoyao Yang*, Siqi Liu, Xiaoqi Zheng, Wenbin Yao* and Junxiang Chen",
@@ -57,7 +68,7 @@ const publications = {
     ],
     conference: [
       {
-        id: 2,
+        id: 3,
         image: "/publications/027.png",
         title: "FedCD: A Hybrid Federated Learning Framework for Adaptive Training under Data Heterogeneity",
         authors: "Weide Zhan, Baoyao Yang*",
@@ -65,7 +76,7 @@ const publications = {
         links: {}
       },
       {
-        id: 3,
+        id: 4,
         image: "/publications/004.png",
         title: "Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations",
         authors: "Xiaoqi Zheng, Baoyao Yang*, Xiuwen Fang, Xiuwen Fang, Mang Ye",
@@ -77,15 +88,15 @@ const publications = {
         }
       },
       {
-        id: 4,
-        image: "/publications/online.png",
+        id: 5,
+        image: "/publications/030.png",
         title: "Unifying Spatio-Temporal Contexts for Advanced Text-Video Retrieval",
         authors: "Yanhao Huang, Baoyao Yang*, Junxiang Chen, Wenbin Yao, Dixin Chen",
         venue: "IEEE International Conference on Multimedia and Expo (ICME), 2025",
         links: {}
       },
       {
-        id: 5,
+        id: 6,
         image: "/publications/024.png",
         title: "FairFed++: Closing the Fairness Gap in Federated Learning through Self-Evolving Clustered Optimization",
         authors: "Zhixiang Fang, Baoyao Yang*, Weide Zhan, Yanchao Tang, Yiqun Zhang",
@@ -96,8 +107,8 @@ const publications = {
         }
       },
       {
-        id: 6,
-        image: "/publications/online.png",
+        id: 7,
+        image: "/publications/029.png",
         title: "Unlocking the Potential of mLLMs: Enhancing Video-Text Retrieval through Caption Supplementation and Conical Embedding Optimization",
         authors: "Baoyao Yang*, Junxiang Chen, Wenbin Yao",
         venue: "the 28th European Conference on Artificial Intelligence (ECAI), 2025",
@@ -106,7 +117,7 @@ const publications = {
         }
       },
       {
-        id: 7,
+        id: 8,
         image: "/publications/023.png",
         title: "Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation",
         authors: "Xianrun Xu, Baoyao Yang*, Wanyun Li, Jingsong Lin, Yufei Xu",
@@ -117,7 +128,7 @@ const publications = {
         }
       },
       {
-        id: 8,
+        id: 9,
         image: "/publications/online.png",
         title: "Multi-Agent Reinforcement Learning Algorithm Using Dynamic OW-QMIX in Complex Supply Chain Scenarios",
         authors: "ZhiQi Liu, QingHua Zhu*, An Zeng, YuZhu Ji, BaoYao Yang",
@@ -125,7 +136,7 @@ const publications = {
         links: {}
       },
       {
-        id: 9,
+        id: 10,
         image: "/publications/online.png",
         title: "Action Decomposition-based Actor-Critic for Supply Chain Optimization",
         authors: "Zhengrong Chen, Qinghua Zhu*, An Zeng, Yuzhu Ji, Baoyao Yang, Dan Pan",
@@ -133,7 +144,7 @@ const publications = {
         links: {}
       },
       {
-        id: 10,
+        id: 11,
         image: "/publications/025.png",
         title: "Harnessing Feature Distribution Consistency for Federated Learning with Noisy",
         authors: "Yali Ma, Baoyao Yang*, Yanchao Tang, Weide Zhan, Wenyin Yang",
@@ -149,7 +160,7 @@ const publications = {
   2024: {
     journal: [
       {
-        id: 11,
+        id: 12,
         image: "/publications/002.png",
         title: "DNA-T: Deformable Neighborhood Attention Transformer for Irregular Medical Time Series",
         authors: "Jianxuan Huang, Baoyao Yang*, Kejing Yin, Jingwen Xu",
@@ -160,7 +171,7 @@ const publications = {
         }
       },
       {
-        id: 12,
+        id: 13,
         image: "/publications/005.png",
         title: "Allosteric Feature Collaboration for Model-Heterogeneous Federated Learning",
         authors: "Baoyao Yang*, PC Yuen, Yiqun Zhang, An Zeng",
@@ -172,7 +183,7 @@ const publications = {
     ],
     conference: [
       {
-        id: 13,
+        id: 14,
         image: "/publications/001.png",
         title: "CAM-Guided translation for unpaired weakly-supervised medical image segmentation",
         authors: "Yuebin Xie, Xiaochen He, Baoyao Yang*, Fei Lyu, Siqi Liu",
@@ -183,7 +194,7 @@ const publications = {
         }
       },
       {
-        id: 14,
+        id: 15,
         image: "/publications/003.png",
         title: "Domain Dilation for Single Domain Generalization",
         authors: "Yuehui Fan, Baoyao Yang*, Meng Shen, Fei Lyu",
@@ -194,7 +205,7 @@ const publications = {
         }
       },
       {
-        id: 15,
+        id: 16,
         image: "/publications/006.png",
         title: "MMS: Morphology-mixup Stylized Data Generation for Single Domain Generalization in Medical Image Segmentation",
         authors: "Xiaochen He, Baoyao Yang*, Fei Lyu",
@@ -206,7 +217,7 @@ const publications = {
         }
       },
       {
-        id: 16,
+        id: 17,
         image: "/publications/007.png",
         title: "Multi-category Graph Reasoning for Multi-modal Brain Tumor Segmentation",
         authors: "Dongzhe Li, Baoyao Yang*, Weide Zhan, Xiaochen He",
@@ -218,7 +229,7 @@ const publications = {
         }
       },
       {
-        id: 17,
+        id: 18,
         image: "/publications/022.png",
         title: "Multi-category Brain Tumor Segmentation via Multi-scale and Cross-category Relation Modeling",
         authors: "Dongzhe Li, Baoyao Yang*, Yuebin Xie, Weide Zhan and Jingsong Lin",
@@ -229,7 +240,7 @@ const publications = {
         }
       },
       {
-        id: 18,
+        id: 19,
         image: "/publications/008.png",
         title: "Beyond Direct Relationships: Exploring Multi-Order Label Pair Dependencies for Knowledge Distillation",
         authors: "Wang J, Deng Z, Lin T, et al.",
@@ -241,7 +252,7 @@ const publications = {
         }
       },
       {
-        id: 19,
+        id: 20,
         image: "/publications/009.png",
         title: "A Novel Prompt Tuning for Graph Transformers: Tailoring Prompts to Graph Topologies",
         authors: "Wang J, Deng Z, Lin T, et al.",
@@ -257,7 +268,7 @@ const publications = {
   2023: {
     journal: [
       {
-        id: 20,
+        id: 21,
         image: "/publications/021.png",
         title: "Deep Learning for Brain MRI Confirms Patterned Pathological Progression in Alzheimer's Disease",
         authors: "Dan Pan, An Zeng*, Baoyao Yang*, Gangyong Lai, Bing Hu, Xiaowei Song, Tianzi Jiang",
@@ -269,7 +280,7 @@ const publications = {
     ],
     conference: [
       {
-        id: 21,
+        id: 22,
         image: "/publications/010.png",
         title: "Early diagnosis of Alzheimer's disease based on multimodal hypergraph attention network",
         authors: "Yi Li, Baoyao Yang*, Dan Pan, An Zeng, Yang Yang",
@@ -283,7 +294,7 @@ const publications = {
   2022: {
     journal: [
       {
-        id: 22,
+        id: 23,
         image: "/publications/011.png",
         title: "Model-induced Generalization Error Bound for Information-theoretic Representation Learning in Source-data-free Unsupervised Domain Adaptation",
         authors: "Baoyao Yang, Hao-wei Yeh, Tatsuya Harada, and Pong C. Yuen*",
@@ -293,7 +304,7 @@ const publications = {
         }
       },
       {
-        id: 23,
+        id: 24,
         image: "/publications/012.png",
         title: "Revealing Task-relevant Model Memorization for Source-Protected Unsupervised Domain Adaptation",
         authors: "Baoyao Yang and Pong C. Yuen*",
@@ -303,7 +314,7 @@ const publications = {
         }
       },
       {
-        id: 24,
+        id: 25,
         image: "/publications/013.png",
         title: "Cross-domain Missingness-aware Time Series Adaptation with Similarity Distillation in Medical Applications",
         authors: "Baoyao Yang, Mang Ye, Qingxiong Tan and Pong C. Yuen*",
@@ -318,7 +329,7 @@ const publications = {
   2021: {
     journal: [
       {
-        id: 25,
+        id: 26,
         image: "/publications/015.png",
         title: "Learning Adaptive Geometry for Unsupervised Domain Adaptation",
         authors: "Baoyao Yang and Pong C. Yuen*",
@@ -330,7 +341,7 @@ const publications = {
     ],
     conference: [
       {
-        id: 26,
+        id: 27,
         image: "/publications/016.png",
         title: "A Segmentation-Assisted Model for Universal Lesion Detection with Partial Labels",
         authors: "Fei Lyu, Baoyao Yang, Andy J. Ma and Pong C. Yuen*",
@@ -344,7 +355,7 @@ const publications = {
   2019: {
     journal: [
       {
-        id: 27,
+        id: 28,
         image: "/publications/017.png",
         title: "Body Parts Synthesis for Cross-Quality Pose Estimation",
         authors: "Baoyao Yang, Andy J. Ma and Pong C. Yuen*",
@@ -356,7 +367,7 @@ const publications = {
     ],
     conference: [
       {
-        id: 28,
+        id: 29,
         image: "/publications/018.png",
         title: "Cross-Domain Visual Representations via Unsupervised Graph Alignment",
         authors: "Baoyao Yang and Pong C. Yuen*",
@@ -370,7 +381,7 @@ const publications = {
   2018: {
     journal: [
       {
-        id: 29,
+        id: 30,
         image: "/publications/019.png",
         title: "Learning Domain-Shared Group-Sparse Representation for Unsupervised Domain Adaptation",
         authors: "Baoyao Yang, Andy J. Ma and Pong C. Yuen*",
@@ -382,7 +393,7 @@ const publications = {
     ],
     conference: [
       {
-        id: 30,
+        id: 31,
         image: "/publications/020.png",
         title: "Domain-shared Group-sparse Dictionary Learning for Unsupervised Domain Adaptation",
         authors: "Baoyao Yang, Andy J. Ma and Pong C. Yuen*",

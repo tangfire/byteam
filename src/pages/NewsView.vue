@@ -8,6 +8,24 @@ interface ActivityType extends Partial<TimelineItemProps> {
 
 const activities2025: ActivityType[] = [
   {
+    content:'Our paper "Multi-modal Brain Tumor Segmentation via Multi-category Interaction and Graph Co-reasoning" has been accepted by IEEE Transactions on Multimedia. Congrats, Li, Yang and co-authors!',
+    timestamp:'2025-11-06',
+    color:'#7d1231',
+    type: 'publication'
+  },
+  {
+    content:'Our paper "FedCD: A Hybrid Federated Learning Framework for Adaptive Training under Data Heterogeneity" has been accepted by PRCV. Congrats, Zhan, Yang and co-authors!',
+    timestamp:'2025-10-22',
+    color:'#7d1231',
+    type: 'publication'
+  },
+  {
+    content:'Our paper "CAM-interacted Vision GNN for Multi-label Medical Images" to be published in IEEE Journal of Biomedical and Health Informatics. Congrats, Wang, Yang and co-authors!',
+    timestamp:'2025-10-16',
+    color:'#7d1231',
+    type: 'publication'
+  },
+  {
     content:'Our paper "Multi-Agent Reinforcement Learning Algorithm Using Dynamic OW-QMIX in Complex Supply Chain Scenarios" has been accepted by IEEE SMC. Congrats, Liu, Zhu and co-authors!',
     timestamp:'2025-07-20',
     color:'#7d1231',

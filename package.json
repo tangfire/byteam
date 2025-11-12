@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "node scripts/generatePreloadList",
     "dev": "npm run prebuild && vite",
-    "build": "npm run prebuild && vue-tsc -b && vite build",
+    "build": "npm run prebuild && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

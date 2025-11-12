@@ -392,4 +392,9 @@ const researchProjects = [
     font-size: 13px;
   }
 }
+
+/* 确保图标颜色正确 */
+::v-deep(.el-icon svg) {
+  color: #7d1231 !important;
+}
 </style>
