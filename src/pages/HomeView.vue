@@ -716,27 +716,31 @@ const scrollToResearch = () => {
 }
 
 .card-1 {
-  top: 10%;
-  left: 5%;
+  top: 0%;
+  left: 0%;
   animation-delay: 0s;
+  z-index: 3;
 }
 
 .card-2 {
-  top: 30%;
-  right: 10%;
+  top: 15%;
+  right: 0%;
   animation-delay: -2s;
+  z-index: 2;
 }
 
 .card-3 {
-  bottom: 25%;
-  left: 15%;
+  bottom: 20%;
+  left: 10%;
   animation-delay: -4s;
+  z-index: 1;
 }
 
 .card-4 {
   bottom: 5%;
   right: 5%;
   animation-delay: -6s;
+  z-index: 1;
 }
 
 .card-icon {
@@ -941,25 +945,6 @@ const scrollToResearch = () => {
 .news-item:hover {
   transform: translateX(10px);
   box-shadow: 0 16px 48px rgba(125, 18, 49, 0.2);
-}
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 4px;
-  background: var(--gradient-primary);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.news-item:hover {
-  transform: translateX(10px);
-  box-shadow: var(--shadow-medium);
-  border-left-color: var(--primary-color);
-}
-
-.news-item:hover::before {
-  opacity: 1;
 }
 
 .news-date {
