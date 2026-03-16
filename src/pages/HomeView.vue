@@ -242,9 +242,11 @@
 import ResearchCarousel from '../components/ResearchCarousel.vue'
 import { ArrowRight, View } from '@element-plus/icons-vue'
 import { ref } from 'vue'
+import type { NewsItem } from '../types'
+import { getDay, getMonth, getYear, scrollToElement } from '../utils'
 
-// 最新新闻数据 - 增加到4条
-const latestNews = ref([
+// 最新新闻数据 - 增加到 4 条
+const latestNews = ref<NewsItem[]>([
   {
     type: 'publication',
     typeLabel: 'Publication',
@@ -290,7 +292,7 @@ const particleStyle = (index: number) => {
 }
 
 const getNewsTypeClass = (type: string) => {
-  const classMap: { [key: string]: string } = {
+  const classMap: Record<string, string> = {
     publication: 'type-publication',
     team: 'type-team',
     award: 'type-award',
@@ -299,51 +301,13 @@ const getNewsTypeClass = (type: string) => {
   return classMap[type] || 'type-general'
 }
 
-// 日期处理函数
-const getDay = (dateString: string) => {
-  return new Date(dateString).getDate()
-}
-
-const getMonth = (dateString: string) => {
-  const date = new Date(dateString)
-  return date.toLocaleString('en-US', { month: 'short' })
-}
-
-const getYear = (dateString: string) => {
-  return new Date(dateString).getFullYear()
-}
-
 const scrollToResearch = () => {
-  const element = document.getElementById('research-highlights')
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
-  }
+  scrollToElement('research-highlights')
 }
 </script>
 
 <style scoped>
 .home-container {
-  --primary-color: #7d1231;
-  --primary-light: #9a2c4d;
-  --primary-dark: #5a0c22;
-  --secondary-color: #13393e;
-  --accent-color: #3498db;
-  --accent-light: #5dade2;
-  --text-primary: #2c3e50;
-  --text-secondary: #5d6d7e;
-  --text-light: #7f8c8d;
-  --bg-light: #f8f9fa;
-  --bg-white: #ffffff;
-  --bg-card: rgba(255, 255, 255, 0.95);
-  --gradient-primary: linear-gradient(135deg, #7d1231 0%, #9a2c4d 100%);
-  --gradient-secondary: linear-gradient(135deg, #13393e 0%, #3498db 100%);
-  --gradient-hero: linear-gradient(135deg, #7d1231 0%, #13393e 100%);
-  --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.08);
-  --shadow-medium: 0 15px 40px rgba(0, 0, 0, 0.12);
-  --shadow-large: 0 25px 50px rgba(0, 0, 0, 0.15);
-  --border-radius: 16px;
-  --border-radius-lg: 20px;
-
   min-height: 100vh;
   position: relative;
   background: var(--bg-light);

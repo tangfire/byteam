@@ -1,126 +1,88 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
 
-
-import HomeView from '../pages/HomeView.vue'
-import AboutView from '../pages/AboutView.vue'
-import ResearchDirectionView from "../pages/ResearchDirectionView.vue";
-import DrBaoyaoYangView from "../pages/DrBaoyaoYangView.vue";
-import ContactView from "../pages/ContactView.vue";
-import InternationalJournalsConferencesView from "../pages/InternationalJournalsConferencesView.vue";
-import GroupView from "../pages/GroupView.vue";
-import PatentsView from '../pages/PatentViews.vue'
-import ResearchProjectsView from "../pages/ResearchProjectsView.vue";
-import NewsView from "../pages/NewsView.vue";
-import VideoPlayerXiaoqiZheng01View from "../pages/VideoPlayerXiaoqiZheng01View.vue";
-import AlumniView from "../pages/AlumniView.vue";
-import VideoMindView from "../pages/VideoMindView.vue";
-import Vknow from "../pages/VknowView.vue";
-import VideoPlayerYaliMa01View from "../pages/VideoPlayerYaliMa01View.vue";
-import VideoPlayerXianrunXu01View from "../pages/VideoPlayerXianrunXu01View.vue";
-
-
 const router = createRouter({
     history: createWebHashHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
             name: 'home',
-            component: HomeView,
+            component: () => import('../pages/HomeView.vue'),
         },
         {
             path:'/about',
             name:'About',
-            component: AboutView,
+            component: () => import('../pages/AboutView.vue'),
         },
-        // {
-        //   path:'/research',
-        //   name:'research',
-        //   component: ResearchView,
-        // },
         {
             path: '/research-direction',
             name: 'research-direction',
-            component: ResearchDirectionView
+            component: () => import('../pages/ResearchDirectionView.vue')
         },
         {
             path: '/dr-Baoyao-Yang',
             name: 'dr-Baoyao-Yang',
-            component: DrBaoyaoYangView
+            component: () => import('../pages/DrBaoyaoYangView.vue')
         },
         {
             path: '/contact',
             name: 'contact',
-            component: ContactView
+            component: () => import('../pages/ContactView.vue')
         },
         {
             path: '/international-journals-conferences',
             name: 'international-journals-conferences',
-            component: InternationalJournalsConferencesView
+            component: () => import('../pages/InternationalJournalsConferencesView.vue')
         },
         {
             path: '/our-group',
             name: "our-group",
-            component: GroupView
+            component: () => import('../pages/GroupView.vue')
         },
         {
             path: '/patents',
             name: 'patents',
-            component: PatentsView
+            component: () => import('../pages/PatentViews.vue')
         },
         {
             path: '/research-projects',
             name: 'research-projects',
-            component: ResearchProjectsView
-
+            component: () => import('../pages/ResearchProjectsView.vue')
         },
         {
             path:'/news',
             name:'news',
-            component: NewsView
+            component: () => import('../pages/NewsView.vue')
         },
         {
             path: '/video-player-XiaoqiZheng01',
             name: 'video-player-XiaoqiZheng01',
-            component: VideoPlayerXiaoqiZheng01View
+            component: () => import('../pages/VideoPlayerXiaoqiZheng01View.vue')
         },
         {
             path: '/video-player-XianrunXu01',
             name: 'video-player-XianrunXu01',
-            component: VideoPlayerXianrunXu01View
+            component: () => import('../pages/VideoPlayerXianrunXu01View.vue')
         },
         {
             path: '/video-player-YaliMa01',
             name: 'video-player-YaliMa01',
-            component: VideoPlayerYaliMa01View
+            component: () => import('../pages/VideoPlayerYaliMa01View.vue')
         },
         {
             path:'/Alumni',
             name:'Alumni',
-            component: AlumniView
+            component: () => import('../pages/AlumniView.vue')
         },
-        // VideoMind
         {
             path: '/VideoMind',
             name: 'VideoMind',
-            component: VideoMindView
+            component: () => import('../pages/VideoMindView.vue')
         },
-        // vKnow
         {
             path: '/vKnow',
             name: 'vKnow',
-            component: Vknow
+            component: () => import('../pages/VknowView.vue')
         },
-
-
-
-        // {
-        //   path: '/about',
-        //   name: 'about',
-        //   // route level code-splitting
-        //   // this generates a separate chunk (About.[hash].js) for this route
-        //   // which is lazy-loaded when the route is visited.
-        //   component: () => import('../views/AboutView.vue'),
-        // },
     ],
 })
 
