@@ -5,23 +5,24 @@
 <template>
   <div class="contact-page">
 
-    <!-- 背景图层 -->
+    <!-- 背景图层 - 采用主页的 fixed 定位方式 -->
     <div class="hero-background">
       <div class="gradient-overlay"></div>
     </div>
 
-  <div class="contact-container">
-    <h1 class="title">Contact Me</h1>
+    <!-- 内容容器 -->
+    <div class="contact-container">
+      <h1 class="title">Contact Me</h1>
 
-    <div class="availability">
-      <p>At any time</p>
-      <div class="divider"></div>
+      <div class="availability">
+        <p>At any time</p>
+        <div class="divider"></div>
+      </div>
+
+      <p class="email-link">
+        Email: ybaoyao@gdut.edu.cn
+      </p>
     </div>
-
-    <p class="email-link">
-      Email: ybaoyao@gdut.edu.cn
-    </p>
-  </div>
   </div>
 </template>
 
@@ -30,11 +31,11 @@
 /* ContactView.vue 样式修改 */
 @media (max-width: 768px) {
   .contact-page {
-    position: static !important;
+    position: relative !important;
     width: 100%;
     height: auto;
-    min-height: calc(100vh - 180px);
-    margin-top: 0 !important;
+    min-height: calc(100vh - 60px); /* 减去移动端导航栏高度 */
+    margin-top: 60px !important; /* 与移动端导航栏底部对齐 */
     overflow-x: hidden !important; /* 禁用水平滚动 */
     overflow-y: hidden !important; /* 禁用垂直滚动 */
   }
@@ -61,26 +62,22 @@
   }
 
   .hero-background {
-    position: relative; /* 改为相对定位 */
-    background-attachment: scroll; /* 移除固定背景 */
-
+    position: fixed; /* 保持 fixed 定位 */
+    background-attachment: scroll; /* 移动端使用 scroll */
   }
 
 }
 
 .contact-page {
-  position: fixed;
-  top: 140px;
-  left: 10px;
-  width: 99%;
-  height: calc(100vh - 130px - 190px); /* 使用视口高度减去顶部偏移 */
+  position: relative;
+  min-height: calc(100vh - 80px); /* 减去导航栏高度 */
+  margin-top: 80px; /* 与导航栏底部对齐 */
   background-position: center center;
-  background-size: cover; /* 保持cover属性 */
-  background-attachment: scroll; /* 改为scroll让背景随滚动移动 */
+  background-size: cover;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .contact-container {
@@ -92,9 +89,9 @@
 
 }
 
-/* 背景层 */
+/* 背景层 - 采用主页的 fixed 定位方式 */
 .hero-background {
-  position: absolute;
+  position: fixed; /* 改为 fixed，与主页一致 */
   top: 0;
   left: 0;
   width: 100%;

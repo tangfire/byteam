@@ -370,7 +370,7 @@ const scrollToResearch = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(248, 249, 250, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(248, 249, 250, 0.9) 50%, rgba(255, 255, 255, 0.85) 100%);
 }
 
 /* 科技背景 */
@@ -417,9 +417,21 @@ const scrollToResearch = () => {
   width: 100%;
   height: 100%;
   background:
-      radial-gradient(circle at 20% 80%, rgba(125, 18, 49, 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(19, 57, 62, 0.03) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(52, 152, 219, 0.02) 0%, transparent 50%);
+      radial-gradient(circle at 20% 80%, rgba(125, 18, 49, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(19, 57, 62, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(52, 152, 219, 0.05) 0%, transparent 50%);
+  animation: pulseMesh 15s ease-in-out infinite;
+}
+
+@keyframes pulseMesh {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
 }
 
 /* 主内容 */
@@ -453,26 +465,28 @@ const scrollToResearch = () => {
 }
 
 .badge-icon {
-  /* 保持原有的样式 */
-  width: 70px;
-  height: 70px;
-  background: white;
-  border-radius: 18px;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease;
-  /* 其他样式 */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px rgba(125, 18, 49, 0.15);
+  border: 2px solid rgba(125, 18, 49, 0.1);
 }
 
 .badge-icon .logo-image {
-  width: 100px;  /* 根据logo的实际比例调整 */
-  height: 100px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
 }
 
 .badge-icon:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 16px 40px rgba(125, 18, 49, 0.25);
+  border-color: var(--primary-color);
 }
 
 .badge-icon svg {
@@ -495,22 +509,29 @@ const scrollToResearch = () => {
 
 .title-main {
   display: block;
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: var(--primary-color);
-  line-height: 1.2;
+  font-size: 4rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 50%, #7d1231 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
   margin-bottom: 0.5rem;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
   white-space: nowrap;
+  text-shadow: 0 2px 10px rgba(125, 18, 49, 0.2);
 }
 
 .lab-mission {
-  font-size: 1.3rem;
-  line-height: 1.7;
+  font-size: 1.4rem;
+  line-height: 1.8;
   color: var(--text-secondary);
   margin-bottom: 3rem;
   font-weight: 400;
   max-width: 90%;
+  position: relative;
+  padding-left: 20px;
+  border-left: 4px solid var(--primary-color);
 }
 
 .mission-stats {
@@ -522,24 +543,51 @@ const scrollToResearch = () => {
 
 .stat-item {
   text-align: center;
-  padding: 1.5rem;
-  background: var(--bg-card);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-soft);
-  transition: transform 0.3s ease;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(125, 18, 49, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(125, 18, 49, 0.05) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.stat-item:hover::before {
+  opacity: 1;
 }
 
 .stat-item:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 20px 60px rgba(125, 18, 49, 0.2);
+  border-color: var(--primary-color);
 }
 
 .stat-number {
   display: block;
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: var(--primary-color);
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   line-height: 1;
   margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .stat-label {
@@ -555,35 +603,56 @@ const scrollToResearch = () => {
 }
 
 .cta-button {
-  border-radius: 12px;
-  padding: 1rem 2rem;
-  font-weight: 600;
+  border-radius: 16px;
+  padding: 1.2rem 2.4rem;
+  font-weight: 700;
   font-size: 1.1rem;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border: none;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.cta-button:hover::before {
+  left: 100%;
 }
 
 .cta-button.primary {
-  background: var(--gradient-primary);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
   color: white;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 8px 24px rgba(125, 18, 49, 0.3);
 }
 
 .cta-button.primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(125, 18, 49, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(125, 18, 49, 0.5);
+  filter: brightness(1.1);
 }
 
 .cta-button.secondary {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.95);
   color: var(--primary-color);
   border: 2px solid var(--primary-color);
+  box-shadow: 0 4px 16px rgba(125, 18, 49, 0.1);
 }
 
 .cta-button.secondary:hover {
   background: var(--primary-color);
   color: white;
-  transform: translateY(-3px);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(125, 18, 49, 0.3);
 }
 
 /* 英雄区域视觉元素 */
@@ -606,25 +675,44 @@ const scrollToResearch = () => {
 
 .card {
   position: absolute;
-  background: var(--bg-card);
-  padding: 1.2rem;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-soft);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
+  padding: 1.4rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   display: flex;
   align-items: center;
-  gap: 1rem;
-  font-weight: 500;
+  gap: 1.2rem;
+  font-weight: 600;
   color: var(--text-primary);
   animation: floatCard 8s ease-in-out infinite;
-  border: 1px solid rgba(125, 18, 49, 0.1);
-  backdrop-filter: blur(10px);
-  max-width: 220px;
-  transition: all 0.3s ease;
+  border: 2px solid rgba(125, 18, 49, 0.15);
+  backdrop-filter: blur(20px);
+  max-width: 240px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(125, 18, 49, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card:hover::before {
+  opacity: 1;
 }
 
 .card:hover {
-  transform: translateY(-10px) scale(1.05);
-  box-shadow: var(--shadow-large);
+  transform: translateY(-15px) scale(1.08);
+  box-shadow: 0 20px 60px rgba(125, 18, 49, 0.25);
+  border-color: var(--primary-color);
 }
 
 .card-1 {
@@ -674,10 +762,13 @@ const scrollToResearch = () => {
 
 @keyframes floatCard {
   0%, 100% {
-    transform: translateY(0px);
+    transform: translateY(0px) rotate(0deg);
   }
-  50% {
-    transform: translateY(-15px);
+  33% {
+    transform: translateY(-20px) rotate(2deg);
+  }
+  66% {
+    transform: translateY(-10px) rotate(-2deg);
   }
 }
 
@@ -699,21 +790,49 @@ const scrollToResearch = () => {
 .highlight-item {
   display: flex;
   align-items: flex-start;
-  gap: 1.5rem;
-  padding: 2rem;
-  background: var(--bg-white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-soft);
-  transition: transform 0.3s ease;
+  gap: 1.8rem;
+  padding: 2.5rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 2px solid rgba(125, 18, 49, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.highlight-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(125, 18, 49, 0.08) 0%, rgba(19, 57, 62, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.highlight-item:hover::before {
+  opacity: 1;
 }
 
 .highlight-item:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(125, 18, 49, 0.2);
+  border-color: var(--primary-color);
 }
 
 .highlight-icon {
-  font-size: 3rem;
+  font-size: 3.5rem;
   flex-shrink: 0;
+  filter: drop-shadow(0 4px 8px rgba(125, 18, 49, 0.2));
+  transition: transform 0.4s ease;
+}
+
+.highlight-item:hover .highlight-icon {
+  transform: scale(1.15) rotate(5deg);
 }
 
 .highlight-content h3 {
@@ -741,32 +860,38 @@ const scrollToResearch = () => {
 }
 
 .section-title {
-  font-size: 2.8rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 1.2rem;
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 50%, #7d1231 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
   position: relative;
   display: inline-block;
+  letter-spacing: -0.5px;
 }
 
 .section-title::after {
   content: '';
   position: absolute;
-  bottom: -10px;
+  bottom: -12px;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: var(--gradient-primary);
-  border-radius: 2px;
+  width: 100px;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+  border-radius: 3px;
 }
 
 .section-subtitle {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   color: var(--text-secondary);
-  max-width: 600px;
+  max-width: 650px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.8;
+  font-weight: 400;
+  opacity: 0.9;
 }
 
 /* 新闻模块样式 - 时间线布局 */
@@ -784,20 +909,39 @@ const scrollToResearch = () => {
   display: flex;
   align-items: center;
   gap: 2rem;
-  padding: 2rem;
-  background: var(--bg-white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-soft);
+  padding: 2.5rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   margin-bottom: 1.5rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border-left: 4px solid transparent;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-left: 6px solid var(--primary-color);
   position: relative;
   overflow: hidden;
 }
 
 .news-item::before {
   content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(125, 18, 49, 0.08) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.news-item:hover::before {
+  opacity: 1;
+}
+
+.news-item:hover {
+  transform: translateX(10px);
+  box-shadow: 0 16px 48px rgba(125, 18, 49, 0.2);
+}
   position: absolute;
   left: 0;
   top: 0;

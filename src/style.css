@@ -1,24 +1,35 @@
 :root {
-  /* 主题色 */
+  /* 主题色 - 加深主色，增加辅助色 */
   --primary-color: #7d1231;
   --primary-light: rgba(125, 18, 49, 0.1);
   --primary-dark: #5a0e24;
+  --secondary-color: #13393e;
   --accent-color: #3498db;
   --text-primary: #2c3e50;
-  --text-secondary: #5a6c7d;
+  --text-secondary: #5d6d7e;
   --text-light: #7f8c8d;
   --bg-light: #f8f9fa;
   --bg-white: #ffffff;
   --bg-dark: #2c2c2c;
   --border-color: #eaeef2;
+
+  /* 阴影 */
   --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
   --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.1);
   --shadow-large: 0 20px 40px rgba(0, 0, 0, 0.15);
+
+  /* 渐变 */
   --gradient-primary: linear-gradient(135deg, var(--primary-color), #a51c41);
   --gradient-accent: linear-gradient(135deg, var(--accent-color), #5faee3);
+  --gradient-hero: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+
+  /* 圆角 */
   --border-radius-sm: 8px;
   --border-radius: 12px;
   --border-radius-lg: 20px;
+
+  /* 字体 */
+  --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
@@ -27,12 +38,16 @@
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 2rem;
   --font-size-4xl: 2.5rem;
+
+  /* 间距 */
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
   --spacing-2xl: 3rem;
+
+  /* 过渡 */
   --transition-fast: 0.2s ease;
   --transition-base: 0.3s ease;
   --transition-slow: 0.5s ease;
@@ -44,8 +59,12 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-family);
   color: var(--text-primary);
   background-color: var(--bg-light);
   line-height: 1.6;
@@ -108,4 +127,32 @@ a:hover {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-dark);
+}
+
+/* 工具类 */
+.text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--gradient-primary);
+  border-radius: 2px;
 }

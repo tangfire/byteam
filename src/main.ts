@@ -4,21 +4,18 @@ import 'element-plus/dist/index.css'
 import router from './router'
 import App from './App.vue'
 
-// 导入自动生成的图片列表
-import preloadImageList from './preload-images.json'
-
-const app = createApp(App)
-
-// 预加载所有图片的函数
+// 图片预加载：仅预加载关键图片（如logo），其余懒加载
 const preloadImages = () => {
-    preloadImageList.forEach(src => {
+    const images = ['/logo/001.png']
+    images.forEach(src => {
         const img = new Image()
         img.src = src
     })
 }
 
-// 调用预加载函数
 preloadImages()
+
+const app = createApp(App)
 
 app.use(ElementPlus)
 app.use(router)

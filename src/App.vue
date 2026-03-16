@@ -157,10 +157,8 @@ if (import.meta.env.MODE === 'production') {
         </el-collapse-transition>
       </div>
 
-      <!-- PC端导航（保持原有代码不变） -->
-      <el-header v-if="!isMobile">
-
-
+      <!-- PC端导航（优化版） -->
+      <el-header v-if="!isMobile" class="pc-header">
         <el-menu
             :default-active="activeIndex"
             class="el-menu-demo"
@@ -171,80 +169,58 @@ if (import.meta.env.MODE === 'production') {
             :router="true"
             :popper-offset="16"
             text-color="#2f3542"
-
-
         >
-
-          <!--          <img-->
-          <!--              style="width: 100px"-->
-          <!--              src="/currentprojects/logo.svg"-->
-          <!--              alt="Element logo"-->
-          <!--          />-->
-
-          <div class="logo">
+          <!-- Logo 区域 -->
+          <div class="logo-container">
             <img
                 class="logo-img"
                 src="/logo/001.png"
                 alt="BYML Logo"
             />
-
           </div>
 
-
-          <el-menu-item index="/"><p style="font-size: 18px">Home</p></el-menu-item>
-          <el-menu-item index="/about"><p style="font-size: 18px">About</p></el-menu-item>
-          <el-menu-item index="/news"><p style="font-size: 18px">News</p></el-menu-item>
+          <!-- 菜单项 -->
+          <el-menu-item index="/">Home</el-menu-item>
+          <el-menu-item index="/about">About</el-menu-item>
+          <el-menu-item index="/news">News</el-menu-item>
 
           <el-sub-menu index="/research">
-            <template #title><p style="font-size: 18px">Research</p></template>
-            <el-menu-item style="height: 50px" index="/research-direction">Research Direction</el-menu-item>
-
-            <el-menu-item style="height: 50px" index="/research-projects">Research Projects</el-menu-item>
-
-
-            <el-menu-item style="height: 50px"><a class="githublink" href="https://github.com/BaoyaoGroup"
-                                                  style="text-decoration: none;color: #333b49" target="_blank">Github-Repositories</a>
+            <template #title>Research</template>
+            <el-menu-item index="/research-direction">Research Direction</el-menu-item>
+            <el-menu-item index="/research-projects">Research Projects</el-menu-item>
+            <el-menu-item>
+              <a class="githublink" href="https://github.com/BaoyaoGroup"
+                 target="_blank">Github-Repositories</a>
             </el-menu-item>
           </el-sub-menu>
+          
           <el-sub-menu index="/our-team">
-            <template #title><p style="font-size: 18px">Our Team</p></template>
-            <el-menu-item style="height: 50px" index="/dr-Baoyao-Yang">Baoyao Yang</el-menu-item>
-            <el-menu-item style="height: 50px" index="/our-group">Our Group</el-menu-item>
-            <el-menu-item style="height: 50px" index="/Alumni">Alumni</el-menu-item>
-
+            <template #title>Our Team</template>
+            <el-menu-item index="/dr-Baoyao-Yang">Baoyao Yang</el-menu-item>
+            <el-menu-item index="/our-group">Our Group</el-menu-item>
+            <el-menu-item index="/Alumni">Alumni</el-menu-item>
           </el-sub-menu>
+          
           <el-sub-menu index="/publications">
-            <template #title><p style="font-size: 18px">Publications</p></template>
-            <el-menu-item style="height: 50px" index="/international-journals-conferences">
-              <div style="line-height: 1.2; margin: 0;">
-                International <br> Journals/Conferences
-              </div>
+            <template #title>Publications</template>
+            <el-menu-item index="/international-journals-conferences">
+              International Journals/Conferences
             </el-menu-item>
-            <el-menu-item style="height: 50px" index="/patents">
-              <div style="line-height: 1.2; margin: 0;">
-                Patents
-              </div>
-            </el-menu-item>
-
-
-
+            <el-menu-item index="/patents">Patents</el-menu-item>
           </el-sub-menu>
 
           <!-- Project -->
           <el-sub-menu index="/Project">
-            <template #title><p style="font-size: 18px">Project</p></template>
-            <el-menu-item style="height: 50px"index="/vKnow">vKnow</el-menu-item>
-            <el-menu-item style="height: 50px" index="/VideoMind">Dataset</el-menu-item>
+            <template #title>Project</template>
+            <el-menu-item index="/vKnow">vKnow</el-menu-item>
+            <el-menu-item index="/VideoMind">Dataset</el-menu-item>
           </el-sub-menu>
 
-          <!--          <el-menu-item index="5"><p style="font-size: 18px">News</p></el-menu-item>-->
-
-
-          <el-menu-item index="/contact"><p style="font-size: 18px">Contact</p></el-menu-item>
+          <el-menu-item index="/contact">Contact</el-menu-item>
         </el-menu>
       </el-header>
 
-      <div v-if="!isMobile" style="height: 100px"></div>
+      <div v-if="!isMobile" style="height: 70px"></div>
 
 
 
@@ -288,7 +264,7 @@ if (import.meta.env.MODE === 'production') {
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1001;
+    z-index: 1002; /* 提高 z-index 确保高于首页背景 */
     background: white;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     height: auto;
@@ -493,10 +469,10 @@ if (import.meta.env.MODE === 'production') {
 
 
 .el-menu {
-
-  height: 120px;
-  position: relative; /* 重要：为伪元素提供定位上下文 */
-
+  height: 70px;
+  position: relative;
+  z-index: 1002;
+  border-bottom: none !important;
 }
 
 .el-menu::after {
@@ -505,8 +481,8 @@ if (import.meta.env.MODE === 'production') {
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 6px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+  height: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .is-opened /deep/ .el-submenu__title {
@@ -532,18 +508,128 @@ if (import.meta.env.MODE === 'production') {
   gap: 2px; /* 控制菜单项之间的间距 */
 }
 
-/* Logo保持靠左 */
-.el-menu--horizontal > .logo {
-  margin-right: auto;
-  order: -1; /* 确保logo在最左侧 */
-  margin-left: 30px;
+/* PC 端导航容器样式 - 优化版 */
+.el-header.pc-header {
+  padding: 0;
+  background: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1002;
+  height: 70px;
+  transition: all 0.3s ease;
 }
 
-/* 菜单项靠右 */
+/* Logo 容器 */
+.logo-container {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  order: -1;
+  margin-left: 20px;
+  padding: 8px 0;
+  transition: transform 0.3s ease;
+}
+
+.logo-container:hover {
+  transform: scale(1.02);
+}
+
+/* Logo 图片优化 */
+.logo-img {
+  width: 150px;
+  height: auto;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+/* 菜单项样式优化 */
 .el-menu--horizontal > .el-menu-item,
 .el-menu--horizontal > .el-sub-menu {
-  margin-left: 0; /* 取消自动边距 */
+  height: 70px;
+  line-height: 70px;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 0 18px;
+  margin: 0;
+  border-bottom: none !important;
+  transition: all 0.3s ease;
+}
 
+.el-menu--horizontal > .el-menu-item:hover,
+.el-menu--horizontal > .el-sub-menu:hover {
+  background: transparent !important;
+  color: var(--primary-color) !important;
+}
+
+.el-menu--horizontal > .el-menu-item.is-active {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+/* 子菜单标题特殊处理 - 使用最强选择器 */
+.el-menu--horizontal .el-sub-menu > .el-sub-menu__title,
+.el-menu--horizontal .el-sub-menu .el-sub-menu__title * {
+  color: #2f3542 !important; /* 默认颜色 */
+  transition: all 0.3s ease;
+}
+
+.el-menu--horizontal .el-sub-menu > .el-sub-menu__title:hover,
+.el-menu--horizontal .el-sub-menu .el-sub-menu__title:hover,
+.el-menu--horizontal .el-sub-menu .el-sub-menu__title:hover * {
+  color: var(--primary-color) !important; /* hover 时变红 */
+}
+
+/* 子菜单弹出层优化 - 使用:deep() 穿透 */
+.el-menu--horizontal .el-menu--popup {
+  min-width: 200px;
+  padding: 8px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: none;
+  background: white !important;
+}
+
+/* 子菜单项基础样式 */
+.el-menu--horizontal :deep(.el-menu--popup .el-menu-item) {
+  height: 45px !important;
+  line-height: 45px !important;
+  font-size: 14px;
+  padding: 0 20px;
+  margin: 0 !important;
+  background: transparent !important;
+  color: #2f3542 !important;
+  transition: all 0.3s ease;
+}
+
+/* 子菜单项悬停效果 - 使用:deep() 穿透 */
+.el-menu--horizontal :deep(.el-menu--popup .el-menu-item:hover) {
+  background-color: var(--primary-light) !important;
+  color: var(--primary-color) !important;
+  font-weight: 600 !important;
+}
+
+/* 确保激活状态也生效 */
+.el-menu--horizontal :deep(.el-menu--popup .el-menu-item.is-active) {
+  color: var(--primary-color) !important;
+  background: var(--primary-light) !important;
+  font-weight: 600 !important;
+}
+
+/* 子菜单标题悬停效果 */
+.el-menu--horizontal .el-sub-menu__title:hover {
+  color: var(--primary-color) !important;
+}
+
+/* GitHub 链接样式 */
+.githublink {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.githublink:hover {
+  color: var(--primary-color) !important;
 }
 
 
