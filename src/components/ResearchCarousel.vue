@@ -199,11 +199,11 @@ onUnmounted(() => {
 .desktop-carousel {
   position: relative;
   overflow: hidden;
-  border-radius: 24px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
   backdrop-filter: blur(20px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  border: 2px solid rgba(125, 18, 49, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 2px solid rgba(125, 18, 49, 0.15);
 }
 
 .carousel-container {
@@ -235,8 +235,24 @@ onUnmounted(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(125, 18, 49, 0.03) 0%, rgba(19, 57, 62, 0.02) 100%);
+  background: linear-gradient(135deg, rgba(125, 18, 49, 0.04) 0%, rgba(19, 57, 62, 0.03) 100%);
   pointer-events: none;
+}
+
+.slide-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--primary-color) 0%, #a51c41 50%, var(--primary-color) 100%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.desktop-carousel:hover .slide-card::after {
+  opacity: 1;
 }
 
 .slide-image {
@@ -265,12 +281,13 @@ onUnmounted(() => {
   max-height: 300px;
   object-fit: contain;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  transition: transform 0.4s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .slide-image:hover img {
-  transform: scale(1.05);
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.2);
 }
 
 .badges {
@@ -283,19 +300,20 @@ onUnmounted(() => {
 }
 
 .badge {
-  padding: 0.4rem 1.2rem;
-  border-radius: 20px;
+  padding: 0.5rem 1.4rem;
+  border-radius: 24px;
   font-size: 0.85rem;
   font-weight: 700;
   color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px) scale(1.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .type {
@@ -353,27 +371,27 @@ onUnmounted(() => {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   border: none;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--primary-color);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: 10;
-  border: 2px solid rgba(125, 18, 49, 0.1);
+  border: 2px solid rgba(125, 18, 49, 0.15);
 }
 
 .nav:hover {
   background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
   color: white;
-  transform: translateY(-50%) scale(1.15);
-  box-shadow: 0 12px 36px rgba(125, 18, 49, 0.35);
+  transform: translateY(-50%) scale(1.2) rotate(180deg);
+  box-shadow: 0 16px 48px rgba(125, 18, 49, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .prev {
@@ -394,20 +412,31 @@ onUnmounted(() => {
 }
 
 .dot {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: linear-gradient(135deg, #d0d7de 0%, #b8bcc2 100%);
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 2px solid rgba(125, 18, 49, 0.2);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 2px solid rgba(125, 18, 49, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .dot.active {
   background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
-  transform: scale(1.4);
-  box-shadow: 0 4px 12px rgba(125, 18, 49, 0.4);
+  transform: scale(1.6);
+  box-shadow: 0 6px 16px rgba(125, 18, 49, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
   border-color: transparent;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 6px 16px rgba(125, 18, 49, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+  50% {
+    box-shadow: 0 6px 24px rgba(125, 18, 49, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
 }
 
 /* 移动端 */

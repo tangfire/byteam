@@ -109,24 +109,34 @@ a:hover {
   }
 }
 
-/* 滚动条美化 */
+/* 滚动条美化 - 增强版 */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
+  background: linear-gradient(135deg, #f1f1f1 0%, #e8e8e8 100%);
+  border-radius: 12px;
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.1);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
-  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
+  border-radius: 12px;
+  border: 2px solid #f1f1f1;
+  transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-dark);
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+  box-shadow: 0 0 12px rgba(125, 18, 49, 0.5);
+}
+
+/* Firefox 滚动条 */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) #f1f1f1;
 }
 
 /* 工具类 */
@@ -152,7 +162,18 @@ a:hover {
   bottom: -10px;
   left: 0;
   width: 60px;
-  height: 4px;
-  background: var(--gradient-primary);
-  border-radius: 2px;
+  height: 5px;
+  background: linear-gradient(90deg, var(--primary-color) 0%, #a51c41 50%, var(--primary-color) 100%);
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(125, 18, 49, 0.3);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }

@@ -457,6 +457,18 @@ const scrollToResearch = () => {
   padding-right: 2rem;
   position: relative;
   z-index: 5;
+  animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .lab-badge {
@@ -474,9 +486,19 @@ const scrollToResearch = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: 0 12px 36px rgba(125, 18, 49, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   border: 2px solid rgba(125, 18, 49, 0.12);
+  animation: floatLogo 6s ease-in-out infinite;
+}
+
+@keyframes floatLogo {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .badge-icon .logo-image {
@@ -486,9 +508,10 @@ const scrollToResearch = () => {
 }
 
 .badge-icon:hover {
-  transform: translateY(-10px) scale(1.06);
+  transform: translateY(-10px) scale(1.06) rotate(5deg);
   box-shadow: 0 20px 50px rgba(125, 18, 49, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.95);
   border-color: var(--primary-color);
+  animation-play-state: paused;
 }
 
 .badge-icon svg {
@@ -522,6 +545,18 @@ const scrollToResearch = () => {
   letter-spacing: -1.5px;
   white-space: nowrap;
   text-shadow: 0 4px 12px rgba(125, 18, 49, 0.25);
+  animation: slideInLeft 1s ease-out 0.2s both;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .lab-mission {
@@ -534,6 +569,21 @@ const scrollToResearch = () => {
   position: relative;
   padding-left: 24px;
   border-left: 5px solid var(--primary-color);
+  animation: fadeInLeft 1s ease-out 0.4s both;
+  background: linear-gradient(90deg, rgba(125, 18, 49, 0.03) 0%, transparent 100%);
+  padding: 1.5rem 1.5rem 1.5rem 24px;
+  border-radius: 0 12px 12px 0;
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .mission-stats {
@@ -541,6 +591,7 @@ const scrollToResearch = () => {
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-bottom: 3rem;
+  animation: fadeInUp 1s ease-out 0.6s both;
 }
 
 .stat-item {
@@ -551,7 +602,7 @@ const scrollToResearch = () => {
   border-radius: var(--border-radius-lg);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   border: 2px solid rgba(125, 18, 49, 0.12);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
 }
@@ -573,8 +624,8 @@ const scrollToResearch = () => {
 }
 
 .stat-item:hover {
-  transform: translateY(-10px) scale(1.05);
-  box-shadow: 0 20px 60px rgba(125, 18, 49, 0.2);
+  transform: translateY(-12px) scale(1.08);
+  box-shadow: 0 24px 70px rgba(125, 18, 49, 0.25);
   border-color: var(--primary-color);
 }
 
@@ -609,11 +660,12 @@ const scrollToResearch = () => {
   padding: 1.3rem 2.6rem;
   font-weight: 700;
   font-size: 1.15rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   border: none;
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 .cta-button::before {
@@ -634,12 +686,12 @@ const scrollToResearch = () => {
 .cta-button.primary {
   background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
   color: white;
-  box-shadow: 0 12px 32px rgba(125, 18, 49, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 32px rgba(125, 18, 49, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .cta-button.primary:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 50px rgba(125, 18, 49, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-8px);
+  box-shadow: 0 24px 60px rgba(125, 18, 49, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
   filter: brightness(1.1);
 }
 
@@ -647,14 +699,15 @@ const scrollToResearch = () => {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
   color: var(--primary-color);
   border: 2px solid var(--primary-color);
-  box-shadow: 0 6px 20px rgba(125, 18, 49, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 20px rgba(125, 18, 49, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .cta-button.secondary:hover {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
   color: white;
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px rgba(125, 18, 49, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(125, 18, 49, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: transparent;
 }
 
 /* 英雄区域视觉元素 */
@@ -680,7 +733,7 @@ const scrollToResearch = () => {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
   padding: 1.6rem;
   border-radius: 24px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   gap: 1.4rem;
@@ -690,7 +743,7 @@ const scrollToResearch = () => {
   border: 2px solid rgba(125, 18, 49, 0.18);
   backdrop-filter: blur(20px);
   max-width: 260px;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
 }
@@ -712,8 +765,8 @@ const scrollToResearch = () => {
 }
 
 .card:hover {
-  transform: translateY(-18px) scale(1.1);
-  box-shadow: 0 24px 70px rgba(125, 18, 49, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  transform: translateY(-20px) scale(1.12) rotate(2deg);
+  box-shadow: 0 28px 80px rgba(125, 18, 49, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.98);
   border-color: var(--primary-color);
 }
 
@@ -798,12 +851,12 @@ const scrollToResearch = () => {
   align-items: flex-start;
   gap: 1.8rem;
   padding: 2.5rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
   backdrop-filter: blur(20px);
   border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  border: 2px solid rgba(125, 18, 49, 0.1);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 12px rgba(0, 0, 0, 0.06);
+  border: 2px solid rgba(125, 18, 49, 0.12);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
 }
@@ -825,20 +878,21 @@ const scrollToResearch = () => {
 }
 
 .highlight-item:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 20px 60px rgba(125, 18, 49, 0.2);
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 24px 70px rgba(125, 18, 49, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.98);
   border-color: var(--primary-color);
 }
 
 .highlight-icon {
   font-size: 3.5rem;
   flex-shrink: 0;
-  filter: drop-shadow(0 4px 8px rgba(125, 18, 49, 0.2));
-  transition: transform 0.4s ease;
+  filter: drop-shadow(0 6px 12px rgba(125, 18, 49, 0.25));
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .highlight-item:hover .highlight-icon {
-  transform: scale(1.15) rotate(5deg);
+  transform: scale(1.2) rotate(8deg);
+  filter: drop-shadow(0 10px 20px rgba(125, 18, 49, 0.35));
 }
 
 .highlight-content h3 {
@@ -888,6 +942,7 @@ const scrollToResearch = () => {
   height: 5px;
   background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
   border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(125, 18, 49, 0.3);
 }
 
 .section-subtitle {
@@ -916,13 +971,13 @@ const scrollToResearch = () => {
   align-items: center;
   gap: 2rem;
   padding: 2.5rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
   backdrop-filter: blur(20px);
   border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 12px rgba(0, 0, 0, 0.05);
   margin-bottom: 1.5rem;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   border: 2px solid rgba(125, 18, 49, 0.1);
   position: relative;
   overflow: hidden;
@@ -945,8 +1000,8 @@ const scrollToResearch = () => {
 }
 
 .news-item:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 48px rgba(125, 18, 49, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(125, 18, 49, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.98);
   border-color: var(--primary-color);
 }
 
@@ -960,7 +1015,7 @@ const scrollToResearch = () => {
   background: linear-gradient(135deg, rgba(125, 18, 49, 0.08) 0%, rgba(19, 57, 62, 0.05) 100%);
   border-radius: 16px;
   border: 2px solid rgba(125, 18, 49, 0.15);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   position: relative;
   overflow: hidden;
 }
@@ -1100,20 +1155,23 @@ const scrollToResearch = () => {
 }
 
 .view-all-button {
-  border-radius: 12px;
-  padding: 0.8rem 2rem;
+  border-radius: 16px;
+  padding: 1rem 2.4rem;
   font-weight: 600;
+  font-size: 1.05rem;
   border: 2px solid var(--primary-color);
   color: var(--primary-color);
-  background: transparent;
-  transition: all 0.3s ease;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 12px rgba(125, 18, 49, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .view-all-button:hover {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(125, 18, 49, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(125, 18, 49, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: transparent;
 }
 
 /* 快速导航网格 */
@@ -1128,16 +1186,18 @@ const scrollToResearch = () => {
 .nav-card {
   border-radius: var(--border-radius);
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(125, 18, 49, 0.1);
-  background: var(--bg-white);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 2px solid rgba(125, 18, 49, 0.12);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
   overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 
 .nav-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-large);
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 20px 50px rgba(125, 18, 49, 0.2);
   border-color: var(--primary-color);
+  border-width: 2px;
 }
 
 .nav-card-content {
@@ -1147,11 +1207,19 @@ const scrollToResearch = () => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .nav-icon {
   font-size: 3.5rem;
   margin-bottom: 1.5rem;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 4px 8px rgba(125, 18, 49, 0.15));
+}
+
+.nav-card:hover .nav-icon {
+  transform: scale(1.2) rotate(10deg);
+  filter: drop-shadow(0 8px 16px rgba(125, 18, 49, 0.3));
 }
 
 .nav-card h3 {
