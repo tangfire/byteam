@@ -4,9 +4,6 @@ import 'element-plus/dist/index.css'
 import router from './router'
 import App from './App.vue'
 
-// 导入全局样式变量
-import './assets/styles/variables.css'
-
 // 导入自动生成的图片列表
 import preloadImageList from './preload-images.json'
 
