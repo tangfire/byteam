@@ -453,11 +453,10 @@ const years = computed(() => Object.keys(publications).sort((a, b) => Number(b) 
                         <span>Video</span>
                       </router-link>
 
-                      <!-- PPT和海报下载按钮 -->
+                      <!-- PPT 和海报下载按钮 -->
                       <el-button
                           v-else-if="type === 'ppt' || type === 'poster'"
                           class="custom-button"
-                          type="primary"
                           @click="link.handler"
                       >
                         <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
@@ -473,7 +472,7 @@ const years = computed(() => Object.keys(publications).sort((a, b) => Number(b) 
           </el-card>
         </div>
       </template>
-
+      
       <!-- 会议部分 -->
       <template v-if="publications[year].conference && publications[year].conference.length">
         <p class="section-title">Conference</p>
@@ -511,11 +510,10 @@ const years = computed(() => Object.keys(publications).sort((a, b) => Number(b) 
                         <span>Video</span>
                       </router-link>
 
-                      <!-- PPT和海报下载按钮 -->
+                      <!-- PPT 和海报下载按钮 -->
                       <el-button
                           v-else-if="type === 'ppt' || type === 'poster'"
                           class="custom-button"
-                          type="primary"
                           @click="link.handler"
                       >
                         <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
@@ -642,7 +640,7 @@ const years = computed(() => Object.keys(publications).sort((a, b) => Number(b) 
 }
 
 .publication-link {
-  color: var(--primary-color);
+  color: #7d1231; /* 强制使用主题色深红色，与 PPT 按钮一致 */
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -655,12 +653,12 @@ const years = computed(() => Object.keys(publications).sort((a, b) => Number(b) 
 }
 
 .publication-link:hover {
-  color: var(--hover-color);
+  color: #13393e; /* 悬停时使用深青色，与 PPT 按钮一致 */
   background-color: rgba(125, 18, 49, 0.05);
 }
 
 .publication-link:hover ::v-deep(.el-icon svg) {
-  color: var(--hover-color) !important;
+  color: #13393e !important; /* 悬停时图标也使用深青色 */
 }
 
 .bottom-spacer {
@@ -669,28 +667,41 @@ const years = computed(() => Object.keys(publications).sort((a, b) => Number(b) 
 
 /* 按钮样式 */
 .custom-button {
-  background-color: white !important;
-  border-color: #eaeaea !important;
-  padding: 8px 16px;
+  background: transparent !important;
+  border: none !important;
+  padding: 0.6rem 1.2rem !important;
   box-shadow: none !important;
   transition: all 0.3s ease !important;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  min-width: auto !important;
 }
 
 .custom-button:hover {
-  background-color: rgba(125, 18, 49, 0.05) !important;
-  border-color: var(--primary-color) !important;
+  background: rgba(125, 18, 49, 0.05) !important;
+}
+
+.custom-button .button-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #7d1231 !important; /* 强制使用主题色深红色 */
+  transition: color 0.3s ease;
 }
 
 .custom-button:hover .button-text {
-  color: var(--hover-color) !important;
+  color: #13393e !important; /* 悬停时使用深青色 */
 }
 
-.custom-button:hover ::v-deep(.el-icon svg) {
-  color: var(--hover-color) !important;
+.custom-button :deep(.el-icon svg) {
+  color: #7d1231 !important; /* 强制使用主题色深红色，与 Paper/Code 链接一致 */
+  transition: color 0.3s ease;
+}
+
+.custom-button:hover :deep(.el-icon svg) {
+  color: #13393e !important; /* 悬停时使用深青色，与 Paper/Code 链接一致 */
 }
 
 .button-text {
