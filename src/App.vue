@@ -133,6 +133,7 @@ if (import.meta.env.MODE === 'production') {
                 <template #title>Our Team</template>
                 <el-menu-item index="/dr-Baoyao-Yang">Baoyao Yang</el-menu-item>
                 <el-menu-item index="/our-group">Our Group</el-menu-item>
+                <el-menu-item index="/undergraduate">Undergraduate Education</el-menu-item>
                 <el-menu-item index="/Alumni">Alumni</el-menu-item>
               </el-sub-menu>
 
@@ -198,6 +199,7 @@ if (import.meta.env.MODE === 'production') {
             <template #title>Our Team</template>
             <el-menu-item index="/dr-Baoyao-Yang">Baoyao Yang</el-menu-item>
             <el-menu-item index="/our-group">Our Group</el-menu-item>
+            <el-menu-item index="/undergraduate">Undergraduate Education</el-menu-item>
             <el-menu-item index="/Alumni">Alumni</el-menu-item>
           </el-sub-menu>
           

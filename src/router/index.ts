@@ -11,6 +11,7 @@ const router = createRouter({
         { path: '/dr-Baoyao-Yang', name: 'dr-Baoyao-Yang', component: () => import('../pages/DrBaoyaoYangView.vue') },
         { path: '/our-group', name: 'our-group', component: () => import('../pages/GroupView.vue') },
         { path: '/Alumni', name: 'alumni', component: () => import('../pages/AlumniView.vue') },
+        { path: '/undergraduate', name: 'undergraduate', component: () => import('../pages/UndergraduateView.vue') },
         { path: '/international-journals-conferences', name: 'publications', component: () => import('../pages/InternationalJournalsConferencesView.vue') },
         { path: '/patents', name: 'patents', component: () => import('../pages/PatentViews.vue') },
         { path: '/contact', name: 'contact', component: () => import('../pages/ContactView.vue') },
