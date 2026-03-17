@@ -23,7 +23,12 @@
           </div>
 
           <h1 class="lab-title">
-            <span class="title-main">Beyond Machine Learning Group</span>
+            <span class="title-main">
+              <span class="word word-1">Beyond</span>
+              <span class="word word-2">Machine</span>
+              <span class="word word-3">Learning</span>
+              <span class="word word-4">Group</span>
+            </span>
           </h1>
 
           <p class="lab-mission">
@@ -451,13 +456,16 @@ const scrollToResearch = () => {
   align-items: center;
   min-height: 100vh;
   padding: 2rem 0;
+  position: relative;
+  z-index: 3;
 }
 
 .hero-content {
   padding-right: 2rem;
   position: relative;
-  z-index: 5;
+  z-index: 10;
   animation: fadeInUp 1s ease-out;
+  isolation: isolate;
 }
 
 @keyframes fadeInUp {
@@ -533,19 +541,51 @@ const scrollToResearch = () => {
 }
 
 .title-main {
-  display: block;
+  display: inline-block;
   font-size: 4.5rem;
   font-weight: 900;
-  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 50%, #7d1231 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1.1;
-  margin-bottom: 0.5rem;
+  color: var(--primary-color);
   letter-spacing: -1.5px;
   white-space: nowrap;
   text-shadow: 0 4px 12px rgba(125, 18, 49, 0.25);
-  animation: slideInLeft 1s ease-out 0.2s both;
+}
+
+.word {
+  display: inline-block;
+  margin-right: 1.2rem;
+  animation: bounceWord 2.5s ease-in-out infinite;
+}
+
+.word:last-child {
+  margin-right: 0;
+}
+
+.word-1 {
+  animation-delay: 0s;
+}
+
+.word-2 {
+  animation-delay: 0.1s;
+}
+
+.word-3 {
+  animation-delay: 0.2s;
+}
+
+.word-4 {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounceWord {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-10px);
+  }
+  40% {
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideInLeft {
@@ -714,6 +754,7 @@ const scrollToResearch = () => {
 .hero-visual {
   position: relative;
   height: 500px;
+  z-index: 1;
 }
 
 .visual-container {
