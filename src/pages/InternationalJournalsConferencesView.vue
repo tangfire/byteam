@@ -51,7 +51,7 @@ const publications = {
         venue: "IEEE Transactions on Multimedia, 2025",
         links: {
           // code: "https://github.com/BaoyaoGroup/JBHI_code",
-          // paper: "https://ieeexplore.ieee.org/abstract/document/11205277"
+          paper: "https://link.springer.com/chapter/10.1007/978-981-96-4001-0_19"
         }
       },
       {
@@ -73,7 +73,9 @@ const publications = {
         title: "FedCD: A Hybrid Federated Learning Framework for Adaptive Training under Data Heterogeneity",
         authors: "Weide Zhan, Baoyao Yang*",
         venue: "Chinese Conference on Pattern Recognition and Computer Vision (PRCV), 2025",
-        links: {}
+        links: {
+          paper: "https://ieeexplore.ieee.org/abstract/document/10443215",
+        }
       },
       {
         id: 4,
@@ -93,7 +95,9 @@ const publications = {
         title: "Unifying Spatio-Temporal Contexts for Advanced Text-Video Retrieval",
         authors: "Yanhao Huang, Baoyao Yang*, Junxiang Chen, Wenbin Yao, Dixin Chen",
         venue: "IEEE International Conference on Multimedia and Expo (ICME), 2025",
-        links: {}
+        links: {
+          paper: "https://ieeexplore.ieee.org/abstract/document/11209054/",
+        }
       },
       {
         id: 6,
@@ -133,15 +137,19 @@ const publications = {
         title: "Multi-Agent Reinforcement Learning Algorithm Using Dynamic OW-QMIX in Complex Supply Chain Scenarios",
         authors: "ZhiQi Liu, QingHua Zhu*, An Zeng, YuZhu Ji, BaoYao Yang",
         venue: "IEEE International Conference on Systems, Man, and Cybernetics (IEEE SMC), 2025",
-        links: {}
+        links: {
+          paper: "https://ieeexplore.ieee.org/abstract/document/11342630",
+        }
       },
       {
         id: 10,
-        image: "/publications/online.png",
+        image: "/publications/032.png",
         title: "Action Decomposition-based Actor-Critic for Supply Chain Optimization",
         authors: "Zhengrong Chen, Qinghua Zhu*, An Zeng, Yuzhu Ji, Baoyao Yang, Dan Pan",
         venue: "IEEE International Conference on Multimedia and Expo (ICME), 2025",
-        links: {}
+        links: {
+          paper: "https://ieeexplore.ieee.org/abstract/document/11210182",
+        }
       },
       {
         id: 11,
