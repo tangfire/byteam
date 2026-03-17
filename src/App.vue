@@ -1,11 +1,13 @@
 <script setup lang="ts">
 
 
-import {ref, onMounted, onBeforeUnmount} from 'vue'
+import {ref, onMounted, onBeforeUnmount, computed, watch} from 'vue'
+import {useRoute} from 'vue-router'
 import {Menu} from "@element-plus/icons-vue";
 
 
-const activeIndex = ref('1')
+const route = useRoute()
+const activeIndex = computed(() => route.path as string)
 const isMobile = ref(false)
 const isMenuCollapsed = ref(true) // 移动端菜单折叠状态
 
