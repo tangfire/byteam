@@ -6,13 +6,16 @@ interface ActivityType extends Partial<TimelineItemProps> {
   type?: 'publication' | 'team' | 'award' | 'event' | 'general'
 }
 
-const activities2025: ActivityType[] = [
+const activities2026: ActivityType[] = [
   {
     content:'Our paper "AdaGS-Net: An Adaptive Sparse Network for Multimodal Fusion in Alzheimer\'s Disease" has been accepted by ICME 2026. Congrats to all authors!',
     timestamp:'2026-03-17',
     color:'#7d1231',
     type: 'publication'
-  },
+  }
+]
+
+const activities2025: ActivityType[] = [
   {
     content:'Our paper "Multi-modal Brain Tumor Segmentation via Multi-category Interaction and Graph Co-reasoning" has been accepted by IEEE Transactions on Multimedia. Congrats, Li, Yang and co-authors!',
     timestamp:'2025-11-06',
@@ -108,6 +111,33 @@ const getNewsIcon = (type: string = 'general') => {
     </div>
 
     <!-- 年份标签 -->
+    <!-- 2026 年 -->
+    <div class="year-section" v-if="activities2026.length > 0">
+      <div class="year-badge">
+        <span class="year-icon">📅</span>
+        2026
+      </div>
+
+      <!-- 时间线 -->
+      <el-timeline class="timeline-container">
+        <el-timeline-item
+            v-for="(activity, index) in activities2026"
+            :key="index"
+            :timestamp="activity.timestamp"
+            :color="activity.color"
+            class="news-item"
+        >
+          <div class="news-content-wrapper">
+            <div class="news-icon">{{ getNewsIcon(activity.type) }}</div>
+            <div class="news-content">
+              {{ activity.content }}
+            </div>
+          </div>
+        </el-timeline-item>
+      </el-timeline>
+    </div>
+
+    <!-- 2025 年 -->
     <div class="year-section">
       <div class="year-badge">
         <span class="year-icon">📅</span>
