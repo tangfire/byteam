@@ -248,8 +248,15 @@ import ResearchCarousel from '../components/ResearchCarousel.vue'
 import { ArrowRight, View } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
-// 最新新闻数据 - 增加到4条
+// 最新新闻数据 - 增加到 4 条
 const latestNews = ref([
+  {
+    type: 'publication',
+    typeLabel: 'Publication',
+    date: '2026-03-17',
+    title: 'AdaGS-Net Paper Accepted by ICME 2026',
+    excerpt: 'Our paper on adaptive sparse network for multimodal fusion in Alzheimer\'s Disease has been accepted by ICME 2026.'
+  },
   {
     type: 'publication',
     typeLabel: 'Publication',
@@ -270,13 +277,6 @@ const latestNews = ref([
     date: '2025-05-06',
     title: 'Welcome New Group Members',
     excerpt: 'Warm welcome to 7 new group members joining our research team this semester.'
-  },
-  {
-    type: 'event',
-    typeLabel: 'Event',
-    date: '2025-04-08',
-    title: 'Official Website Launch',
-    excerpt: 'Beyond Machine Learning team introduction official website officially launched!'
   }
 ])
 

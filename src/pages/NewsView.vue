@@ -8,6 +8,12 @@ interface ActivityType extends Partial<TimelineItemProps> {
 
 const activities2025: ActivityType[] = [
   {
+    content:'Our paper "AdaGS-Net: An Adaptive Sparse Network for Multimodal Fusion in Alzheimer\'s Disease" has been accepted by ICME 2026. Congrats to all authors!',
+    timestamp:'2026-03-17',
+    color:'#7d1231',
+    type: 'publication'
+  },
+  {
     content:'Our paper "Multi-modal Brain Tumor Segmentation via Multi-category Interaction and Graph Co-reasoning" has been accepted by IEEE Transactions on Multimedia. Congrats, Li, Yang and co-authors!',
     timestamp:'2025-11-06',
     color:'#7d1231',
