@@ -546,6 +546,14 @@ if (import.meta.env.MODE === 'production') {
   transition: all 0.3s ease;
 }
 
+/* 统一颜色变量 */
+:root {
+  --primary-color: #7d1231;
+  --primary-light: rgba(125, 18, 49, 0.1);
+  --primary-dark: #5a0c22;
+  --hover-bg: rgba(125, 18, 49, 0.08);
+}
+
 /* 菜单项样式优化 */
 .el-menu--horizontal > .el-menu-item,
 .el-menu--horizontal > .el-sub-menu {
@@ -556,17 +564,23 @@ if (import.meta.env.MODE === 'production') {
   padding: 0 18px;
   margin: 0;
   border-bottom: none !important;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
+/* 鼠标悬停效果 - 背景色和文字颜色同时变化 */
 .el-menu--horizontal > .el-menu-item:hover,
 .el-menu--horizontal > .el-sub-menu:hover {
-  background: transparent !important;
+  background: var(--hover-bg) !important;
   color: var(--primary-color) !important;
+  transform: translateY(-2px);
 }
 
+/* 激活状态 - 底部边框高亮 */
 .el-menu--horizontal > .el-menu-item.is-active {
-  border-bottom: 2px solid var(--primary-color);
+  border-bottom: 3px solid var(--primary-color);
+  color: var(--primary-color) !important;
+  font-weight: 600;
 }
 
 /* 子菜单标题特殊处理 - 使用最强选择器 */
@@ -601,20 +615,23 @@ if (import.meta.env.MODE === 'production') {
   margin: 0 !important;
   background: transparent !important;
   color: #2f3542 !important;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 6px;
+  margin: 4px 8px !important;
 }
 
 /* 子菜单项悬停效果 - 使用:deep() 穿透 */
 .el-menu--horizontal :deep(.el-menu--popup .el-menu-item:hover) {
-  background-color: var(--primary-light) !important;
+  background-color: var(--hover-bg) !important;
   color: var(--primary-color) !important;
   font-weight: 600 !important;
+  transform: translateX(4px);
 }
 
 /* 确保激活状态也生效 */
 .el-menu--horizontal :deep(.el-menu--popup .el-menu-item.is-active) {
   color: var(--primary-color) !important;
-  background: var(--primary-light) !important;
+  background: var(--hover-bg) !important;
   font-weight: 600 !important;
 }
 
