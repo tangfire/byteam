@@ -567,7 +567,7 @@ if (import.meta.env.MODE === 'production') {
   --primary-color: #7d1231;
   --primary-light: rgba(125, 18, 49, 0.1);
   --primary-dark: #5a0c22;
-  --hover-bg: rgba(125, 18, 49, 0.08);
+  --hover-bg: rgba(125, 18, 49, 0.08); /* 恢复原始透明度 */
 }
 
 /* 菜单项样式优化 */
@@ -588,14 +588,14 @@ if (import.meta.env.MODE === 'production') {
 /* 鼠标悬停效果 - 背景色和文字颜色同时变化 */
 .el-menu--horizontal > .el-menu-item:hover,
 .el-menu--horizontal > .el-sub-menu:hover {
-  background: var(--hover-bg) !important;
+  background: var(--hover-bg) !important; /* 恢复使用 CSS 变量 */
   color: white !important; /* 强制文字变白 */
 }
 
 /* 激活状态 - 底部边框高亮 */
 .el-menu--horizontal > .el-menu-item.is-active {
   border-bottom: 3px solid var(--primary-color);
-  color: var(--primary-color) !important;
+  color: var(--primary-color) !important; /* 恢复激活状态文字为红色 */
   font-weight: 600;
 }
 
