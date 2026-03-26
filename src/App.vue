@@ -482,10 +482,7 @@ if (import.meta.env.MODE === 'production') {
   position: relative;
   z-index: 1002;
   border-bottom: none !important;
-  /* 性能优化 */
-  contain: layout style;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+  /* 移除 contain 以避免影响生产环境的 hover 背景色 */
 }
 
 .el-menu::after {
@@ -498,9 +495,7 @@ if (import.meta.env.MODE === 'production') {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.is-opened /deep/ .el-submenu__title {
-  background: #F2F2F2 !important;
-}
+/* 移除子菜单展开时的背景色，避免与 hover 冲突 */
 
 .el-submenu.is-active:not(.is-opened) /deep/ .el-submenu__title,
 /deep/ .el-submenu__title:hover,
@@ -565,51 +560,82 @@ if (import.meta.env.MODE === 'production') {
 /* 统一颜色变量 */
 :root {
   --primary-color: #7d1231;
-  --primary-light: rgba(125, 18, 49, 0.1);
+  --primary-light: rgba(125, 18, 49, 0.15); /* 加深 hover 背景 */
   --primary-dark: #5a0c22;
-  --hover-bg: rgba(125, 18, 49, 0.08); /* 恢复原始透明度 */
+  --hover-bg: rgba(125, 18, 49, 0.15);
+  --text-default: #2f3542;
 }
 
-/* 菜单项样式优化 */
+/* 菜单项基础样式 - 完全重写 */
 .el-menu--horizontal > .el-menu-item,
 .el-menu--horizontal > .el-sub-menu {
   height: 70px;
-  line-height: 70px;
   font-size: 15px;
   font-weight: 500;
   padding: 0 18px;
   margin: 0;
-  border-bottom: none !important;
+  border: none !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
-  cursor: pointer; /* 确保鼠标样式正确 */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important; /* 强制透明背景 */
 }
 
-/* 鼠标悬停效果 - 背景色和文字颜色同时变化 */
-.el-menu--horizontal > .el-menu-item:hover,
-.el-menu--horizontal > .el-sub-menu:hover {
-  background: var(--hover-bg) !important; /* 恢复使用 CSS 变量 */
-  color: white !important; /* 强制文字变白 */
+/* 菜单项内部容器 - 使用伪元素实现背景 */
+.el-menu--horizontal > .el-menu-item::before,
+.el-menu--horizontal > .el-sub-menu::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(125, 18, 49, 0.15); /* 加深背景色 */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+/* Hover 时显示背景 */
+.el-menu--horizontal > .el-menu-item:hover::before,
+.el-menu--horizontal > .el-sub-menu:hover::before {
+  opacity: 1;
+}
+
+/* 确保文字在背景之上 */
+.el-menu--horizontal > .el-menu-item,
+.el-menu--horizontal > .el-sub-menu {
+  z-index: 1;
+}
+
+/* 普通菜单项 hover 时文字变白 */
+.el-menu--horizontal > .el-menu-item:hover {
+  color: white !important;
+}
+
+/* 子菜单标题 hover 时文字也变白 */
+.el-menu--horizontal > .el-sub-menu:hover .el-sub-menu__title {
+  color: white !important;
+}
+
+/* 强制子菜单标题背景透明 */
+.el-menu--horizontal :deep(.el-sub-menu__title) {
+  background: transparent !important;
 }
 
 /* 激活状态 - 底部边框高亮 */
 .el-menu--horizontal > .el-menu-item.is-active {
   border-bottom: 3px solid var(--primary-color);
-  color: var(--primary-color) !important; /* 恢复激活状态文字为红色 */
+  color: var(--primary-color) !important;
   font-weight: 600;
 }
 
-/* 子菜单标题特殊处理 - 使用最强选择器 */
-.el-menu--horizontal .el-sub-menu > .el-sub-menu__title,
-.el-menu--horizontal .el-sub-menu .el-sub-menu__title * {
-  color: #2f3542 !important; /* 默认颜色 */
-  transition: all 0.3s ease;
-}
-
-.el-menu--horizontal .el-sub-menu > .el-sub-menu__title:hover,
-.el-menu--horizontal .el-sub-menu .el-sub-menu__title:hover,
-.el-menu--horizontal .el-sub-menu .el-sub-menu__title:hover * {
-  color: var(--primary-color) !important; /* hover 时变红 */
+/* 激活状态的背景也显示 */
+.el-menu--horizontal > .el-menu-item.is-active::before {
+  opacity: 1;
 }
 
 /* 子菜单弹出层优化 - 使用:deep() 穿透 */
@@ -651,10 +677,7 @@ if (import.meta.env.MODE === 'production') {
   font-weight: 600 !important;
 }
 
-/* 子菜单标题悬停效果 */
-.el-menu--horizontal .el-sub-menu__title:hover {
-  color: var(--primary-color) !important;
-}
+/* 移除子菜单标题单独的悬停颜色，保持与整体一致 */
 
 /* GitHub 链接样式 */
 .githublink {
