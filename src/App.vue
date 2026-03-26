@@ -587,22 +587,23 @@ if (import.meta.env.MODE === 'production') {
 /* 菜单项内部容器 - 使用伪元素实现背景 */
 .el-menu--horizontal > .el-menu-item::before,
 .el-menu--horizontal > .el-sub-menu::before {
-  content: '';
+  content: '' !important; /* 强制伪元素内容 */
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(125, 18, 49, 0.15); /* 加深背景色 */
+  background: rgba(125, 18, 49, 0.15) !important; /* 强制背景色 */
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 0;
+  pointer-events: none; /* 确保不影响点击 */
 }
 
 /* Hover 时显示背景 */
 .el-menu--horizontal > .el-menu-item:hover::before,
 .el-menu--horizontal > .el-sub-menu:hover::before {
-  opacity: 1;
+  opacity: 1 !important; /* 强制显示 */
 }
 
 /* 确保文字在背景之上 */
