@@ -587,23 +587,23 @@ if (import.meta.env.MODE === 'production') {
 /* 菜单项内部容器 - 使用伪元素实现背景 */
 .el-menu--horizontal > .el-menu-item::before,
 .el-menu--horizontal > .el-sub-menu::before {
-  content: '' !important; /* 强制伪元素内容 */
+  content: '' !important;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(125, 18, 49, 0.15) !important; /* 强制背景色 */
+  background: rgba(125, 18, 49, 0.15) !important;
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: 0;
-  pointer-events: none; /* 确保不影响点击 */
+  pointer-events: none;
 }
 
 /* Hover 时显示背景 */
 .el-menu--horizontal > .el-menu-item:hover::before,
 .el-menu--horizontal > .el-sub-menu:hover::before {
-  opacity: 1 !important; /* 强制显示 */
+  opacity: 1 !important;
 }
 
 /* 确保文字在背景之上 */
@@ -629,14 +629,14 @@ if (import.meta.env.MODE === 'production') {
 
 /* 激活状态 - 底部边框高亮 */
 .el-menu--horizontal > .el-menu-item.is-active {
-  border-bottom: 3px solid var(--primary-color);
-  color: var(--primary-color) !important;
+  border-bottom: 3px solid #7d1231 !important;
+  color: #7d1231 !important;
   font-weight: 600;
 }
 
 /* 激活状态的背景也显示 */
 .el-menu--horizontal > .el-menu-item.is-active::before {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 /* 子菜单弹出层优化 - 使用:deep() 穿透 */
@@ -665,20 +665,18 @@ if (import.meta.env.MODE === 'production') {
 
 /* 子菜单项悬停效果 - 使用:deep() 穿透 */
 .el-menu--horizontal :deep(.el-menu--popup .el-menu-item:hover) {
-  background-color: var(--hover-bg) !important;
-  color: var(--primary-color) !important;
+  background-color: rgba(125, 18, 49, 0.15) !important;
+  color: #7d1231 !important;
   font-weight: 600 !important;
   transform: translateX(4px);
 }
 
 /* 确保激活状态也生效 */
 .el-menu--horizontal :deep(.el-menu--popup .el-menu-item.is-active) {
-  color: var(--primary-color) !important;
-  background: var(--hover-bg) !important;
+  color: #7d1231 !important;
+  background: rgba(125, 18, 49, 0.15) !important;
   font-weight: 600 !important;
 }
-
-/* 移除子菜单标题单独的悬停颜色，保持与整体一致 */
 
 /* GitHub 链接样式 */
 .githublink {
@@ -688,7 +686,7 @@ if (import.meta.env.MODE === 'production') {
 }
 
 .githublink:hover {
-  color: var(--primary-color) !important;
+  color: #7d1231 !important;
 }
 
 
@@ -778,5 +776,33 @@ if (import.meta.env.MODE === 'production') {
 
 .social-icon:hover {
   color: #35495e;
+}
+</style>
+
+<style>
+/* 全局样式 - 强制覆盖 Element Plus 默认样式 */
+.el-menu--horizontal > .el-menu-item,
+.el-menu--horizontal > .el-sub-menu {
+  background-color: transparent !important;
+}
+
+.el-menu--horizontal > .el-menu-item:hover,
+.el-menu--horizontal > .el-sub-menu:hover {
+  background-color: rgba(125, 18, 49, 0.15) !important;
+  color: white !important;
+}
+
+.el-menu--horizontal > .el-sub-menu:hover .el-sub-menu__title {
+  color: white !important;
+}
+
+.el-menu--horizontal .el-sub-menu__title {
+  background-color: transparent !important;
+}
+
+.el-menu--horizontal > .el-menu-item.is-active {
+  background-color: rgba(125, 18, 49, 0.15) !important;
+  color: #7d1231 !important;
+  border-bottom: 3px solid #7d1231 !important;
 }
 </style>
