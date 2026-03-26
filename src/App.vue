@@ -507,10 +507,10 @@ if (import.meta.env.MODE === 'production') {
 /deep/ .el-menu-item:hover,
 /deep/ .el-menu-item.is-active {
   i {
-    color: #F2F2F2 !important;
+    color: white !important;
   }
 
-  color: #F2F2F2 !important;
+  color: white !important; /* 强制文字变白 */
   background: #7d1231 !important;
 
 }
@@ -536,8 +536,7 @@ if (import.meta.env.MODE === 'production') {
   will-change: transform;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
-  /* 避免触发重绘 */
-  contain: layout style paint;
+  /* 移除 contain 以避免影响 hover 效果 */
 }
 
 /* Logo 容器 */
@@ -583,15 +582,14 @@ if (import.meta.env.MODE === 'production') {
   border-bottom: none !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  cursor: pointer; /* 确保鼠标样式正确 */
 }
 
 /* 鼠标悬停效果 - 背景色和文字颜色同时变化 */
 .el-menu--horizontal > .el-menu-item:hover,
 .el-menu--horizontal > .el-sub-menu:hover {
   background: var(--hover-bg) !important;
-  color: var(--primary-color) !important;
-  /* 移除 transform 以避免触发重绘 */
-  /* transform: translateY(-2px); */
+  color: white !important; /* 强制文字变白 */
 }
 
 /* 激活状态 - 底部边框高亮 */
