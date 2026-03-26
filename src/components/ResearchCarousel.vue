@@ -201,9 +201,14 @@ onUnmounted(() => {
   overflow: hidden;
   border-radius: 28px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  backdrop-filter: blur(20px);
+  /* 移除 backdrop-filter 以提升性能 */
+  /* backdrop-filter: blur(20px); */
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(0, 0, 0, 0.08);
   border: 2px solid rgba(125, 18, 49, 0.15);
+  /* 启用硬件加速 */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .carousel-container {
@@ -306,9 +311,14 @@ onUnmounted(() => {
   font-weight: 700;
   color: white;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
+  /* 移除 backdrop-filter 以提升性能 */
+  /* backdrop-filter: blur(10px); */
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   border: 2px solid rgba(255, 255, 255, 0.3);
+  /* 启用硬件加速 */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .badge:hover {

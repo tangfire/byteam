@@ -385,7 +385,8 @@ if (import.meta.env.MODE === 'production') {
     right: 0;
     bottom: 0;
     background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(5px);
+    /* 移除 backdrop-filter 以提升移动端性能 */
+    /* backdrop-filter: blur(5px); */
     z-index: 1000;
     overflow-y: auto;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -397,6 +398,10 @@ if (import.meta.env.MODE === 'production') {
         opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
         transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
         max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 同步过渡属性 */
+    /* 性能优化：启用硬件加速 */
+    will-change: transform;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
   }
 
 
@@ -477,6 +482,10 @@ if (import.meta.env.MODE === 'production') {
   position: relative;
   z-index: 1002;
   border-bottom: none !important;
+  /* 性能优化 */
+  contain: layout style;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .el-menu::after {
@@ -523,6 +532,12 @@ if (import.meta.env.MODE === 'production') {
   z-index: 1002;
   height: 70px;
   transition: all 0.3s ease;
+  /* 性能优化：启用硬件加速 */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  /* 避免触发重绘 */
+  contain: layout style paint;
 }
 
 /* Logo 容器 */
@@ -575,7 +590,8 @@ if (import.meta.env.MODE === 'production') {
 .el-menu--horizontal > .el-sub-menu:hover {
   background: var(--hover-bg) !important;
   color: var(--primary-color) !important;
-  transform: translateY(-2px);
+  /* 移除 transform 以避免触发重绘 */
+  /* transform: translateY(-2px); */
 }
 
 /* 激活状态 - 底部边框高亮 */

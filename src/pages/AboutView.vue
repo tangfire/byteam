@@ -199,7 +199,7 @@
   }
 }
 
-/* 主卡片样式 */
+/* 主卡片样式 - 性能优化 */
 .content-card {
   max-width: 1100px;
   margin: 0 auto;
@@ -209,7 +209,12 @@
   overflow: hidden;
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  backdrop-filter: blur(20px);
+  /* 移除 backdrop-filter 以提升性能 */
+  /* backdrop-filter: blur(20px); */
+  /* 启用硬件加速 */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .content-card:hover {

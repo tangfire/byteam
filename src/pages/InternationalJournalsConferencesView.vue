@@ -41,19 +41,24 @@ const getLinkText = (type: string) => {
 
 // 出版物数据
 const publications = {
-  2025: {
+  2026: {
     journal: [
       {
         id: 1,
         image: "/publications/028.png",
         title: "Multi-modal Brain Tumor Segmentation via Multi-category Interaction and Graph Co-reasoning",
         authors: "Baoyao Yang*, Dongzhe Li, Chong Yin, Fei Lyu, Xiaochen He ",
-        venue: "IEEE Transactions on Multimedia, 2025",
+        venue: "IEEE Transactions on Multimedia, 2026",
         links: {
           // code: "https://github.com/BaoyaoGroup/JBHI_code",
           paper: "https://link.springer.com/chapter/10.1007/978-981-96-4001-0_19"
         }
-      },
+      }
+    ],
+    conference: []
+  },
+  2025: {
+    journal: [
       {
         id: 2,
         image: "/publications/026.png",

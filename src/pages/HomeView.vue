@@ -38,7 +38,7 @@
 
           <div class="mission-stats">
             <div class="stat-item">
-              <span class="stat-number">30+</span>
+              <span class="stat-number">50+</span>
               <span class="stat-label">Publications</span>
             </div>
             <div class="stat-item">
@@ -355,30 +355,27 @@ const scrollToResearch = () => {
   overflow-x: hidden;
 }
 
-/* 背景图片层 */
+ /* 背景图片层 - 采用 Contact 页面的方式 */
 .background-image-layer {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('/background/ContactBackground.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  background:
+      linear-gradient(135deg, rgba(125,18,49,0.08) 0%, rgba(19,57,62,0.12) 100%),
+      url('/background/ContactBackground.jpg') center/cover fixed;
   z-index: 0;
 }
 
 .image-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(248, 249, 250, 0.9) 50%, rgba(255, 255, 255, 0.85) 100%);
+  background: radial-gradient(circle at 50% 30%, rgba(248,249,250,0.6) 20%, rgba(248,249,250,0.9) 80%);
 }
 
-/* 科技背景 */
+/* 科技背景 - 恢复 fixed 定位 */
 .tech-background {
   position: fixed;
   top: 0;
@@ -387,6 +384,7 @@ const scrollToResearch = () => {
   height: 100%;
   z-index: 1;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .floating-particles {
@@ -401,6 +399,10 @@ const scrollToResearch = () => {
   border-radius: 50%;
   opacity: 0.1;
   animation: floatParticle linear infinite;
+  /* 启用硬件加速 */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 @keyframes floatParticle {
@@ -426,6 +428,10 @@ const scrollToResearch = () => {
       radial-gradient(circle at 80% 20%, rgba(19, 57, 62, 0.08) 0%, transparent 50%),
       radial-gradient(circle at 40% 40%, rgba(52, 152, 219, 0.05) 0%, transparent 50%);
   animation: pulseMesh 15s ease-in-out infinite;
+  /* 启用硬件加速 */
+  will-change: transform, opacity;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 @keyframes pulseMesh {
@@ -638,13 +644,18 @@ const scrollToResearch = () => {
   text-align: center;
   padding: 2.2rem 1.8rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
-  backdrop-filter: blur(20px);
+  /* 移除 backdrop-filter 以提升性能 */
+  /* backdrop-filter: blur(20px); */
   border-radius: var(--border-radius-lg);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   border: 2px solid rgba(125, 18, 49, 0.12);
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
+  /* 启用硬件加速 */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .stat-item::before {
@@ -782,11 +793,16 @@ const scrollToResearch = () => {
   color: var(--text-primary);
   animation: floatCard 8s ease-in-out infinite;
   border: 2px solid rgba(125, 18, 49, 0.18);
-  backdrop-filter: blur(20px);
+  /* 移除 backdrop-filter 以提升性能 */
+  /* backdrop-filter: blur(20px); */
   max-width: 260px;
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
+  /* 启用硬件加速 */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .card::before {
@@ -893,13 +909,18 @@ const scrollToResearch = () => {
   gap: 1.8rem;
   padding: 2.5rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  backdrop-filter: blur(20px);
+  /* 移除 backdrop-filter 以提升性能 */
+  /* backdrop-filter: blur(20px); */
   border-radius: 24px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 12px rgba(0, 0, 0, 0.06);
   border: 2px solid rgba(125, 18, 49, 0.12);
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
   overflow: hidden;
+  /* 启用硬件加速 */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .highlight-item::before {
@@ -1013,7 +1034,8 @@ const scrollToResearch = () => {
   gap: 2rem;
   padding: 2.5rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  backdrop-filter: blur(20px);
+  /* 移除 backdrop-filter 以提升性能 */
+  /* backdrop-filter: blur(20px); */
   border-radius: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 12px rgba(0, 0, 0, 0.05);
   margin-bottom: 1.5rem;
@@ -1022,6 +1044,10 @@ const scrollToResearch = () => {
   border: 2px solid rgba(125, 18, 49, 0.1);
   position: relative;
   overflow: hidden;
+  /* 启用硬件加速 */
+  will-change: transform;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .news-item::before {
