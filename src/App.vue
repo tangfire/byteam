@@ -8,6 +8,7 @@ import {Menu} from "@element-plus/icons-vue";
 
 const route = useRoute()
 const activeIndex = computed(() => route.path as string)
+const isAdminRoute = computed(() => route.path.startsWith('/admin'))
 const isMobile = ref(false)
 const isMenuCollapsed = ref(true) // 移动端菜单折叠状态
 
@@ -85,10 +86,11 @@ if (import.meta.env.MODE === 'production') {
 </script>
 
 <template>
-  <div class="common-layout">
+  <router-view v-if="isAdminRoute"/>
+  <div v-else class="common-layout">
 
 
-    <el-container>
+    <el-container class="site-container">
 
       <!-- 移动端导航 -->
       <div v-if="isMobile" class="mobile-nav">
@@ -260,6 +262,14 @@ if (import.meta.env.MODE === 'production') {
 </template>
 
 <style scoped>
+:global(body) {
+  margin: 0;
+}
+
+:global(#app) {
+  min-height: 100vh;
+}
+
 
 /* 新增移动端样式 */
 @media (max-width: 768px) {
@@ -738,7 +748,7 @@ if (import.meta.env.MODE === 'production') {
   height: 100vh; /* 设置页面的总高度为视口高度 */
 }
 
-.el-container {
+.site-container {
   flex: 1; /* 让容器占据剩余的空间 */
   display: flex;
   flex-direction: column;

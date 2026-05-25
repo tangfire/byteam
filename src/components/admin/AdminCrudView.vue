@@ -86,7 +86,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, toRaw } from 'vue'
 import { ElMessage } from 'element-plus'
 import { createAdmin, deleteAdmin, listAdmin, updateAdmin } from '../../api/admin'
 
@@ -116,6 +116,8 @@ const dialogVisible = ref(false)
 const editing = ref<Record<string, any> | null>(null)
 const query = reactive({ page: 1, pageSize: 20, q: '', status: '' })
 
+const clonePlain = (value: Record<string, any>) => JSON.parse(JSON.stringify(toRaw(value)))
+
 const load = async () => {
   loading.value = true
   try {
@@ -128,15 +130,16 @@ const load = async () => {
 }
 
 const openCreate = () => {
-  editing.value = structuredClone(props.defaults)
+  editing.value = clonePlain(props.defaults)
   dialogVisible.value = true
 }
 
 const openEdit = (row: Record<string, any>) => {
-  editing.value = structuredClone(row)
-  if (props.resource === 'publications' && !editing.value.links) {
-    editing.value.links = []
+  const next = clonePlain(row)
+  if (props.resource === 'publications' && !next.links) {
+    next.links = []
   }
+  editing.value = next
   dialogVisible.value = true
 }
 

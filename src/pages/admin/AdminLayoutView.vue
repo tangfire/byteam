@@ -14,7 +14,7 @@
         <el-menu-item index="/admin/trash">Trash</el-menu-item>
       </el-menu>
     </el-aside>
-    <el-container>
+    <el-container class="admin-content">
       <el-header class="admin-header">
         <router-link to="/">查看官网</router-link>
         <el-button @click="handleLogout">退出登录</el-button>
@@ -41,11 +41,19 @@ const handleLogout = async () => {
 <style scoped>
 .admin-shell {
   min-height: 100vh;
+  height: 100vh;
   background: #f3f4f6;
+  display: flex;
+  align-items: stretch;
 }
 
 .admin-aside {
   background: #111827;
+  flex-shrink: 0;
+}
+
+.admin-content {
+  min-width: 0;
 }
 
 .admin-brand {
@@ -69,6 +77,7 @@ const handleLogout = async () => {
 
 .admin-main {
   padding: 24px;
+  overflow: auto;
 }
 
 .admin-header a {
