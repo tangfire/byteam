@@ -27,7 +27,8 @@ services:
       - "8080:8080"
     volumes:
       - ./server:/app
-      - uploads:/data/uploads
+      - ./public:/app/public:ro
+      - ./storage/uploads:/data/uploads
     environment:
       PORT: "8080"
       DATABASE_DSN: "byml:byml_password@tcp(mysql:3306)/byml?charset=utf8mb4&parseTime=True&loc=Local"
@@ -35,6 +36,7 @@ services:
       ADMIN_USERNAME: "admin"
       ADMIN_PASSWORD: "admin123456"
       UPLOAD_DIR: "/data/uploads"
+      PUBLIC_DIR: "/app/public"
       MAX_UPLOAD_SIZE: "104857600"
     depends_on:
       mysql:
@@ -60,4 +62,3 @@ services:
 volumes:
   node_modules:
   mysql_data:
-  uploads:

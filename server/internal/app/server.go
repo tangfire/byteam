@@ -79,14 +79,14 @@ func (s *Server) routes() *gin.Engine {
 		admin.POST("/auth/login", s.login)
 		admin.GET("/me", s.authMiddleware(), s.me)
 
-			protected := admin.Group("", s.authMiddleware())
-			protected.GET("/summary", s.adminSummary)
-			protected.GET("/trash", s.listTrash)
-			protected.POST("/trash/:resource/:id/restore", s.restoreTrash)
+		protected := admin.Group("", s.authMiddleware())
+		protected.GET("/summary", s.adminSummary)
+		protected.GET("/trash", s.listTrash)
+		protected.POST("/trash/:resource/:id/restore", s.restoreTrash)
 
-			protected.GET("/news", s.listNews)
-			protected.POST("/news", s.createNews)
-			protected.PUT("/news/:id", s.updateNews)
+		protected.GET("/news", s.listNews)
+		protected.POST("/news", s.createNews)
+		protected.PUT("/news/:id", s.updateNews)
 		protected.DELETE("/news/:id", s.deleteNews)
 
 		protected.GET("/people", s.listPeople)
@@ -116,6 +116,7 @@ func (s *Server) routes() *gin.Engine {
 
 		protected.GET("/media", s.listMedia)
 		protected.POST("/media", s.uploadMedia)
+		protected.POST("/media/import-public", s.importPublicMedia)
 		protected.DELETE("/media/:id", s.deleteMedia)
 	}
 

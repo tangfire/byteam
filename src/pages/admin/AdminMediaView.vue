@@ -5,9 +5,12 @@
         <h1>Media</h1>
         <p>上传和管理图片、文档、压缩包和视频资源</p>
       </div>
-      <el-upload :show-file-list="false" :http-request="handleUpload">
-        <el-button type="primary" :loading="uploading">上传文件</el-button>
-      </el-upload>
+      <div class="media-actions">
+        <el-button :loading="importing" @click="handleImport">扫描现有资源</el-button>
+        <el-upload :show-file-list="false" :http-request="handleUpload">
+          <el-button type="primary" :loading="uploading">上传文件</el-button>
+        </el-upload>
+      </div>
     </div>
 
     <el-table v-loading="loading" :data="items" border>
@@ -54,11 +57,12 @@
 import { onMounted, ref } from 'vue'
 import type { UploadRequestOptions } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { deleteAdmin, listAdmin, uploadMedia } from '../../api/admin'
+import { deleteAdmin, importPublicMedia, listAdmin, uploadMedia } from '../../api/admin'
 import type { MediaAsset } from '../../api/client'
 
 const loading = ref(false)
 const uploading = ref(false)
+const importing = ref(false)
 const items = ref<MediaAsset[]>([])
 const total = ref(0)
 const page = ref(1)
@@ -83,6 +87,18 @@ const handleUpload = async (options: UploadRequestOptions) => {
     await load()
   } finally {
     uploading.value = false
+  }
+}
+
+const handleImport = async () => {
+  importing.value = true
+  try {
+    const result = await importPublicMedia()
+    ElMessage.success(`扫描完成：新增 ${result.created}，更新 ${result.updated}，跳过 ${result.skipped}`)
+    page.value = 1
+    await load()
+  } finally {
+    importing.value = false
   }
 }
 
@@ -112,6 +128,12 @@ onMounted(load)
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.media-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .admin-page-header h1 {

@@ -1,6 +1,7 @@
 package app
 
 import (
+	"errors"
 	"fmt"
 	"mime"
 	"net/http"
@@ -10,6 +11,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 var allowedExtensions = map[string]string{
@@ -33,6 +35,108 @@ func (s *Server) listMedia(c *gin.Context) {
 		db = db.Where("kind = ?", kind)
 	}
 	paged(c, db.Order("created_at DESC, id DESC"), &items, page, pageSize)
+}
+
+func (s *Server) importPublicMedia(c *gin.Context) {
+	result, err := s.scanPublicMedia()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, result)
+}
+
+type MediaImportResult struct {
+	Scanned int `json:"scanned"`
+	Created int `json:"created"`
+	Updated int `json:"updated"`
+	Skipped int `json:"skipped"`
+}
+
+func (s *Server) scanPublicMedia() (MediaImportResult, error) {
+	result := MediaImportResult{}
+	publicDir := filepath.Clean(s.cfg.PublicDir)
+	info, err := os.Stat(publicDir)
+	if err != nil {
+		return result, fmt.Errorf("public dir %q is not available: %w", publicDir, err)
+	}
+	if !info.IsDir() {
+		return result, fmt.Errorf("public dir %q is not a directory", publicDir)
+	}
+
+	err = filepath.WalkDir(publicDir, func(path string, entry os.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		if entry.IsDir() {
+			return nil
+		}
+
+		ext := strings.ToLower(filepath.Ext(entry.Name()))
+		kind, ok := allowedExtensions[ext]
+		if !ok {
+			result.Skipped++
+			return nil
+		}
+		result.Scanned++
+
+		relative, err := filepath.Rel(publicDir, path)
+		if err != nil {
+			return err
+		}
+		relative = filepath.ToSlash(relative)
+		url := "/" + relative
+		fileInfo, err := entry.Info()
+		if err != nil {
+			return err
+		}
+
+		mimeType := mediaMimeType(ext)
+		if mimeType == "" {
+			mimeType = "application/octet-stream"
+		}
+
+		asset := MediaAsset{
+			FileName:     entry.Name(),
+			OriginalName: entry.Name(),
+			URL:          url,
+			Path:         path,
+			MimeType:     mimeType,
+			Size:         fileInfo.Size(),
+			Kind:         kind,
+		}
+
+		var existing MediaAsset
+		err = s.db.Unscoped().Where("url = ?", url).First(&existing).Error
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			if err := s.db.Create(&asset).Error; err != nil {
+				return err
+			}
+			result.Created++
+			return nil
+		}
+		if err != nil {
+			return err
+		}
+		if err := s.db.Unscoped().Model(&existing).Updates(map[string]any{
+			"file_name":     asset.FileName,
+			"original_name": asset.OriginalName,
+			"path":          asset.Path,
+			"mime_type":     asset.MimeType,
+			"size":          asset.Size,
+			"kind":          asset.Kind,
+			"deleted_at":    nil,
+		}).Error; err != nil {
+			return err
+		}
+		result.Updated++
+		return nil
+	})
+
+	if err != nil {
+		return result, err
+	}
+	return result, nil
 }
 
 func (s *Server) uploadMedia(c *gin.Context) {
@@ -75,11 +179,8 @@ func (s *Server) uploadMedia(c *gin.Context) {
 	}
 
 	mimeType := file.Header.Get("Content-Type")
-	if mimeType == "" {
-		mimeType = mime.TypeByExtension(ext)
-	}
-	if mimeType == "" {
-		mimeType = "application/octet-stream"
+	if mimeType == "" || mimeType == "application/octet-stream" {
+		mimeType = mediaMimeType(ext)
 	}
 
 	asset := MediaAsset{
@@ -137,4 +238,22 @@ func sanitizeFileName(name string) string {
 		return out[:80]
 	}
 	return out
+}
+
+func mediaMimeType(ext string) string {
+	if value := mime.TypeByExtension(ext); value != "" {
+		return value
+	}
+	switch ext {
+	case ".mp4":
+		return "video/mp4"
+	case ".ppt":
+		return "application/vnd.ms-powerpoint"
+	case ".pptx":
+		return "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+	case ".zip":
+		return "application/zip"
+	default:
+		return "application/octet-stream"
+	}
 }

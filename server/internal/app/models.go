@@ -55,7 +55,7 @@ type MediaAsset struct {
 	ID           uint           `json:"id" gorm:"primaryKey"`
 	FileName     string         `json:"fileName" gorm:"size:255;not null"`
 	OriginalName string         `json:"originalName" gorm:"size:255;not null"`
-	URL          string         `json:"url" gorm:"size:500;not null"`
+	URL          string         `json:"url" gorm:"size:500;not null;uniqueIndex"`
 	Path         string         `json:"-" gorm:"size:500;not null"`
 	MimeType     string         `json:"mimeType" gorm:"size:160;not null"`
 	Size         int64          `json:"size"`

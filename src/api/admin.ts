@@ -55,6 +55,12 @@ export function restoreTrash(resource: string, id: number) {
   })
 }
 
+export function importPublicMedia() {
+  return apiRequest<{ scanned: number; created: number; updated: number; skipped: number }>('/api/admin/media/import-public', {
+    method: 'POST',
+  })
+}
+
 export async function uploadMedia(file: File) {
   const body = new FormData()
   body.append('file', file)
