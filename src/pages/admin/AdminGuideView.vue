@@ -33,9 +33,10 @@
       <h2>日常维护流程</h2>
       <ol>
         <li>在后台新增、编辑、发布或隐藏内容。</li>
-        <li>重要修改后在服务器或本机执行 <code>make backup</code>，刷新项目内恢复快照。</li>
-        <li>提交 <code>storage/content/content.json</code> 和 <code>storage/uploads/</code> 中新增的资源文件。</li>
-        <li>不要提交 <code>storage/backups/</code> 里的时间戳压缩包，除非需要单独做离线归档。</li>
+        <li>Docker Compose 的 <code>backup</code> 服务会自动刷新 <code>storage/content/content.json</code>，默认每 6 小时一次。</li>
+        <li>如果服务器启用了 <code>git-sync</code> 服务，恢复快照和新增上传文件会自动提交并推送到 git。</li>
+        <li>如果没有启用 <code>git-sync</code>，维护者需要定期人工提交 <code>storage/content/content.json</code> 和 <code>storage/uploads/</code>。</li>
+        <li><code>storage/backups/</code> 里的时间戳压缩包只做服务器本地备份，默认不提交。</li>
       </ol>
     </section>
 
@@ -44,10 +45,27 @@
       <p>
         Docker Compose 里有 <code>backup</code> 服务，默认每 6 小时执行一次 <code>scripts/backup.sh</code>。
         它会刷新 <code>storage/content/content.json</code>，同时生成本地压缩备份到 <code>storage/backups/</code>。
+        如果数据库暂时不可用，脚本会保留上一份正常快照，不会用空文件覆盖它。
       </p>
       <div class="command-list">
         <code>docker compose up -d backup</code>
         <code>docker compose logs -f backup</code>
+      </div>
+    </section>
+
+    <section class="guide-section">
+      <h2>自动同步到 Git</h2>
+      <p>
+        <code>git-sync</code> 是可选服务。服务器配置好 git 写权限后，它只会提交
+        <code>storage/content/content.json</code> 和 <code>storage/uploads/</code>，
+        不会提交代码文件或 <code>storage/backups/</code> 压缩包。
+        它默认只提交 backup 服务已经生成好的快照，所以需要和 <code>backup</code> 服务一起运行。
+        为了防止误删扩散，默认不会自动提交 <code>storage/uploads/</code> 里的删除操作。
+      </p>
+      <div class="command-list">
+        <code>docker compose up -d backup</code>
+        <code>docker compose --profile git-sync up -d git-sync</code>
+        <code>docker compose logs -f git-sync</code>
       </div>
     </section>
 
@@ -78,7 +96,8 @@
         <li><code>make restore-content</code> 会重建内容表和媒体索引，执行前一定先跑 dry run。</li>
         <li>管理员账号不在 <code>content.json</code> 里，由环境变量 <code>ADMIN_USERNAME</code> 和 <code>ADMIN_PASSWORD</code> 初始化。</li>
         <li>生产环境必须修改默认密码和 <code>JWT_SECRET</code>。</li>
-        <li>自动备份不等于自动提交 git；重要更新后仍需要提交恢复快照和上传资源。</li>
+        <li>只有启用 <code>git-sync</code> 后，恢复快照和新增上传文件才会自动推送到 git。</li>
+        <li><code>git-sync</code> 默认拒绝异常小的内容快照，也不会自动推送上传资源删除。</li>
       </ul>
     </section>
   </div>

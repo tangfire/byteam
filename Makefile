@@ -1,4 +1,4 @@
-.PHONY: backup content-snapshot restore-content restore-content-dry-run backup-cron-command media-import
+.PHONY: backup content-snapshot restore-content restore-content-dry-run backup-cron-command git-sync-backup git-sync-backup-dry-run media-import
 
 backup:
 	./scripts/backup.sh
@@ -14,6 +14,12 @@ restore-content-dry-run:
 
 backup-cron-command:
 	@echo "0 */6 * * * cd $(CURDIR) && make backup >> storage/backups/backup.log 2>&1"
+
+git-sync-backup:
+	./scripts/git-sync-backup.sh
+
+git-sync-backup-dry-run:
+	GIT_SYNC_DRY_RUN=true ./scripts/git-sync-backup.sh
 
 media-import:
 	curl -sS -H 'Content-Type: application/json' \

@@ -9,11 +9,18 @@ This directory is the repo-level recovery copy for CMS data and uploaded assets.
 
 Recommended routine:
 
-1. After important admin edits, run `make backup`.
-2. Commit `storage/content/content.json` and any new files under `storage/uploads/`.
-3. Keep timestamped files under `storage/backups/` local unless you explicitly want an offline archive.
-4. Keep the Docker Compose `backup` service running on the server. It refreshes the snapshot every 6 hours by default.
+1. Keep the Docker Compose `backup` service running on the server. It refreshes `storage/content/content.json` every 6 hours by default.
+2. If git write access is configured on the server, start `docker compose --profile git-sync up -d git-sync` to automatically commit and push `storage/content/content.json` plus new files under `storage/uploads/`. Keep the `backup` service running too, because `git-sync` only pushes the snapshot that `backup` has generated.
+3. If `git-sync` is not enabled, periodically commit `storage/content/content.json` and new files under `storage/uploads/` by hand.
+4. Keep timestamped files under `storage/backups/` local unless you explicitly want an offline archive.
 5. If you do not use the Compose backup service, run `make backup-cron-command` and add the printed line to crontab as an alternative.
+
+Safety behavior:
+
+- `backup` writes `storage/content/content.json` atomically. If MySQL is unavailable or the generated snapshot is empty/too small, it keeps the previous good snapshot.
+- `git-sync` refuses to push an empty or unexpectedly small `storage/content/content.json`.
+- `git-sync` adds new and modified files under `storage/uploads/`, but it does not auto-stage upload deletions by default. Set `GIT_SYNC_ALLOW_UPLOAD_DELETES=true` only when you intentionally want remote git to record removed uploaded files.
+- Even if a bad snapshot is pushed by mistake, git history can still recover an earlier version.
 
 Recovery routine:
 

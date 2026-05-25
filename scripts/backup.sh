@@ -7,6 +7,8 @@ BACKUP_DIR="${ROOT_DIR}/storage/backups/${STAMP}"
 UPLOADS_DIR="${ROOT_DIR}/storage/uploads"
 CONTENT_DIR="${ROOT_DIR}/storage/content"
 CONTENT_SNAPSHOT="${CONTENT_DIR}/content.json"
+CONTENT_TMP="${CONTENT_SNAPSHOT}.tmp"
+MIN_CONTENT_BYTES="${BACKUP_MIN_CONTENT_BYTES:-2000}"
 MYSQL_HOST_VALUE="${MYSQL_HOST:-}"
 MYSQL_PORT_VALUE="${MYSQL_PORT:-3306}"
 MYSQL_DATABASE_VALUE="${MYSQL_DATABASE:-byml}"
@@ -17,6 +19,7 @@ MYSQL_ROOT_PASSWORD_VALUE="${MYSQL_ROOT_PASSWORD:-root_password}"
 
 mkdir -p "${BACKUP_DIR}"
 mkdir -p "${CONTENT_DIR}"
+trap 'rm -f "${CONTENT_TMP}"' EXIT
 
 echo "Creating BYML backup at ${BACKUP_DIR}"
 echo "Refreshing git-visible CMS snapshot at ${CONTENT_SNAPSHOT}"
@@ -27,6 +30,22 @@ has_direct_mysql() {
 
 has_compose_mysql() {
   docker compose -f "${ROOT_DIR}/compose.yaml" ps mysql >/dev/null 2>&1
+}
+
+install_content_snapshot() {
+  if [ ! -s "${CONTENT_TMP}" ]; then
+    echo "Generated content snapshot is empty; keeping previous ${CONTENT_SNAPSHOT}." >&2
+    return 1
+  fi
+
+  content_bytes="$(wc -c < "${CONTENT_TMP}" | tr -d ' ')"
+  if [ "${content_bytes}" -lt "${MIN_CONTENT_BYTES}" ]; then
+    echo "Generated content snapshot is unexpectedly small (${content_bytes} bytes); keeping previous ${CONTENT_SNAPSHOT}." >&2
+    return 1
+  fi
+
+  mv "${CONTENT_TMP}" "${CONTENT_SNAPSHOT}"
+  cp "${CONTENT_SNAPSHOT}" "${BACKUP_DIR}/content.json"
 }
 
 CONTENT_SQL="$(cat <<'SQL'
@@ -226,17 +245,19 @@ if has_direct_mysql; then
     "${MYSQL_DATABASE_VALUE}" \
     --batch --raw --skip-column-names \
     -e "${CONTENT_SQL}" \
-    > "${CONTENT_SNAPSHOT}"
-  cp "${CONTENT_SNAPSHOT}" "${BACKUP_DIR}/content.json"
+    > "${CONTENT_TMP}"
+  install_content_snapshot
 elif has_compose_mysql; then
   docker compose -f "${ROOT_DIR}/compose.yaml" exec -T mysql \
     mysql -ubyml -pbyml_password --default-character-set=utf8mb4 byml --batch --raw --skip-column-names \
     -e "${CONTENT_SQL}" \
-    > "${CONTENT_SNAPSHOT}"
-  cp "${CONTENT_SNAPSHOT}" "${BACKUP_DIR}/content.json"
+    > "${CONTENT_TMP}"
+  install_content_snapshot
 else
-  echo "{}" > "${CONTENT_SNAPSHOT}"
-  cp "${CONTENT_SNAPSHOT}" "${BACKUP_DIR}/content.json"
+  echo "MySQL container is not running; kept existing ${CONTENT_SNAPSHOT}." >&2
+  if [ -s "${CONTENT_SNAPSHOT}" ]; then
+    cp "${CONTENT_SNAPSHOT}" "${BACKUP_DIR}/content.json"
+  fi
 fi
 
 if [ -d "${UPLOADS_DIR}" ]; then

@@ -83,6 +83,38 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  git-sync:
+    image: alpine/git:2.49.1
+    working_dir: /workspace
+    command: >
+      sh -c "while true; do
+        /workspace/scripts/git-sync-backup.sh;
+        sleep $${GIT_SYNC_INTERVAL_SECONDS:-21600};
+      done"
+    volumes:
+      - .:/workspace
+      - ~/.ssh:/root/.ssh:ro
+    environment:
+      MYSQL_HOST: "mysql"
+      MYSQL_PORT: "3306"
+      MYSQL_DATABASE: "byml"
+      MYSQL_USER: "byml"
+      MYSQL_PASSWORD: "byml_password"
+      MYSQL_ROOT_USER: "root"
+      MYSQL_ROOT_PASSWORD: "root_password"
+      GIT_SYNC_REMOTE: "origin"
+      GIT_SYNC_BRANCH: ""
+      GIT_SYNC_NAME: "BYML Backup Bot"
+      GIT_SYNC_EMAIL: "byml-backup@example.local"
+      GIT_SYNC_RUN_BACKUP: "false"
+      GIT_SYNC_INTERVAL_SECONDS: "21600"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    profiles:
+      - git-sync
+    restart: unless-stopped
+
 volumes:
   node_modules:
   mysql_data:
