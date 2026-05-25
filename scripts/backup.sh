@@ -12,6 +12,7 @@ mkdir -p "${BACKUP_DIR}"
 mkdir -p "${CONTENT_DIR}"
 
 echo "Creating BYML backup at ${BACKUP_DIR}"
+echo "Refreshing git-visible CMS snapshot at ${CONTENT_SNAPSHOT}"
 
 CONTENT_SQL="$(cat <<'SQL'
 SELECT JSON_PRETTY(JSON_OBJECT(
@@ -219,6 +220,9 @@ Files:
 - content.json: JSON export of CMS content tables
 - uploads.tar.gz: uploaded files from storage/uploads
 - public.tar.gz: versioned public static assets currently deployed
+
+The latest git-visible recovery snapshot is also written to:
+${CONTENT_SNAPSHOT}
 EOF
 
 echo "Backup complete: ${BACKUP_DIR}"
