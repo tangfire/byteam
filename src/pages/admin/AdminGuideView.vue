@@ -31,13 +31,13 @@
 
     <section class="guide-section">
       <h2>日常维护流程</h2>
-      <ol>
-        <li>在后台新增、编辑、发布或隐藏内容。</li>
-        <li>Docker Compose 的 <code>backup</code> 服务会自动刷新 <code>storage/content/content.json</code>，默认每 6 小时一次。</li>
-        <li>重要修改后可以在本页点“刷新备份快照”，马上把 MySQL 内容写入项目内 JSON。</li>
-        <li>服务器配置好 git 写权限后，可以点“一键同步到 Git”，自动提交并推送恢复快照和新增上传文件。</li>
-        <li><code>storage/backups/</code> 里的时间戳备份只做服务器本地短期回滚，默认保留最近 28 份，不会提交到 git。</li>
-      </ol>
+      <div class="step-flow">
+        <div v-for="(step, index) in dailySteps" :key="step.title" class="step-card">
+          <span>{{ index + 1 }}</span>
+          <strong>{{ step.title }}</strong>
+          <p>{{ step.text }}</p>
+        </div>
+      </div>
     </section>
 
     <section class="guide-section">
@@ -182,6 +182,14 @@ const statusLoading = ref(false)
 const backupRunning = ref(false)
 const syncRunning = ref(false)
 const commandOutput = ref('')
+
+const dailySteps = [
+  { title: '后台维护内容', text: '新增、编辑、发布或隐藏新闻、成员、论文、页面和媒体文件。' },
+  { title: '自动刷新快照', text: 'backup 服务默认每 6 小时把 MySQL 内容写入 storage/content/content.json。' },
+  { title: '重要修改手动备份', text: '本页“刷新备份快照”会立刻导出当前数据库内容，适合发布前后使用。' },
+  { title: '同步到 Git', text: '服务器配置好写权限后，“一键同步到 Git”会提交恢复快照和新增上传文件。' },
+  { title: '短期备份自动清理', text: 'storage/backups/ 默认保留最近 28 份，不会被提交到 git。' },
+]
 
 const loadStatus = async () => {
   statusLoading.value = true
@@ -361,6 +369,45 @@ onMounted(loadStatus)
 .guide-section ul {
   margin: 0;
   padding-left: 22px;
+}
+
+.step-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fbfbfc;
+  padding: 14px;
+}
+
+.step-card span {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #7d1231;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.step-card strong {
+  color: #25313b;
+}
+
+.step-card p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 13px;
 }
 
 .guide-grid {

@@ -20,7 +20,7 @@ const fields: FieldConfig[] = [
   { prop: 'type', label: '类型', type: 'select', options: [{ label: '论文发表', value: 'publication' }, { label: '团队动态', value: 'team' }, { label: '奖项荣誉', value: 'award' }, { label: '活动', value: 'event' }, { label: '其他', value: 'general' }] },
   { prop: 'typeLabel', label: '类型显示（可留空）' },
   { prop: 'date', label: '日期', type: 'date' },
-  { prop: 'color', label: '颜色' },
+  { prop: 'color', label: '颜色', type: 'color' },
   { prop: 'status', label: '发布状态', type: 'select', options: [{ label: '已发布', value: 'published' }, { label: '草稿', value: 'draft' }] },
 ]
 </script>

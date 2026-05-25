@@ -12,10 +12,12 @@
         <el-option v-for="resource in resources" :key="resource.value" :label="resource.label" :value="resource.value" />
       </el-select>
       <el-input v-model="query.q" placeholder="搜索已删除内容" clearable @keyup.enter="load" />
-      <el-button @click="load">刷新</el-button>
+      <div class="toolbar-spacer" />
+      <span class="toolbar-count">共 {{ total }} 条</span>
+      <el-button :loading="loading" @click="load">刷新</el-button>
     </div>
 
-    <el-table v-loading="loading" :data="items" border>
+    <el-table v-loading="loading" :data="items" border class="trash-table">
       <el-table-column prop="label" label="类型" width="150" />
       <el-table-column prop="title" label="标题/名称" min-width="260" show-overflow-tooltip />
       <el-table-column prop="subtitle" label="说明" min-width="260" show-overflow-tooltip />
@@ -37,6 +39,11 @@
           </el-popconfirm>
         </template>
       </el-table-column>
+      <template #empty>
+        <el-empty :description="emptyText" :image-size="92">
+          <el-button v-if="query.q" @click="clearSearch">清空搜索</el-button>
+        </el-empty>
+      </template>
     </el-table>
 
     <el-pagination
@@ -52,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { listTrash, restoreTrash } from '../../api/admin'
 import type { TrashItem } from '../../api/client'
@@ -72,11 +79,14 @@ const loading = ref(false)
 const items = ref<TrashItem[]>([])
 const total = ref(0)
 const query = reactive({
-  resource: 'news',
+  resource: localStorage.getItem('byml_admin_trash_resource') || 'news',
   page: 1,
   pageSize: 20,
   q: '',
 })
+
+const activeResourceLabel = computed(() => resources.find((resource) => resource.value === query.resource)?.label || '内容')
+const emptyText = computed(() => query.q ? '没有找到符合搜索条件的已删除内容' : `${activeResourceLabel.value}回收站为空`)
 
 const load = async () => {
   loading.value = true
@@ -90,6 +100,13 @@ const load = async () => {
 }
 
 const handleResourceChange = async () => {
+  query.page = 1
+  localStorage.setItem('byml_admin_trash_resource', query.resource)
+  await load()
+}
+
+const clearSearch = async () => {
+  query.q = ''
   query.page = 1
   await load()
 }
@@ -137,6 +154,11 @@ onMounted(load)
 
 .admin-toolbar {
   justify-content: flex-start;
+  flex-wrap: wrap;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 12px;
 }
 
 .admin-toolbar .el-select {
@@ -149,5 +171,37 @@ onMounted(load)
 
 .admin-pagination {
   align-self: flex-end;
+}
+
+.toolbar-spacer {
+  flex: 1;
+  min-width: 16px;
+}
+
+.toolbar-count {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.trash-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+@media (max-width: 760px) {
+  .admin-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-toolbar .el-select,
+  .admin-toolbar .el-input {
+    width: 100%;
+  }
+
+  .toolbar-spacer,
+  .toolbar-count {
+    display: none;
+  }
 }
 </style>

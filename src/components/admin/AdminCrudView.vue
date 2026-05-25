@@ -5,21 +5,23 @@
         <h1>{{ title }}</h1>
         <p>{{ description }}</p>
       </div>
-      <el-button type="primary" @click="openCreate">新增</el-button>
+      <el-button type="primary" @click="openCreate">新增{{ title.replace('管理', '') }}</el-button>
     </div>
 
-    <div class="admin-toolbar">
-      <el-input v-model="query.q" placeholder="搜索" clearable @keyup.enter="load" />
-      <el-select v-model="query.status" placeholder="状态" clearable>
-        <el-option label="已发布" value="published" />
-        <el-option label="草稿" value="draft" />
-      </el-select>
-      <el-button @click="load">刷新</el-button>
-    </div>
+    <div class="admin-panel">
+      <div class="admin-toolbar">
+        <el-input v-model="query.q" placeholder="搜索标题、姓名、编号等" clearable @clear="refresh" @keyup.enter="refresh" />
+        <el-segmented v-model="query.status" :options="statusOptions" @change="refresh" />
+        <div class="toolbar-spacer" />
+        <span class="toolbar-count">共 {{ total }} 条</span>
+        <el-button :loading="loading" @click="refresh">刷新</el-button>
+      </div>
 
-    <el-alert v-if="sortable" class="sort-hint" type="info" :closable="false" show-icon>
-      <template #title>按住左侧手柄拖动，可调整当前列表的展示顺序；跨年份或跨分类的拖动会被自动拦截。</template>
-    </el-alert>
+      <div v-if="sortable" class="sort-hint">
+        <span class="drag-hint-icon">⋮⋮</span>
+        <span>拖动每行左侧手柄即可调整展示顺序，同一年份或同一分类内排序会自动保存。</span>
+      </div>
+    </div>
 
     <el-table
       v-loading="loading"
@@ -37,6 +39,7 @@
             draggable="true"
             aria-label="拖动排序"
             title="拖动排序"
+            :disabled="dragSaving"
             @dragstart="handleDragStart(row, $event)"
             @dragend="handleDragEnd"
           >
@@ -49,10 +52,12 @@
           <el-image v-if="column.type === 'image' && row[column.prop]" :src="row[column.prop]" fit="cover" class="table-image" />
           <span v-else-if="column.type === 'image'" class="empty-image">未设置</span>
           <el-tag v-else-if="column.prop === 'status'" :type="row.status === 'published' ? 'success' : 'info'">{{ formatStatus(row.status) }}</el-tag>
+          <el-tag v-else-if="column.prop === 'featured' && row[column.prop]" type="warning">精选</el-tag>
+          <span v-else-if="column.prop === 'featured'">-</span>
           <span v-else>{{ formatCell(row[column.prop], column) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" fixed="right" width="210">
+      <el-table-column label="操作" fixed="right" width="220">
         <template #default="{ row }">
           <el-button link type="primary" @click="openEdit(row)">编辑</el-button>
           <el-button
@@ -70,6 +75,12 @@
           </el-popconfirm>
         </template>
       </el-table-column>
+      <template #empty>
+        <el-empty :description="emptyDescription" :image-size="92">
+          <el-button v-if="hasActiveFilters" @click="resetFilters">清空筛选</el-button>
+          <el-button v-else type="primary" @click="openCreate">新增{{ title.replace('管理', '') }}</el-button>
+        </el-empty>
+      </template>
     </el-table>
 
     <el-pagination
@@ -82,10 +93,14 @@
       @size-change="load"
     />
 
-    <el-dialog v-model="dialogVisible" :title="editing?.id ? '编辑' : '新增'" width="860px">
+    <el-dialog v-model="dialogVisible" :title="editing?.id ? `编辑${title.replace('管理', '')}` : `新增${title.replace('管理', '')}`" width="900px" class="admin-edit-dialog">
       <el-form :model="editing" label-width="120px" class="admin-form" v-if="editing">
         <el-form-item v-for="field in fields" :key="field.prop" :label="field.label">
-          <el-input v-if="!field.type || field.type === 'text'" v-model="editing[field.prop]" />
+          <div v-if="field.type === 'color'" class="color-field">
+            <el-color-picker v-model="editing[field.prop]" />
+            <el-input v-model="editing[field.prop]" placeholder="#7d1231" />
+          </div>
+          <el-input v-else-if="!field.type || field.type === 'text'" v-model="editing[field.prop]" />
           <el-input v-else-if="field.type === 'textarea'" v-model="editing[field.prop]" type="textarea" :rows="field.rows || 4" />
           <el-input-number v-else-if="field.type === 'number'" v-model="editing[field.prop]" :min="0" />
           <el-switch v-else-if="field.type === 'boolean'" v-model="editing[field.prop]" />
@@ -161,6 +176,8 @@
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button v-if="editing && editing.status !== 'draft'" :loading="saving" @click="saveWithStatus('draft')">存为草稿</el-button>
+        <el-button v-if="editing && editing.status !== 'published'" :loading="saving" @click="saveWithStatus('published')">保存并发布</el-button>
         <el-button type="primary" :loading="saving" @click="save">保存</el-button>
       </template>
     </el-dialog>
@@ -174,8 +191,10 @@
         <button v-for="asset in mediaOptions" :key="asset.id" class="media-option" type="button" @click="chooseMedia(asset.url)">
           <el-image v-if="asset.kind === 'image'" :src="asset.url" fit="cover" />
           <span v-else class="media-kind">{{ formatMediaKind(asset.kind) }}</span>
-          <span class="media-name">{{ asset.originalName }}</span>
+          <span class="media-name">{{ asset.displayName || asset.originalName }}</span>
+          <span class="media-url">{{ asset.originalName }}</span>
         </button>
+        <el-empty v-if="!mediaLoading && mediaOptions.length === 0" description="没有找到媒体文件" :image-size="72" />
       </div>
     </el-dialog>
   </div>
@@ -192,7 +211,7 @@ export interface FieldConfig {
   prop: string
   label: string
   width?: number
-  type?: 'text' | 'textarea' | 'number' | 'select' | 'date' | 'boolean' | 'list' | 'links' | 'image'
+  type?: 'text' | 'textarea' | 'number' | 'select' | 'date' | 'boolean' | 'list' | 'links' | 'image' | 'color'
   rows?: number
   options?: { label: string; value: string | number }[]
 }
@@ -232,6 +251,12 @@ const dragEventsBound = ref(false)
 const linkDragIndex = ref<number | null>(null)
 const linkDragOverIndex = ref<number | null>(null)
 
+const statusOptions = [
+  { label: '全部', value: '' },
+  { label: '已发布', value: 'published' },
+  { label: '草稿', value: 'draft' },
+]
+
 const linkTypeOptions = [
   { label: '论文 / PDF', shortLabel: '论文', value: 'paper', defaultLabel: 'Paper' },
   { label: '代码', shortLabel: '代码', value: 'code', defaultLabel: 'Code' },
@@ -247,15 +272,36 @@ const sortGroupKeys = computed(() => {
 
 const clonePlain = (value: Record<string, any>) => JSON.parse(JSON.stringify(toRaw(value)))
 
+const hasActiveFilters = computed(() => Boolean(query.q || query.status))
+
+const emptyDescription = computed(() => {
+  if (hasActiveFilters.value) return '没有符合当前筛选条件的内容'
+  return `还没有${props.title.replace('管理', '')}内容`
+})
+
 const load = async () => {
   loading.value = true
   try {
     const result = await listAdmin<Record<string, any>>(props.resource, query)
     items.value = result.items
     total.value = result.total
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '列表加载失败')
   } finally {
     loading.value = false
   }
+}
+
+const refresh = async () => {
+  query.page = 1
+  await load()
+}
+
+const resetFilters = async () => {
+  query.q = ''
+  query.status = ''
+  query.page = 1
+  await load()
 }
 
 const openCreate = () => {
@@ -287,9 +333,17 @@ const save = async () => {
     ElMessage.success('已保存')
     dialogVisible.value = false
     await load()
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '保存失败')
   } finally {
     saving.value = false
   }
+}
+
+const saveWithStatus = async (status: 'draft' | 'published') => {
+  if (!editing.value) return
+  editing.value.status = status
+  await save()
 }
 
 const toggleStatus = async (row: Record<string, any>) => {
@@ -301,15 +355,21 @@ const toggleStatus = async (row: Record<string, any>) => {
     await updateAdmin(props.resource, payload)
     ElMessage.success(payload.status === 'published' ? '已发布' : '已隐藏')
     await load()
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '状态更新失败')
   } finally {
     togglingID.value = null
   }
 }
 
 const remove = async (row: Record<string, any>) => {
-  await deleteAdmin(props.resource, row.id)
-  ElMessage.success('已移入回收站')
-  await load()
+  try {
+    await deleteAdmin(props.resource, row.id)
+    ElMessage.success('已移入回收站')
+    await load()
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '删除失败')
+  }
 }
 
 const rowClassName = ({ row }: { row: Record<string, any> }) => {
@@ -383,6 +443,8 @@ const handleRowDrop = async (row: Record<string, any>, position: 'before' | 'aft
     await placeAdmin(props.resource, source.id, row.id, position)
     ElMessage.success('顺序已更新')
     await load()
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '排序保存失败')
   } finally {
     dragSaving.value = false
   }
@@ -413,6 +475,8 @@ const loadMediaOptions = async () => {
   try {
     const result = await listAdmin<MediaAsset>('media', { page: 1, pageSize: 48, q: mediaQuery.value, kind: mediaKind.value })
     mediaOptions.value = result.items
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '媒体加载失败')
   } finally {
     mediaLoading.value = false
   }
@@ -438,6 +502,8 @@ const uploadFieldMedia = async (options: UploadRequestOptions, prop: string) => 
     const asset = await uploadMedia(options.file)
     editing.value[prop] = asset.url
     ElMessage.success('已上传并填入')
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '上传失败')
   } finally {
     mediaUploading.value = false
   }
@@ -450,6 +516,8 @@ const uploadLinkMedia = async (options: UploadRequestOptions, index: number) => 
     const asset = await uploadMedia(options.file)
     editing.value.links[index].url = asset.url
     ElMessage.success('已上传并填入')
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '上传失败')
   } finally {
     mediaUploading.value = false
   }
@@ -599,6 +667,7 @@ onUpdated(bindTableDragEvents)
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 0;
 }
 
 .admin-page-header,
@@ -613,6 +682,7 @@ onUpdated(bindTableDragEvents)
   margin: 0;
   color: #25313b;
   font-size: 24px;
+  line-height: 1.25;
 }
 
 .admin-page-header p {
@@ -622,22 +692,58 @@ onUpdated(bindTableDragEvents)
 
 .admin-toolbar {
   justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .admin-toolbar .el-input {
-  width: 280px;
+  width: 320px;
 }
 
-.admin-toolbar .el-select {
-  width: 160px;
+.admin-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.toolbar-spacer {
+  flex: 1;
+  min-width: 16px;
+}
+
+.toolbar-count {
+  color: #6b7280;
+  font-size: 13px;
+  white-space: nowrap;
 }
 
 .admin-table {
   width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .sort-hint {
-  --el-alert-padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.drag-hint-icon {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: #f3f4f6;
+  color: #7d1231;
+  font-weight: 700;
 }
 
 .drag-handle {
@@ -654,6 +760,11 @@ onUpdated(bindTableDragEvents)
 
 .drag-handle:active {
   cursor: grabbing;
+}
+
+.drag-handle:disabled {
+  cursor: wait;
+  opacity: 0.55;
 }
 
 .admin-table :deep(.drag-over-row td) {
@@ -679,6 +790,20 @@ onUpdated(bindTableDragEvents)
   max-height: 65vh;
   overflow: auto;
   padding-right: 12px;
+}
+
+.admin-form :deep(.el-input),
+.admin-form :deep(.el-select),
+.admin-form :deep(.el-date-editor) {
+  width: 100%;
+}
+
+.color-field {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 10px;
+  width: 260px;
+  align-items: center;
 }
 
 .links-editor {
@@ -726,6 +851,7 @@ onUpdated(bindTableDragEvents)
   align-items: center;
   gap: 8px;
   min-width: 0;
+  flex-wrap: wrap;
 }
 
 .link-type {
@@ -774,6 +900,7 @@ onUpdated(bindTableDragEvents)
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .media-picker-toolbar {
@@ -827,5 +954,33 @@ onUpdated(bindTableDragEvents)
   font-size: 12px;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.media-url {
+  overflow: hidden;
+  color: #9ca3af;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .admin-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-toolbar .el-input {
+    width: 100%;
+  }
+
+  .toolbar-spacer,
+  .toolbar-count {
+    display: none;
+  }
+
+  .media-picker {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

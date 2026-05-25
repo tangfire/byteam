@@ -22,14 +22,16 @@
         <el-option label="视频" value="video" />
       </el-select>
       <el-segmented v-model="usage" :options="usageOptions" @change="refresh" />
-      <el-button @click="refresh">搜索</el-button>
+      <div class="toolbar-spacer" />
+      <span class="toolbar-count">共 {{ total }} 个文件</span>
+      <el-button :loading="loading" @click="refresh">搜索</el-button>
     </div>
 
-    <el-table v-loading="loading" :data="items" border>
+    <el-table v-loading="loading" :data="items" border class="media-table">
       <el-table-column label="预览" width="110">
         <template #default="{ row }">
-          <el-image v-if="row.kind === 'image'" :src="row.url" fit="cover" class="preview" />
-          <el-tag v-else>{{ formatKind(row.kind) }}</el-tag>
+          <el-image v-if="row.kind === 'image'" :src="row.url" fit="cover" class="preview" :preview-src-list="[row.url]" preview-teleported />
+          <button v-else type="button" class="file-kind" @click="openURL(row.url)">{{ formatKind(row.kind) }}</button>
         </template>
       </el-table-column>
       <el-table-column label="显示名称" min-width="260">
@@ -61,6 +63,14 @@
           </el-popconfirm>
         </template>
       </el-table-column>
+      <template #empty>
+        <el-empty :description="emptyText" :image-size="92">
+          <el-button v-if="hasFilter" @click="resetFilters">清空筛选</el-button>
+          <el-upload v-else :show-file-list="false" :http-request="handleUpload">
+            <el-button type="primary" :loading="uploading">上传文件</el-button>
+          </el-upload>
+        </el-empty>
+      </template>
     </el-table>
 
     <el-pagination
@@ -94,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import type { UploadRequestOptions } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { deleteAdmin, importPublicMedia, listAdmin, updateMediaName, uploadMedia } from '../../api/admin'
@@ -121,6 +131,9 @@ const usageOptions = [
   { label: '未使用', value: 'unused' },
 ]
 
+const hasFilter = computed(() => Boolean(query.value || kind.value || usage.value !== 'used'))
+const emptyText = computed(() => hasFilter.value ? '没有找到符合筛选条件的媒体文件' : '还没有登记已使用的媒体文件')
+
 const load = async () => {
   loading.value = true
   try {
@@ -135,6 +148,14 @@ const load = async () => {
 const displayName = (row: MediaAsset) => row.displayName || row.originalName || row.fileName
 
 const refresh = async () => {
+  page.value = 1
+  await load()
+}
+
+const resetFilters = async () => {
+  query.value = ''
+  kind.value = ''
+  usage.value = 'used'
   page.value = 1
   await load()
 }
@@ -238,6 +259,11 @@ onMounted(load)
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 12px;
 }
 
 .media-toolbar .el-input {
@@ -246,6 +272,16 @@ onMounted(load)
 
 .media-toolbar .el-select {
   width: 150px;
+}
+
+.toolbar-spacer {
+  flex: 1;
+  min-width: 16px;
+}
+
+.toolbar-count {
+  color: #6b7280;
+  font-size: 13px;
 }
 
 .admin-page-header h1 {
@@ -262,6 +298,21 @@ onMounted(load)
   width: 70px;
   height: 48px;
   border-radius: 6px;
+}
+
+.file-kind {
+  width: 70px;
+  height: 48px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #f9fafb;
+  color: #4b5563;
+  cursor: pointer;
+}
+
+.file-kind:hover {
+  border-color: #7d1231;
+  color: #7d1231;
 }
 
 .media-name-cell {
@@ -285,5 +336,27 @@ onMounted(load)
 
 .pager {
   align-self: flex-end;
+}
+
+.media-table {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+@media (max-width: 760px) {
+  .admin-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .media-toolbar .el-input,
+  .media-toolbar .el-select {
+    width: 100%;
+  }
+
+  .toolbar-spacer,
+  .toolbar-count {
+    display: none;
+  }
 }
 </style>

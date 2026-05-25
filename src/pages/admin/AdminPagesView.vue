@@ -33,6 +33,7 @@
               <p>{{ editing.slug }}</p>
             </div>
             <div class="editor-actions">
+              <el-tag :type="editing.status === 'published' ? 'success' : 'info'">{{ formatStatus(editing.status) }}</el-tag>
               <el-switch
                 v-model="editing.status"
                 active-text="发布"
@@ -483,21 +484,62 @@ const EditableList = defineComponent({
   },
   emits: ['add', 'remove'],
   setup(props, { emit, slots }) {
+    const dragIndex = ref<number | null>(null)
+    const overIndex = ref<number | null>(null)
     const move = (from: number, to: number) => {
       if (to < 0 || to >= props.items.length) return
       const [item] = props.items.splice(from, 1)
       props.items.splice(to, 0, item)
     }
+    const handleDrop = (index: number) => {
+      if (dragIndex.value === null || dragIndex.value === index) {
+        dragIndex.value = null
+        overIndex.value = null
+        return
+      }
+      move(dragIndex.value, index)
+      dragIndex.value = null
+      overIndex.value = null
+    }
     return () => h('div', { class: ['editable-list', props.compact ? 'compact' : ''] }, [
-      ...props.items.map((item, index) => h('div', { class: 'editable-item' }, [
+      ...props.items.map((item, index) => h('div', {
+        class: ['editable-item', overIndex.value === index ? 'drag-over' : ''],
+        onDragover: (event: DragEvent) => {
+          if (dragIndex.value === null || dragIndex.value === index) return
+          event.preventDefault()
+          overIndex.value = index
+        },
+        onDragleave: () => {
+          if (overIndex.value === index) overIndex.value = null
+        },
+        onDrop: (event: DragEvent) => {
+          event.preventDefault()
+          handleDrop(index)
+        },
+      }, [
         h('div', { class: 'editable-item-tools' }, [
-          h(ElButton, { size: 'small', disabled: index === 0, onClick: () => move(index, index - 1) }, () => '上移'),
-          h(ElButton, { size: 'small', disabled: index === props.items.length - 1, onClick: () => move(index, index + 1) }, () => '下移'),
+          h('button', {
+            class: 'editable-drag-handle',
+            type: 'button',
+            draggable: true,
+            title: '拖动排序',
+            onDragstart: (event: DragEvent) => {
+              dragIndex.value = index
+              overIndex.value = null
+              event.dataTransfer?.setData('text/plain', String(index))
+            },
+            onDragend: () => {
+              dragIndex.value = null
+              overIndex.value = null
+            },
+          }, '⋮⋮'),
+          h(ElButton, { size: 'small', text: true, disabled: index === 0, onClick: () => move(index, index - 1) }, () => '上移'),
+          h(ElButton, { size: 'small', text: true, disabled: index === props.items.length - 1, onClick: () => move(index, index + 1) }, () => '下移'),
           h(ElButton, { size: 'small', type: 'danger', link: true, onClick: () => emit('remove', index) }, () => '删除'),
         ]),
         h('div', { class: 'editable-item-fields' }, slots.default?.({ item, index })),
       ])),
-      h(ElButton, { onClick: () => emit('add') }, () => props.addLabel),
+      h(ElButton, { class: 'editable-add', onClick: () => emit('add') }, () => props.addLabel),
     ])
   },
 })
@@ -595,7 +637,7 @@ watch(editing, async () => {
 
 .page-layout {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
+  grid-template-columns: 270px minmax(0, 1fr);
   gap: 18px;
   align-items: start;
 }
@@ -606,6 +648,8 @@ watch(editing, async () => {
   gap: 8px;
   position: sticky;
   top: 0;
+  max-height: calc(100vh - 126px);
+  overflow: auto;
 }
 
 .page-item {
@@ -618,6 +662,12 @@ watch(editing, async () => {
   border-radius: 8px;
   background: #fff;
   cursor: pointer;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.page-item:hover {
+  border-color: #c7ccd3;
+  background: #fbfbfc;
 }
 
 .page-item.active {
@@ -635,7 +685,19 @@ watch(editing, async () => {
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  padding: 18px;
+  padding: 0 18px 18px;
+  overflow: hidden;
+}
+
+.editor-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  margin: 0 -18px 18px;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid #e5e7eb;
+  backdrop-filter: blur(8px);
 }
 
 .page-form {
@@ -651,13 +713,40 @@ watch(editing, async () => {
   border-radius: 8px;
   padding: 12px;
   background: #fafafa;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.editable-item.drag-over {
+  border-color: #f59e0b;
+  background: #fff7ed;
 }
 
 .editable-item-tools {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
   gap: 8px;
   margin-bottom: 10px;
+}
+
+.editable-drag-handle {
+  width: 30px;
+  height: 28px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #6b7280;
+  cursor: grab;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.editable-drag-handle:active {
+  cursor: grabbing;
+}
+
+.editable-add {
+  align-self: flex-start;
 }
 
 .media-field {
@@ -753,5 +842,24 @@ watch(editing, async () => {
   color: #374151;
   font-size: 12px;
   word-break: break-all;
+}
+
+@media (max-width: 980px) {
+  .page-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .page-list {
+    position: static;
+    max-height: none;
+  }
+
+  .media-field {
+    grid-template-columns: 1fr;
+  }
+
+  .media-field-actions {
+    grid-column: auto;
+  }
 }
 </style>
