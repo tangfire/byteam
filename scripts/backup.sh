@@ -298,6 +298,7 @@ SELECT JSON_PRETTY(JSON_OBJECT(
         'id', id,
         'fileName', file_name,
         'originalName', original_name,
+        'displayName', display_name,
         'url', url,
         'mimeType', mime_type,
         'size', size,

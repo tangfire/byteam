@@ -55,11 +55,13 @@ type MediaAsset struct {
 	ID           uint           `json:"id" gorm:"primaryKey"`
 	FileName     string         `json:"fileName" gorm:"size:255;not null"`
 	OriginalName string         `json:"originalName" gorm:"size:255;not null"`
+	DisplayName  string         `json:"displayName" gorm:"size:255"`
 	URL          string         `json:"url" gorm:"size:500;not null;uniqueIndex"`
 	Path         string         `json:"-" gorm:"size:500;not null"`
 	MimeType     string         `json:"mimeType" gorm:"size:160;not null"`
 	Size         int64          `json:"size"`
 	Kind         string         `json:"kind" gorm:"size:40;index"`
+	InUse        bool           `json:"inUse" gorm:"-"`
 	CreatedAt    time.Time      `json:"createdAt"`
 	UpdatedAt    time.Time      `json:"updatedAt"`
 	DeletedAt    gorm.DeletedAt `json:"-" gorm:"index"`

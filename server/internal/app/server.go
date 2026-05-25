@@ -125,6 +125,7 @@ func (s *Server) routes() *gin.Engine {
 		protected.GET("/media", s.listMedia)
 		protected.POST("/media", s.uploadMedia)
 		protected.POST("/media/import-public", s.importPublicMedia)
+		protected.PUT("/media/:id", s.updateMedia)
 		protected.DELETE("/media/:id", s.deleteMedia)
 	}
 
@@ -149,7 +150,10 @@ func (s *Server) migrateAndSeed() error {
 	if err := s.ensureAdmin(); err != nil {
 		return err
 	}
-	return s.seedContent()
+	if err := s.seedContent(); err != nil {
+		return err
+	}
+	return s.backfillMediaDisplayNames()
 }
 
 func bindJSON[T any](c *gin.Context) (T, bool) {

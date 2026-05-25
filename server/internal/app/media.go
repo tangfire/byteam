@@ -30,11 +30,16 @@ var allowedExtensions = map[string]string{
 
 func (s *Server) listMedia(c *gin.Context) {
 	var items []MediaAsset
-	db, page, pageSize := applyListQuery(c, s.db.Model(&MediaAsset{}), "file_name", "original_name", "mime_type")
+	db, page, pageSize := applyListQuery(c, s.db.Model(&MediaAsset{}), "display_name", "file_name", "original_name", "mime_type", "url")
 	if kind := c.Query("kind"); kind != "" {
 		db = db.Where("kind = ?", kind)
 	}
-	paged(c, db.Order("created_at DESC, id DESC"), &items, page, pageSize)
+	usage := strings.TrimSpace(c.Query("usage"))
+	if usage == "" {
+		s.pagedMedia(c, db.Order("created_at DESC, id DESC"), &items, page, pageSize)
+		return
+	}
+	s.pagedMediaWithUsageFilter(c, db.Order("created_at DESC, id DESC"), &items, page, pageSize, usage)
 }
 
 func (s *Server) importPublicMedia(c *gin.Context) {
@@ -99,6 +104,7 @@ func (s *Server) scanPublicMedia() (MediaImportResult, error) {
 		asset := MediaAsset{
 			FileName:     entry.Name(),
 			OriginalName: entry.Name(),
+			DisplayName:  mediaDefaultDisplayName(entry.Name()),
 			URL:          url,
 			Path:         path,
 			MimeType:     mimeType,
@@ -121,6 +127,7 @@ func (s *Server) scanPublicMedia() (MediaImportResult, error) {
 		if err := s.db.Unscoped().Model(&existing).Updates(map[string]any{
 			"file_name":     asset.FileName,
 			"original_name": asset.OriginalName,
+			"display_name":  preserveDisplayName(existing.DisplayName, asset.DisplayName),
 			"path":          asset.Path,
 			"mime_type":     asset.MimeType,
 			"size":          asset.Size,
@@ -186,6 +193,7 @@ func (s *Server) uploadMedia(c *gin.Context) {
 	asset := MediaAsset{
 		FileName:     fileName,
 		OriginalName: file.Filename,
+		DisplayName:  mediaDefaultDisplayName(file.Filename),
 		URL:          url,
 		Path:         targetPath,
 		MimeType:     mimeType,
@@ -199,6 +207,38 @@ func (s *Server) uploadMedia(c *gin.Context) {
 	c.JSON(http.StatusCreated, asset)
 }
 
+type mediaUpdatePayload struct {
+	DisplayName string `json:"displayName"`
+}
+
+func (s *Server) updateMedia(c *gin.Context) {
+	id, ok := parseID(c)
+	if !ok {
+		return
+	}
+	payload, ok := bindJSON[mediaUpdatePayload](c)
+	if !ok {
+		return
+	}
+	displayName := strings.TrimSpace(payload.DisplayName)
+	if len([]rune(displayName)) > 255 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "displayName is too long"})
+		return
+	}
+	var asset MediaAsset
+	if err := s.db.First(&asset, id).Error; err != nil {
+		notFoundOrError(c, err)
+		return
+	}
+	if err := s.db.Model(&asset).Update("display_name", displayName).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	s.db.First(&asset, id)
+	asset.InUse = s.mediaURLInUse(asset.URL)
+	c.JSON(http.StatusOK, asset)
+}
+
 func (s *Server) deleteMedia(c *gin.Context) {
 	id, ok := parseID(c)
 	if !ok {
@@ -209,7 +249,7 @@ func (s *Server) deleteMedia(c *gin.Context) {
 		notFoundOrError(c, err)
 		return
 	}
-	if mediaURLInUse(s.db, asset.URL) {
+	if s.mediaURLInUse(asset.URL) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "media is still referenced by content"})
 		return
 	}
@@ -238,6 +278,120 @@ func sanitizeFileName(name string) string {
 		return out[:80]
 	}
 	return out
+}
+
+func mediaDefaultDisplayName(name string) string {
+	name = strings.TrimSpace(strings.TrimSuffix(name, filepath.Ext(name)))
+	name = strings.ReplaceAll(name, "_", " ")
+	name = strings.ReplaceAll(name, "-", " ")
+	return strings.Join(strings.Fields(name), " ")
+}
+
+func (s *Server) backfillMediaDisplayNames() error {
+	var assets []MediaAsset
+	if err := s.db.Where("display_name = '' OR display_name IS NULL").Find(&assets).Error; err != nil {
+		return err
+	}
+	for _, asset := range assets {
+		name := s.suggestMediaDisplayName(asset)
+		if strings.TrimSpace(name) == "" {
+			name = mediaDefaultDisplayName(asset.OriginalName)
+		}
+		if err := s.db.Model(&MediaAsset{}).Where("id = ?", asset.ID).Update("display_name", name).Error; err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (s *Server) suggestMediaDisplayName(asset MediaAsset) string {
+	var person Person
+	if err := s.db.Where("avatar_url = ?", asset.URL).First(&person).Error; err == nil {
+		return "成员头像 - " + person.Name
+	}
+	var publication Publication
+	if err := s.db.Where("image_url = ?", asset.URL).First(&publication).Error; err == nil {
+		return "论文配图 - " + truncateDisplayName(publication.Title, 80)
+	}
+	var link PublicationLink
+	if err := s.db.Where("url = ?", asset.URL).First(&link).Error; err == nil {
+		if err := s.db.First(&publication, link.PublicationID).Error; err == nil {
+			return defaultPublicationLinkLabel(link.Type) + " - " + truncateDisplayName(publication.Title, 80)
+		}
+		return defaultPublicationLinkLabel(link.Type) + " - " + mediaDefaultDisplayName(asset.OriginalName)
+	}
+	if source := s.staticAssetSource(asset.URL); source != "" {
+		return source + " - " + mediaDefaultDisplayName(asset.OriginalName)
+	}
+	return mediaDefaultDisplayName(asset.OriginalName)
+}
+
+func truncateDisplayName(value string, limit int) string {
+	value = strings.TrimSpace(value)
+	runes := []rune(value)
+	if len(runes) <= limit {
+		return value
+	}
+	return string(runes[:limit]) + "..."
+}
+
+func preserveDisplayName(current string, fallback string) string {
+	current = strings.TrimSpace(current)
+	if current != "" {
+		return current
+	}
+	return fallback
+}
+
+func (s *Server) pagedMedia(c *gin.Context, db *gorm.DB, out *[]MediaAsset, page int, pageSize int) {
+	var total int64
+	db.Count(&total)
+	db.Offset((page - 1) * pageSize).Limit(pageSize).Find(out)
+	s.attachMediaUsage(*out)
+	c.JSON(http.StatusOK, gin.H{
+		"items":    out,
+		"total":    total,
+		"page":     page,
+		"pageSize": pageSize,
+	})
+}
+
+func (s *Server) pagedMediaWithUsageFilter(c *gin.Context, db *gorm.DB, out *[]MediaAsset, page int, pageSize int, usage string) {
+	var rows []MediaAsset
+	db.Find(&rows)
+	filtered := make([]MediaAsset, 0, len(rows))
+	for _, item := range rows {
+		item.InUse = s.mediaURLInUse(item.URL)
+		if usage == "used" && !item.InUse {
+			continue
+		}
+		if usage == "unused" && item.InUse {
+			continue
+		}
+		filtered = append(filtered, item)
+	}
+	total := int64(len(filtered))
+	start := (page - 1) * pageSize
+	if start > len(filtered) {
+		start = len(filtered)
+	}
+	end := start + pageSize
+	if end > len(filtered) {
+		end = len(filtered)
+	}
+	*out = filtered[start:end]
+	c.JSON(http.StatusOK, gin.H{
+		"items":    out,
+		"total":    total,
+		"page":     page,
+		"pageSize": pageSize,
+	})
+}
+
+func (s *Server) attachMediaUsage(items []MediaAsset) {
+	for i := range items {
+		items[i].InUse = s.mediaURLInUse(items[i].URL)
+	}
 }
 
 func mediaMimeType(ext string) string {

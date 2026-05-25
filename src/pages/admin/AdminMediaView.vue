@@ -14,13 +14,14 @@
     </div>
 
     <div class="media-toolbar">
-      <el-input v-model="query" placeholder="搜索文件名、URL 或 MIME" clearable @keyup.enter="refresh" />
+      <el-input v-model="query" placeholder="搜索显示名称、文件名或 URL" clearable @keyup.enter="refresh" />
       <el-select v-model="kind" placeholder="类型" clearable>
         <el-option label="图片" value="image" />
         <el-option label="文档" value="document" />
         <el-option label="压缩包" value="archive" />
         <el-option label="视频" value="video" />
       </el-select>
+      <el-segmented v-model="usage" :options="usageOptions" @change="refresh" />
       <el-button @click="refresh">搜索</el-button>
     </div>
 
@@ -31,18 +32,26 @@
           <el-tag v-else>{{ formatKind(row.kind) }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="originalName" label="文件名" min-width="220" />
-      <el-table-column prop="url" label="URL" min-width="300">
+      <el-table-column label="显示名称" min-width="260">
         <template #default="{ row }">
-          <el-input :model-value="row.url" readonly @focus="($event.target as HTMLInputElement).select()" />
+          <div class="media-name-cell">
+            <strong>{{ displayName(row) }}</strong>
+            <span>{{ row.originalName }}</span>
+          </div>
         </template>
       </el-table-column>
+      <el-table-column label="使用状态" width="110">
+        <template #default="{ row }">
+          <el-tag :type="row.inUse ? 'success' : 'info'">{{ row.inUse ? '已使用' : '未使用' }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="url" label="URL" min-width="300" show-overflow-tooltip />
       <el-table-column label="大小" width="120">
         <template #default="{ row }">{{ formatSize(row.size) }}</template>
       </el-table-column>
-      <el-table-column prop="mimeType" label="MIME" width="180" />
-      <el-table-column label="操作" width="220">
+      <el-table-column label="操作" width="260">
         <template #default="{ row }">
+          <el-button link type="primary" @click="openRename(row)">改显示名</el-button>
           <el-button link type="primary" @click="copyURL(row.url)">复制 URL</el-button>
           <el-button link @click="openURL(row.url)">打开</el-button>
           <el-popconfirm title="确认移入回收站？被内容引用时后端会拒绝删除。" @confirm="remove(row.id)">
@@ -64,13 +73,31 @@
       @size-change="load"
     />
   </div>
+
+  <el-dialog v-model="renameVisible" title="修改显示名称" width="480px">
+    <el-form label-width="86px">
+      <el-form-item label="显示名称">
+        <el-input v-model="renameValue" placeholder="例如：2025 ICIP 论文视频、FedCD 首页配图" maxlength="255" show-word-limit />
+      </el-form-item>
+      <el-form-item label="原文件名" v-if="renaming">
+        <span class="muted-text">{{ renaming.originalName }}</span>
+      </el-form-item>
+      <el-form-item label="URL" v-if="renaming">
+        <span class="muted-text">{{ renaming.url }}</span>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <el-button @click="renameVisible = false">取消</el-button>
+      <el-button type="primary" :loading="renamingSaving" @click="saveRename">保存</el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import type { UploadRequestOptions } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { deleteAdmin, importPublicMedia, listAdmin, uploadMedia } from '../../api/admin'
+import { deleteAdmin, importPublicMedia, listAdmin, updateMediaName, uploadMedia } from '../../api/admin'
 import type { MediaAsset } from '../../api/client'
 
 const loading = ref(false)
@@ -82,17 +109,30 @@ const page = ref(1)
 const pageSize = ref(20)
 const query = ref('')
 const kind = ref('')
+const usage = ref('used')
+const renameVisible = ref(false)
+const renamingSaving = ref(false)
+const renaming = ref<MediaAsset | null>(null)
+const renameValue = ref('')
+
+const usageOptions = [
+  { label: '已使用', value: 'used' },
+  { label: '全部', value: '' },
+  { label: '未使用', value: 'unused' },
+]
 
 const load = async () => {
   loading.value = true
   try {
-    const result = await listAdmin<MediaAsset>('media', { page: page.value, pageSize: pageSize.value, q: query.value, kind: kind.value })
+    const result = await listAdmin<MediaAsset>('media', { page: page.value, pageSize: pageSize.value, q: query.value, kind: kind.value, usage: usage.value })
     items.value = result.items
     total.value = result.total
   } finally {
     loading.value = false
   }
 }
+
+const displayName = (row: MediaAsset) => row.displayName || row.originalName || row.fileName
 
 const refresh = async () => {
   page.value = 1
@@ -153,6 +193,25 @@ const openURL = (url: string) => {
   window.open(url, '_blank', 'noopener,noreferrer')
 }
 
+const openRename = (row: MediaAsset) => {
+  renaming.value = row
+  renameValue.value = displayName(row)
+  renameVisible.value = true
+}
+
+const saveRename = async () => {
+  if (!renaming.value) return
+  renamingSaving.value = true
+  try {
+    await updateMediaName(renaming.value.id, renameValue.value)
+    ElMessage.success('显示名称已更新')
+    renameVisible.value = false
+    await load()
+  } finally {
+    renamingSaving.value = false
+  }
+}
+
 onMounted(load)
 </script>
 
@@ -203,6 +262,25 @@ onMounted(load)
   width: 70px;
   height: 48px;
   border-radius: 6px;
+}
+
+.media-name-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.media-name-cell strong {
+  color: #25313b;
+  font-weight: 600;
+}
+
+.media-name-cell span,
+.muted-text {
+  color: #6b7280;
+  font-size: 12px;
+  word-break: break-all;
 }
 
 .pager {

@@ -95,10 +95,12 @@ export interface MediaAsset {
   id: number
   fileName: string
   originalName: string
+  displayName: string
   url: string
   mimeType: string
   size: number
   kind: string
+  inUse: boolean
   createdAt: string
 }
 

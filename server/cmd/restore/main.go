@@ -55,6 +55,7 @@ type snapshotMedia struct {
 	ID           uint   `json:"id"`
 	FileName     string `json:"fileName"`
 	OriginalName string `json:"originalName"`
+	DisplayName  string `json:"displayName"`
 	URL          string `json:"url"`
 	MimeType     string `json:"mimeType"`
 	Size         int64  `json:"size"`
@@ -307,6 +308,7 @@ func mapMedia(cfg app.Config, items []snapshotMedia) []app.MediaAsset {
 			ID:           item.ID,
 			FileName:     item.FileName,
 			OriginalName: item.OriginalName,
+			DisplayName:  item.DisplayName,
 			URL:          item.URL,
 			Path:         inferMediaPath(cfg, item.URL),
 			MimeType:     item.MimeType,

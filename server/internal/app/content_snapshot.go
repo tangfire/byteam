@@ -48,6 +48,7 @@ type snapshotMedia struct {
 	MimeType     string  `json:"mimeType"`
 	CreatedAt    string  `json:"createdAt"`
 	DeletedAt    *string `json:"deletedAt"`
+	DisplayName  string  `json:"displayName"`
 	UpdatedAt    string  `json:"updatedAt"`
 	OriginalName string  `json:"originalName"`
 }
@@ -176,7 +177,7 @@ func (s *Server) buildContentSnapshot() (contentSnapshot, error) {
 		data.Media = append(data.Media, snapshotMedia{
 			ID: item.ID, URL: item.URL, Kind: item.Kind, Size: item.Size, FileName: item.FileName,
 			MimeType: item.MimeType, CreatedAt: times.createdAt, DeletedAt: times.deletedAt,
-			UpdatedAt: times.updatedAt, OriginalName: item.OriginalName,
+			DisplayName: item.DisplayName, UpdatedAt: times.updatedAt, OriginalName: item.OriginalName,
 		})
 	}
 

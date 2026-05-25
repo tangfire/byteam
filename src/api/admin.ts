@@ -68,6 +68,13 @@ export function importPublicMedia() {
   })
 }
 
+export function updateMediaName(id: number, displayName: string) {
+  return apiRequest<MediaAsset>(`/api/admin/media/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify({ displayName }),
+  })
+}
+
 export function getMaintenanceStatus() {
   return apiRequest<MaintenanceStatus>('/api/admin/maintenance/status')
 }
