@@ -39,6 +39,13 @@ export function updateAdmin<T extends { id?: number }>(resource: string, payload
   })
 }
 
+export function movePublication(id: number, action: 'top' | 'up' | 'down') {
+  return apiRequest<Publication>(`/api/admin/publications/${id}/move`, {
+    method: 'POST',
+    body: JSON.stringify({ action }),
+  })
+}
+
 export function deleteAdmin(resource: string, id: number) {
   return apiRequest<{ deleted: boolean }>(`/api/admin/${resource}/${id}`, {
     method: 'DELETE',

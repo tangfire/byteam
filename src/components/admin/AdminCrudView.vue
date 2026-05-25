@@ -25,9 +25,17 @@
           <span v-else>{{ formatCell(row[column.prop]) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" fixed="right" width="150">
+      <el-table-column label="操作" fixed="right" width="220">
         <template #default="{ row }">
           <el-button link type="primary" @click="openEdit(row)">编辑</el-button>
+          <el-dropdown v-if="rowActions?.length" trigger="click" @command="(command: string | number | object) => handleRowAction(String(command), row)">
+            <el-button link type="primary">位置</el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item v-for="action in rowActions" :key="action.command" :command="action.command">{{ action.label }}</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
           <el-popconfirm title="确认移入回收站？之后可在回收站恢复。" @confirm="remove(row)">
             <template #reference>
               <el-button link type="danger">移入回收站</el-button>
@@ -99,6 +107,11 @@ export interface FieldConfig {
   options?: { label: string; value: string | number }[]
 }
 
+export interface RowActionConfig {
+  command: string
+  label: string
+}
+
 const props = defineProps<{
   title: string
   description: string
@@ -106,6 +119,11 @@ const props = defineProps<{
   defaults: Record<string, unknown>
   columns: FieldConfig[]
   fields: FieldConfig[]
+  rowActions?: RowActionConfig[]
+}>()
+
+const emit = defineEmits<{
+  rowAction: [command: string, row: Record<string, any>]
 }>()
 
 const loading = ref(false)
@@ -165,6 +183,12 @@ const remove = async (row: Record<string, any>) => {
   ElMessage.success('已移入回收站')
   await load()
 }
+
+const handleRowAction = (command: string, row: Record<string, any>) => {
+  emit('rowAction', command, row)
+}
+
+defineExpose({ load })
 
 const splitList = (value: string) => value.split('\n').map((item) => item.trim()).filter(Boolean)
 

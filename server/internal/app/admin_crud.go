@@ -203,12 +203,30 @@ func (s *Server) createPublication(c *gin.Context) {
 	}
 	payload.ID = 0
 	payload.Status = normalizeStatus(payload.Status)
-	if err := s.db.Create(&payload).Error; err != nil {
+	if err := s.createPublicationAtTop(&payload); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	s.db.Preload("Links").First(&payload, payload.ID)
 	c.JSON(http.StatusCreated, payload)
+}
+
+func (s *Server) createPublicationAtTop(payload *Publication) error {
+	return s.db.Transaction(func(tx *gorm.DB) error {
+		kind := normalizePublicationKind(payload.Kind)
+		payload.Kind = kind
+		payload.SortOrder = 0
+		if err := tx.Create(payload).Error; err != nil {
+			return err
+		}
+		var group []Publication
+		if err := tx.Where("year = ? AND kind = ? AND id <> ?", payload.Year, kind, payload.ID).
+			Order("sort_order ASC, id ASC").
+			Find(&group).Error; err != nil {
+			return err
+		}
+		return renumberPublications(tx, append([]Publication{*payload}, group...))
+	})
 }
 
 func (s *Server) updatePublication(c *gin.Context) {
@@ -228,7 +246,16 @@ func (s *Server) updatePublication(c *gin.Context) {
 	payload.ID = item.ID
 	payload.CreatedAt = item.CreatedAt
 	payload.Status = normalizeStatus(payload.Status)
+	payload.Kind = normalizePublicationKind(payload.Kind)
 	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		groupChanged := item.Year != payload.Year || item.Kind != payload.Kind
+		sortOrder := item.SortOrder
+		if payload.SortOrder > 0 {
+			sortOrder = payload.SortOrder
+		}
+		if groupChanged {
+			sortOrder = 0
+		}
 		if err := tx.Model(&item).Updates(map[string]any{
 			"image_url":  payload.ImageURL,
 			"title":      payload.Title,
@@ -238,7 +265,7 @@ func (s *Server) updatePublication(c *gin.Context) {
 			"kind":       payload.Kind,
 			"status":     payload.Status,
 			"featured":   payload.Featured,
-			"sort_order": payload.SortOrder,
+			"sort_order": sortOrder,
 		}).Error; err != nil {
 			return err
 		}
@@ -252,6 +279,12 @@ func (s *Server) updatePublication(c *gin.Context) {
 		if len(payload.Links) > 0 {
 			return tx.Create(&payload.Links).Error
 		}
+		if err := renumberPublicationGroup(tx, payload.Year, payload.Kind); err != nil {
+			return err
+		}
+		if groupChanged {
+			return renumberPublicationGroup(tx, item.Year, item.Kind)
+		}
 		return nil
 	}); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -259,6 +292,111 @@ func (s *Server) updatePublication(c *gin.Context) {
 	}
 	s.db.Preload("Links").First(&item, id)
 	c.JSON(http.StatusOK, item)
+}
+
+type movePublicationPayload struct {
+	Action string `json:"action"`
+}
+
+func (s *Server) movePublication(c *gin.Context) {
+	id, ok := parseID(c)
+	if !ok {
+		return
+	}
+	payload, ok := bindJSON[movePublicationPayload](c)
+	if !ok {
+		return
+	}
+	if payload.Action != "top" && payload.Action != "up" && payload.Action != "down" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "action must be top, up or down"})
+		return
+	}
+
+	var item Publication
+	if err := s.db.First(&item, id).Error; err != nil {
+		notFoundOrError(c, err)
+		return
+	}
+
+	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		return movePublicationInGroup(tx, &item, payload.Action)
+	}); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	s.db.Preload("Links").First(&item, id)
+	c.JSON(http.StatusOK, item)
+}
+
+func normalizePublicationKind(kind string) string {
+	if kind == "journal" {
+		return "journal"
+	}
+	return "conference"
+}
+
+func movePublicationInGroup(tx *gorm.DB, item *Publication, action string) error {
+	var group []Publication
+	if err := tx.Where("year = ? AND kind = ?", item.Year, item.Kind).
+		Order("sort_order ASC, id ASC").
+		Find(&group).Error; err != nil {
+		return err
+	}
+
+	current := -1
+	for i := range group {
+		if group[i].ID == item.ID {
+			current = i
+			break
+		}
+	}
+	if current < 0 {
+		return gorm.ErrRecordNotFound
+	}
+
+	target := current
+	switch action {
+	case "top":
+		target = 0
+	case "up":
+		if current > 0 {
+			target = current - 1
+		}
+	case "down":
+		if current < len(group)-1 {
+			target = current + 1
+		}
+	}
+	if target == current {
+		return renumberPublications(tx, group)
+	}
+
+	moved := group[current]
+	group = append(group[:current], group[current+1:]...)
+	group = append(group[:target], append([]Publication{moved}, group[target:]...)...)
+	return renumberPublications(tx, group)
+}
+
+func renumberPublicationGroup(tx *gorm.DB, year int, kind string) error {
+	var group []Publication
+	if err := tx.Where("year = ? AND kind = ?", year, kind).
+		Order("sort_order ASC, id ASC").
+		Find(&group).Error; err != nil {
+		return err
+	}
+	return renumberPublications(tx, group)
+}
+
+func renumberPublications(tx *gorm.DB, group []Publication) error {
+	for i := range group {
+		if err := tx.Model(&Publication{}).
+			Where("id = ?", group[i].ID).
+			Update("sort_order", i+1).Error; err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 func (s *Server) deletePublication(c *gin.Context) {

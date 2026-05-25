@@ -105,6 +105,7 @@ func (s *Server) routes() *gin.Engine {
 		protected.GET("/publications", s.listPublications)
 		protected.POST("/publications", s.createPublication)
 		protected.PUT("/publications/:id", s.updatePublication)
+		protected.POST("/publications/:id/move", s.movePublication)
 		protected.DELETE("/publications/:id", s.deletePublication)
 
 		protected.GET("/patents", s.listPatents)
