@@ -2,7 +2,7 @@
   <div>
     <div class="admin-page-header">
       <div>
-        <h1>Dashboard</h1>
+        <h1>后台首页</h1>
         <p>官网内容概览</p>
       </div>
     </div>
@@ -21,13 +21,13 @@ import { getSummary } from '../../api/admin'
 
 const summary = ref<Record<string, number>>({})
 const cards = computed(() => [
-  { key: 'news', label: 'News' },
-  { key: 'people', label: 'People' },
-  { key: 'undergraduates', label: 'Undergraduates' },
-  { key: 'publications', label: 'Publications' },
-  { key: 'patents', label: 'Patents' },
-  { key: 'researchProjects', label: 'Projects' },
-  { key: 'media', label: 'Media' },
+  { key: 'news', label: '新闻动态' },
+  { key: 'people', label: '成员' },
+  { key: 'undergraduates', label: '本科生培养' },
+  { key: 'publications', label: '论文' },
+  { key: 'patents', label: '专利与标准' },
+  { key: 'researchProjects', label: '科研项目' },
+  { key: 'media', label: '媒体文件' },
 ])
 
 onMounted(async () => {

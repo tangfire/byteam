@@ -15,13 +15,13 @@ func (s *Server) publicHome(c *gin.Context) {
 		Find(&latestNews)
 
 	var featured []Publication
-	s.db.Preload("Links").
+	preloadPublicationLinks(s.db).
 		Where("status = ? AND featured = ?", StatusPublished, true).
 		Order("year DESC, sort_order ASC, id DESC").
 		Limit(5).
 		Find(&featured)
 	if len(featured) == 0 {
-		s.db.Preload("Links").
+		preloadPublicationLinks(s.db).
 			Where("status = ?", StatusPublished).
 			Order("year DESC, sort_order ASC, id DESC").
 			Limit(5).
@@ -75,7 +75,7 @@ func (s *Server) publicUndergraduates(c *gin.Context) {
 
 func (s *Server) publicPublications(c *gin.Context) {
 	var items []Publication
-	s.db.Preload("Links").
+	preloadPublicationLinks(s.db).
 		Where("status = ?", StatusPublished).
 		Order("year DESC, FIELD(kind, 'journal', 'conference'), sort_order ASC, id ASC").
 		Find(&items)

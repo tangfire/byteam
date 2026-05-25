@@ -1,5 +1,5 @@
 <template>
-  <AdminCrudView title="Research Projects" description="管理科研项目列表" resource="research-projects" :defaults="defaults" :columns="columns" :fields="fields" sortable />
+  <AdminCrudView title="科研项目" description="管理科研项目列表" resource="research-projects" :defaults="defaults" :columns="columns" :fields="fields" sortable />
 </template>
 
 <script setup lang="ts">
@@ -21,6 +21,6 @@ const fields: FieldConfig[] = [
   { prop: 'amount', label: '项目经费' },
   { prop: 'projectStatus', label: '项目状态', type: 'select', options: [{ label: '在研', value: '在研' }, { label: '已结题', value: '已结题' }] },
   { prop: 'role', label: '角色' },
-  { prop: 'status', label: '发布状态', type: 'select', options: [{ label: 'Published', value: 'published' }, { label: 'Draft', value: 'draft' }] },
+  { prop: 'status', label: '发布状态', type: 'select', options: [{ label: '已发布', value: 'published' }, { label: '草稿', value: 'draft' }] },
 ]
 </script>

@@ -9,5 +9,9 @@ func mediaURLInUse(db *gorm.DB, url string) bool {
 		return true
 	}
 	db.Model(&Publication{}).Where("image_url = ?", url).Count(&count)
+	if count > 0 {
+		return true
+	}
+	db.Model(&PublicationLink{}).Where("url = ?", url).Count(&count)
 	return count > 0
 }

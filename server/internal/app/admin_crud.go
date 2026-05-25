@@ -240,7 +240,7 @@ func (s *Server) deleteUndergraduate(c *gin.Context) {
 
 func (s *Server) listPublications(c *gin.Context) {
 	var items []Publication
-	db, page, pageSize := applyListQuery(c, s.db.Model(&Publication{}).Preload("Links"), "title", "authors", "venue")
+	db, page, pageSize := applyListQuery(c, preloadPublicationLinks(s.db.Model(&Publication{})), "title", "authors", "venue")
 	paged(c, db.Order("year DESC, kind ASC, sort_order ASC, id ASC"), &items, page, pageSize)
 }
 
@@ -255,17 +255,26 @@ func (s *Server) createPublication(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	s.db.Preload("Links").First(&payload, payload.ID)
+	preloadPublicationLinks(s.db).First(&payload, payload.ID)
 	c.JSON(http.StatusCreated, payload)
 }
 
 func (s *Server) createPublicationAtTop(payload *Publication) error {
 	return s.db.Transaction(func(tx *gorm.DB) error {
 		kind := normalizePublicationKind(payload.Kind)
+		links := payload.Links
+		payload.Links = nil
 		payload.Kind = kind
 		payload.SortOrder = 0
 		if err := tx.Create(payload).Error; err != nil {
 			return err
+		}
+		normalizePublicationLinks(links, payload.ID)
+		if len(links) > 0 {
+			if err := tx.Create(&links).Error; err != nil {
+				return err
+			}
+			payload.Links = links
 		}
 		var group []Publication
 		if err := tx.Where("year = ? AND kind = ? AND id <> ?", payload.Year, kind, payload.ID).
@@ -287,7 +296,7 @@ func (s *Server) updatePublication(c *gin.Context) {
 		return
 	}
 	var item Publication
-	if err := s.db.Preload("Links").First(&item, id).Error; err != nil {
+	if err := preloadPublicationLinks(s.db).First(&item, id).Error; err != nil {
 		notFoundOrError(c, err)
 		return
 	}
@@ -320,12 +329,11 @@ func (s *Server) updatePublication(c *gin.Context) {
 		if err := tx.Where("publication_id = ?", item.ID).Delete(&PublicationLink{}).Error; err != nil {
 			return err
 		}
-		for i := range payload.Links {
-			payload.Links[i].ID = 0
-			payload.Links[i].PublicationID = item.ID
-		}
+		normalizePublicationLinks(payload.Links, item.ID)
 		if len(payload.Links) > 0 {
-			return tx.Create(&payload.Links).Error
+			if err := tx.Create(&payload.Links).Error; err != nil {
+				return err
+			}
 		}
 		if err := renumberPublicationGroup(tx, payload.Year, payload.Kind); err != nil {
 			return err
@@ -338,8 +346,14 @@ func (s *Server) updatePublication(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	s.db.Preload("Links").First(&item, id)
+	preloadPublicationLinks(s.db).First(&item, id)
 	c.JSON(http.StatusOK, item)
+}
+
+func preloadPublicationLinks(db *gorm.DB) *gorm.DB {
+	return db.Preload("Links", func(linkDB *gorm.DB) *gorm.DB {
+		return linkDB.Order("sort_order ASC, id ASC")
+	})
 }
 
 func normalizePublicationKind(kind string) string {
@@ -368,6 +382,37 @@ func renumberPublications(tx *gorm.DB, group []Publication) error {
 		}
 	}
 	return nil
+}
+
+func normalizePublicationLinks(links []PublicationLink, publicationID uint) {
+	for i := range links {
+		links[i].ID = 0
+		links[i].PublicationID = publicationID
+		links[i].SortOrder = i + 1
+		if links[i].Label == "" {
+			links[i].Label = defaultPublicationLinkLabel(links[i].Type)
+		}
+		if links[i].Type != "video" {
+			links[i].RouteName = ""
+		}
+	}
+}
+
+func defaultPublicationLinkLabel(kind string) string {
+	switch kind {
+	case "paper":
+		return "Paper"
+	case "code":
+		return "Code"
+	case "video":
+		return "Video"
+	case "ppt":
+		return "PPT"
+	case "poster":
+		return "Poster"
+	default:
+		return "Link"
+	}
 }
 
 func (s *Server) deletePublication(c *gin.Context) {

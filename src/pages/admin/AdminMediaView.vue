@@ -2,7 +2,7 @@
   <div class="media-page">
     <div class="admin-page-header">
       <div>
-        <h1>Media</h1>
+        <h1>媒体文件</h1>
         <p>上传和管理图片、文档、压缩包和视频资源</p>
       </div>
       <div class="media-actions">
@@ -13,11 +13,22 @@
       </div>
     </div>
 
+    <div class="media-toolbar">
+      <el-input v-model="query" placeholder="搜索文件名、URL 或 MIME" clearable @keyup.enter="refresh" />
+      <el-select v-model="kind" placeholder="类型" clearable>
+        <el-option label="图片" value="image" />
+        <el-option label="文档" value="document" />
+        <el-option label="压缩包" value="archive" />
+        <el-option label="视频" value="video" />
+      </el-select>
+      <el-button @click="refresh">搜索</el-button>
+    </div>
+
     <el-table v-loading="loading" :data="items" border>
       <el-table-column label="预览" width="110">
         <template #default="{ row }">
           <el-image v-if="row.kind === 'image'" :src="row.url" fit="cover" class="preview" />
-          <el-tag v-else>{{ row.kind }}</el-tag>
+          <el-tag v-else>{{ formatKind(row.kind) }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="originalName" label="文件名" min-width="220" />
@@ -30,8 +41,10 @@
         <template #default="{ row }">{{ formatSize(row.size) }}</template>
       </el-table-column>
       <el-table-column prop="mimeType" label="MIME" width="180" />
-      <el-table-column label="操作" width="110">
+      <el-table-column label="操作" width="220">
         <template #default="{ row }">
+          <el-button link type="primary" @click="copyURL(row.url)">复制 URL</el-button>
+          <el-button link @click="openURL(row.url)">打开</el-button>
           <el-popconfirm title="确认移入回收站？被内容引用时后端会拒绝删除。" @confirm="remove(row.id)">
             <template #reference>
               <el-button link type="danger">移入回收站</el-button>
@@ -67,16 +80,23 @@ const items = ref<MediaAsset[]>([])
 const total = ref(0)
 const page = ref(1)
 const pageSize = ref(20)
+const query = ref('')
+const kind = ref('')
 
 const load = async () => {
   loading.value = true
   try {
-    const result = await listAdmin<MediaAsset>('media', { page: page.value, pageSize: pageSize.value })
+    const result = await listAdmin<MediaAsset>('media', { page: page.value, pageSize: pageSize.value, q: query.value, kind: kind.value })
     items.value = result.items
     total.value = result.total
   } finally {
     loading.value = false
   }
+}
+
+const refresh = async () => {
+  page.value = 1
+  await load()
 }
 
 const handleUpload = async (options: UploadRequestOptions) => {
@@ -114,6 +134,25 @@ const formatSize = (size: number) => {
   return `${size} B`
 }
 
+const formatKind = (value: string) => {
+  const labels: Record<string, string> = {
+    image: '图片',
+    document: '文档',
+    archive: '压缩包',
+    video: '视频',
+  }
+  return labels[value] || value
+}
+
+const copyURL = async (url: string) => {
+  await navigator.clipboard.writeText(url)
+  ElMessage.success('URL 已复制')
+}
+
+const openURL = (url: string) => {
+  window.open(url, '_blank', 'noopener,noreferrer')
+}
+
 onMounted(load)
 </script>
 
@@ -134,6 +173,20 @@ onMounted(load)
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.media-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.media-toolbar .el-input {
+  width: 320px;
+}
+
+.media-toolbar .el-select {
+  width: 150px;
 }
 
 .admin-page-header h1 {

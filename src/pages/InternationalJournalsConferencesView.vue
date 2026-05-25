@@ -41,7 +41,7 @@ const getLinkText = (type: string) => {
   return type.charAt(0).toUpperCase() + type.slice(1)
 }
 
-type PublicationLinkValue = string | { name?: string; handler?: () => void }
+type PublicationLinkValue = string | { name?: string; url?: string; handler?: () => void }
 type PublicationLinkMap = Record<string, PublicationLinkValue>
 type PublicationViewItem = {
   id?: number
@@ -54,7 +54,7 @@ type PublicationViewItem = {
 
 const mapLinks = (links: PublicationLink[]) => links.reduce((acc: PublicationLinkMap, link) => {
   if (link.type === 'video') {
-    acc.video = { name: link.routeName }
+    acc.video = { name: link.routeName, url: link.url }
   } else if (link.type === 'ppt' || link.type === 'poster') {
     acc[link.type] = { handler: () => downloadFile(link.url, link.label || getLinkText(link.type)) }
   } else {
@@ -70,6 +70,13 @@ const linkRoute = (link: PublicationLinkValue) => {
     return { name: link.name }
   }
   return '/'
+}
+const videoHasRoute = (link: PublicationLinkValue) => typeof link === 'object' && Boolean(link.name)
+const videoHasURL = (link: PublicationLinkValue) => typeof link === 'object' && Boolean(link.url)
+const openVideoLink = (link: PublicationLinkValue) => {
+  if (typeof link === 'object' && link.url) {
+    window.open(link.url, '_blank')
+  }
 }
 const runLinkHandler = (link: PublicationLinkValue) => {
   if (typeof link === 'object') {
@@ -518,7 +525,7 @@ onMounted(async () => {
 
                       <!-- 视频链接 -->
                       <router-link
-                          v-else-if="linkType(type) === 'video'"
+                          v-else-if="linkType(type) === 'video' && videoHasRoute(link)"
                           :to="linkRoute(link)"
                           class="publication-link"
                       >
@@ -527,6 +534,17 @@ onMounted(async () => {
                         </el-icon>
                         <span>Video</span>
                       </router-link>
+                      <button
+                          v-else-if="linkType(type) === 'video' && videoHasURL(link)"
+                          type="button"
+                          class="publication-link link-button"
+                          @click="openVideoLink(link)"
+                      >
+                        <el-icon size="25">
+                          <VideoPlay />
+                        </el-icon>
+                        <span>Video</span>
+                      </button>
 
                       <!-- PPT 和海报下载按钮 -->
                       <el-button
@@ -575,7 +593,7 @@ onMounted(async () => {
 
                       <!-- 视频链接 -->
                       <router-link
-                          v-else-if="linkType(type) === 'video'"
+                          v-else-if="linkType(type) === 'video' && videoHasRoute(link)"
                           :to="linkRoute(link)"
                           class="publication-link"
                       >
@@ -584,6 +602,17 @@ onMounted(async () => {
                         </el-icon>
                         <span>Video</span>
                       </router-link>
+                      <button
+                          v-else-if="linkType(type) === 'video' && videoHasURL(link)"
+                          type="button"
+                          class="publication-link link-button"
+                          @click="openVideoLink(link)"
+                      >
+                        <el-icon size="25">
+                          <VideoPlay />
+                        </el-icon>
+                        <span>Video</span>
+                      </button>
 
                       <!-- PPT 和海报下载按钮 -->
                       <el-button
@@ -725,6 +754,13 @@ onMounted(async () => {
   transition: all 0.3s ease;
   padding: 6px 12px;
   border-radius: 4px;
+}
+
+.link-button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .publication-link:hover {

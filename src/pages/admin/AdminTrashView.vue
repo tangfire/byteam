@@ -2,7 +2,7 @@
   <div class="trash-page">
     <div class="admin-page-header">
       <div>
-        <h1>Trash</h1>
+        <h1>回收站</h1>
         <p>查看已删除内容，并把误删的数据恢复到原管理列表</p>
       </div>
     </div>
@@ -21,7 +21,7 @@
       <el-table-column prop="subtitle" label="说明" min-width="260" show-overflow-tooltip />
       <el-table-column label="原状态" width="120">
         <template #default="{ row }">
-          <el-tag v-if="row.status" :type="row.status === 'published' ? 'success' : 'info'">{{ row.status }}</el-tag>
+          <el-tag v-if="row.status" :type="row.status === 'published' ? 'success' : 'info'">{{ formatStatus(row.status) }}</el-tag>
           <span v-else>-</span>
         </template>
       </el-table-column>
@@ -58,13 +58,13 @@ import { listTrash, restoreTrash } from '../../api/admin'
 import type { TrashItem } from '../../api/client'
 
 const resources = [
-  { label: 'News', value: 'news' },
-  { label: 'People', value: 'people' },
-  { label: 'Undergraduates', value: 'undergraduates' },
-  { label: 'Publications', value: 'publications' },
-  { label: 'Patents', value: 'patents' },
-  { label: 'Research Projects', value: 'research-projects' },
-  { label: 'Media', value: 'media' },
+  { label: '新闻动态', value: 'news' },
+  { label: '成员', value: 'people' },
+  { label: '本科生培养', value: 'undergraduates' },
+  { label: '论文', value: 'publications' },
+  { label: '专利与标准', value: 'patents' },
+  { label: '科研项目', value: 'research-projects' },
+  { label: '媒体文件', value: 'media' },
 ]
 
 const loading = ref(false)
@@ -103,6 +103,8 @@ const formatDate = (value?: string) => {
   if (!value) return '-'
   return new Date(value).toLocaleString()
 }
+
+const formatStatus = (status: string) => status === 'published' ? '已发布' : '草稿'
 
 onMounted(load)
 </script>

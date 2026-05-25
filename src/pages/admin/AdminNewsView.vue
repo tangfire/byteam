@@ -1,5 +1,5 @@
 <template>
-  <AdminCrudView title="News" description="管理官网新闻和首页最新动态" resource="news" :defaults="defaults" :columns="columns" :fields="fields" />
+  <AdminCrudView title="新闻动态" description="管理官网新闻和首页最新动态" resource="news" :defaults="defaults" :columns="columns" :fields="fields" />
 </template>
 
 <script setup lang="ts">
@@ -17,10 +17,10 @@ const fields: FieldConfig[] = [
   { prop: 'title', label: '标题' },
   { prop: 'content', label: '内容', type: 'textarea', rows: 5 },
   { prop: 'excerpt', label: '首页摘要', type: 'textarea', rows: 3 },
-  { prop: 'type', label: '类型', type: 'select', options: [{ label: 'Publication', value: 'publication' }, { label: 'Team', value: 'team' }, { label: 'Award', value: 'award' }, { label: 'Event', value: 'event' }, { label: 'General', value: 'general' }] },
+  { prop: 'type', label: '类型', type: 'select', options: [{ label: '论文发表', value: 'publication' }, { label: '团队动态', value: 'team' }, { label: '奖项荣誉', value: 'award' }, { label: '活动', value: 'event' }, { label: '其他', value: 'general' }] },
   { prop: 'typeLabel', label: '类型显示（可留空）' },
   { prop: 'date', label: '日期', type: 'date' },
   { prop: 'color', label: '颜色' },
-  { prop: 'status', label: '发布状态', type: 'select', options: [{ label: 'Published', value: 'published' }, { label: 'Draft', value: 'draft' }] },
+  { prop: 'status', label: '发布状态', type: 'select', options: [{ label: '已发布', value: 'published' }, { label: '草稿', value: 'draft' }] },
 ]
 </script>

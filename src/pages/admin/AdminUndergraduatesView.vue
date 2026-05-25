@@ -1,5 +1,5 @@
 <template>
-  <AdminCrudView title="Undergraduates" description="管理本科生培养成果" resource="undergraduates" :defaults="defaults" :columns="columns" :fields="fields" sortable />
+  <AdminCrudView title="本科生培养" description="管理本科生培养成果" resource="undergraduates" :defaults="defaults" :columns="columns" :fields="fields" sortable />
 </template>
 
 <script setup lang="ts">
@@ -19,6 +19,6 @@ const fields: FieldConfig[] = [
   { prop: 'major', label: '专业' },
   { prop: 'direction', label: '方向' },
   { prop: 'achievements', label: '成果', type: 'list' },
-  { prop: 'status', label: '发布状态', type: 'select', options: [{ label: 'Published', value: 'published' }, { label: 'Draft', value: 'draft' }] },
+  { prop: 'status', label: '发布状态', type: 'select', options: [{ label: '已发布', value: 'published' }, { label: '草稿', value: 'draft' }] },
 ]
 </script>

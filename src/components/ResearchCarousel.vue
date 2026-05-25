@@ -20,7 +20,7 @@
                 <div class="links">
                   <el-button v-if="findLink(pub, 'paper')" type="primary" size="small" @click="openLink(findLink(pub, 'paper')!.url)">Paper</el-button>
                   <el-button v-if="findLink(pub, 'code')" type="success" size="small" @click="openLink(findLink(pub, 'code')!.url)">Code</el-button>
-                  <el-button v-if="findLink(pub, 'video')" type="info" size="small" @click="handleVideoClick(findLink(pub, 'video')!.routeName)">Video</el-button>
+                  <el-button v-if="findLink(pub, 'video')" type="info" size="small" @click="handleVideoClick(findLink(pub, 'video')!)">Video</el-button>
                 </div>
               </div>
             </div>
@@ -52,7 +52,7 @@
             <div class="links">
               <el-button v-if="findLink(pub, 'paper')" type="primary" size="small" @click="openLink(findLink(pub, 'paper')!.url)">Paper</el-button>
               <el-button v-if="findLink(pub, 'code')" type="success" size="small" @click="openLink(findLink(pub, 'code')!.url)">Code</el-button>
-              <el-button v-if="findLink(pub, 'video')" type="info" size="small" @click="handleVideoClick(findLink(pub, 'video')!.routeName)">Video</el-button>
+              <el-button v-if="findLink(pub, 'video')" type="info" size="small" @click="handleVideoClick(findLink(pub, 'video')!)">Video</el-button>
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { getHome } from '../api/public'
-import type { Publication } from '../api/client'
+import type { Publication, PublicationLink } from '../api/client'
 
 const router = useRouter()
 const isMobile = ref(false)
@@ -162,8 +162,12 @@ const handleImageError = (e: Event) => {
 const findLink = (pub: Publication, type: string) => pub.links.find((link) => link.type === type)
 const openLink = (url: string) => window.open(url, '_blank')
 
-const handleVideoClick = (routeName: string) => {
-  if (routeName) router.push({ name: routeName })
+const handleVideoClick = (link: PublicationLink) => {
+  if (link.routeName) {
+    router.push({ name: link.routeName })
+  } else if (link.url) {
+    openLink(link.url)
+  }
 }
 
 const nextSlide = () => {

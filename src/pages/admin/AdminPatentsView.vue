@@ -1,5 +1,5 @@
 <template>
-  <AdminCrudView title="Patents" description="管理授权专利、实审专利和团体标准" resource="patents" :defaults="defaults" :columns="columns" :fields="fields" sortable sort-group-key="category" />
+  <AdminCrudView title="专利与标准" description="管理授权专利、实审专利和团体标准" resource="patents" :defaults="defaults" :columns="columns" :fields="fields" sortable sort-group-key="category" />
 </template>
 
 <script setup lang="ts">
@@ -20,6 +20,6 @@ const fields: FieldConfig[] = [
   { prop: 'country', label: '国家/组织' },
   { prop: 'number', label: '编号' },
   { prop: 'category', label: '分类', type: 'select', options: [{ label: '授权', value: 'granted' }, { label: '实审', value: 'review' }, { label: '团体标准', value: 'standard' }] },
-  { prop: 'status', label: '发布状态', type: 'select', options: [{ label: 'Published', value: 'published' }, { label: 'Draft', value: 'draft' }] },
+  { prop: 'status', label: '发布状态', type: 'select', options: [{ label: '已发布', value: 'published' }, { label: '草稿', value: 'draft' }] },
 ]
 </script>

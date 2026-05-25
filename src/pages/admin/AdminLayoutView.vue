@@ -1,17 +1,17 @@
 <template>
   <el-container class="admin-shell">
     <el-aside width="230px" class="admin-aside">
-      <div class="admin-brand">BYML Admin</div>
+      <div class="admin-brand">BYML 后台</div>
       <el-menu router :default-active="$route.path" background-color="#111827" text-color="#d1d5db" active-text-color="#ffffff">
-        <el-menu-item index="/admin/dashboard">Dashboard</el-menu-item>
-        <el-menu-item index="/admin/news">News</el-menu-item>
-        <el-menu-item index="/admin/people">People</el-menu-item>
-        <el-menu-item index="/admin/undergraduates">Undergraduates</el-menu-item>
-        <el-menu-item index="/admin/publications">Publications</el-menu-item>
-        <el-menu-item index="/admin/patents">Patents</el-menu-item>
-        <el-menu-item index="/admin/research-projects">Research Projects</el-menu-item>
-        <el-menu-item index="/admin/media">Media</el-menu-item>
-        <el-menu-item index="/admin/trash">Trash</el-menu-item>
+        <el-menu-item index="/admin/dashboard">后台首页</el-menu-item>
+        <el-menu-item index="/admin/news">新闻动态</el-menu-item>
+        <el-menu-item index="/admin/people">成员管理</el-menu-item>
+        <el-menu-item index="/admin/undergraduates">本科生培养</el-menu-item>
+        <el-menu-item index="/admin/publications">论文管理</el-menu-item>
+        <el-menu-item index="/admin/patents">专利与标准</el-menu-item>
+        <el-menu-item index="/admin/research-projects">科研项目</el-menu-item>
+        <el-menu-item index="/admin/media">媒体文件</el-menu-item>
+        <el-menu-item index="/admin/trash">回收站</el-menu-item>
         <el-menu-item index="/admin/guide">运维说明</el-menu-item>
       </el-menu>
     </el-aside>

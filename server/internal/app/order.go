@@ -212,7 +212,7 @@ func (s *Server) placePublication(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	s.db.Preload("Links").First(&item, id)
+	preloadPublicationLinks(s.db).First(&item, id)
 	c.JSON(http.StatusOK, item)
 }
 

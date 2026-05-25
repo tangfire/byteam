@@ -11,8 +11,8 @@
     <div class="admin-toolbar">
       <el-input v-model="query.q" placeholder="搜索" clearable @keyup.enter="load" />
       <el-select v-model="query.status" placeholder="状态" clearable>
-        <el-option label="Published" value="published" />
-        <el-option label="Draft" value="draft" />
+        <el-option label="已发布" value="published" />
+        <el-option label="草稿" value="draft" />
       </el-select>
       <el-button @click="load">刷新</el-button>
     </div>
@@ -48,13 +48,21 @@
         <template #default="{ row }">
           <el-image v-if="column.type === 'image' && row[column.prop]" :src="row[column.prop]" fit="cover" class="table-image" />
           <span v-else-if="column.type === 'image'" class="empty-image">未设置</span>
-          <el-tag v-else-if="column.prop === 'status'" :type="row.status === 'published' ? 'success' : 'info'">{{ row.status }}</el-tag>
-          <span v-else>{{ formatCell(row[column.prop]) }}</span>
+          <el-tag v-else-if="column.prop === 'status'" :type="row.status === 'published' ? 'success' : 'info'">{{ formatStatus(row.status) }}</el-tag>
+          <span v-else>{{ formatCell(row[column.prop], column) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" fixed="right" width="150">
+      <el-table-column label="操作" fixed="right" width="210">
         <template #default="{ row }">
           <el-button link type="primary" @click="openEdit(row)">编辑</el-button>
+          <el-button
+            link
+            :type="row.status === 'published' ? 'warning' : 'success'"
+            :loading="togglingID === row.id"
+            @click="toggleStatus(row)"
+          >
+            {{ row.status === 'published' ? '隐藏' : '发布' }}
+          </el-button>
           <el-popconfirm title="确认移入回收站？之后可在回收站恢复。" @confirm="remove(row)">
             <template #reference>
               <el-button link type="danger">移入回收站</el-button>
@@ -74,7 +82,7 @@
       @size-change="load"
     />
 
-    <el-dialog v-model="dialogVisible" :title="editing?.id ? '编辑' : '新增'" width="760px">
+    <el-dialog v-model="dialogVisible" :title="editing?.id ? '编辑' : '新增'" width="860px">
       <el-form :model="editing" label-width="120px" class="admin-form" v-if="editing">
         <el-form-item v-for="field in fields" :key="field.prop" :label="field.label">
           <el-input v-if="!field.type || field.type === 'text'" v-model="editing[field.prop]" />
@@ -101,20 +109,53 @@
             </div>
           </div>
           <div v-else-if="field.type === 'links'" class="links-editor">
-            <div v-for="(link, index) in editing.links" :key="index" class="link-row">
-              <el-select v-model="link.type" placeholder="类型">
-                <el-option label="Paper" value="paper" />
-                <el-option label="Code" value="code" />
-                <el-option label="Video" value="video" />
-                <el-option label="PPT" value="ppt" />
-                <el-option label="Poster" value="poster" />
-              </el-select>
-              <el-input v-model="link.label" placeholder="标签" />
-              <el-input v-model="link.url" placeholder="URL 或文件路径" />
-              <el-input v-model="link.routeName" placeholder="视频路由名" />
-              <el-button @click="editing.links.splice(index, 1)">删除</el-button>
+            <div class="links-toolbar">
+              <el-button v-for="option in linkTypeOptions" :key="option.value" size="small" @click="addPublicationLink(option.value)">
+                添加{{ option.shortLabel }}
+              </el-button>
             </div>
-            <el-button @click="editing.links.push({ type: 'paper', label: 'Paper', url: '', routeName: '', sortOrder: editing.links.length + 1 })">添加链接</el-button>
+            <el-empty v-if="!editing.links?.length" description="暂无附件或链接" :image-size="72" />
+            <div
+              v-for="(link, index) in editing.links"
+              :key="link.id || index"
+              class="link-card"
+              :class="{ 'link-card-over': linkDragOverIndex === index }"
+              @dragover.prevent="handleLinkDragOver(index)"
+              @drop.prevent="handleLinkDrop(index)"
+            >
+              <button
+                class="drag-handle link-drag-handle"
+                type="button"
+                draggable="true"
+                aria-label="拖动排序"
+                title="拖动排序"
+                @dragstart="handleLinkDragStart(index, $event)"
+                @dragend="handleLinkDragEnd"
+              >
+                ⋮⋮
+              </button>
+              <div class="link-fields">
+                <div class="link-line">
+                  <el-select v-model="link.type" class="link-type" placeholder="类型" @change="handleLinkTypeChange(link)">
+                    <el-option v-for="option in linkTypeOptions" :key="option.value" :label="option.label" :value="option.value" />
+                  </el-select>
+                  <el-input v-model="link.label" class="link-label" placeholder="官网按钮文字" />
+                  <el-button link type="danger" @click="removePublicationLink(index)">删除</el-button>
+                </div>
+                <div class="link-line">
+                  <el-input v-model="link.url" :placeholder="linkURLPlaceholder(link)" />
+                  <template v-if="linkCanUseMedia(link)">
+                    <el-button @click="openLinkMediaPicker(index)">选择文件</el-button>
+                    <el-upload :accept="linkUploadAccept(link)" :show-file-list="false" :http-request="(options: UploadRequestOptions) => uploadLinkMedia(options, index)">
+                      <el-button :loading="mediaUploading">上传并使用</el-button>
+                    </el-upload>
+                  </template>
+                </div>
+                <div v-if="link.type === 'video'" class="link-line">
+                  <el-input v-model="link.routeName" placeholder="站内视频页面路由名；如果上传 MP4，可只填写上面的文件 URL" />
+                </div>
+              </div>
+            </div>
           </div>
         </el-form-item>
       </el-form>
@@ -132,7 +173,7 @@
       <div v-loading="mediaLoading" class="media-grid">
         <button v-for="asset in mediaOptions" :key="asset.id" class="media-option" type="button" @click="chooseMedia(asset.url)">
           <el-image v-if="asset.kind === 'image'" :src="asset.url" fit="cover" />
-          <span v-else class="media-kind">{{ asset.kind }}</span>
+          <span v-else class="media-kind">{{ formatMediaKind(asset.kind) }}</span>
           <span class="media-name">{{ asset.originalName }}</span>
         </button>
       </div>
@@ -145,7 +186,7 @@ import { computed, onMounted, onUpdated, reactive, ref, toRaw } from 'vue'
 import type { UploadRequestOptions } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { createAdmin, deleteAdmin, listAdmin, placeAdmin, updateAdmin, uploadMedia } from '../../api/admin'
-import type { MediaAsset } from '../../api/client'
+import type { MediaAsset, PublicationLink } from '../../api/client'
 
 export interface FieldConfig {
   prop: string
@@ -169,6 +210,7 @@ const props = defineProps<{
 
 const loading = ref(false)
 const saving = ref(false)
+const togglingID = ref<number | null>(null)
 const items = ref<Record<string, any>[]>([])
 const total = ref(0)
 const dialogVisible = ref(false)
@@ -181,11 +223,22 @@ const mediaPickerVisible = ref(false)
 const mediaLoading = ref(false)
 const mediaUploading = ref(false)
 const mediaTargetProp = ref('')
+const mediaTargetLinkIndex = ref<number | null>(null)
 const mediaKind = ref('')
 const mediaQuery = ref('')
 const mediaOptions = ref<MediaAsset[]>([])
 const crudRoot = ref<HTMLElement | null>(null)
 const dragEventsBound = ref(false)
+const linkDragIndex = ref<number | null>(null)
+const linkDragOverIndex = ref<number | null>(null)
+
+const linkTypeOptions = [
+  { label: '论文 / PDF', shortLabel: '论文', value: 'paper', defaultLabel: 'Paper' },
+  { label: '代码', shortLabel: '代码', value: 'code', defaultLabel: 'Code' },
+  { label: '视频', shortLabel: '视频', value: 'video', defaultLabel: 'Video' },
+  { label: 'PPT', shortLabel: 'PPT', value: 'ppt', defaultLabel: 'PPT' },
+  { label: 'Poster', shortLabel: 'Poster', value: 'poster', defaultLabel: 'Poster' },
+]
 
 const sortGroupKeys = computed(() => {
   if (!props.sortGroupKey) return []
@@ -207,6 +260,7 @@ const load = async () => {
 
 const openCreate = () => {
   editing.value = clonePlain(props.defaults)
+  ensurePublicationLinks()
   dialogVisible.value = true
 }
 
@@ -216,11 +270,13 @@ const openEdit = (row: Record<string, any>) => {
     next.links = []
   }
   editing.value = next
+  ensurePublicationLinks()
   dialogVisible.value = true
 }
 
 const save = async () => {
   if (!editing.value) return
+  normalizeEditingBeforeSave()
   saving.value = true
   try {
     if (editing.value.id) {
@@ -233,6 +289,20 @@ const save = async () => {
     await load()
   } finally {
     saving.value = false
+  }
+}
+
+const toggleStatus = async (row: Record<string, any>) => {
+  togglingID.value = row.id
+  try {
+    const payload = clonePlain(row)
+    payload.status = row.status === 'published' ? 'draft' : 'published'
+    normalizeLinks(payload)
+    await updateAdmin(props.resource, payload)
+    ElMessage.success(payload.status === 'published' ? '已发布' : '已隐藏')
+    await load()
+  } finally {
+    togglingID.value = null
   }
 }
 
@@ -322,7 +392,18 @@ defineExpose({ load })
 
 const openMediaPicker = async (prop: string, kind = '') => {
   mediaTargetProp.value = prop
+  mediaTargetLinkIndex.value = null
   mediaKind.value = kind
+  mediaPickerVisible.value = true
+  await loadMediaOptions()
+}
+
+const openLinkMediaPicker = async (index: number) => {
+  const link = editing.value?.links?.[index]
+  if (!link) return
+  mediaTargetProp.value = ''
+  mediaTargetLinkIndex.value = index
+  mediaKind.value = linkMediaKind(link)
   mediaPickerVisible.value = true
   await loadMediaOptions()
 }
@@ -338,8 +419,15 @@ const loadMediaOptions = async () => {
 }
 
 const chooseMedia = (url: string) => {
-  if (!editing.value || !mediaTargetProp.value) return
-  editing.value[mediaTargetProp.value] = url
+  if (!editing.value) return
+  if (mediaTargetLinkIndex.value !== null) {
+    const link = editing.value.links?.[mediaTargetLinkIndex.value]
+    if (link) {
+      link.url = url
+    }
+  } else if (mediaTargetProp.value) {
+    editing.value[mediaTargetProp.value] = url
+  }
   mediaPickerVisible.value = false
 }
 
@@ -355,12 +443,147 @@ const uploadFieldMedia = async (options: UploadRequestOptions, prop: string) => 
   }
 }
 
+const uploadLinkMedia = async (options: UploadRequestOptions, index: number) => {
+  if (!editing.value?.links?.[index]) return
+  mediaUploading.value = true
+  try {
+    const asset = await uploadMedia(options.file)
+    editing.value.links[index].url = asset.url
+    ElMessage.success('已上传并填入')
+  } finally {
+    mediaUploading.value = false
+  }
+}
+
+const defaultLinkLabel = (type: string) => linkTypeOptions.find((option) => option.value === type)?.defaultLabel || 'Link'
+
+const addPublicationLink = (type = 'paper') => {
+  if (!editing.value) return
+  if (!Array.isArray(editing.value.links)) {
+    editing.value.links = []
+  }
+  editing.value.links.push({ type, label: defaultLinkLabel(type), url: '', routeName: '', sortOrder: editing.value.links.length + 1 })
+}
+
+const removePublicationLink = (index: number) => {
+  editing.value?.links?.splice(index, 1)
+}
+
+const handleLinkTypeChange = (link: PublicationLink) => {
+  const defaults = linkTypeOptions.map((option) => option.defaultLabel)
+  if (!link.label || defaults.includes(link.label)) {
+    link.label = defaultLinkLabel(link.type)
+  }
+  if (link.type !== 'video') {
+    link.routeName = ''
+  }
+}
+
+const handleLinkDragStart = (index: number, event: DragEvent) => {
+  linkDragIndex.value = index
+  event.dataTransfer?.setData('text/plain', String(index))
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = 'move'
+  }
+}
+
+const handleLinkDragOver = (index: number) => {
+  if (linkDragIndex.value === null || linkDragIndex.value === index) return
+  linkDragOverIndex.value = index
+}
+
+const handleLinkDrop = (index: number) => {
+  if (!editing.value?.links || linkDragIndex.value === null || linkDragIndex.value === index) {
+    handleLinkDragEnd()
+    return
+  }
+  const links = editing.value.links
+  const [moved] = links.splice(linkDragIndex.value, 1)
+  links.splice(index, 0, moved)
+  normalizeLinks(editing.value)
+  handleLinkDragEnd()
+}
+
+const handleLinkDragEnd = () => {
+  linkDragIndex.value = null
+  linkDragOverIndex.value = null
+}
+
+const ensurePublicationLinks = () => {
+  if (props.resource !== 'publications' || !editing.value) return
+  if (!Array.isArray(editing.value.links)) {
+    editing.value.links = []
+  }
+  normalizeLinks(editing.value)
+}
+
+const normalizeEditingBeforeSave = () => {
+  if (!editing.value) return
+  normalizeLinks(editing.value)
+}
+
+const normalizeLinks = (value: Record<string, any>) => {
+  if (!Array.isArray(value.links)) return
+  value.links = value.links.map((link: PublicationLink, index: number) => ({
+    ...link,
+    label: link.label || defaultLinkLabel(link.type),
+    routeName: link.type === 'video' ? link.routeName || '' : '',
+    sortOrder: index + 1,
+  }))
+}
+
+const linkMediaKind = (link: PublicationLink) => {
+  if (link.type === 'video') return 'video'
+  if (link.type === 'paper' || link.type === 'ppt') return 'document'
+  return ''
+}
+
+const linkCanUseMedia = (link: PublicationLink) => link.type === 'paper' || link.type === 'ppt' || link.type === 'poster' || link.type === 'video'
+
+const linkUploadAccept = (link: PublicationLink) => {
+  if (link.type === 'paper' || link.type === 'poster') return '.pdf,application/pdf,image/*'
+  if (link.type === 'ppt') return '.ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation'
+  if (link.type === 'video') return '.mp4,video/mp4'
+  return ''
+}
+
+const linkURLPlaceholder = (link: PublicationLink) => {
+  if (link.type === 'code') return 'GitHub、项目主页或其他外部链接'
+  if (link.type === 'video') return '视频文件 URL 或外部链接'
+  return '可粘贴外部链接，也可选择/上传文件'
+}
+
 const splitList = (value: string) => value.split('\n').map((item) => item.trim()).filter(Boolean)
 
-const formatCell = (value: unknown) => {
+const fieldOptions = computed(() => {
+  const optionsByProp = new Map<string, Map<string | number, string>>()
+  props.fields.forEach((field) => {
+    if (!field.options) return
+    optionsByProp.set(field.prop, new Map(field.options.map((option) => [option.value, option.label])))
+  })
+  return optionsByProp
+})
+
+const formatCell = (value: unknown, column?: FieldConfig) => {
+  if (column) {
+    const optionLabel = fieldOptions.value.get(column.prop)?.get(value as string | number)
+    if (optionLabel) return optionLabel
+  }
   if (Array.isArray(value)) return value.join('；')
   if (typeof value === 'boolean') return value ? '是' : '否'
   return value ?? ''
+}
+
+const formatStatus = (status: string) => status === 'published' ? '已发布' : '草稿'
+
+const formatMediaKind = (kind: string) => {
+  const labels: Record<string, string> = {
+    image: '图片',
+    document: '文档',
+    archive: '压缩包',
+    video: '视频',
+  }
+  return labels[kind] || kind
 }
 
 onMounted(() => {
@@ -465,10 +688,54 @@ onUpdated(bindTableDragEvents)
   width: 100%;
 }
 
-.link-row {
-  display: grid;
-  grid-template-columns: 110px 110px 1fr 150px 70px;
+.links-toolbar {
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+}
+
+.link-card {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 10px;
+  align-items: start;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 10px;
+}
+
+.link-card-over {
+  border-color: #f59e0b;
+  background: #fff7ed;
+}
+
+.link-drag-handle {
+  margin-top: 2px;
+}
+
+.link-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.link-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.link-type {
+  width: 150px;
+  flex-shrink: 0;
+}
+
+.link-label {
+  width: 160px;
+  flex-shrink: 0;
 }
 
 .media-picker {
