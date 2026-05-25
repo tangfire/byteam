@@ -22,6 +22,8 @@ MYSQL_ROOT_USER_VALUE="${MYSQL_ROOT_USER:-root}"
 MYSQL_ROOT_PASSWORD_VALUE="${MYSQL_ROOT_PASSWORD:-root_password}"
 MYSQL_CLI="${MYSQL_CLI:-mysql}"
 MYSQLDUMP_CLI="${MYSQLDUMP_CLI:-mysqldump}"
+MYSQL_SSL_DISABLE_ARG="${MYSQL_SSL_DISABLE_ARG:-}"
+MYSQLDUMP_SSL_DISABLE_ARG="${MYSQLDUMP_SSL_DISABLE_ARG:-}"
 DB_BACKUP_CREATED="false"
 CONTENT_SNAPSHOT_CREATED="false"
 CONTENT_SNAPSHOT_REJECTED="false"
@@ -37,6 +39,23 @@ fi
 
 if ! command -v "${MYSQLDUMP_CLI}" >/dev/null 2>&1 && command -v mariadb-dump >/dev/null 2>&1; then
   MYSQLDUMP_CLI="mariadb-dump"
+fi
+
+detect_ssl_disable_arg() {
+  cli="$1"
+  if "${cli}" --help 2>&1 | grep -q -- "--ssl-mode"; then
+    printf '%s' "--ssl-mode=DISABLED"
+  elif "${cli}" --help 2>&1 | grep -q -- "--skip-ssl"; then
+    printf '%s' "--skip-ssl"
+  fi
+}
+
+if [ -z "${MYSQL_SSL_DISABLE_ARG}" ] && command -v "${MYSQL_CLI}" >/dev/null 2>&1; then
+  MYSQL_SSL_DISABLE_ARG="$(detect_ssl_disable_arg "${MYSQL_CLI}")"
+fi
+
+if [ -z "${MYSQLDUMP_SSL_DISABLE_ARG}" ] && command -v "${MYSQLDUMP_CLI}" >/dev/null 2>&1; then
+  MYSQLDUMP_SSL_DISABLE_ARG="$(detect_ssl_disable_arg "${MYSQLDUMP_CLI}")"
 fi
 
 echo "Creating BYML backup at ${BACKUP_DIR}"
@@ -301,6 +320,7 @@ if has_direct_mysql; then
     -P"${MYSQL_PORT_VALUE}" \
     -u"${MYSQL_ROOT_USER_VALUE}" \
     -p"${MYSQL_ROOT_PASSWORD_VALUE}" \
+    ${MYSQLDUMP_SSL_DISABLE_ARG:+"${MYSQLDUMP_SSL_DISABLE_ARG}"} \
     --default-character-set=utf8mb4 \
     --databases "${MYSQL_DATABASE_VALUE}" \
     | gzip > "${BACKUP_DIR}/byml.sql.gz"
@@ -320,6 +340,7 @@ if has_direct_mysql; then
     -P"${MYSQL_PORT_VALUE}" \
     -u"${MYSQL_USER_VALUE}" \
     -p"${MYSQL_PASSWORD_VALUE}" \
+    ${MYSQL_SSL_DISABLE_ARG:+"${MYSQL_SSL_DISABLE_ARG}"} \
     --default-character-set=utf8mb4 \
     "${MYSQL_DATABASE_VALUE}" \
     --batch --raw --skip-column-names \

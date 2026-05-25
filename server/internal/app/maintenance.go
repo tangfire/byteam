@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"os/exec"
@@ -85,6 +86,7 @@ func checkpointStatus(path string) MaintenanceBackupStatus {
 	status := MaintenanceBackupStatus{
 		Path:      path,
 		KeepCount: 0,
+		Dirs:      []string{},
 	}
 	entries, err := os.ReadDir(path)
 	if err != nil {
@@ -106,11 +108,86 @@ func checkpointStatus(path string) MaintenanceBackupStatus {
 }
 
 func (s *Server) runBackup(c *gin.Context) {
-	s.runMaintenanceCommand(c, "backup", s.cfg.BackupCommand, nil)
+	s.runContentSnapshotBackup(c)
 }
 
 func (s *Server) runGitSync(c *gin.Context) {
-	s.runMaintenanceCommand(c, "git-sync", s.cfg.GitSyncCommand, []string{"GIT_SYNC_RUN_BACKUP=true"})
+	root, err := s.projectRoot()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	if _, _, err := s.createContentSnapshotBackup(root); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	s.runMaintenanceCommand(c, "git-sync", s.cfg.GitSyncCommand, []string{"GIT_SYNC_RUN_BACKUP=false"})
+}
+
+func (s *Server) runContentSnapshotBackup(c *gin.Context) {
+	root, err := s.projectRoot()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	start := time.Now()
+	snapshotPath, backupDir, err := s.createContentSnapshotBackup(root)
+	finished := time.Now()
+	result := MaintenanceCommandResult{
+		OK:         err == nil,
+		Action:     "backup",
+		StartedAt:  start.Format(time.RFC3339),
+		FinishedAt: finished.Format(time.RFC3339),
+		DurationMs: finished.Sub(start).Milliseconds(),
+	}
+	if err != nil {
+		result.Output = err.Error()
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error(), "result": result})
+		return
+	}
+	result.Output = strings.Join([]string{
+		"Refreshed git-visible CMS snapshot:",
+		snapshotPath,
+		"",
+		"Created local recovery copy:",
+		backupDir,
+		"",
+		"Note: the admin button exports CMS content directly through Go, so it does not depend on mysql/mysqldump command-line clients.",
+	}, "\n")
+	c.JSON(http.StatusOK, result)
+}
+
+func (s *Server) createContentSnapshotBackup(root string) (string, string, error) {
+	snapshotPath, err := s.refreshContentSnapshot(root)
+	if err != nil {
+		return "", "", err
+	}
+	backupDir := filepath.Join(root, "storage", "backups", time.Now().Format("20060102-150405"))
+	if err := os.MkdirAll(backupDir, 0o755); err != nil {
+		return "", "", err
+	}
+	if err := copyFile(snapshotPath, filepath.Join(backupDir, "content.json")); err != nil {
+		return "", "", err
+	}
+	readme := fmt.Sprintf(`BYML CMS content backup created at %s
+
+Files:
+- content.json: JSON export of CMS content tables, including draft and soft-deleted rows.
+
+This admin-triggered backup refreshes the git-visible recovery snapshot without using mysql/mysqldump CLI clients.
+The scheduled backup service can still create SQL dumps when its container has a compatible MySQL client.
+`, time.Now().Format(time.RFC3339))
+	if err := os.WriteFile(filepath.Join(backupDir, "README.txt"), []byte(readme), 0o644); err != nil {
+		return "", "", err
+	}
+	pruneLocalBackups(filepath.Join(root, "storage", "backups"), parseInt64Env("BACKUP_KEEP_COUNT", 28))
+	return snapshotPath, backupDir, nil
+}
+
+func (s *Server) refreshContentSnapshot(root string) (string, error) {
+	_, snapshotPath, err := s.exportContentSnapshot(root)
+	return snapshotPath, err
 }
 
 func (s *Server) runMaintenanceCommand(c *gin.Context, action string, configuredCommand string, extraEnv []string) {
@@ -217,12 +294,14 @@ func backupStatus(path string) MaintenanceBackupStatus {
 	status := MaintenanceBackupStatus{
 		Path:      path,
 		KeepCount: parseInt64Env("BACKUP_KEEP_COUNT", 28),
+		Dirs:      []string{},
 	}
 	entries, err := os.ReadDir(path)
 	if err != nil {
 		return status
 	}
 
+	var newestModTime time.Time
 	for _, entry := range entries {
 		if !entry.IsDir() {
 			continue
@@ -231,14 +310,72 @@ func backupStatus(path string) MaintenanceBackupStatus {
 			continue
 		}
 		status.Dirs = append(status.Dirs, entry.Name())
+		info, err := entry.Info()
+		if err == nil && (newestModTime.IsZero() || info.ModTime().After(newestModTime)) {
+			newestModTime = info.ModTime()
+			status.Newest = entry.Name()
+			status.NewestPath = filepath.Join(path, entry.Name())
+		}
 	}
 	sort.Strings(status.Dirs)
 	status.Count = len(status.Dirs)
-	if status.Count > 0 {
-		status.Newest = status.Dirs[status.Count-1]
-		status.NewestPath = filepath.Join(path, status.Newest)
-	}
 	return status
+}
+
+func pruneLocalBackups(path string, keepCount int64) {
+	if keepCount <= 0 {
+		return
+	}
+	entries, err := os.ReadDir(path)
+	if err != nil {
+		return
+	}
+	dirs := make([]backupDir, 0, len(entries))
+	for _, entry := range entries {
+		if !entry.IsDir() {
+			continue
+		}
+		if _, err := time.ParseInLocation("20060102-150405", entry.Name(), time.Local); err != nil {
+			continue
+		}
+		info, err := entry.Info()
+		if err != nil {
+			continue
+		}
+		dirs = append(dirs, backupDir{name: entry.Name(), modTime: info.ModTime()})
+	}
+	sort.Slice(dirs, func(i, j int) bool {
+		return dirs[i].modTime.Before(dirs[j].modTime)
+	})
+	removeCount := int64(len(dirs)) - keepCount
+	if removeCount <= 0 {
+		return
+	}
+	for _, dir := range dirs[:removeCount] {
+		_ = os.RemoveAll(filepath.Join(path, dir.name))
+	}
+}
+
+type backupDir struct {
+	name    string
+	modTime time.Time
+}
+
+func copyFile(src string, dst string) error {
+	in, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer in.Close()
+	out, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+	if _, err := io.Copy(out, in); err != nil {
+		_ = out.Close()
+		return err
+	}
+	return out.Close()
 }
 
 func parseInt64Env(key string, fallback int64) int64 {
@@ -254,7 +391,7 @@ func parseInt64Env(key string, fallback int64) int64 {
 }
 
 func gitStatus(root string) MaintenanceGitStatus {
-	status := MaintenanceGitStatus{}
+	status := MaintenanceGitStatus{Changes: []string{}}
 	branchCmd := exec.Command("git", "-c", "safe.directory="+root, "branch", "--show-current")
 	branchCmd.Dir = root
 	branchOut, err := branchCmd.Output()

@@ -44,7 +44,7 @@
       <div class="section-title-row">
         <div>
           <h2>一键备份与同步</h2>
-          <p>这两个按钮调用服务器上的同一套脚本，适合重要修改后马上保存恢复点。</p>
+          <p>备份按钮会直接从 MySQL 导出内容快照；同步按钮会先刷新快照，再调用 Git 同步脚本。</p>
         </div>
         <el-button :loading="statusLoading" @click="loadStatus">刷新状态</el-button>
       </div>
@@ -173,6 +173,10 @@ const loadStatus = async () => {
   statusLoading.value = true
   try {
     status.value = await getMaintenanceStatus()
+  } catch (error) {
+    const message = error instanceof Error ? error.message : '维护状态读取失败'
+    commandOutput.value = message
+    ElMessage.error(message)
   } finally {
     statusLoading.value = false
   }
@@ -235,16 +239,19 @@ const checkpointsText = computed(() => {
   const weekly = status.value?.weeklyCheckpoints
   const monthly = status.value?.monthlyCheckpoints
   if (!weekly || !monthly) return '正在读取'
+  const weeklyCount = weekly.count || 0
+  const monthlyCount = monthly.count || 0
   const latestMonthly = monthly.newest ? `，最近月检查点 ${monthly.newest}` : ''
-  return `周 ${weekly.count} 份，月 ${monthly.count} 份${latestMonthly}`
+  return `周 ${weeklyCount} 份，月 ${monthlyCount} 份${latestMonthly}`
 })
 
 const gitText = computed(() => {
   const git = status.value?.git
   if (!git) return '正在读取'
   if (!git.available) return git.error || '当前环境无法读取 git 状态'
-  if (git.changes.length === 0) return `分支 ${git.branch || '-'}，恢复文件没有待提交变化`
-  return `分支 ${git.branch || '-'}，${git.changes.length} 个恢复文件变更待提交`
+  const changes = Array.isArray(git.changes) ? git.changes : []
+  if (changes.length === 0) return `分支 ${git.branch || '-'}，恢复文件没有待提交变化`
+  return `分支 ${git.branch || '-'}，${changes.length} 个恢复文件变更待提交`
 })
 
 const formatSize = (size = 0) => {
