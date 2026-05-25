@@ -186,6 +186,10 @@ const handleBackup = async () => {
     commandOutput.value = result.output || '备份完成'
     ElMessage.success('备份快照已刷新')
     await loadStatus()
+  } catch (error) {
+    const message = error instanceof Error ? error.message : '备份失败'
+    commandOutput.value = message
+    ElMessage.error(message)
   } finally {
     backupRunning.value = false
   }
@@ -199,6 +203,10 @@ const handleGitSync = async () => {
     commandOutput.value = result.output || '同步完成'
     ElMessage.success('已同步到 Git')
     await loadStatus()
+  } catch (error) {
+    const message = error instanceof Error ? error.message : '同步失败'
+    commandOutput.value = message
+    ElMessage.error(message)
   } finally {
     syncRunning.value = false
   }
