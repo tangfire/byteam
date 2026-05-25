@@ -1,6 +1,9 @@
-.PHONY: backup media-import
+.PHONY: backup content-snapshot media-import
 
 backup:
+	./scripts/backup.sh
+
+content-snapshot:
 	./scripts/backup.sh
 
 media-import:

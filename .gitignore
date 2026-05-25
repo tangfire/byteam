@@ -11,9 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-storage/uploads/*
 storage/backups/*
-!storage/uploads/.gitkeep
 !storage/backups/.gitkeep
 
 # Editor directories and files
