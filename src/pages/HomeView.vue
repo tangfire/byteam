@@ -38,15 +38,15 @@
 
           <div class="mission-stats">
             <div class="stat-item">
-              <span class="stat-number">50+</span>
+              <span class="stat-number">{{ stats.publications }}+</span>
               <span class="stat-label">Publications</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number">15+</span>
+              <span class="stat-number">{{ stats.projects }}+</span>
               <span class="stat-label">Research Projects</span>
             </div>
             <div class="stat-item">
-              <span class="stat-number">20+</span>
+              <span class="stat-number">{{ stats.teamMembers }}+</span>
               <span class="stat-label">Team Members</span>
             </div>
           </div>
@@ -246,41 +246,70 @@
 <script setup lang="ts">
 import ResearchCarousel from '../components/ResearchCarousel.vue'
 import { ArrowRight, View } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { getHome } from '../api/public'
+import type { NewsItem } from '../api/client'
 
 // 最新新闻数据 - 增加到 4 条
-const latestNews = ref([
+const latestNews = ref<NewsItem[]>([
   {
     type: 'publication',
     typeLabel: 'Publication',
     date: '2026-03-17',
     title: 'AdaGS-Net Paper Accepted by ICME 2026',
-    excerpt: 'Our paper on adaptive sparse network for multimodal fusion in Alzheimer\'s Disease has been accepted by ICME 2026.'
+    content: 'Our paper on adaptive sparse network for multimodal fusion in Alzheimer\'s Disease has been accepted by ICME 2026.',
+    excerpt: 'Our paper on adaptive sparse network for multimodal fusion in Alzheimer\'s Disease has been accepted by ICME 2026.',
+    color: '#7d1231',
+    status: 'published',
+    sortOrder: 1,
   },
   {
     type: 'publication',
     typeLabel: 'Publication',
     date: '2025-11-06',
     title: 'Multi-modal Brain Tumor Segmentation Paper Accepted',
-    excerpt: 'Our paper on brain tumor segmentation has been accepted by IEEE Transactions on Multimedia.'
+    content: 'Our paper on brain tumor segmentation has been accepted by IEEE Transactions on Multimedia.',
+    excerpt: 'Our paper on brain tumor segmentation has been accepted by IEEE Transactions on Multimedia.',
+    color: '#7d1231',
+    status: 'published',
+    sortOrder: 2,
   },
   {
     type: 'publication',
     typeLabel: 'Publication',
     date: '2025-10-22',
     title: 'Federated Learning Framework Accepted by PRCV',
-    excerpt: 'FedCD framework for adaptive training under data heterogeneity accepted by PRCV conference.'
+    content: 'FedCD framework for adaptive training under data heterogeneity accepted by PRCV conference.',
+    excerpt: 'FedCD framework for adaptive training under data heterogeneity accepted by PRCV conference.',
+    color: '#7d1231',
+    status: 'published',
+    sortOrder: 3,
   },
   {
     type: 'team',
     typeLabel: 'Team Update',
     date: '2025-05-06',
     title: 'Welcome New Group Members',
-    excerpt: 'Warm welcome to 7 new group members joining our research team this semester.'
+    content: 'Warm welcome to 7 new group members joining our research team this semester.',
+    excerpt: 'Warm welcome to 7 new group members joining our research team this semester.',
+    color: '#7d1231',
+    status: 'published',
+    sortOrder: 4,
   }
 ])
+const stats = ref({ publications: 50, projects: 15, teamMembers: 20 })
 
-const particleStyle = (index: number) => {
+onMounted(async () => {
+  try {
+    const data = await getHome()
+    latestNews.value = data.latestNews
+    stats.value = data.stats
+  } catch (error) {
+    console.warn('Using local home fallback data', error)
+  }
+})
+
+const particleStyle = (_index: number) => {
   const size = Math.random() * 4 + 2
   const delay = Math.random() * 5
   const duration = Math.random() * 8 + 8

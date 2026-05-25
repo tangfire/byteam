@@ -11,8 +11,53 @@ services:
     environment:
       CHOKIDAR_USEPOLLING: "true"
       WATCHPACK_POLLING: "true"
+      VITE_API_PROXY_TARGET: "http://api:8080"
+    depends_on:
+      api:
+        condition: service_started
     stdin_open: true
     tty: true
 
+  api:
+    build:
+      context: ./server
+    command: go run ./cmd/api
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./server:/app
+      - uploads:/data/uploads
+    environment:
+      PORT: "8080"
+      DATABASE_DSN: "byml:byml_password@tcp(mysql:3306)/byml?charset=utf8mb4&parseTime=True&loc=Local"
+      JWT_SECRET: "change-this-local-secret"
+      ADMIN_USERNAME: "admin"
+      ADMIN_PASSWORD: "admin123456"
+      UPLOAD_DIR: "/data/uploads"
+      MAX_UPLOAD_SIZE: "104857600"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8.4
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "root_password"
+      MYSQL_DATABASE: "byml"
+      MYSQL_USER: "byml"
+      MYSQL_PASSWORD: "byml_password"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_password"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
 volumes:
   node_modules:
+  mysql_data:
+  uploads:

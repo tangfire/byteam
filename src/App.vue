@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 
-import {ref, onMounted, onBeforeUnmount, computed, watch} from 'vue'
+import {ref, onMounted, onBeforeUnmount, computed} from 'vue'
 import {useRoute} from 'vue-router'
 import {Menu} from "@element-plus/icons-vue";
 
@@ -234,7 +234,7 @@ if (import.meta.env.MODE === 'production') {
 
 
       <!-- 页脚 -->
-      <el-footer :height="120" class="custom-footer">
+      <el-footer height="120px" class="custom-footer">
         <div class="footer-content" style="height: 100px">
           <p>Welcome to BYML @ <a class="gdutlink" href="https://www.gdut.edu.cn/"
                                   style="text-decoration: none;color: white" target="_blank">Guangdong University of

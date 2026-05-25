@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Files, Postcard, Promotion, Tickets, VideoPlay } from "@element-plus/icons-vue";
-import { ref, computed } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import { getPublicPublications } from '../api/public'
+import type { Publication, PublicationLink } from '../api/client'
 
 defineProps<{ msg: string }>()
 
@@ -39,8 +41,53 @@ const getLinkText = (type: string) => {
   return type.charAt(0).toUpperCase() + type.slice(1)
 }
 
+type PublicationLinkValue = string | { name?: string; handler?: () => void }
+type PublicationLinkMap = Record<string, PublicationLinkValue>
+type PublicationViewItem = {
+  id?: number
+  image: string
+  title: string
+  authors: string
+  venue: string
+  links: PublicationLinkMap
+}
+
+const mapLinks = (links: PublicationLink[]) => links.reduce((acc: PublicationLinkMap, link) => {
+  if (link.type === 'video') {
+    acc.video = { name: link.routeName }
+  } else if (link.type === 'ppt' || link.type === 'poster') {
+    acc[link.type] = { handler: () => downloadFile(link.url, link.label || getLinkText(link.type)) }
+  } else {
+    acc[link.type] = link.url
+  }
+  return acc
+}, {})
+
+const linkType = (type: string | number) => String(type)
+const linkHref = (link: PublicationLinkValue) => (typeof link === 'string' ? link : undefined)
+const linkRoute = (link: PublicationLinkValue) => {
+  if (typeof link === 'object' && link.name) {
+    return { name: link.name }
+  }
+  return '/'
+}
+const runLinkHandler = (link: PublicationLinkValue) => {
+  if (typeof link === 'object') {
+    link.handler?.()
+  }
+}
+
+const mapPublication = (pub: Publication) => ({
+  id: pub.id,
+  image: pub.image,
+  title: pub.title,
+  authors: pub.authors,
+  venue: pub.venue,
+  links: mapLinks(pub.links || []),
+})
+
 // 出版物数据
-const publications = {
+const publications = ref<Record<string, { journal: PublicationViewItem[]; conference: PublicationViewItem[] }>>({
   2026: {
     journal: [
       {
@@ -417,10 +464,25 @@ const publications = {
       }
     ]
   }
-}
+})
 
 // 年份数组，按降序排列
-const years = computed(() => Object.keys(publications).sort((a, b) => Number(b) - Number(a)))
+const years = computed(() => Object.keys(publications.value).sort((a, b) => Number(b) - Number(a)))
+
+onMounted(async () => {
+  try {
+    const result = await getPublicPublications()
+    const next: Record<string, { journal: PublicationViewItem[]; conference: PublicationViewItem[] }> = {}
+    result.items.forEach((pub) => {
+      const year = String(pub.year)
+      next[year] = next[year] || { journal: [], conference: [] }
+      next[year][pub.kind as 'journal' | 'conference'].push(mapPublication(pub))
+    })
+    publications.value = next
+  } catch (error) {
+    console.warn('Using local publication fallback data', error)
+  }
+})
 </script>
 
 <template>
@@ -443,21 +505,21 @@ const years = computed(() => Object.keys(publications).sort((a, b) => Number(b) 
                     <div class="link-item">
                       <!-- 代码和论文链接 -->
                       <a
-                          v-if="type === 'code' || type === 'paper'"
-                          :href="link"
+                          v-if="linkType(type) === 'code' || linkType(type) === 'paper'"
+                          :href="linkHref(link)"
                           class="publication-link"
                           target="_blank"
                       >
                         <el-icon size="25">
-                          <component :is="getIcon(type)" />
+                          <component :is="getIcon(linkType(type))" />
                         </el-icon>
-                        <span>{{ getLinkText(type) }}</span>
+                        <span>{{ getLinkText(linkType(type)) }}</span>
                       </a>
 
                       <!-- 视频链接 -->
                       <router-link
-                          v-else-if="type === 'video'"
-                          :to="link"
+                          v-else-if="linkType(type) === 'video'"
+                          :to="linkRoute(link)"
                           class="publication-link"
                       >
                         <el-icon size="25">
@@ -468,14 +530,14 @@ const years = computed(() => Object.keys(publications).sort((a, b) => Number(b) 
 
                       <!-- PPT 和海报下载按钮 -->
                       <el-button
-                          v-else-if="type === 'ppt' || type === 'poster'"
+                          v-else-if="linkType(type) === 'ppt' || linkType(type) === 'poster'"
                           class="custom-button"
-                          @click="link.handler"
+                          @click="runLinkHandler(link)"
                       >
                         <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
-                          <component :is="getIcon(type)" />
+                          <component :is="getIcon(linkType(type))" />
                         </el-icon>
-                        <span class="button-text">{{ getLinkText(type) }}</span>
+                        <span class="button-text">{{ getLinkText(linkType(type)) }}</span>
                       </el-button>
                     </div>
                   </template>
@@ -500,21 +562,21 @@ const years = computed(() => Object.keys(publications).sort((a, b) => Number(b) 
                     <div class="link-item">
                       <!-- 代码和论文链接 -->
                       <a
-                          v-if="type === 'code' || type === 'paper'"
-                          :href="link"
+                          v-if="linkType(type) === 'code' || linkType(type) === 'paper'"
+                          :href="linkHref(link)"
                           class="publication-link"
                           target="_blank"
                       >
                         <el-icon size="25">
-                          <component :is="getIcon(type)" />
+                          <component :is="getIcon(linkType(type))" />
                         </el-icon>
-                        <span>{{ getLinkText(type) }}</span>
+                        <span>{{ getLinkText(linkType(type)) }}</span>
                       </a>
 
                       <!-- 视频链接 -->
                       <router-link
-                          v-else-if="type === 'video'"
-                          :to="link"
+                          v-else-if="linkType(type) === 'video'"
+                          :to="linkRoute(link)"
                           class="publication-link"
                       >
                         <el-icon size="25">
@@ -525,14 +587,14 @@ const years = computed(() => Object.keys(publications).sort((a, b) => Number(b) 
 
                       <!-- PPT 和海报下载按钮 -->
                       <el-button
-                          v-else-if="type === 'ppt' || type === 'poster'"
+                          v-else-if="linkType(type) === 'ppt' || linkType(type) === 'poster'"
                           class="custom-button"
-                          @click="link.handler"
+                          @click="runLinkHandler(link)"
                       >
                         <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
-                          <component :is="getIcon(type)" />
+                          <component :is="getIcon(linkType(type))" />
                         </el-icon>
-                        <span class="button-text">{{ getLinkText(type) }}</span>
+                        <span class="button-text">{{ getLinkText(linkType(type)) }}</span>
                       </el-button>
                     </div>
                   </template>

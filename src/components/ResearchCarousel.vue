@@ -9,7 +9,7 @@
               <div class="slide-image">
                 <img :src="pub.image" :alt="pub.title" @error="handleImageError" />
                 <div class="badges">
-                  <span class="badge type">{{ pub.type }}</span>
+                  <span class="badge type">{{ pub.kind }}</span>
                   <span class="badge year">{{ pub.year }}</span>
                 </div>
               </div>
@@ -18,9 +18,9 @@
                 <p class="authors">{{ pub.authors }}</p>
                 <p class="venue">{{ pub.venue }}</p>
                 <div class="links">
-                  <el-button v-if="pub.links.paper" type="primary" size="small" @click="openLink(pub.links.paper)">Paper</el-button>
-                  <el-button v-if="pub.links.code" type="success" size="small" @click="openLink(pub.links.code)">Code</el-button>
-                  <el-button v-if="pub.links.video" type="info" size="small" @click="handleVideoClick(pub.links.video)">Video</el-button>
+                  <el-button v-if="findLink(pub, 'paper')" type="primary" size="small" @click="openLink(findLink(pub, 'paper')!.url)">Paper</el-button>
+                  <el-button v-if="findLink(pub, 'code')" type="success" size="small" @click="openLink(findLink(pub, 'code')!.url)">Code</el-button>
+                  <el-button v-if="findLink(pub, 'video')" type="info" size="small" @click="handleVideoClick(findLink(pub, 'video')!.routeName)">Video</el-button>
                 </div>
               </div>
             </div>
@@ -41,7 +41,7 @@
           <div class="card-image">
             <img :src="pub.image" :alt="pub.title" @error="handleImageError" />
             <div class="badges">
-              <span class="badge type">{{ pub.type }}</span>
+              <span class="badge type">{{ pub.kind }}</span>
               <span class="badge year">{{ pub.year }}</span>
             </div>
           </div>
@@ -50,9 +50,9 @@
             <p class="authors">{{ pub.authors }}</p>
             <p class="venue">{{ pub.venue }}</p>
             <div class="links">
-              <el-button v-if="pub.links.paper" type="primary" size="small" @click="openLink(pub.links.paper)">Paper</el-button>
-              <el-button v-if="pub.links.code" type="success" size="small" @click="openLink(pub.links.code)">Code</el-button>
-              <el-button v-if="pub.links.video" type="info" size="small" @click="handleVideoClick(pub.links.video)">Video</el-button>
+              <el-button v-if="findLink(pub, 'paper')" type="primary" size="small" @click="openLink(findLink(pub, 'paper')!.url)">Paper</el-button>
+              <el-button v-if="findLink(pub, 'code')" type="success" size="small" @click="openLink(findLink(pub, 'code')!.url)">Code</el-button>
+              <el-button v-if="findLink(pub, 'video')" type="info" size="small" @click="handleVideoClick(findLink(pub, 'video')!.routeName)">Video</el-button>
             </div>
           </div>
         </div>
@@ -68,6 +68,8 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+import { getHome } from '../api/public'
+import type { Publication } from '../api/client'
 
 const router = useRouter()
 const isMobile = ref(false)
@@ -75,16 +77,19 @@ const currentIndex = ref(0)
 const touchStartX = ref(0)
 const touchEndX = ref(0)
 
-const publications = ref([
+const publications = ref<Publication[]>([
   {
     id: 1,
     image: '/publications/028.png',
     title: 'Multi-modal Brain Tumor Segmentation via Multi-category Interaction and Graph Co-reasoning',
     authors: 'Baoyao Yang*, Dongzhe Li, Chong Yin, Fei Lyu, Xiaochen He',
     venue: 'IEEE Transactions on Multimedia, 2025',
-    type: 'Journal',
-    year: '2025',
-    links: { paper: 'https://ieeexplore.ieee.org/abstract/document/11205277' }
+    kind: 'Journal',
+    status: 'published',
+    featured: true,
+    sortOrder: 1,
+    year: 2025,
+    links: [{ type: 'paper', label: 'Paper', url: 'https://ieeexplore.ieee.org/abstract/document/11205277', routeName: '', sortOrder: 1 }]
   },
   {
     id: 2,
@@ -92,12 +97,15 @@ const publications = ref([
     title: 'CAM-interacted Vision GNN for Multi-label Medical Images',
     authors: 'Jiangchao Wang, Baoyao Yang*, Siqi Liu, Xiaoqi Zheng, Wenbin Yao* and Junxiang Chen',
     venue: 'IEEE Journal of Biomedical and Health Informatics, 2025',
-    type: 'Journal',
-    year: '2025',
-    links: {
-      code: 'https://github.com/BaoyaoGroup/JBHI_code',
-      paper: 'https://ieeexplore.ieee.org/abstract/document/11205277'
-    }
+    kind: 'Journal',
+    year: 2025,
+    status: 'published',
+    featured: true,
+    sortOrder: 2,
+    links: [
+      { type: 'code', label: 'Code', url: 'https://github.com/BaoyaoGroup/JBHI_code', routeName: '', sortOrder: 1 },
+      { type: 'paper', label: 'Paper', url: 'https://ieeexplore.ieee.org/abstract/document/11205277', routeName: '', sortOrder: 2 },
+    ]
   },
   {
     id: 3,
@@ -105,9 +113,12 @@ const publications = ref([
     title: 'FedCD: A Hybrid Federated Learning Framework for Adaptive Training under Data Heterogeneity',
     authors: 'Weide Zhan, Baoyao Yang*',
     venue: 'PRCV, 2025',
-    type: 'Conference',
-    year: '2025',
-    links: {}
+    kind: 'Conference',
+    year: 2025,
+    status: 'published',
+    featured: true,
+    sortOrder: 3,
+    links: []
   },
   {
     id: 4,
@@ -115,13 +126,16 @@ const publications = ref([
     title: 'Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations',
     authors: 'Xiaoqi Zheng, Baoyao Yang*, Xiuwen Fang, Mang Ye',
     venue: 'ICASSP, 2025',
-    type: 'Conference',
-    year: '2025',
-    links: {
-      code: 'https://github.com/BaoyaoGroup/LabelCompletion',
-      paper: 'https://ieeexplore.ieee.org/document/10888997',
-      video: { name: 'video-player-XiaoqiZheng01' }
-    }
+    kind: 'Conference',
+    year: 2025,
+    status: 'published',
+    featured: true,
+    sortOrder: 4,
+    links: [
+      { type: 'code', label: 'Code', url: 'https://github.com/BaoyaoGroup/LabelCompletion', routeName: '', sortOrder: 1 },
+      { type: 'paper', label: 'Paper', url: 'https://ieeexplore.ieee.org/document/10888997', routeName: '', sortOrder: 2 },
+      { type: 'video', label: 'Video', url: '', routeName: 'video-player-XiaoqiZheng01', sortOrder: 3 },
+    ]
   },
   {
     id: 5,
@@ -129,12 +143,15 @@ const publications = ref([
     title: 'Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation',
     authors: 'Xianrun Xu, Baoyao Yang*, Wanyun Li, Jingsong Lin, Yufei Xu',
     venue: 'ACM Multimedia, 2025',
-    type: 'Conference',
-    year: '2025',
-    links: {
-      paper: 'https://dl.acm.org/doi/abs/10.1145/3746027.3755652',
-      video: { name: 'video-player-XianrunXu01' }
-    }
+    kind: 'Conference',
+    year: 2025,
+    status: 'published',
+    featured: true,
+    sortOrder: 5,
+    links: [
+      { type: 'paper', label: 'Paper', url: 'https://dl.acm.org/doi/abs/10.1145/3746027.3755652', routeName: '', sortOrder: 1 },
+      { type: 'video', label: 'Video', url: '', routeName: 'video-player-XianrunXu01', sortOrder: 2 },
+    ]
   }
 ])
 
@@ -142,10 +159,11 @@ const handleImageError = (e: Event) => {
   (e.target as HTMLImageElement).src = '/publications/online.png'
 }
 
+const findLink = (pub: Publication, type: string) => pub.links.find((link) => link.type === type)
 const openLink = (url: string) => window.open(url, '_blank')
 
-const handleVideoClick = (video: any) => {
-  if (video.name) router.push({ name: video.name })
+const handleVideoClick = (routeName: string) => {
+  if (routeName) router.push({ name: routeName })
 }
 
 const nextSlide = () => {
@@ -183,6 +201,13 @@ onMounted(() => {
   checkMobile()
   window.addEventListener('resize', checkMobile)
   interval = setInterval(nextSlide, 5000)
+  getHome()
+    .then((data) => {
+      if (data.featuredPublications.length > 0) {
+        publications.value = data.featuredPublications
+      }
+    })
+    .catch((error) => console.warn('Using local carousel fallback data', error))
 })
 
 onUnmounted(() => {

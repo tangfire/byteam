@@ -27,7 +27,9 @@ function generateList() {
 
         if (fs.existsSync(fullPath)) {
             // 递归读取所有文件
-            const files = walkSync(fullPath)
+            const files = walkSync(fullPath).sort((a, b) =>
+                a.localeCompare(b, undefined, { sensitivity: 'base' })
+            )
 
             files.forEach(file => {
                 const ext = path.extname(file).toLowerCase()

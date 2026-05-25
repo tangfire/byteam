@@ -1,8 +1,12 @@
 <script setup lang="ts">
-defineProps<{ msg: string }>()
+import { onMounted, ref } from 'vue'
+import { getPublicUndergraduates } from '../api/public'
+import type { UndergraduateEducation } from '../api/client'
+
+type UndergraduateViewItem = UndergraduateEducation | Omit<UndergraduateEducation, 'status' | 'sortOrder'>
 
 // 本科生培养数据
-const undergraduateStudents = [
+const undergraduateStudents = ref<UndergraduateViewItem[]>([
   {
     id: 1,
     name: "穆跃鑫",
@@ -76,7 +80,15 @@ const undergraduateStudents = [
       "发表 ECAI 2025（CCF-B）论文一篇"
     ]
   }
-]
+])
+
+onMounted(async () => {
+  try {
+    undergraduateStudents.value = (await getPublicUndergraduates()).items
+  } catch (error) {
+    console.warn('Using local undergraduate fallback data', error)
+  }
+})
 </script>
 
 <template>

@@ -1,8 +1,11 @@
 <script lang="ts" setup>
-import type { TimelineItemProps } from 'element-plus'
+import { computed, onMounted, ref } from 'vue'
+import { getPublicNews } from '../api/public'
 
-interface ActivityType extends Partial<TimelineItemProps> {
+interface ActivityType {
   content: string
+  timestamp?: string
+  color?: string
   type?: 'publication' | 'team' | 'award' | 'event' | 'general'
 }
 
@@ -90,6 +93,33 @@ const activities2025: ActivityType[] = [
   }
 ]
 
+const activities = ref<ActivityType[]>([...activities2026, ...activities2025])
+const activitiesByYear = computed(() => {
+  const groups: Record<string, ActivityType[]> = {}
+  activities.value.forEach((activity) => {
+    const year = String(activity.timestamp || '').slice(0, 4) || 'Other'
+    groups[year] = groups[year] || []
+    groups[year].push(activity)
+  })
+  return Object.keys(groups)
+    .sort((a, b) => Number(b) - Number(a))
+    .map((year) => ({ year, items: groups[year] }))
+})
+
+onMounted(async () => {
+  try {
+    const result = await getPublicNews()
+    activities.value = result.items.map((item) => ({
+      content: item.content,
+      timestamp: item.date,
+      color: item.color || '#7d1231',
+      type: item.type as ActivityType['type'],
+    }))
+  } catch (error) {
+    console.warn('Using local news fallback data', error)
+  }
+})
+
 const getNewsIcon = (type: string = 'general') => {
   const icons = {
     publication: '📄',
@@ -110,44 +140,15 @@ const getNewsIcon = (type: string = 'general') => {
       <p class="page-subtitle">Latest updates and achievements from our research team</p>
     </div>
 
-    <!-- 年份标签 -->
-    <!-- 2026 年 -->
-    <div class="year-section" v-if="activities2026.length > 0">
+    <div v-for="group in activitiesByYear" :key="group.year" class="year-section">
       <div class="year-badge">
         <span class="year-icon">📅</span>
-        2026
+        {{ group.year }}
       </div>
 
-      <!-- 时间线 -->
       <el-timeline class="timeline-container">
         <el-timeline-item
-            v-for="(activity, index) in activities2026"
-            :key="index"
-            :timestamp="activity.timestamp"
-            :color="activity.color"
-            class="news-item"
-        >
-          <div class="news-content-wrapper">
-            <div class="news-icon">{{ getNewsIcon(activity.type) }}</div>
-            <div class="news-content">
-              {{ activity.content }}
-            </div>
-          </div>
-        </el-timeline-item>
-      </el-timeline>
-    </div>
-
-    <!-- 2025 年 -->
-    <div class="year-section">
-      <div class="year-badge">
-        <span class="year-icon">📅</span>
-        2025
-      </div>
-
-      <!-- 时间线 -->
-      <el-timeline class="timeline-container">
-        <el-timeline-item
-            v-for="(activity, index) in activities2025"
+            v-for="(activity, index) in group.items"
             :key="index"
             :timestamp="activity.timestamp"
             :color="activity.color"

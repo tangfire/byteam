@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { authStore } from '../api/client'
 
 const router = createRouter({
     history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -19,8 +20,35 @@ const router = createRouter({
         { path: '/VideoMind', name: 'VideoMind', component: () => import('../pages/VideoMindView.vue') },
         { path: '/video-player-XiaoqiZheng01', name: 'video-player-XiaoqiZheng01', component: () => import('../pages/VideoPlayerXiaoqiZheng01View.vue') },
         { path: '/video-player-XianrunXu01', name: 'video-player-XianrunXu01', component: () => import('../pages/VideoPlayerXianrunXu01View.vue') },
-        { path: '/video-player-YaliMa01', name: 'video-player-YaliMa01', component: () => import('../pages/VideoPlayerYaliMa01View.vue') }
+        { path: '/video-player-YaliMa01', name: 'video-player-YaliMa01', component: () => import('../pages/VideoPlayerYaliMa01View.vue') },
+        { path: '/admin/login', name: 'admin-login', component: () => import('../pages/admin/AdminLoginView.vue'), meta: { adminPublic: true } },
+        {
+            path: '/admin',
+            component: () => import('../pages/admin/AdminLayoutView.vue'),
+            meta: { requiresAdmin: true },
+            children: [
+                { path: '', redirect: '/admin/dashboard' },
+                { path: 'dashboard', name: 'admin-dashboard', component: () => import('../pages/admin/AdminDashboardView.vue') },
+                { path: 'news', name: 'admin-news', component: () => import('../pages/admin/AdminNewsView.vue') },
+                { path: 'people', name: 'admin-people', component: () => import('../pages/admin/AdminPeopleView.vue') },
+                { path: 'undergraduates', name: 'admin-undergraduates', component: () => import('../pages/admin/AdminUndergraduatesView.vue') },
+                { path: 'publications', name: 'admin-publications', component: () => import('../pages/admin/AdminPublicationsView.vue') },
+                { path: 'patents', name: 'admin-patents', component: () => import('../pages/admin/AdminPatentsView.vue') },
+                { path: 'research-projects', name: 'admin-research-projects', component: () => import('../pages/admin/AdminResearchProjectsView.vue') },
+                { path: 'media', name: 'admin-media', component: () => import('../pages/admin/AdminMediaView.vue') },
+                { path: 'trash', name: 'admin-trash', component: () => import('../pages/admin/AdminTrashView.vue') }
+            ]
+        }
     ]
+})
+
+router.beforeEach((to) => {
+    if (to.meta.requiresAdmin && !authStore.token) {
+        return { name: 'admin-login', query: { redirect: to.fullPath } }
+    }
+    if (to.name === 'admin-login' && authStore.token) {
+        return { name: 'admin-dashboard' }
+    }
 })
 
 export default router

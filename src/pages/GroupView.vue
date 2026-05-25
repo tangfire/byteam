@@ -1,5 +1,37 @@
 <script setup lang="ts">
-// 组件逻辑（如有需要可在此添加）
+import { onMounted, ref } from 'vue'
+import { getPublicPeople } from '../api/public'
+import type { Person } from '../api/client'
+
+const members = ref<Person[]>([
+  { name: 'Dixin Chen', avatarUrl: '/avatar/DixinChen.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 1 },
+  { name: 'Huahong Deng', avatarUrl: '/avatar/HuahongDeng.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 2 },
+  { name: 'Canrong Du', avatarUrl: '/avatar/CanrongDu.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 3 },
+  { name: 'Aoqi Yan', avatarUrl: '/avatar/AoqiYan.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 4 },
+  { name: 'Haifeng Lin', avatarUrl: '/avatar/HaifengLin.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 5 },
+  { name: 'Yanhao Huang', avatarUrl: '/avatar/YanhaoHuang.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 6 },
+  { name: 'Jingsong Lin', avatarUrl: '/avatar/JingsongLin.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 7 },
+  { name: 'Yali Ma', avatarUrl: '/avatar/YaliMa.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 8 },
+  { name: 'Yanchao Tang', avatarUrl: '/avatar/YanchaoTang.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 9 },
+  { name: 'Kexin Xie', avatarUrl: '/avatar/KexinXie.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 10 },
+  { name: 'Yuhao Chen', avatarUrl: '/avatar/YuhaoChen.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 11 },
+  { name: 'Yufei Xu', avatarUrl: '/avatar/YufeiXu.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 12 },
+  { name: 'Xianrun Xu', avatarUrl: '/avatar/XianrunXu.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 13 },
+  { name: 'Xiaoqi Zheng', avatarUrl: '/avatar/XiaoqiZheng.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 14 },
+  { name: 'Sijia Zhou', avatarUrl: '/avatar/SijiaZhou.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 15 },
+  { name: 'Xiaojie Chen', avatarUrl: '/avatar/XiaojieChen.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 16 },
+  { name: 'Xi Wang', avatarUrl: '/avatar/XiWang.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 17 },
+  { name: 'Jiahao Lian', avatarUrl: '/avatar/JiahaoLian.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 18 },
+  { name: 'Guangyang Lin', avatarUrl: '/avatar/GuangyangLin.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 19 },
+])
+
+onMounted(async () => {
+  try {
+    members.value = (await getPublicPeople('graduate')).items
+  } catch (error) {
+    console.warn('Using local group fallback data', error)
+  }
+})
 </script>
 
 <template>
@@ -7,183 +39,13 @@
     <h1 class="section-title">Graduate Students</h1>
 
     <div class="members-grid">
-      <!-- 第一行 -->
-      <div class="member-card">
+      <div v-for="member in members" :key="member.name" class="member-card">
         <div class="avatar-container">
-          <el-avatar class="DixinChen" shape="square" :size="220" src="/avatar/DixinChen.jpg" />
+          <el-avatar shape="square" :size="220" :src="member.avatarUrl" />
         </div>
         <div class="member-info">
-          <p class="name">Dixin Chen</p>
-          <!-- <p class="work">Short video understanding</p> -->
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="HuahongDeng" shape="square" :size="220" src="/avatar/HuahongDeng.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Huahong Deng</p>
-          <!-- <p class="work">Industrial software</p> -->
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="CanrongDu" shape="square" :size="220" src="/avatar/CanrongDu.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Canrong Du</p>
-          <!-- <p class="work">Short video understanding</p> -->
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar shape="square" :size="220" src="/avatar/AoqiYan.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Aoqi Yan</p>
-          <!-- <p class="work">Short video understanding</p> -->
-        </div>
-      </div>
-
-      <!-- 第二行 -->
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="HaifengLin" shape="square" :size="220" src="/avatar/HaifengLin.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Haifeng Lin</p>
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="YanhaoHuang" shape="square" :size="220" src="/avatar/YanhaoHuang.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Yanhao Huang</p>
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="JingsongLin" shape="square" :size="220" src="/avatar/JingsongLin.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Jingsong Lin</p>
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="YaliMa" shape="square" :size="220" src="/avatar/YaliMa.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Yali Ma</p>
-        </div>
-      </div>
-
-      <!-- 第三行 -->
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="YanchaoTang" shape="square" :size="220" src="/avatar/YanchaoTang.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Yanchao Tang</p>
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="KexinXie" shape="square" :size="220" src="/avatar/KexinXie.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Kexin Xie</p>
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar shape="square" :size="220" src="/avatar/YuhaoChen.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Yuhao Chen</p>
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar shape="square" :size="220" src="/avatar/YufeiXu.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Yufei Xu</p>
-        </div>
-      </div>
-
-      <!-- 第四行 -->
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="XianrunXu" shape="square" :size="220" src="/avatar/XianrunXu.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Xianrun Xu</p>
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="XiaoqiZheng" shape="square" :size="220" src="/avatar/XiaoqiZheng.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Xiaoqi Zheng</p>
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="SijiaZhou" shape="square" :size="220" src="/avatar/SijiaZhou.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Sijia Zhou</p>
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar shape="square" :size="220" src="/avatar/XiaojieChen.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Xiaojie Chen</p>
-        </div>
-      </div>
-
-      <!-- 第五行 -->
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="XiWang" shape="square" :size="220" src="/avatar/XiWang.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Xi Wang</p>
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="JiahaoLian" shape="square" :size="220" src="/avatar/JiahaoLian.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Jiahao Lian</p>
-        </div>
-      </div>
-
-      <div class="member-card">
-        <div class="avatar-container">
-          <el-avatar class="SijiaZhou" shape="square" :size="220" src="/avatar/GuangyangLin.jpg" />
-        </div>
-        <div class="member-info">
-          <p class="name">Guangyang Lin</p>
+          <p class="name">{{ member.name }}</p>
+          <p v-if="member.research" class="work">{{ member.research }}</p>
         </div>
       </div>
     </div>
@@ -280,11 +142,6 @@
   margin: 5px 0 0 0;
 }
 
-.bottom-spacing {
-  height: 50px;
-}
-
-/* 响应式设计 */
 @media (max-width: 1200px) {
   .members-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -340,88 +197,11 @@
   }
 }
 
-/* 头像样式调整 */
-::v-deep(.el-icon svg) {
-  color: #7d1231 !important;
-}
-
-/* 通用头像样式 */
 ::v-deep(.el-avatar) {
   transition: transform 0.3s ease;
 }
 
 .member-card:hover ::v-deep(.el-avatar) {
   transform: scale(1.05);
-}
-
-/* 特定头像调整 */
-::v-deep(.DixinChen img) {
-  object-position: center 5%;
-  object-fit: cover;
-}
-
-::v-deep(.HuahongDeng img) {
-  object-position: center 10%;
-  object-fit: cover;
-}
-
-::v-deep(.CanrongDu img) {
-  object-position: center 5%;
-  object-fit: cover;
-}
-
-::v-deep(.YanhaoHuang img) {
-  object-position: center 35%;
-  object-fit: cover;
-}
-
-::v-deep(.JingsongLin img) {
-  object-position: center 20%;
-  object-fit: cover;
-}
-
-::v-deep(.YaliMa img) {
-  object-position: center 10%;
-  object-fit: cover;
-}
-
-::v-deep(.YanchaoTang img) {
-  object-position: center 15%;
-  object-fit: cover;
-}
-
-::v-deep(.KexinXie img) {
-  object-position: center 100%;
-  object-fit: cover;
-}
-
-::v-deep(.XianrunXu img) {
-  object-position: center 15%;
-  object-fit: cover;
-}
-
-::v-deep(.XiaoqiZheng img) {
-  object-position: center 100%;
-  object-fit: cover;
-}
-
-::v-deep(.SijiaZhou img) {
-  object-position: center 15%;
-  object-fit: cover;
-}
-
-::v-deep(.XiWang img) {
-  object-position: center 30%;
-  object-fit: cover;
-}
-
-::v-deep(.JiahaoLian img) {
-  object-position: center 20%;
-  object-fit: cover;
-}
-
-::v-deep(.HaifengLin img) {
-  object-position: center 15%;
-  object-fit: cover;
 }
 </style>

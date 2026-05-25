@@ -1,8 +1,16 @@
 <script setup lang="ts">
-defineProps<{ msg: string }>()
+import { onMounted, ref } from 'vue'
+import { getPublicResearchProjects } from '../api/public'
+import type { ResearchProject } from '../api/client'
+
+type ResearchProjectViewItem = Omit<ResearchProject, 'number' | 'projectStatus' | 'sortOrder'> & {
+  number?: string
+  projectStatus?: string
+  sortOrder?: number
+}
 
 // 项目数据
-const researchProjects = [
+const researchProjects = ref<ResearchProjectViewItem[]>([
   {
     id: 1,
     title: "弹性医学联邦学习与攻击防御关键技术研究",
@@ -122,7 +130,17 @@ const researchProjects = [
     status: "在研",
     role: "参与"
   }
-]
+])
+
+onMounted(async () => {
+  try {
+    researchProjects.value = (await getPublicResearchProjects()).items
+  } catch (error) {
+    console.warn('Using local research project fallback data', error)
+  }
+})
+
+const displayProjectStatus = (project: ResearchProjectViewItem) => project.projectStatus || project.status
 </script>
 
 <template>
@@ -137,14 +155,14 @@ const researchProjects = [
             v-for="project in researchProjects"
             :key="project.id"
             class="project-card"
-            :class="{ 'status-completed': project.status === '已结题' }"
+            :class="{ 'status-completed': displayProjectStatus(project) === '已结题' }"
         >
           <div class="project-header">
             <h3 class="project-title">{{ project.title }}</h3>
             <div class="project-meta">
               <span class="project-role">{{ project.role }}</span>
-              <span class="project-status" :class="{ 'status-completed': project.status === '已结题' }">
-                {{ project.status }}
+              <span class="project-status" :class="{ 'status-completed': displayProjectStatus(project) === '已结题' }">
+                {{ displayProjectStatus(project) }}
               </span>
             </div>
           </div>
