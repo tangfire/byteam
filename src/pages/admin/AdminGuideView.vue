@@ -142,6 +142,20 @@
       </ol>
     </section>
 
+    <section class="guide-section">
+      <h2>服务器首次部署空 MySQL</h2>
+      <ol>
+        <li>部署前在本地后台点“刷新备份快照”，确认 <code>storage/content/content.json</code> 是最新内容。</li>
+        <li>把最新代码、<code>storage/content/content.json</code>、<code>storage/content/checkpoints/</code> 和 <code>storage/uploads/</code> 推送到 git。</li>
+        <li>服务器拉取项目后，先启动空数据库：<code>docker compose up -d mysql</code></li>
+        <li>验证项目内快照能恢复：<code>make restore-content-dry-run</code></li>
+        <li>确认无误后恢复内容到服务器 MySQL：<code>make restore-content</code></li>
+        <li>把 <code>public/</code> 里的旧图片、PDF、PPT、视频登记进媒体库：<code>make media-import</code></li>
+        <li>启动全部服务：<code>docker compose up -d --build</code></li>
+        <li>访问前台和后台确认内容正常；之后服务器后台就是正式内容入口。</li>
+      </ol>
+    </section>
+
     <section class="guide-section warning-section">
       <h2>注意事项</h2>
       <ul>
