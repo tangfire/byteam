@@ -1,22 +1,31 @@
 <script setup lang="ts">
-// Add data logic here
+import { computed } from 'vue'
+import { useSitePage } from '../composables/useSitePage'
+
+const { content, hidden } = useSitePage('vknow', {
+  title: 'vKnow: Decode Omni-modal Intent',
+  introduction: { title: 'Introduction', text: '', items: [] },
+  dataset: { title: '', description: '', image: '', imageAlt: '', linkText: 'Learn more →', linkPath: '/VideoMind' },
+})
+const introItems = computed(() => Array.isArray(content.value.introduction?.items) ? content.value.introduction.items : [])
 </script>
 
 <template>
+  <el-empty v-if="hidden" description="页面暂未发布" />
+  <template v-else>
   <el-space direction="vertical" :size="30" style="width: 100%">
     <div style="display: flex; flex-direction: column; align-items: center;">
-      <h1 class="section-title">vKnow: Decode Omni-modal Intent</h1>
+      <h1 class="section-title">{{ content.title }}</h1>
 
       <!-- 项目介绍卡片 -->
       <el-card class="intro-card">
         <div class="introduction">
-          <h3 class="subsection-title first-subtitle">Introduction</h3>
+          <h3 class="subsection-title first-subtitle">{{ content.introduction?.title }}</h3>
           <p class="vision-text">
-            vKnow is <span class="highlight">an open framework for video intent intelligence</span>, which mainly includes the following two modules:
+            {{ content.introduction?.text }}
           </p>
           <ul class="styled-list">
-            <li>Publicly releasing VideoMind-100K, the first multimodal dataset annotating factual layer, abstract layer, and intent layer across 100K+ curated videos</li>
-            <li>Open-sourcing DeME-7B, a transformer-based architecture specifically designed for deep-cognitive video understanding with video-centric alignment.</li>
+            <li v-for="item in introItems" :key="item">{{ item }}</li>
           </ul>
         </div>
       </el-card>
@@ -25,15 +34,15 @@
       <el-card class="dataset-card">
         <div class="dataset-card-content">
           <!-- 图片左边 -->
-          <img src="/VideoMind/Examples-v2.jpg" alt="VideoMind Example" class="dataset-card-image" />
+          <img :src="content.dataset?.image" :alt="content.dataset?.imageAlt" class="dataset-card-image" />
           <!-- 文字右边 -->
           <div class="dataset-card-info">
-            <h3 class="dataset-title">VideoMind-100K Dataset</h3>
+            <h3 class="dataset-title">{{ content.dataset?.title }}</h3>
             <p class="dataset-desc">
-              VideoMind is a large-scale, video-centric multimodal dataset for learning robust text-video representations. Each video is annotated with three layers: factual, abstract, and intentional, supporting advanced video understanding tasks
+              {{ content.dataset?.description }}
             </p>
             <div class="dataset-link-row">
-              <router-link to="/videomind" class="dataset-link">Learn more &rarr;</router-link>
+              <router-link :to="content.dataset?.linkPath || '/videomind'" class="dataset-link">{{ content.dataset?.linkText }}</router-link>
             </div>
           </div>
         </div>
@@ -44,6 +53,7 @@
   <!-- 底部间隔 -->
   <div style="height: 50px"></div>
   <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
+  </template>
 </template>
 
 <style scoped>
@@ -271,4 +281,3 @@
 }
 
 </style>
-

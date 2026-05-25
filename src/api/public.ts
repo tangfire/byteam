@@ -1,7 +1,11 @@
-import { apiRequest, type HomePayload, type NewsItem, type Person, type Publication, type Patent, type ResearchProject, type UndergraduateEducation } from './client'
+import { apiRequest, type HomePayload, type NewsItem, type Person, type Publication, type Patent, type ResearchProject, type SitePage, type UndergraduateEducation } from './client'
 
 export async function getHome() {
   return apiRequest<HomePayload>('/api/public/home')
+}
+
+export async function getPublicPage(slug: string) {
+  return apiRequest<{ page: SitePage }>(`/api/public/pages/${slug}`)
 }
 
 export async function getPublicNews() {

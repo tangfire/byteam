@@ -305,18 +305,26 @@ func (s *Server) backfillMediaDisplayNames() error {
 }
 
 func (s *Server) suggestMediaDisplayName(asset MediaAsset) string {
-	var person Person
-	if err := s.db.Where("avatar_url = ?", asset.URL).First(&person).Error; err == nil {
-		return "成员头像 - " + person.Name
+	var personName string
+	if err := s.db.Model(&Person{}).Select("name").Where("avatar_url = ?", asset.URL).Limit(1).Scan(&personName).Error; err == nil && strings.TrimSpace(personName) != "" {
+		return "成员头像 - " + personName
 	}
-	var publication Publication
-	if err := s.db.Where("image_url = ?", asset.URL).First(&publication).Error; err == nil {
-		return "论文配图 - " + truncateDisplayName(publication.Title, 80)
+	var publicationTitle string
+	if err := s.db.Model(&Publication{}).Select("title").Where("image_url = ?", asset.URL).Limit(1).Scan(&publicationTitle).Error; err == nil && strings.TrimSpace(publicationTitle) != "" {
+		return "论文配图 - " + truncateDisplayName(publicationTitle, 80)
 	}
-	var link PublicationLink
-	if err := s.db.Where("url = ?", asset.URL).First(&link).Error; err == nil {
-		if err := s.db.First(&publication, link.PublicationID).Error; err == nil {
-			return defaultPublicationLinkLabel(link.Type) + " - " + truncateDisplayName(publication.Title, 80)
+	var link struct {
+		Type             string
+		PublicationTitle string
+	}
+	if err := s.db.Table("publication_links").
+		Select("publication_links.type, publications.title AS publication_title").
+		Joins("LEFT JOIN publications ON publications.id = publication_links.publication_id").
+		Where("publication_links.url = ?", asset.URL).
+		Limit(1).
+		Scan(&link).Error; err == nil && strings.TrimSpace(link.Type) != "" {
+		if strings.TrimSpace(link.PublicationTitle) != "" {
+			return defaultPublicationLinkLabel(link.Type) + " - " + truncateDisplayName(link.PublicationTitle, 80)
 		}
 		return defaultPublicationLinkLabel(link.Type) + " - " + mediaDefaultDisplayName(asset.OriginalName)
 	}

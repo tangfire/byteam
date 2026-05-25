@@ -2,8 +2,9 @@
   <el-container class="admin-shell">
     <el-aside width="230px" class="admin-aside">
       <div class="admin-brand">BYML 后台</div>
-      <el-menu router :default-active="$route.path" background-color="#111827" text-color="#d1d5db" active-text-color="#ffffff">
+        <el-menu router :default-active="$route.path" background-color="#111827" text-color="#d1d5db" active-text-color="#ffffff">
         <el-menu-item index="/admin/dashboard">后台首页</el-menu-item>
+        <el-menu-item index="/admin/pages">页面内容</el-menu-item>
         <el-menu-item index="/admin/news">新闻动态</el-menu-item>
         <el-menu-item index="/admin/people">成员管理</el-menu-item>
         <el-menu-item index="/admin/undergraduates">本科生培养</el-menu-item>

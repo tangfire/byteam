@@ -78,6 +78,10 @@ func (s *Server) restoreTrash(c *gin.Context) {
 
 func (s *Server) deletedItems(resource string, page int, pageSize int, q string) ([]TrashItem, int64, bool, error) {
 	switch resource {
+	case "pages":
+		return listDeleted(s.db, resource, "Pages", page, pageSize, q, []string{"slug", "title", "description"}, func(item SitePage) TrashItem {
+			return trashItem(resource, "Pages", item.ID, item.Title, compactSubtitle(item.Slug, item.Description), item.Status, item.DeletedAt)
+		})
 	case "news":
 		return listDeleted(s.db, resource, "News", page, pageSize, q, []string{"title", "content", "excerpt"}, func(item NewsItem) TrashItem {
 			return trashItem(resource, "News", item.ID, item.Title, compactSubtitle(item.TypeLabel, item.EventDate), item.Status, item.DeletedAt)
@@ -146,6 +150,8 @@ func listDeleted[T any](db *gorm.DB, resource string, label string, page int, pa
 
 func (s *Server) restoreDeleted(resource string, id uint) (bool, bool, error) {
 	switch resource {
+	case "pages":
+		return restoreDeletedModel[SitePage](s.db, id)
 	case "news":
 		return restoreDeletedModel[NewsItem](s.db, id)
 	case "people":

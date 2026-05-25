@@ -21,6 +21,7 @@ import { getSummary } from '../../api/admin'
 
 const summary = ref<Record<string, number>>({})
 const cards = computed(() => [
+  { key: 'sitePages', label: '页面内容' },
   { key: 'news', label: '新闻动态' },
   { key: 'people', label: '成员' },
   { key: 'undergraduates', label: '本科生培养' },

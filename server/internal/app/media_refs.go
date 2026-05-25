@@ -24,6 +24,8 @@ func mediaURLReferenceCount(db *gorm.DB, url string) int64 {
 	total += count
 	db.Model(&PublicationLink{}).Where("url = ?", url).Count(&count)
 	total += count
+	db.Model(&SitePage{}).Where("JSON_SEARCH(content, 'one', ?) IS NOT NULL", url).Count(&count)
+	total += count
 	return total
 }
 

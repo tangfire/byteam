@@ -1,62 +1,80 @@
 <script setup lang="ts">
-import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
+import { Collection, Link, Promotion, Tickets } from '@element-plus/icons-vue'
+import { computed } from 'vue'
+import { useSitePage } from '../composables/useSitePage'
+
+const { content, hidden } = useSitePage('videomind', {
+  title: 'VideoMind',
+  introduction: { title: '', text: '', items: [], image: '' },
+  statistics: { title: '', text: '', image: '', charts: [] },
+  results: { title: '', text: '', figures: [] },
+  links: [],
+  citation: '',
+})
+
+const lines = computed(() => String(content.value.title || '').split('\n'))
+const charts = computed(() => Array.isArray(content.value.statistics?.charts) ? content.value.statistics.charts : [])
+const figures = computed(() => Array.isArray(content.value.results?.figures) ? content.value.results.figures : [])
+const links = computed(() => Array.isArray(content.value.links) ? content.value.links : [])
+const iconForLink = (type: string) => {
+  if (type === 'code') return Promotion
+  if (type === 'paper') return Tickets
+  if (type === 'data') return Collection
+  return Link
+}
 </script>
 
 <template>
+  <el-empty v-if="hidden" description="页面暂未发布" />
+  <template v-else>
   <el-space direction="vertical" :size="30" style="width: 100%">
     <div style="display: flex; flex-direction: column; align-items: center;">
-      <h1 class="section-title">VideoMind: An Omni-Modal Video Dataset with <br>Intent Grounding for Deep-Cognitive Video Understanding</h1>
+      <h1 class="section-title">
+        <template v-for="(line, index) in lines" :key="index">
+          {{ line }}<br v-if="index < lines.length - 1">
+        </template>
+      </h1>
 
       <el-card class="content-card">
         <div class="project-content">
           <!-- 项目介绍 -->
           <div class="introduction">
-            <h3 class="subsection-title first-subtitle">What is VideoMind?</h3>
+            <h3 class="subsection-title first-subtitle">{{ content.introduction?.title }}</h3>
 
             <p class="vision-text">
-              VideoMind is <span class="highlight">a large-scale video-centric multimodal dataset </span>that can be used to
-              learn powerful and transferable text-video representations for video understanding tasks such as video question answering and video retrieval.
-              The corresponding description of each video corresponds to three layers, namely factual layer, abstract layer, intentional layer.
+              {{ content.introduction?.text }}
             </p>
             <ul class="styled-list">
-              <li>The factual layer includes visual description, OCR of video frames, ASR of videos, description of audio, and the title of the original video</li>
-              <li>The intentional layer consists of two parts: the intent of the video uploader and the intent of the video main character </li>
+              <li v-for="item in content.introduction?.items || []" :key="item">{{ item }}</li>
             </ul>
-            <img src="/VideoMind/Examples-v2.jpg" class="example2-image">
+            <img :src="content.introduction?.image" class="example2-image">
           </div>
 
           <!-- 数据集统计 -->
           <div class="Dataset-statistics">
-            <h3 class="subsection-title">Dataset statistics</h3>
+            <h3 class="subsection-title">{{ content.statistics?.title }}</h3>
             <p class="vision-text">
-              The dataset contains <span class="highlight">110K</span> video samples, each of which is <span class="highlight">ac-companied by audio, as well as systematic and detailed textual descriptions.</span>
+              {{ content.statistics?.text }}
             </p>
-            <img src="/VideoMind/caterogy.png" class="caterogy-image">
+            <img :src="content.statistics?.image" class="caterogy-image">
             <div class="pillar-container">
-              <div class="pillar">
-                <img src="/VideoMind/ASR_length.png" class="dataset-images">
-              </div>
-              <div class="pillar">
-                <img src="/VideoMind/duration.png" class="dataset-images">
-              </div>
-              <div class="pillar">
-                <img src="/VideoMind/OCR_length.png" class="dataset-images">
+              <div v-for="chart in charts" :key="chart.image" class="pillar">
+                <img :src="chart.image" :alt="chart.alt" class="dataset-images">
               </div>
             </div>
           </div>
 
           <!-- 结果展示 -->
           <div class="Results">
-            <h3 class="subsection-title">Results</h3>
+            <h3 class="subsection-title">{{ content.results?.title }}</h3>
             <p class="vision-text">
-              we present the cross-modal retrieval results of several standard video-centric
-              foundation models, including InternVideo, UMT-L,CLIP-VIP, mPLUG-2, and VAST.
+              {{ content.results?.text }}
             </p>
             <div class="results-container">
-              <h4 class="results-title">Results of hybrid-cognitive text-to-video retrieval on VideoMind-3K</h4>
-              <img src="/VideoMind/results001.jpg" class="results-image">
-              <h4 class="results-title">Results of hybrid-cognitive video-to-text retrieval on VideoMind-3K</h4>
-              <img src="/VideoMind/results002.jpg" class="results-image">
+              <template v-for="figure in figures" :key="figure.image">
+                <h4 class="results-title">{{ figure.title }}</h4>
+                <img :src="figure.image" class="results-image">
+              </template>
             </div>
           </div>
           <!-- 相关链接 -->
@@ -64,35 +82,12 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
             <h3 class="subsection-title">Download</h3>
             <!-- 水平排列的超链接 -->
             <div class="relevant-links-container" style="display: flex; gap: 70px; align-items: center;margin-left: 20px;">
-              <!--                 第一个链接（Code）-->
-              <div style="display: flex; align-items: center; ">
-                <a href="https://github.com/cdx-cindy/VideoMind" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+              <div v-for="item in links" :key="item.label" style="display: flex; align-items: center; ">
+                <a :href="item.url" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
                   <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
-                    <Promotion />
+                    <component :is="iconForLink(item.type)" />
                   </el-icon>
-                  <span style="font-size: 18px; font-weight: 500;">Code</span>
-                </a>
-              </div>
-
-              <!-- 第二个链接（Paper） -->
-              <div style="display: flex; align-items: center;">
-                <a href="https://arxiv.org/abs/2507.18552"
-                   style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
-                  <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
-                    <Tickets/>
-                  </el-icon>
-                  <span style="font-size: 18px; font-weight: 500;">Paper</span>
-                </a>
-              </div>
-
-              <!-- 第三个链接（Data） -->
-              <div style="display: flex; align-items: center;">
-                <a href="https://opendatalab.com/Dixin/VideoMind"
-                   style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
-                  <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
-                    <Collection/>
-                  </el-icon>
-                  <span style="font-size: 18px; font-weight: 500;">Data</span>
+                  <span style="font-size: 18px; font-weight: 500;">{{ item.label }}</span>
                 </a>
               </div>
             </div>
@@ -104,16 +99,7 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
             <p class="vision-text">
               If you find this work useful in your research, please cite the following paper:
             </p>
-            <pre class="pillar citation-block">
-@misc{yang2025videomindomnimodalvideodataset,
-  title={VideoMind: An Omni-Modal Video Dataset with Intent Grounding for Deep-Cognitive Video Understanding},
-  author={Baoyao Yang and Wanyun Li and Dixin Chen and Junxiang Chen and Wenbin Yao and Haifeng Lin},
-  year={2025},
-  eprint={2507.18552},
-  archivePrefix={arXiv},
-  primaryClass={cs.CV},
-  url={https://arxiv.org/abs/2507.18552},
-}</pre>
+            <pre class="pillar citation-block">{{ content.citation }}</pre>
           </div>
         </div>
       </el-card>
@@ -123,6 +109,7 @@ import { Promotion, Tickets, Collection} from '@element-plus/icons-vue';
   <!-- 底部间隔 -->
   <div style="height: 50px"></div>
   <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
+  </template>
 </template>
 
 <style scoped>

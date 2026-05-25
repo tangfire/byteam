@@ -1,9 +1,33 @@
+<script setup lang="ts">
+import { Aim, Connection, Lock, Refresh, Search, Setting } from '@element-plus/icons-vue'
+import { computed } from 'vue'
+import { useSitePage } from '../composables/useSitePage'
+
+const fallbackContent = {
+  subtitle: 'Advancing Multimodal Intelligence for Real-World Impact',
+  mission: { title: 'Our Mission', text: '' },
+  researchThrusts: [],
+  expertise: [],
+  vision: { title: 'Strategic Vision', text: '', domains: [], quote: '' },
+}
+
+const { page, content, hidden } = useSitePage('about', fallbackContent)
+
+const iconMap = { Aim, Connection, Lock, Refresh, Search, Setting, Shield: Lock }
+const iconComponent = (name: string) => iconMap[name as keyof typeof iconMap] || Search
+const researchThrusts = computed(() => Array.isArray(content.value.researchThrusts) ? content.value.researchThrusts : [])
+const expertise = computed(() => Array.isArray(content.value.expertise) ? content.value.expertise : [])
+const domains = computed(() => Array.isArray(content.value.vision?.domains) ? content.value.vision.domains : [])
+</script>
+
 <template>
   <div class="about-container">
+    <el-empty v-if="hidden" description="页面暂未发布" />
+    <template v-else>
     <!-- 页面标题区域 -->
     <div class="page-header">
-      <h1 class="page-title">Beyond Machine Learning Group</h1>
-      <p class="page-subtitle">Advancing Multimodal Intelligence for Real-World Impact</p>
+      <h1 class="page-title">{{ page?.title || 'Beyond Machine Learning Group' }}</h1>
+      <p class="page-subtitle">{{ content.subtitle }}</p>
     </div>
 
     <el-card class="content-card" shadow="hover">
@@ -12,15 +36,11 @@
         <!-- 导语部分 -->
         <div class="overview-section">
           <div class="overview-header">
-            <h2 class="section-title">Our Mission</h2>
+            <h2 class="section-title">{{ content.mission?.title }}</h2>
             <div class="accent-line"></div>
           </div>
           <div class="lead-box">
-            <p class="lead-text">
-              We pioneer <span class="highlight">foundational theories and scalable frameworks</span> to overcome
-              challenges in multimodal data across its entire lifecycle. Our research bridges the gap between
-              theoretical innovation and practical deployment in complex real-world scenarios.
-            </p>
+            <p class="lead-text">{{ content.mission?.text }}</p>
           </div>
         </div>
 
@@ -32,42 +52,15 @@
           </div>
 
           <div class="research-grid">
-            <div class="research-category" data-category="representation">
+            <div v-for="item in researchThrusts" :key="item.title" class="research-category">
               <div class="category-header">
-                <div class="category-icon">🔍</div>
-                <h3 class="category-title">Multimodal Representation Learning</h3>
+                <div class="category-icon">
+                  <el-icon><component :is="iconComponent(item.icon)" /></el-icon>
+                </div>
+                <h3 class="category-title">{{ item.title }}</h3>
               </div>
               <ul class="styled-list">
-                <li>Cross-modal alignment of medical time-series, imaging, and clinical text</li>
-                <li>Contrastive learning for video understanding (visual, audio, text)</li>
-                <li>Spatiotemporal fusion of heterogeneous IoT sensor data</li>
-                <li>Self-supervised pretraining for multimodal foundation models</li>
-              </ul>
-            </div>
-
-            <div class="research-category" data-category="decentralized">
-              <div class="category-header">
-                <div class="category-icon">🛡️</div>
-                <h3 class="category-title">Decentralized & Privacy-Aware AI</h3>
-              </div>
-              <ul class="styled-list">
-                <li>Federated learning for cross-institutional collaboration</li>
-                <li>Differential privacy in multimodal data sharing</li>
-                <li>Automated lesion annotation with attention mechanisms</li>
-                <li>Weakly supervised learning under label scarcity</li>
-              </ul>
-            </div>
-
-            <div class="research-category" data-category="infrastructure">
-              <div class="category-header">
-                <div class="category-icon">⚙️</div>
-                <h3 class="category-title">AI Infrastructure & Scalability</h3>
-              </div>
-              <ul class="styled-list">
-                <li>Unified architectures for seamless modality integration</li>
-                <li>Reinforcement learning for industrial optimization</li>
-                <li>Interpretable AI with cross-modal reasoning</li>
-                <li>Memory-efficient model deployment</li>
+                <li v-for="point in item.items || []" :key="point">{{ point }}</li>
               </ul>
             </div>
           </div>
@@ -80,25 +73,12 @@
             <div class="accent-line"></div>
           </div>
           <div class="expertise-grid">
-            <div class="expertise-item">
-              <div class="expertise-icon">🌐</div>
-              <h4 class="expertise-title">Heterogeneity-Aware Learning</h4>
-              <p class="expertise-desc">Federated optimization for distributed multimodal systems</p>
-            </div>
-            <div class="expertise-item">
-              <div class="expertise-icon">🎯</div>
-              <h4 class="expertise-title">Noise-Robust Annotation</h4>
-              <p class="expertise-desc">Weak supervision techniques for imperfect labeling</p>
-            </div>
-            <div class="expertise-item">
-              <div class="expertise-icon">🔒</div>
-              <h4 class="expertise-title">Secure Perception</h4>
-              <p class="expertise-desc">Privacy-preserving multimodal embeddings</p>
-            </div>
-            <div class="expertise-item">
-              <div class="expertise-icon">🔄</div>
-              <h4 class="expertise-title">Cross-Modal Transfer</h4>
-              <p class="expertise-desc">Knowledge sharing across different data modalities</p>
+            <div v-for="item in expertise" :key="item.title" class="expertise-item">
+              <div class="expertise-icon">
+                <el-icon><component :is="iconComponent(item.icon)" /></el-icon>
+              </div>
+              <h4 class="expertise-title">{{ item.title }}</h4>
+              <p class="expertise-desc">{{ item.description }}</p>
             </div>
           </div>
         </div>
@@ -106,25 +86,17 @@
         <!-- 愿景 -->
         <div class="vision-section">
           <div class="section-header">
-            <h2 class="section-title">Strategic Vision</h2>
+            <h2 class="section-title">{{ content.vision?.title }}</h2>
             <div class="accent-line"></div>
           </div>
           <div class="vision-content">
             <div class="vision-text">
-              <p>
-                We are pioneering the next generation of <span class="highlight">omni-modal foundation models</span>
-                that seamlessly unify temporal, visual, textual, and sensor modalities. Our work directly supports
-                national priorities in critical domains:
-              </p>
+              <p>{{ content.vision?.text }}</p>
               <div class="vision-domains">
-                <span class="domain-tag">Smart Healthcare</span>
-                <span class="domain-tag">Industry 4.0</span>
-                <span class="domain-tag">Sustainable AI</span>
-                <span class="domain-tag">Edge Intelligence</span>
+                <span v-for="domain in domains" :key="domain" class="domain-tag">{{ domain }}</span>
               </div>
               <p class="vision-quote">
-                "Bridging multimodal intelligence with real-world impact through continuous innovation
-                and cross-domain knowledge transfer."
+                "{{ content.vision?.quote }}"
               </p>
             </div>
           </div>
@@ -136,6 +108,7 @@
     <!-- 底部间隔 -->
     <div class="bottom-spacer"></div>
     <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
+    </template>
   </div>
 </template>
 

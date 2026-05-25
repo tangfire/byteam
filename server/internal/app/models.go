@@ -42,6 +42,37 @@ func (s *StringList) Scan(value any) error {
 	return json.Unmarshal(data, s)
 }
 
+type JSONMap map[string]any
+
+func (m JSONMap) Value() (driver.Value, error) {
+	if m == nil {
+		return "{}", nil
+	}
+	data, err := json.Marshal(m)
+	return string(data), err
+}
+
+func (m *JSONMap) Scan(value any) error {
+	if value == nil {
+		*m = JSONMap{}
+		return nil
+	}
+	var data []byte
+	switch typed := value.(type) {
+	case []byte:
+		data = typed
+	case string:
+		data = []byte(typed)
+	default:
+		return fmt.Errorf("unsupported JSONMap value %T", value)
+	}
+	if len(data) == 0 {
+		*m = JSONMap{}
+		return nil
+	}
+	return json.Unmarshal(data, m)
+}
+
 type Admin struct {
 	ID           uint           `json:"id" gorm:"primaryKey"`
 	Username     string         `json:"username" gorm:"uniqueIndex;size:120;not null"`
@@ -49,6 +80,19 @@ type Admin struct {
 	CreatedAt    time.Time      `json:"createdAt"`
 	UpdatedAt    time.Time      `json:"updatedAt"`
 	DeletedAt    gorm.DeletedAt `json:"-" gorm:"index"`
+}
+
+type SitePage struct {
+	ID          uint           `json:"id" gorm:"primaryKey"`
+	Slug        string         `json:"slug" gorm:"uniqueIndex;size:120;not null"`
+	Title       string         `json:"title" gorm:"size:255;not null"`
+	Description string         `json:"description" gorm:"size:500"`
+	Content     JSONMap        `json:"content" gorm:"type:json"`
+	Status      string         `json:"status" gorm:"size:20;index;default:published"`
+	SortOrder   int            `json:"sortOrder" gorm:"index"`
+	CreatedAt   time.Time      `json:"createdAt"`
+	UpdatedAt   time.Time      `json:"updatedAt"`
+	DeletedAt   gorm.DeletedAt `json:"-" gorm:"index"`
 }
 
 type MediaAsset struct {

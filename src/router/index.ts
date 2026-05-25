@@ -29,6 +29,7 @@ const router = createRouter({
             children: [
                 { path: '', redirect: '/admin/dashboard' },
                 { path: 'dashboard', name: 'admin-dashboard', component: () => import('../pages/admin/AdminDashboardView.vue') },
+                { path: 'pages', name: 'admin-pages', component: () => import('../pages/admin/AdminPagesView.vue') },
                 { path: 'news', name: 'admin-news', component: () => import('../pages/admin/AdminNewsView.vue') },
                 { path: 'people', name: 'admin-people', component: () => import('../pages/admin/AdminPeopleView.vue') },
                 { path: 'undergraduates', name: 'admin-undergraduates', component: () => import('../pages/admin/AdminUndergraduatesView.vue') },

@@ -66,6 +66,7 @@ func (s *Server) routes() *gin.Engine {
 	public := r.Group("/api/public")
 	{
 		public.GET("/home", s.publicHome)
+		public.GET("/pages/:slug", s.publicSitePage)
 		public.GET("/news", s.publicNews)
 		public.GET("/people", s.publicPeople)
 		public.GET("/undergraduates", s.publicUndergraduates)
@@ -86,6 +87,10 @@ func (s *Server) routes() *gin.Engine {
 		protected.POST("/maintenance/git-sync", s.runGitSync)
 		protected.GET("/trash", s.listTrash)
 		protected.POST("/trash/:resource/:id/restore", s.restoreTrash)
+
+		protected.GET("/pages", s.listSitePages)
+		protected.GET("/pages/:slug", s.getSitePage)
+		protected.PUT("/pages/:slug", s.updateSitePage)
 
 		protected.GET("/news", s.listNews)
 		protected.POST("/news", s.createNews)
@@ -135,6 +140,7 @@ func (s *Server) routes() *gin.Engine {
 func (s *Server) migrateAndSeed() error {
 	if err := s.db.AutoMigrate(
 		&Admin{},
+		&SitePage{},
 		&MediaAsset{},
 		&NewsItem{},
 		&Person{},

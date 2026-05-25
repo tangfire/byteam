@@ -1,28 +1,31 @@
 <script setup lang="ts">
-// Add data logic here
+import { computed } from 'vue'
+import { useSitePage } from '../composables/useSitePage'
+
+const { content, hidden } = useSitePage('dr-baoyao-yang', {
+  name: 'Dr. Baoyao Yang(Associate Professor)',
+  image: '/currentprojects/yangbaoyao.jpg',
+  alt: 'Dr. Baoyao Yang',
+  paragraphs: [],
+})
+const paragraphs = computed(() => Array.isArray(content.value.paragraphs) ? content.value.paragraphs : [])
 </script>
 
 <template>
-  <el-card class="profile-card">
+  <el-empty v-if="hidden" description="页面暂未发布" />
+  <el-card v-else class="profile-card">
     <template #header>
-      <h2 class="teachName">Dr. Baoyao Yang(Associate Professor)</h2>
+      <h2 class="teachName">{{ content.name }}</h2>
     </template>
 
     <div class="profile-content">
       <img
-          src="/currentprojects/yangbaoyao.jpg"
-          alt="Dr. Baoyao Yang"
+          :src="content.image"
+          :alt="content.alt"
           class="profile-image"
       />
       <div class="profile-description">
-        <p>
-          Dr. Baoyao Yang, a distinguished young faculty member recruited under the "Youth Hundred Talents Program" at Guangdong University of Technology, obtained her Bachelor’s degree from South China University of Technology in 2014 and her Ph.D. from Hong Kong Baptist University in 2018. She has spearheaded several key research projects, including the National Natural Science Foundation General Program, Youth Science Fund, and multiple provincial/ministerial-level scientific research initiatives. Her contributions were recognized with the 2023 Guangdong Province Science and Technology Progress Award (Second Prize, ranked fourth individually).
-
-        </p>
-        <p>
-          Dr. Yang has authored over 50 publications in top-tier journals such as IEEE TIP, TIFS, and TNNLS, as well as leading conferences like AAAI and MICCAI. She holds six authorized national invention patents and emphasizes the integration of industry, academia, and research. Committed to mentorship, she has guided students to win awards in national competitions and helped numerous undergraduates gain admission to prestigious institutions for advanced studies.
-
-        </p>
+        <p v-for="paragraph in paragraphs" :key="paragraph">{{ paragraph }}</p>
       </div>
     </div>
   </el-card>

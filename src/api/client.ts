@@ -1,6 +1,16 @@
 const API_BASE = import.meta.env.VITE_API_BASE || ''
 const TOKEN_KEY = 'byml_admin_token'
 
+export class ApiError extends Error {
+  status: number
+
+  constructor(message: string, status: number) {
+    super(message)
+    this.name = 'ApiError'
+    this.status = status
+  }
+}
+
 export interface ListResponse<T> {
   items: T[]
   total: number
@@ -102,6 +112,16 @@ export interface MediaAsset {
   kind: string
   inUse: boolean
   createdAt: string
+}
+
+export interface SitePage {
+  id?: number
+  slug: string
+  title: string
+  description: string
+  content: Record<string, any>
+  status: string
+  sortOrder: number
 }
 
 export interface TrashItem {
@@ -213,7 +233,7 @@ export async function apiRequest<T>(path: string, options: RequestInit = {}): Pr
     } catch {
       // Keep the HTTP status message.
     }
-    throw new Error(message)
+    throw new ApiError(message, response.status)
   }
 
   if (response.status === 204) {

@@ -1,4 +1,4 @@
-import { apiRequest, authStore, listQuery, type ListResponse, type MaintenanceCommandResult, type MaintenanceStatus, type MediaAsset, type NewsItem, type Patent, type Person, type Publication, type ResearchProject, type TrashItem, type UndergraduateEducation } from './client'
+import { apiRequest, authStore, listQuery, type ListResponse, type MaintenanceCommandResult, type MaintenanceStatus, type MediaAsset, type NewsItem, type Patent, type Person, type Publication, type ResearchProject, type SitePage, type TrashItem, type UndergraduateEducation } from './client'
 
 export async function login(username: string, password: string) {
   const result = await apiRequest<{ token: string; admin: { id: number; username: string } }>('/api/admin/auth/login', {
@@ -23,6 +23,21 @@ export async function getSummary() {
 
 export function listAdmin<T>(resource: string, params: Record<string, string | number | undefined>) {
   return apiRequest<ListResponse<T>>(`/api/admin/${resource}${listQuery(params)}`)
+}
+
+export function listSitePages(params: Record<string, string | number | undefined> = {}) {
+  return apiRequest<ListResponse<SitePage>>(`/api/admin/pages${listQuery(params)}`)
+}
+
+export function getSitePage(slug: string) {
+  return apiRequest<SitePage>(`/api/admin/pages/${slug}`)
+}
+
+export function updateSitePage(slug: string, payload: SitePage) {
+  return apiRequest<SitePage>(`/api/admin/pages/${slug}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  })
 }
 
 export function createAdmin<T>(resource: string, payload: T) {
@@ -100,4 +115,4 @@ export async function uploadMedia(file: File) {
   })
 }
 
-export type AdminEntity = NewsItem | Person | UndergraduateEducation | Publication | Patent | ResearchProject | MediaAsset
+export type AdminEntity = NewsItem | Person | UndergraduateEducation | Publication | Patent | ResearchProject | MediaAsset | SitePage

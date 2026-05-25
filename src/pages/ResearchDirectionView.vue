@@ -1,245 +1,43 @@
 <script setup lang="ts">
 import { ArrowRightBold } from "@element-plus/icons-vue";
+import { computed } from 'vue'
+import { useSitePage } from '../composables/useSitePage'
 
 defineProps<{ msg: string }>()
+
+const { content, hidden } = useSitePage('research-direction', { directions: [] })
+const directions = computed(() => Array.isArray(content.value.directions) ? content.value.directions : [])
 </script>
 
 <template>
   <div class="research-container">
+    <el-empty v-if="hidden" description="页面暂未发布" />
+    <template v-else>
     <el-space direction="vertical" :size="30" style="width: 100%">
 
-      <!-- 研究方向1 -->
-      <div class="research-item">
+      <div v-for="(direction, index) in directions" :key="direction.title" class="research-item">
         <div class="research-header">
           <div class="title-wrapper">
             <el-icon class="header-icon">
               <ArrowRightBold/>
             </el-icon>
-            <h2 class="research-title">Medical Time-Series Representation Learning</h2>
+            <h2 class="research-title">{{ direction.title }}</h2>
           </div>
         </div>
 
         <el-card class="research-card" shadow="hover">
-          <div class="card-content">
+          <div class="card-content" :class="{ 'reverse-layout': index % 2 === 1 }">
             <div class="image-wrapper">
               <img
-                  src="/currentprojects/001.png"
-                  alt="Medical Time-Series Research"
+                  :src="direction.image"
+                  :alt="direction.alt || direction.title"
                   class="research-image"
               />
             </div>
             <div class="text-content">
-              <div class="content-section">
-                <h3 class="section-title">Challenges</h3>
-                <p class="content-text">Irregular sampling intervals, missing/contaminated data, patient-specific variability.</p>
-              </div>
-              <div class="content-section">
-                <h3 class="section-title">Solutions</h3>
-                <p class="content-text">Multimodal alignment networks for fusing EHRs, imaging, and sensor data; contrastive learning frameworks to reconstruct regularized time-series patterns.</p>
-              </div>
-            </div>
-          </div>
-        </el-card>
-      </div>
-
-      <!-- 研究方向2 -->
-      <div class="research-item">
-        <div class="research-header">
-          <div class="title-wrapper">
-            <el-icon class="header-icon">
-              <ArrowRightBold/>
-            </el-icon>
-            <h2 class="research-title">Federated Learning for Medical Applications</h2>
-          </div>
-        </div>
-
-        <el-card class="research-card" shadow="hover">
-          <div class="card-content reverse-layout">
-            <div class="image-wrapper">
-              <img
-                  src="/currentprojects/002.png"
-                  alt="Federated Learning Research"
-                  class="research-image"
-              />
-            </div>
-            <div class="text-content">
-              <div class="content-section">
-                <h3 class="section-title">Challenges</h3>
-                <p class="content-text">Data privacy constraints, siloed datasets, heterogeneous model architectures.</p>
-              </div>
-              <div class="content-section">
-                <h3 class="section-title">Innovations</h3>
-                <p class="content-text">Privacy-preserving collaborative training protocols (e.g., differential autoencoders) with adaptive aggregation mechanisms for cross-institutional knowledge sharing.</p>
-              </div>
-            </div>
-          </div>
-        </el-card>
-      </div>
-
-      <!-- 研究方向3 -->
-      <div class="research-item">
-        <div class="research-header">
-          <div class="title-wrapper">
-            <el-icon class="header-icon">
-              <ArrowRightBold/>
-            </el-icon>
-            <h2 class="research-title">Automated Lesion Annotation</h2>
-          </div>
-        </div>
-
-        <el-card class="research-card" shadow="hover">
-          <div class="card-content">
-            <div class="image-wrapper">
-              <img
-                  src="/currentprojects/003.png"
-                  alt="Automated Lesion Annotation"
-                  class="research-image"
-              />
-            </div>
-            <div class="text-content">
-              <div class="content-section">
-                <h3 class="section-title">Challenges</h3>
-                <p class="content-text">Labor-intensive manual labeling, limited annotated samples, cross-modal discrepancies.</p>
-              </div>
-              <div class="content-section">
-                <h3 class="section-title">Approaches</h3>
-                <p class="content-text">Weakly supervised and prompt-based learning to localize lesions in multimodal MRI/CT scans while minimizing clinician workload.</p>
-              </div>
-            </div>
-          </div>
-        </el-card>
-      </div>
-
-      <!-- 研究方向4 -->
-      <div class="research-item">
-        <div class="research-header">
-          <div class="title-wrapper">
-            <el-icon class="header-icon">
-              <ArrowRightBold/>
-            </el-icon>
-            <h2 class="research-title">Short-Form Video Content Intelligence</h2>
-          </div>
-        </div>
-
-        <el-card class="research-card" shadow="hover">
-          <div class="card-content reverse-layout">
-            <div class="image-wrapper">
-              <img
-                  src="/currentprojects/004.jpg"
-                  alt="Video Content Intelligence"
-                  class="research-image"
-              />
-            </div>
-            <div class="text-content">
-              <div class="content-section">
-                <h3 class="section-title">Challenges</h3>
-                <p class="content-text">Multimodal data fusion (audio, text, video), real-time interpretation, copyright/ethics compliance.</p>
-              </div>
-              <div class="content-section">
-                <h3 class="section-title">Tools</h3>
-                <p class="content-text">Large-scale pretrained models with attention mechanisms for contextual reasoning; AI-driven metadata tagging for content authorization.</p>
-              </div>
-            </div>
-          </div>
-        </el-card>
-      </div>
-
-      <!-- 研究方向5 -->
-      <div class="research-item">
-        <div class="research-header">
-          <div class="title-wrapper">
-            <el-icon class="header-icon">
-              <ArrowRightBold/>
-            </el-icon>
-            <h2 class="research-title">Industrial IoT & Supply Chain Optimization</h2>
-          </div>
-        </div>
-
-        <el-card class="research-card" shadow="hover">
-          <div class="card-content">
-            <div class="image-wrapper">
-              <img
-                  src="/currentprojects/005.jpg"
-                  alt="IoT Supply Chain"
-                  class="research-image"
-              />
-            </div>
-            <div class="text-content">
-              <div class="content-section">
-                <h3 class="section-title">Challenges</h3>
-                <p class="content-text">Multi-tier communication latency, dynamic resource allocation, cybersecurity risks.</p>
-              </div>
-              <div class="content-section">
-                <h3 class="section-title">Solutions</h3>
-                <p class="content-text">Reinforcement learning for adaptive scheduling; federated edge computing to balance efficiency and data sovereignty.</p>
-              </div>
-            </div>
-          </div>
-        </el-card>
-      </div>
-
-      <!-- 研究方向6 -->
-      <div class="research-item">
-        <div class="research-header">
-          <div class="title-wrapper">
-            <el-icon class="header-icon">
-              <ArrowRightBold/>
-            </el-icon>
-            <h2 class="research-title">Foundational Algorithm Research</h2>
-          </div>
-        </div>
-
-        <el-card class="research-card" shadow="hover">
-          <div class="card-content reverse-layout">
-            <div class="image-wrapper">
-              <img
-                  src="/currentprojects/006.png"
-                  alt="Algorithm Research"
-                  class="research-image"
-              />
-            </div>
-            <div class="text-content">
-              <div class="content-section">
-                <h3 class="section-title">Focus Areas</h3>
-                <p class="content-text">Model explainability in black-box AI, memory-efficient architectures, robust generalization under limited labels.</p>
-              </div>
-              <div class="content-section">
-                <h3 class="section-title">Breakthroughs</h3>
-                <p class="content-text">Hybrid frameworks combining causal reasoning, prompt engineering, and adversarial robustness testing.</p>
-              </div>
-            </div>
-          </div>
-        </el-card>
-      </div>
-
-      <!-- 研究方向7 -->
-      <div class="research-item">
-        <div class="research-header">
-          <div class="title-wrapper">
-            <el-icon class="header-icon">
-              <ArrowRightBold/>
-            </el-icon>
-            <h2 class="research-title">Weak Supervised Instance Segmentation</h2>
-          </div>
-        </div>
-
-        <el-card class="research-card" shadow="hover">
-          <div class="card-content">
-            <div class="image-wrapper">
-              <img
-                  src="/currentprojects/007.png"
-                  alt="Instance Segmentation"
-                  class="research-image"
-              />
-            </div>
-            <div class="text-content">
-              <div class="content-section">
-                <h3 class="section-title">Challenges</h3>
-                <p class="content-text">Mask merging often occurs for densely packed objects of the same class.</p>
-              </div>
-              <div class="content-section">
-                <h3 class="section-title">Solutions</h3>
-                <p class="content-text">Contrastive learning to enhance instance discrimination; leveraging motion cues (in video data) or geometric priors.</p>
+              <div v-for="section in direction.sections || []" :key="section.title" class="content-section">
+                <h3 class="section-title">{{ section.title }}</h3>
+                <p class="content-text">{{ section.text }}</p>
               </div>
             </div>
           </div>
@@ -252,6 +50,7 @@ defineProps<{ msg: string }>()
     <div style="height: 50px"></div>
 
     <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
+    </template>
   </div>
 </template>
 

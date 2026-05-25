@@ -13,6 +13,7 @@ import (
 const minSnapshotBytes = 2000
 
 type contentSnapshot struct {
+	SitePages        []snapshotSitePage        `json:"sitePages"`
 	News             []snapshotNews            `json:"news"`
 	Media            []snapshotMedia           `json:"media"`
 	People           []snapshotPerson          `json:"people"`
@@ -21,6 +22,19 @@ type contentSnapshot struct {
 	Undergraduates   []snapshotUndergraduate   `json:"undergraduates"`
 	PublicationLinks []snapshotPublicationLink `json:"publicationLinks"`
 	ResearchProjects []snapshotResearchProject `json:"researchProjects"`
+}
+
+type snapshotSitePage struct {
+	ID          uint    `json:"id"`
+	Slug        string  `json:"slug"`
+	Title       string  `json:"title"`
+	Description string  `json:"description"`
+	Content     JSONMap `json:"content"`
+	Status      string  `json:"status"`
+	CreatedAt   string  `json:"createdAt"`
+	DeletedAt   *string `json:"deletedAt"`
+	SortOrder   int     `json:"sortOrder"`
+	UpdatedAt   string  `json:"updatedAt"`
 }
 
 type snapshotNews struct {
@@ -151,6 +165,20 @@ func (s *Server) exportContentSnapshot(root string) (contentSnapshot, string, er
 
 func (s *Server) buildContentSnapshot() (contentSnapshot, error) {
 	data := contentSnapshot{}
+
+	var pages []SitePage
+	if err := s.db.Unscoped().Order("sort_order ASC, id ASC").Find(&pages).Error; err != nil {
+		return data, err
+	}
+	data.SitePages = make([]snapshotSitePage, 0, len(pages))
+	for _, item := range pages {
+		times := snapshotTimes(item.CreatedAt, item.UpdatedAt, item.DeletedAt)
+		data.SitePages = append(data.SitePages, snapshotSitePage{
+			ID: item.ID, Slug: item.Slug, Title: item.Title, Description: item.Description,
+			Content: item.Content, Status: item.Status, CreatedAt: times.createdAt,
+			DeletedAt: times.deletedAt, SortOrder: item.SortOrder, UpdatedAt: times.updatedAt,
+		})
+	}
 
 	var news []NewsItem
 	if err := s.db.Unscoped().Order("sort_order ASC, event_date DESC, id ASC").Find(&news).Error; err != nil {

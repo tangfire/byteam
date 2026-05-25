@@ -21,6 +21,7 @@ import (
 type snapshotBool bool
 
 type snapshot struct {
+	SitePages        []snapshotSitePage        `json:"sitePages"`
 	News             []snapshotNews            `json:"news"`
 	Media            []snapshotMedia           `json:"media"`
 	People           []snapshotPerson          `json:"people"`
@@ -48,6 +49,17 @@ type snapshotNews struct {
 	Color     string `json:"color"`
 	Status    string `json:"status"`
 	SortOrder int    `json:"sortOrder"`
+	snapshotTimestamps
+}
+
+type snapshotSitePage struct {
+	ID          uint        `json:"id"`
+	Slug        string      `json:"slug"`
+	Title       string      `json:"title"`
+	Description string      `json:"description"`
+	Content     app.JSONMap `json:"content"`
+	Status      string      `json:"status"`
+	SortOrder   int         `json:"sortOrder"`
 	snapshotTimestamps
 }
 
@@ -204,6 +216,7 @@ func (b *snapshotBool) UnmarshalJSON(raw []byte) error {
 
 func restoreSnapshot(db *gorm.DB, cfg app.Config, data snapshot) error {
 	if err := db.AutoMigrate(
+		&app.SitePage{},
 		&app.MediaAsset{},
 		&app.NewsItem{},
 		&app.Person{},
@@ -218,6 +231,9 @@ func restoreSnapshot(db *gorm.DB, cfg app.Config, data snapshot) error {
 
 	return db.Transaction(func(tx *gorm.DB) error {
 		if err := clearContentTables(tx); err != nil {
+			return err
+		}
+		if err := insertAll(tx, mapSitePages(data.SitePages)); err != nil {
 			return err
 		}
 		if err := insertAll(tx, mapNews(data.News)); err != nil {
@@ -248,6 +264,7 @@ func restoreSnapshot(db *gorm.DB, cfg app.Config, data snapshot) error {
 func clearContentTables(tx *gorm.DB) error {
 	tables := []string{
 		"publication_links",
+		"site_pages",
 		"news_items",
 		"media_assets",
 		"people",
@@ -275,6 +292,30 @@ func insertAll[T any](tx *gorm.DB, items []T) error {
 		return nil
 	}
 	return tx.Create(&items).Error
+}
+
+func mapSitePages(items []snapshotSitePage) []app.SitePage {
+	out := make([]app.SitePage, 0, len(items))
+	for _, item := range items {
+		createdAt, updatedAt, deletedAt := parseTimestamps(item.snapshotTimestamps)
+		content := item.Content
+		if content == nil {
+			content = app.JSONMap{}
+		}
+		out = append(out, app.SitePage{
+			ID:          item.ID,
+			Slug:        item.Slug,
+			Title:       item.Title,
+			Description: item.Description,
+			Content:     content,
+			Status:      normalizeSnapshotStatus(item.Status),
+			SortOrder:   item.SortOrder,
+			CreatedAt:   createdAt,
+			UpdatedAt:   updatedAt,
+			DeletedAt:   deletedAt,
+		})
+	}
+	return out
 }
 
 func mapNews(items []snapshotNews) []app.NewsItem {
@@ -500,8 +541,9 @@ func inferMediaPath(cfg app.Config, rawURL string) string {
 }
 
 func printSummary(data snapshot, action string) {
-	fmt.Printf("%s content snapshot: news=%d people=%d undergraduates=%d publications=%d publicationLinks=%d patents=%d researchProjects=%d media=%d\n",
+	fmt.Printf("%s content snapshot: sitePages=%d news=%d people=%d undergraduates=%d publications=%d publicationLinks=%d patents=%d researchProjects=%d media=%d\n",
 		action,
+		len(data.SitePages),
 		len(data.News),
 		len(data.People),
 		len(data.Undergraduates),

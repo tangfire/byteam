@@ -1,28 +1,43 @@
 <script setup lang="ts">
-// 可在此处添加交互逻辑（如复制邮箱功能）
+import { computed } from 'vue'
+import { useSitePage } from '../composables/useSitePage'
+
+const { content, hidden } = useSitePage('contact', {
+  title: 'Contact Me',
+  availability: 'At any time',
+  email: 'ybaoyao@gdut.edu.cn',
+  backgroundImage: '/background/ContactBackground.jpg',
+})
+
+const backgroundStyle = computed(() => ({
+  background: `linear-gradient(135deg, rgba(125,18,49,0.08) 0%, rgba(19,57,62,0.12) 100%), url('${content.value.backgroundImage || '/background/ContactBackground.jpg'}') center/cover fixed`,
+}))
 </script>
 
 <template>
   <div class="contact-page">
+    <el-empty v-if="hidden" description="页面暂未发布" />
+    <template v-else>
 
     <!-- 背景图层 - 采用主页的 fixed 定位方式 -->
-    <div class="hero-background">
+    <div class="hero-background" :style="backgroundStyle">
       <div class="gradient-overlay"></div>
     </div>
 
     <!-- 内容容器 -->
     <div class="contact-container">
-      <h1 class="title">Contact Me</h1>
+      <h1 class="title">{{ content.title }}</h1>
 
       <div class="availability">
-        <p>At any time</p>
+        <p>{{ content.availability }}</p>
         <div class="divider"></div>
       </div>
 
       <p class="email-link">
-        Email: ybaoyao@gdut.edu.cn
+        Email: {{ content.email }}
       </p>
     </div>
+    </template>
   </div>
 </template>
 
@@ -96,9 +111,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background:
-      linear-gradient(135deg, rgba(125,18,49,0.08) 0%, rgba(19,57,62,0.12) 100%),
-      url('/background/ContactBackground.jpg') center/cover fixed;
   z-index: 0;
 }
 

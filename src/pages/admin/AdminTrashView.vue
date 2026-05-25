@@ -58,6 +58,7 @@ import { listTrash, restoreTrash } from '../../api/admin'
 import type { TrashItem } from '../../api/client'
 
 const resources = [
+  { label: '页面内容', value: 'pages' },
   { label: '新闻动态', value: 'news' },
   { label: '成员', value: 'people' },
   { label: '本科生培养', value: 'undergraduates' },

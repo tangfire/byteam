@@ -9,6 +9,7 @@ import (
 
 func (s *Server) adminSummary(c *gin.Context) {
 	counts := map[string]int64{}
+	counts["sitePages"] = countModel(s, &SitePage{})
 	counts["news"] = countModel(s, &NewsItem{})
 	counts["people"] = countModel(s, &Person{})
 	counts["undergraduates"] = countModel(s, &UndergraduateEducation{})
