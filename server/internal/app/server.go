@@ -95,27 +95,31 @@ func (s *Server) routes() *gin.Engine {
 		protected.GET("/people", s.listPeople)
 		protected.POST("/people", s.createPerson)
 		protected.PUT("/people/:id", s.updatePerson)
+		protected.POST("/people/:id/place", s.placePerson)
 		protected.DELETE("/people/:id", s.deletePerson)
 
 		protected.GET("/undergraduates", s.listUndergraduates)
 		protected.POST("/undergraduates", s.createUndergraduate)
 		protected.PUT("/undergraduates/:id", s.updateUndergraduate)
+		protected.POST("/undergraduates/:id/place", s.placeUndergraduate)
 		protected.DELETE("/undergraduates/:id", s.deleteUndergraduate)
 
 		protected.GET("/publications", s.listPublications)
 		protected.POST("/publications", s.createPublication)
 		protected.PUT("/publications/:id", s.updatePublication)
-		protected.POST("/publications/:id/move", s.movePublication)
+		protected.POST("/publications/:id/place", s.placePublication)
 		protected.DELETE("/publications/:id", s.deletePublication)
 
 		protected.GET("/patents", s.listPatents)
 		protected.POST("/patents", s.createPatent)
 		protected.PUT("/patents/:id", s.updatePatent)
+		protected.POST("/patents/:id/place", s.placePatent)
 		protected.DELETE("/patents/:id", s.deletePatent)
 
 		protected.GET("/research-projects", s.listResearchProjects)
 		protected.POST("/research-projects", s.createResearchProject)
 		protected.PUT("/research-projects/:id", s.updateResearchProject)
+		protected.POST("/research-projects/:id/place", s.placeResearchProject)
 		protected.DELETE("/research-projects/:id", s.deleteResearchProject)
 
 		protected.GET("/media", s.listMedia)

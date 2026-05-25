@@ -41,6 +41,9 @@ func (s *Server) createNews(c *gin.Context) {
 	if payload.Color == "" {
 		payload.Color = "#7d1231"
 	}
+	if payload.TypeLabel == "" {
+		payload.TypeLabel = newsTypeLabel(payload.Type)
+	}
 	if err := s.db.Create(&payload).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -65,6 +68,9 @@ func (s *Server) updateNews(c *gin.Context) {
 	payload.ID = item.ID
 	payload.CreatedAt = item.CreatedAt
 	payload.Status = normalizeStatus(payload.Status)
+	if payload.TypeLabel == "" {
+		payload.TypeLabel = newsTypeLabel(payload.Type)
+	}
 	if err := s.db.Save(&payload).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -79,6 +85,21 @@ func (s *Server) deleteNews(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"deleted": s.db.Delete(&NewsItem{}, id).Error == nil})
+}
+
+func newsTypeLabel(kind string) string {
+	switch kind {
+	case "publication":
+		return "Publication"
+	case "team":
+		return "Team Update"
+	case "award":
+		return "Award"
+	case "event":
+		return "Event"
+	default:
+		return "General"
+	}
 }
 
 func (s *Server) listPeople(c *gin.Context) {
@@ -97,7 +118,12 @@ func (s *Server) createPerson(c *gin.Context) {
 	}
 	payload.ID = 0
 	payload.Status = normalizeStatus(payload.Status)
-	if err := s.db.Create(&payload).Error; err != nil {
+	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&payload).Error; err != nil {
+			return err
+		}
+		return renumberSortableRowsWithFirst(tx, &Person{}, tx.Model(&Person{}).Where("category = ?", payload.Category), payload.ID)
+	}); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -121,7 +147,23 @@ func (s *Server) updatePerson(c *gin.Context) {
 	payload.ID = item.ID
 	payload.CreatedAt = item.CreatedAt
 	payload.Status = normalizeStatus(payload.Status)
-	if err := s.db.Save(&payload).Error; err != nil {
+	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		groupChanged := item.Category != payload.Category
+		payload.SortOrder = item.SortOrder
+		if groupChanged {
+			payload.SortOrder = 0
+		}
+		if err := tx.Save(&payload).Error; err != nil {
+			return err
+		}
+		if groupChanged {
+			if err := renumberSortableRowsWithFirst(tx, &Person{}, tx.Model(&Person{}).Where("category = ?", payload.Category), payload.ID); err != nil {
+				return err
+			}
+			return renumberSortableGroup(tx, &Person{}, tx.Model(&Person{}).Where("category = ?", item.Category))
+		}
+		return nil
+	}); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -150,7 +192,12 @@ func (s *Server) createUndergraduate(c *gin.Context) {
 	}
 	payload.ID = 0
 	payload.Status = normalizeStatus(payload.Status)
-	if err := s.db.Create(&payload).Error; err != nil {
+	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&payload).Error; err != nil {
+			return err
+		}
+		return renumberSortableRowsWithFirst(tx, &UndergraduateEducation{}, tx.Model(&UndergraduateEducation{}), payload.ID)
+	}); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -174,6 +221,7 @@ func (s *Server) updateUndergraduate(c *gin.Context) {
 	payload.ID = item.ID
 	payload.CreatedAt = item.CreatedAt
 	payload.Status = normalizeStatus(payload.Status)
+	payload.SortOrder = item.SortOrder
 	if err := s.db.Save(&payload).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -294,88 +342,11 @@ func (s *Server) updatePublication(c *gin.Context) {
 	c.JSON(http.StatusOK, item)
 }
 
-type movePublicationPayload struct {
-	Action string `json:"action"`
-}
-
-func (s *Server) movePublication(c *gin.Context) {
-	id, ok := parseID(c)
-	if !ok {
-		return
-	}
-	payload, ok := bindJSON[movePublicationPayload](c)
-	if !ok {
-		return
-	}
-	if payload.Action != "top" && payload.Action != "up" && payload.Action != "down" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "action must be top, up or down"})
-		return
-	}
-
-	var item Publication
-	if err := s.db.First(&item, id).Error; err != nil {
-		notFoundOrError(c, err)
-		return
-	}
-
-	if err := s.db.Transaction(func(tx *gorm.DB) error {
-		return movePublicationInGroup(tx, &item, payload.Action)
-	}); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	s.db.Preload("Links").First(&item, id)
-	c.JSON(http.StatusOK, item)
-}
-
 func normalizePublicationKind(kind string) string {
 	if kind == "journal" {
 		return "journal"
 	}
 	return "conference"
-}
-
-func movePublicationInGroup(tx *gorm.DB, item *Publication, action string) error {
-	var group []Publication
-	if err := tx.Where("year = ? AND kind = ?", item.Year, item.Kind).
-		Order("sort_order ASC, id ASC").
-		Find(&group).Error; err != nil {
-		return err
-	}
-
-	current := -1
-	for i := range group {
-		if group[i].ID == item.ID {
-			current = i
-			break
-		}
-	}
-	if current < 0 {
-		return gorm.ErrRecordNotFound
-	}
-
-	target := current
-	switch action {
-	case "top":
-		target = 0
-	case "up":
-		if current > 0 {
-			target = current - 1
-		}
-	case "down":
-		if current < len(group)-1 {
-			target = current + 1
-		}
-	}
-	if target == current {
-		return renumberPublications(tx, group)
-	}
-
-	moved := group[current]
-	group = append(group[:current], group[current+1:]...)
-	group = append(group[:target], append([]Publication{moved}, group[target:]...)...)
-	return renumberPublications(tx, group)
 }
 
 func renumberPublicationGroup(tx *gorm.DB, year int, kind string) error {
@@ -420,7 +391,12 @@ func (s *Server) createPatent(c *gin.Context) {
 	}
 	payload.ID = 0
 	payload.Status = normalizeStatus(payload.Status)
-	if err := s.db.Create(&payload).Error; err != nil {
+	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&payload).Error; err != nil {
+			return err
+		}
+		return renumberSortableRowsWithFirst(tx, &Patent{}, tx.Model(&Patent{}).Where("category = ?", payload.Category), payload.ID)
+	}); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -444,7 +420,23 @@ func (s *Server) updatePatent(c *gin.Context) {
 	payload.ID = item.ID
 	payload.CreatedAt = item.CreatedAt
 	payload.Status = normalizeStatus(payload.Status)
-	if err := s.db.Save(&payload).Error; err != nil {
+	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		groupChanged := item.Category != payload.Category
+		payload.SortOrder = item.SortOrder
+		if groupChanged {
+			payload.SortOrder = 0
+		}
+		if err := tx.Save(&payload).Error; err != nil {
+			return err
+		}
+		if groupChanged {
+			if err := renumberSortableRowsWithFirst(tx, &Patent{}, tx.Model(&Patent{}).Where("category = ?", payload.Category), payload.ID); err != nil {
+				return err
+			}
+			return renumberSortableGroup(tx, &Patent{}, tx.Model(&Patent{}).Where("category = ?", item.Category))
+		}
+		return nil
+	}); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -473,7 +465,12 @@ func (s *Server) createResearchProject(c *gin.Context) {
 	}
 	payload.ID = 0
 	payload.Status = normalizeStatus(payload.Status)
-	if err := s.db.Create(&payload).Error; err != nil {
+	if err := s.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&payload).Error; err != nil {
+			return err
+		}
+		return renumberSortableRowsWithFirst(tx, &ResearchProject{}, tx.Model(&ResearchProject{}), payload.ID)
+	}); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -497,6 +494,7 @@ func (s *Server) updateResearchProject(c *gin.Context) {
 	payload.ID = item.ID
 	payload.CreatedAt = item.CreatedAt
 	payload.Status = normalizeStatus(payload.Status)
+	payload.SortOrder = item.SortOrder
 	if err := s.db.Save(&payload).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return

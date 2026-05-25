@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-crud">
+  <div ref="crudRoot" class="admin-crud">
     <div class="admin-page-header">
       <div>
         <h1>{{ title }}</h1>
@@ -17,25 +17,44 @@
       <el-button @click="load">刷新</el-button>
     </div>
 
-    <el-table v-loading="loading" :data="items" border class="admin-table">
+    <el-alert v-if="sortable" class="sort-hint" type="info" :closable="false" show-icon>
+      <template #title>按住左侧手柄拖动，可调整当前列表的展示顺序；跨年份或跨分类的拖动会被自动拦截。</template>
+    </el-alert>
+
+    <el-table
+      v-loading="loading"
+      :data="items"
+      border
+      class="admin-table"
+      row-key="id"
+      :row-class-name="rowClassName"
+    >
+      <el-table-column v-if="sortable" label="" width="54">
+        <template #default="{ row }">
+          <button
+            class="drag-handle"
+            type="button"
+            draggable="true"
+            aria-label="拖动排序"
+            title="拖动排序"
+            @dragstart="handleDragStart(row, $event)"
+            @dragend="handleDragEnd"
+          >
+            ⋮⋮
+          </button>
+        </template>
+      </el-table-column>
       <el-table-column v-for="column in columns" :key="column.prop" :prop="column.prop" :label="column.label" :min-width="column.width || 120">
         <template #default="{ row }">
           <el-image v-if="column.type === 'image' && row[column.prop]" :src="row[column.prop]" fit="cover" class="table-image" />
+          <span v-else-if="column.type === 'image'" class="empty-image">未设置</span>
           <el-tag v-else-if="column.prop === 'status'" :type="row.status === 'published' ? 'success' : 'info'">{{ row.status }}</el-tag>
           <span v-else>{{ formatCell(row[column.prop]) }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" fixed="right" width="220">
+      <el-table-column label="操作" fixed="right" width="150">
         <template #default="{ row }">
           <el-button link type="primary" @click="openEdit(row)">编辑</el-button>
-          <el-dropdown v-if="rowActions?.length" trigger="click" @command="(command: string | number | object) => handleRowAction(String(command), row)">
-            <el-button link type="primary">位置</el-button>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item v-for="action in rowActions" :key="action.command" :command="action.command">{{ action.label }}</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
           <el-popconfirm title="确认移入回收站？之后可在回收站恢复。" @confirm="remove(row)">
             <template #reference>
               <el-button link type="danger">移入回收站</el-button>
@@ -67,6 +86,20 @@
           </el-select>
           <el-date-picker v-else-if="field.type === 'date'" v-model="editing[field.prop]" value-format="YYYY-MM-DD" type="date" />
           <el-input v-else-if="field.type === 'list'" :model-value="(editing[field.prop] || []).join('\n')" type="textarea" :rows="5" @update:model-value="editing[field.prop] = splitList($event)" />
+          <div v-else-if="field.type === 'image'" class="media-picker">
+            <el-image v-if="editing[field.prop]" :src="editing[field.prop]" fit="cover" class="field-image-preview" />
+            <div v-else class="field-image-empty">未选择</div>
+            <div class="media-picker-controls">
+              <el-input v-model="editing[field.prop]" placeholder="可粘贴 URL，也可从媒体库选择" />
+              <div class="media-picker-buttons">
+                <el-button @click="openMediaPicker(field.prop, 'image')">选择媒体</el-button>
+                <el-upload accept="image/*" :show-file-list="false" :http-request="(options: UploadRequestOptions) => uploadFieldMedia(options, field.prop)">
+                  <el-button :loading="mediaUploading">上传并使用</el-button>
+                </el-upload>
+                <el-button v-if="editing[field.prop]" @click="editing[field.prop] = ''">清空</el-button>
+              </div>
+            </div>
+          </div>
           <div v-else-if="field.type === 'links'" class="links-editor">
             <div v-for="(link, index) in editing.links" :key="index" class="link-row">
               <el-select v-model="link.type" placeholder="类型">
@@ -90,13 +123,29 @@
         <el-button type="primary" :loading="saving" @click="save">保存</el-button>
       </template>
     </el-dialog>
+
+    <el-dialog v-model="mediaPickerVisible" title="选择媒体" width="860px">
+      <div class="media-picker-toolbar">
+        <el-input v-model="mediaQuery" placeholder="按文件名或 URL 搜索" clearable @keyup.enter="loadMediaOptions" />
+        <el-button @click="loadMediaOptions">搜索</el-button>
+      </div>
+      <div v-loading="mediaLoading" class="media-grid">
+        <button v-for="asset in mediaOptions" :key="asset.id" class="media-option" type="button" @click="chooseMedia(asset.url)">
+          <el-image v-if="asset.kind === 'image'" :src="asset.url" fit="cover" />
+          <span v-else class="media-kind">{{ asset.kind }}</span>
+          <span class="media-name">{{ asset.originalName }}</span>
+        </button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, toRaw } from 'vue'
+import { computed, onMounted, onUpdated, reactive, ref, toRaw } from 'vue'
+import type { UploadRequestOptions } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { createAdmin, deleteAdmin, listAdmin, updateAdmin } from '../../api/admin'
+import { createAdmin, deleteAdmin, listAdmin, placeAdmin, updateAdmin, uploadMedia } from '../../api/admin'
+import type { MediaAsset } from '../../api/client'
 
 export interface FieldConfig {
   prop: string
@@ -107,11 +156,6 @@ export interface FieldConfig {
   options?: { label: string; value: string | number }[]
 }
 
-export interface RowActionConfig {
-  command: string
-  label: string
-}
-
 const props = defineProps<{
   title: string
   description: string
@@ -119,11 +163,8 @@ const props = defineProps<{
   defaults: Record<string, unknown>
   columns: FieldConfig[]
   fields: FieldConfig[]
-  rowActions?: RowActionConfig[]
-}>()
-
-const emit = defineEmits<{
-  rowAction: [command: string, row: Record<string, any>]
+  sortable?: boolean
+  sortGroupKey?: string | string[]
 }>()
 
 const loading = ref(false)
@@ -133,6 +174,23 @@ const total = ref(0)
 const dialogVisible = ref(false)
 const editing = ref<Record<string, any> | null>(null)
 const query = reactive({ page: 1, pageSize: 20, q: '', status: '' })
+const draggingRow = ref<Record<string, any> | null>(null)
+const dragOverID = ref<number | null>(null)
+const dragSaving = ref(false)
+const mediaPickerVisible = ref(false)
+const mediaLoading = ref(false)
+const mediaUploading = ref(false)
+const mediaTargetProp = ref('')
+const mediaKind = ref('')
+const mediaQuery = ref('')
+const mediaOptions = ref<MediaAsset[]>([])
+const crudRoot = ref<HTMLElement | null>(null)
+const dragEventsBound = ref(false)
+
+const sortGroupKeys = computed(() => {
+  if (!props.sortGroupKey) return []
+  return Array.isArray(props.sortGroupKey) ? props.sortGroupKey : [props.sortGroupKey]
+})
 
 const clonePlain = (value: Record<string, any>) => JSON.parse(JSON.stringify(toRaw(value)))
 
@@ -184,11 +242,118 @@ const remove = async (row: Record<string, any>) => {
   await load()
 }
 
-const handleRowAction = (command: string, row: Record<string, any>) => {
-  emit('rowAction', command, row)
+const rowClassName = ({ row }: { row: Record<string, any> }) => {
+  if (!props.sortable) return ''
+  return ['admin-sort-row', `admin-sort-row-${row.id}`, dragOverID.value === row.id ? 'drag-over-row' : ''].filter(Boolean).join(' ')
+}
+
+const sameSortGroup = (source: Record<string, any>, target: Record<string, any>) => {
+  return sortGroupKeys.value.every((key) => source[key] === target[key])
+}
+
+const handleDragStart = (row: Record<string, any>, event: DragEvent) => {
+  if (!props.sortable || dragSaving.value) return
+  event.dataTransfer?.setData('text/plain', String(row.id))
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = 'move'
+  }
+  draggingRow.value = row
+}
+
+const handleDragEnd = () => {
+  draggingRow.value = null
+  dragOverID.value = null
+}
+
+const rowFromDragEvent = (event: DragEvent) => {
+  const rowElement = (event.target as HTMLElement | null)?.closest('.el-table__body tbody tr')
+  if (!rowElement || !crudRoot.value?.contains(rowElement)) return null
+  const idClass = Array.from(rowElement.classList).find((className) => className.startsWith('admin-sort-row-'))
+  const rowID = idClass ? Number(idClass.replace('admin-sort-row-', '')) : 0
+  return items.value.find((item) => item.id === rowID) || null
+}
+
+const bindTableDragEvents = () => {
+  if (!props.sortable || dragEventsBound.value || !crudRoot.value) return
+  dragEventsBound.value = true
+  crudRoot.value.addEventListener('dragover', (event) => {
+    const row = rowFromDragEvent(event as DragEvent)
+    if (!row || !draggingRow.value || draggingRow.value.id === row.id) return
+    event.preventDefault()
+    dragOverID.value = row.id
+  })
+  crudRoot.value.addEventListener('dragleave', (event) => {
+    const row = rowFromDragEvent(event as DragEvent)
+    if (row && dragOverID.value === row.id) {
+      dragOverID.value = null
+    }
+  })
+  crudRoot.value.addEventListener('drop', async (event) => {
+    const row = rowFromDragEvent(event as DragEvent)
+    if (!row) return
+    event.preventDefault()
+    const rowElement = (event.target as HTMLElement | null)?.closest('.el-table__body tbody tr')
+    const rect = rowElement?.getBoundingClientRect()
+    const position = rect && event instanceof DragEvent && event.clientY > rect.top + rect.height / 2 ? 'after' : 'before'
+    await handleRowDrop(row, position)
+  })
+}
+
+const handleRowDrop = async (row: Record<string, any>, position: 'before' | 'after') => {
+  const source = draggingRow.value
+  dragOverID.value = null
+  draggingRow.value = null
+  if (!source || source.id === row.id || dragSaving.value) return
+  if (!sameSortGroup(source, row)) {
+    ElMessage.warning('只能在同一展示分组内排序')
+    return
+  }
+  dragSaving.value = true
+  try {
+    await placeAdmin(props.resource, source.id, row.id, position)
+    ElMessage.success('顺序已更新')
+    await load()
+  } finally {
+    dragSaving.value = false
+  }
 }
 
 defineExpose({ load })
+
+const openMediaPicker = async (prop: string, kind = '') => {
+  mediaTargetProp.value = prop
+  mediaKind.value = kind
+  mediaPickerVisible.value = true
+  await loadMediaOptions()
+}
+
+const loadMediaOptions = async () => {
+  mediaLoading.value = true
+  try {
+    const result = await listAdmin<MediaAsset>('media', { page: 1, pageSize: 48, q: mediaQuery.value, kind: mediaKind.value })
+    mediaOptions.value = result.items
+  } finally {
+    mediaLoading.value = false
+  }
+}
+
+const chooseMedia = (url: string) => {
+  if (!editing.value || !mediaTargetProp.value) return
+  editing.value[mediaTargetProp.value] = url
+  mediaPickerVisible.value = false
+}
+
+const uploadFieldMedia = async (options: UploadRequestOptions, prop: string) => {
+  if (!editing.value) return
+  mediaUploading.value = true
+  try {
+    const asset = await uploadMedia(options.file)
+    editing.value[prop] = asset.url
+    ElMessage.success('已上传并填入')
+  } finally {
+    mediaUploading.value = false
+  }
+}
 
 const splitList = (value: string) => value.split('\n').map((item) => item.trim()).filter(Boolean)
 
@@ -198,7 +363,12 @@ const formatCell = (value: unknown) => {
   return value ?? ''
 }
 
-onMounted(load)
+onMounted(() => {
+  bindTableDragEvents()
+  void load()
+})
+
+onUpdated(bindTableDragEvents)
 </script>
 
 <style scoped>
@@ -243,10 +413,39 @@ onMounted(load)
   width: 100%;
 }
 
+.sort-hint {
+  --el-alert-padding: 8px 12px;
+}
+
+.drag-handle {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #6b7280;
+  cursor: grab;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.admin-table :deep(.drag-over-row td) {
+  background: #fff7ed;
+}
+
 .table-image {
   width: 72px;
   height: 48px;
   border-radius: 6px;
+}
+
+.empty-image {
+  color: #9ca3af;
+  font-size: 12px;
 }
 
 .admin-pagination {
@@ -270,5 +469,96 @@ onMounted(load)
   display: grid;
   grid-template-columns: 110px 110px 1fr 150px 70px;
   gap: 8px;
+}
+
+.media-picker {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.field-image-preview,
+.field-image-empty {
+  width: 112px;
+  height: 76px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.field-image-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.media-picker-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.media-picker-buttons,
+.media-picker-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.media-picker-toolbar {
+  margin-bottom: 14px;
+}
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  min-height: 180px;
+  max-height: 58vh;
+  overflow: auto;
+}
+
+.media-option {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #ffffff;
+  padding: 8px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.media-option:hover {
+  border-color: #7d1231;
+}
+
+.media-option .el-image,
+.media-kind {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 4px;
+  background: #f3f4f6;
+}
+
+.media-kind {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+}
+
+.media-name {
+  overflow: hidden;
+  color: #374151;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

@@ -39,10 +39,10 @@ export function updateAdmin<T extends { id?: number }>(resource: string, payload
   })
 }
 
-export function movePublication(id: number, action: 'top' | 'up' | 'down') {
-  return apiRequest<Publication>(`/api/admin/publications/${id}/move`, {
+export function placeAdmin(resource: string, id: number, targetId: number, position: 'before' | 'after' = 'before') {
+  return apiRequest<AdminEntity>(`/api/admin/${resource}/${id}/place`, {
     method: 'POST',
-    body: JSON.stringify({ action }),
+    body: JSON.stringify({ targetId, position }),
   })
 }
 

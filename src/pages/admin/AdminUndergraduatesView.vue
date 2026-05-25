@@ -1,11 +1,11 @@
 <template>
-  <AdminCrudView title="Undergraduates" description="管理本科生培养成果" resource="undergraduates" :defaults="defaults" :columns="columns" :fields="fields" />
+  <AdminCrudView title="Undergraduates" description="管理本科生培养成果" resource="undergraduates" :defaults="defaults" :columns="columns" :fields="fields" sortable />
 </template>
 
 <script setup lang="ts">
 import AdminCrudView, { type FieldConfig } from '../../components/admin/AdminCrudView.vue'
 
-const defaults = { name: '', grade: '', major: '', direction: '', achievements: [], status: 'published', sortOrder: 0 }
+const defaults = { name: '', grade: '', major: '', direction: '', achievements: [], status: 'published' }
 const columns: FieldConfig[] = [
   { prop: 'name', label: '姓名', width: 160 },
   { prop: 'grade', label: '年级', width: 100 },
@@ -20,6 +20,5 @@ const fields: FieldConfig[] = [
   { prop: 'direction', label: '方向' },
   { prop: 'achievements', label: '成果', type: 'list' },
   { prop: 'status', label: '发布状态', type: 'select', options: [{ label: 'Published', value: 'published' }, { label: 'Draft', value: 'draft' }] },
-  { prop: 'sortOrder', label: '排序', type: 'number' },
 ]
 </script>
