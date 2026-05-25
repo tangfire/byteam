@@ -36,7 +36,8 @@ const router = createRouter({
                 { path: 'patents', name: 'admin-patents', component: () => import('../pages/admin/AdminPatentsView.vue') },
                 { path: 'research-projects', name: 'admin-research-projects', component: () => import('../pages/admin/AdminResearchProjectsView.vue') },
                 { path: 'media', name: 'admin-media', component: () => import('../pages/admin/AdminMediaView.vue') },
-                { path: 'trash', name: 'admin-trash', component: () => import('../pages/admin/AdminTrashView.vue') }
+                { path: 'trash', name: 'admin-trash', component: () => import('../pages/admin/AdminTrashView.vue') },
+                { path: 'guide', name: 'admin-guide', component: () => import('../pages/admin/AdminGuideView.vue') }
             ]
         }
     ]

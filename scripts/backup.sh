@@ -7,12 +7,27 @@ BACKUP_DIR="${ROOT_DIR}/storage/backups/${STAMP}"
 UPLOADS_DIR="${ROOT_DIR}/storage/uploads"
 CONTENT_DIR="${ROOT_DIR}/storage/content"
 CONTENT_SNAPSHOT="${CONTENT_DIR}/content.json"
+MYSQL_HOST_VALUE="${MYSQL_HOST:-}"
+MYSQL_PORT_VALUE="${MYSQL_PORT:-3306}"
+MYSQL_DATABASE_VALUE="${MYSQL_DATABASE:-byml}"
+MYSQL_USER_VALUE="${MYSQL_USER:-byml}"
+MYSQL_PASSWORD_VALUE="${MYSQL_PASSWORD:-byml_password}"
+MYSQL_ROOT_USER_VALUE="${MYSQL_ROOT_USER:-root}"
+MYSQL_ROOT_PASSWORD_VALUE="${MYSQL_ROOT_PASSWORD:-root_password}"
 
 mkdir -p "${BACKUP_DIR}"
 mkdir -p "${CONTENT_DIR}"
 
 echo "Creating BYML backup at ${BACKUP_DIR}"
 echo "Refreshing git-visible CMS snapshot at ${CONTENT_SNAPSHOT}"
+
+has_direct_mysql() {
+  [ -n "${MYSQL_HOST_VALUE}" ] && command -v mysql >/dev/null 2>&1 && command -v mysqldump >/dev/null 2>&1
+}
+
+has_compose_mysql() {
+  docker compose -f "${ROOT_DIR}/compose.yaml" ps mysql >/dev/null 2>&1
+}
 
 CONTENT_SQL="$(cat <<'SQL'
 SELECT JSON_PRETTY(JSON_OBJECT(
@@ -184,7 +199,16 @@ SELECT JSON_PRETTY(JSON_OBJECT(
 SQL
 )"
 
-if docker compose -f "${ROOT_DIR}/compose.yaml" ps mysql >/dev/null 2>&1; then
+if has_direct_mysql; then
+  mysqldump \
+    -h"${MYSQL_HOST_VALUE}" \
+    -P"${MYSQL_PORT_VALUE}" \
+    -u"${MYSQL_ROOT_USER_VALUE}" \
+    -p"${MYSQL_ROOT_PASSWORD_VALUE}" \
+    --default-character-set=utf8mb4 \
+    --databases "${MYSQL_DATABASE_VALUE}" \
+    | gzip > "${BACKUP_DIR}/byml.sql.gz"
+elif has_compose_mysql; then
   docker compose -f "${ROOT_DIR}/compose.yaml" exec -T mysql \
     mysqldump -uroot -proot_password --default-character-set=utf8mb4 --databases byml \
     | gzip > "${BACKUP_DIR}/byml.sql.gz"
@@ -192,7 +216,19 @@ else
   echo "MySQL container is not running; skipped SQL dump." >&2
 fi
 
-if docker compose -f "${ROOT_DIR}/compose.yaml" ps mysql >/dev/null 2>&1; then
+if has_direct_mysql; then
+  mysql \
+    -h"${MYSQL_HOST_VALUE}" \
+    -P"${MYSQL_PORT_VALUE}" \
+    -u"${MYSQL_USER_VALUE}" \
+    -p"${MYSQL_PASSWORD_VALUE}" \
+    --default-character-set=utf8mb4 \
+    "${MYSQL_DATABASE_VALUE}" \
+    --batch --raw --skip-column-names \
+    -e "${CONTENT_SQL}" \
+    > "${CONTENT_SNAPSHOT}"
+  cp "${CONTENT_SNAPSHOT}" "${BACKUP_DIR}/content.json"
+elif has_compose_mysql; then
   docker compose -f "${ROOT_DIR}/compose.yaml" exec -T mysql \
     mysql -ubyml -pbyml_password --default-character-set=utf8mb4 byml --batch --raw --skip-column-names \
     -e "${CONTENT_SQL}" \

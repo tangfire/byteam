@@ -12,6 +12,7 @@
         <el-menu-item index="/admin/research-projects">Research Projects</el-menu-item>
         <el-menu-item index="/admin/media">Media</el-menu-item>
         <el-menu-item index="/admin/trash">Trash</el-menu-item>
+        <el-menu-item index="/admin/guide">运维说明</el-menu-item>
       </el-menu>
     </el-aside>
     <el-container class="admin-content">

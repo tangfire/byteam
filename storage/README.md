@@ -12,7 +12,8 @@ Recommended routine:
 1. After important admin edits, run `make backup`.
 2. Commit `storage/content/content.json` and any new files under `storage/uploads/`.
 3. Keep timestamped files under `storage/backups/` local unless you explicitly want an offline archive.
-4. On a server, run `make backup-cron-command` and add the printed line to crontab if you want automatic snapshots.
+4. Keep the Docker Compose `backup` service running on the server. It refreshes the snapshot every 6 hours by default.
+5. If you do not use the Compose backup service, run `make backup-cron-command` and add the printed line to crontab as an alternative.
 
 Recovery routine:
 
