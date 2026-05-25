@@ -26,9 +26,11 @@ services:
     ports:
       - "8080:8080"
     volumes:
+      - .:/workspace
       - ./server:/app
       - ./public:/app/public:ro
       - ./storage/uploads:/data/uploads
+      - ~/.ssh:/root/.ssh:ro
     environment:
       PORT: "8080"
       DATABASE_DSN: "byml:byml_password@tcp(mysql:3306)/byml?charset=utf8mb4&parseTime=True&loc=Local"
@@ -37,6 +39,24 @@ services:
       ADMIN_PASSWORD: "admin123456"
       UPLOAD_DIR: "/data/uploads"
       PUBLIC_DIR: "/app/public"
+      PROJECT_ROOT: "/workspace"
+      BACKUP_COMMAND: "/workspace/scripts/backup.sh"
+      GIT_SYNC_COMMAND: "/workspace/scripts/git-sync-backup.sh"
+      MYSQL_HOST: "mysql"
+      MYSQL_PORT: "3306"
+      MYSQL_DATABASE: "byml"
+      MYSQL_USER: "byml"
+      MYSQL_PASSWORD: "byml_password"
+      MYSQL_ROOT_USER: "root"
+      MYSQL_ROOT_PASSWORD: "root_password"
+      BACKUP_KEEP_COUNT: "28"
+      BACKUP_INCLUDE_ASSET_ARCHIVES: "false"
+      GIT_SYNC_REMOTE: "origin"
+      GIT_SYNC_BRANCH: ""
+      GIT_SYNC_NAME: "BYML Backup Bot"
+      GIT_SYNC_EMAIL: "byml-backup@example.local"
+      GIT_SYNC_RUN_BACKUP: "true"
+      GIT_SYNC_ALLOW_UPLOAD_DELETES: "false"
       MAX_UPLOAD_SIZE: "104857600"
     depends_on:
       mysql:
@@ -78,6 +98,8 @@ services:
       MYSQL_ROOT_USER: "root"
       MYSQL_ROOT_PASSWORD: "root_password"
       BACKUP_INTERVAL_SECONDS: "21600"
+      BACKUP_KEEP_COUNT: "28"
+      BACKUP_INCLUDE_ASSET_ARCHIVES: "false"
     depends_on:
       mysql:
         condition: service_healthy
@@ -108,6 +130,7 @@ services:
       GIT_SYNC_EMAIL: "byml-backup@example.local"
       GIT_SYNC_RUN_BACKUP: "false"
       GIT_SYNC_INTERVAL_SECONDS: "21600"
+      GIT_SYNC_ALLOW_UPLOAD_DELETES: "false"
     depends_on:
       mysql:
         condition: service_healthy

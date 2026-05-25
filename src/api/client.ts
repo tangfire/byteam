@@ -112,6 +112,60 @@ export interface TrashItem {
   deletedAt?: string
 }
 
+export interface MaintenanceStatus {
+  contentSnapshot: {
+    exists: boolean
+    path: string
+    size: number
+    updatedAt?: string
+  }
+  weeklyCheckpoints: {
+    path: string
+    count: number
+    keepCount: number
+    newest?: string
+    newestPath?: string
+    dirs: string[]
+  }
+  monthlyCheckpoints: {
+    path: string
+    count: number
+    keepCount: number
+    newest?: string
+    newestPath?: string
+    dirs: string[]
+  }
+  uploads: {
+    exists: boolean
+    path: string
+    fileCount: number
+    totalSize: number
+  }
+  backups: {
+    path: string
+    count: number
+    keepCount: number
+    newest?: string
+    newestPath?: string
+    dirs: string[]
+  }
+  git: {
+    available: boolean
+    branch: string
+    changes: string[]
+    error?: string
+  }
+}
+
+export interface MaintenanceCommandResult {
+  ok: boolean
+  action: string
+  output: string
+  startedAt: string
+  finishedAt: string
+  durationMs: number
+}
+
 export interface HomePayload {
   latestNews: NewsItem[]
   featuredPublications: Publication[]

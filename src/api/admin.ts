@@ -1,4 +1,4 @@
-import { apiRequest, authStore, listQuery, type ListResponse, type MediaAsset, type NewsItem, type Patent, type Person, type Publication, type ResearchProject, type TrashItem, type UndergraduateEducation } from './client'
+import { apiRequest, authStore, listQuery, type ListResponse, type MaintenanceCommandResult, type MaintenanceStatus, type MediaAsset, type NewsItem, type Patent, type Person, type Publication, type ResearchProject, type TrashItem, type UndergraduateEducation } from './client'
 
 export async function login(username: string, password: string) {
   const result = await apiRequest<{ token: string; admin: { id: number; username: string } }>('/api/admin/auth/login', {
@@ -57,6 +57,22 @@ export function restoreTrash(resource: string, id: number) {
 
 export function importPublicMedia() {
   return apiRequest<{ scanned: number; created: number; updated: number; skipped: number }>('/api/admin/media/import-public', {
+    method: 'POST',
+  })
+}
+
+export function getMaintenanceStatus() {
+  return apiRequest<MaintenanceStatus>('/api/admin/maintenance/status')
+}
+
+export function runBackup() {
+  return apiRequest<MaintenanceCommandResult>('/api/admin/maintenance/backup', {
+    method: 'POST',
+  })
+}
+
+export function runGitSync() {
+  return apiRequest<MaintenanceCommandResult>('/api/admin/maintenance/git-sync', {
     method: 'POST',
   })
 }

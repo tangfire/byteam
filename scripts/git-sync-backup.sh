@@ -11,6 +11,7 @@ GIT_SYNC_EMAIL_VALUE="${GIT_SYNC_EMAIL:-byml-backup@example.local}"
 GIT_SYNC_RUN_BACKUP_VALUE="${GIT_SYNC_RUN_BACKUP:-true}"
 GIT_SYNC_DRY_RUN_VALUE="${GIT_SYNC_DRY_RUN:-false}"
 GIT_SYNC_ALLOW_UPLOAD_DELETES_VALUE="${GIT_SYNC_ALLOW_UPLOAD_DELETES:-false}"
+GIT_SYNC_PUSH_VALUE="${GIT_SYNC_PUSH:-true}"
 MIN_CONTENT_BYTES="${GIT_SYNC_MIN_CONTENT_BYTES:-2000}"
 
 if ! command -v git >/dev/null 2>&1; then
@@ -28,7 +29,7 @@ git_cmd() {
 
 if [ "$GIT_SYNC_DRY_RUN_VALUE" = "true" ]; then
   echo "CMS backup working tree changes:"
-  git_cmd status --short -- storage/content/content.json storage/uploads
+  git_cmd status --short -- storage/content/content.json storage/content/checkpoints storage/uploads
   exit 0
 fi
 
@@ -44,6 +45,7 @@ if [ "$CONTENT_BYTES" -lt "$MIN_CONTENT_BYTES" ]; then
 fi
 
 git_cmd add -- storage/content/content.json
+git_cmd add --ignore-removal -- storage/content/checkpoints
 git_cmd add --ignore-removal -- storage/uploads
 
 if [ "$GIT_SYNC_ALLOW_UPLOAD_DELETES_VALUE" = "true" ]; then
@@ -57,7 +59,7 @@ if git_cmd diff --cached --name-status -- storage/uploads | grep -q '^D'; then
   fi
 fi
 
-if git_cmd diff --cached --quiet -- storage/content/content.json storage/uploads; then
+if git_cmd diff --cached --quiet -- storage/content/content.json storage/content/checkpoints storage/uploads; then
   echo "No CMS backup changes to sync."
   exit 0
 fi
@@ -73,6 +75,10 @@ fi
 
 STAMP="$(date '+%Y-%m-%d %H:%M:%S %z')"
 git_cmd -c user.name="$GIT_SYNC_NAME_VALUE" -c user.email="$GIT_SYNC_EMAIL_VALUE" commit -m "chore(cms): backup content ${STAMP}"
-git_cmd push "$GIT_SYNC_REMOTE_VALUE" "HEAD:${GIT_SYNC_BRANCH_VALUE}"
 
-echo "CMS backup synced to ${GIT_SYNC_REMOTE_VALUE}/${GIT_SYNC_BRANCH_VALUE}"
+if [ "$GIT_SYNC_PUSH_VALUE" = "true" ]; then
+  git_cmd push "$GIT_SYNC_REMOTE_VALUE" "HEAD:${GIT_SYNC_BRANCH_VALUE}"
+  echo "CMS backup synced to ${GIT_SYNC_REMOTE_VALUE}/${GIT_SYNC_BRANCH_VALUE}"
+else
+  echo "CMS backup committed locally. Push is disabled because GIT_SYNC_PUSH=false."
+fi

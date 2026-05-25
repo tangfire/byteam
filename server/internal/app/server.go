@@ -81,6 +81,9 @@ func (s *Server) routes() *gin.Engine {
 
 		protected := admin.Group("", s.authMiddleware())
 		protected.GET("/summary", s.adminSummary)
+		protected.GET("/maintenance/status", s.maintenanceStatus)
+		protected.POST("/maintenance/backup", s.runBackup)
+		protected.POST("/maintenance/git-sync", s.runGitSync)
 		protected.GET("/trash", s.listTrash)
 		protected.POST("/trash/:resource/:id/restore", s.restoreTrash)
 

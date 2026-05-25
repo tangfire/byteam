@@ -8,30 +8,38 @@ import (
 )
 
 type Config struct {
-	Port          string
-	DatabaseDSN   string
-	JWTSecret     string
-	AdminUsername string
-	AdminPassword string
-	UploadDir     string
-	PublicDir     string
-	PublicBaseURL string
-	MaxUploadSize int64
-	TokenTTL      time.Duration
+	Port                      string
+	DatabaseDSN               string
+	JWTSecret                 string
+	AdminUsername             string
+	AdminPassword             string
+	UploadDir                 string
+	PublicDir                 string
+	PublicBaseURL             string
+	ProjectRoot               string
+	BackupCommand             string
+	GitSyncCommand            string
+	MaxUploadSize             int64
+	TokenTTL                  time.Duration
+	MaintenanceCommandTimeout time.Duration
 }
 
 func LoadConfig() Config {
 	return Config{
-		Port:          getEnv("PORT", "8080"),
-		DatabaseDSN:   getEnv("DATABASE_DSN", "byml:byml_password@tcp(127.0.0.1:3306)/byml?charset=utf8mb4&parseTime=True&loc=Local"),
-		JWTSecret:     getEnv("JWT_SECRET", "change-me-in-production"),
-		AdminUsername: getEnv("ADMIN_USERNAME", "admin"),
-		AdminPassword: getEnv("ADMIN_PASSWORD", "admin123456"),
-		UploadDir:     getEnv("UPLOAD_DIR", "/data/uploads"),
-		PublicDir:     getEnv("PUBLIC_DIR", "/app/public"),
-		PublicBaseURL: getEnv("PUBLIC_BASE_URL", ""),
-		MaxUploadSize: getEnvInt64("MAX_UPLOAD_SIZE", 100<<20),
-		TokenTTL:      time.Duration(getEnvInt64("TOKEN_TTL_HOURS", 72)) * time.Hour,
+		Port:                      getEnv("PORT", "8080"),
+		DatabaseDSN:               getEnv("DATABASE_DSN", "byml:byml_password@tcp(127.0.0.1:3306)/byml?charset=utf8mb4&parseTime=True&loc=Local"),
+		JWTSecret:                 getEnv("JWT_SECRET", "change-me-in-production"),
+		AdminUsername:             getEnv("ADMIN_USERNAME", "admin"),
+		AdminPassword:             getEnv("ADMIN_PASSWORD", "admin123456"),
+		UploadDir:                 getEnv("UPLOAD_DIR", "/data/uploads"),
+		PublicDir:                 getEnv("PUBLIC_DIR", "/app/public"),
+		PublicBaseURL:             getEnv("PUBLIC_BASE_URL", ""),
+		ProjectRoot:               getEnv("PROJECT_ROOT", ".."),
+		BackupCommand:             getEnv("BACKUP_COMMAND", ""),
+		GitSyncCommand:            getEnv("GIT_SYNC_COMMAND", ""),
+		MaxUploadSize:             getEnvInt64("MAX_UPLOAD_SIZE", 100<<20),
+		TokenTTL:                  time.Duration(getEnvInt64("TOKEN_TTL_HOURS", 72)) * time.Hour,
+		MaintenanceCommandTimeout: time.Duration(getEnvInt64("MAINTENANCE_COMMAND_TIMEOUT_SECONDS", 180)) * time.Second,
 	}
 }
 

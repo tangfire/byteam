@@ -34,18 +34,57 @@
       <ol>
         <li>在后台新增、编辑、发布或隐藏内容。</li>
         <li>Docker Compose 的 <code>backup</code> 服务会自动刷新 <code>storage/content/content.json</code>，默认每 6 小时一次。</li>
-        <li>如果服务器启用了 <code>git-sync</code> 服务，恢复快照和新增上传文件会自动提交并推送到 git。</li>
-        <li>如果没有启用 <code>git-sync</code>，维护者需要定期人工提交 <code>storage/content/content.json</code> 和 <code>storage/uploads/</code>。</li>
-        <li><code>storage/backups/</code> 里的时间戳压缩包只做服务器本地备份，默认不提交。</li>
+        <li>重要修改后可以在本页点“刷新备份快照”，马上把 MySQL 内容写入项目内 JSON。</li>
+        <li>服务器配置好 git 写权限后，可以点“一键同步到 Git”，自动提交并推送恢复快照和新增上传文件。</li>
+        <li><code>storage/backups/</code> 里的时间戳备份只做服务器本地短期回滚，默认保留最近 28 份，不会提交到 git。</li>
       </ol>
+    </section>
+
+    <section class="guide-section">
+      <div class="section-title-row">
+        <div>
+          <h2>一键备份与同步</h2>
+          <p>这两个按钮调用服务器上的同一套脚本，适合重要修改后马上保存恢复点。</p>
+        </div>
+        <el-button :loading="statusLoading" @click="loadStatus">刷新状态</el-button>
+      </div>
+      <div class="guide-grid status-grid">
+        <div class="guide-item">
+          <strong>内容快照</strong>
+          <span>{{ snapshotText }}</span>
+        </div>
+        <div class="guide-item">
+          <strong>上传资源</strong>
+          <span>{{ uploadsText }}</span>
+        </div>
+        <div class="guide-item">
+          <strong>本地时间点备份</strong>
+          <span>{{ backupsText }}</span>
+        </div>
+        <div class="guide-item">
+          <strong>长期内容检查点</strong>
+          <span>{{ checkpointsText }}</span>
+        </div>
+        <div class="guide-item">
+          <strong>Git 状态</strong>
+          <span>{{ gitText }}</span>
+        </div>
+      </div>
+      <div class="guide-actions">
+        <el-button type="primary" :loading="backupRunning" @click="handleBackup">刷新备份快照</el-button>
+        <el-button :loading="syncRunning" @click="handleGitSync">一键同步到 Git</el-button>
+      </div>
+      <pre v-if="commandOutput" class="command-output">{{ commandOutput }}</pre>
     </section>
 
     <section class="guide-section">
       <h2>自动备份</h2>
       <p>
         Docker Compose 里有 <code>backup</code> 服务，默认每 6 小时执行一次 <code>scripts/backup.sh</code>。
-        它会刷新 <code>storage/content/content.json</code>，同时生成本地压缩备份到 <code>storage/backups/</code>。
-        如果数据库暂时不可用，脚本会保留上一份正常快照，不会用空文件覆盖它。
+        它会刷新 <code>storage/content/content.json</code>，同时生成本地短期备份到 <code>storage/backups/</code>。
+        默认保留最近 28 份，也就是 6 小时一次时大约保留 7 天。
+        它还会生成 git 可跟踪的周/月内容检查点，放在 <code>storage/content/checkpoints/</code>。
+        如果数据库暂时不可用，脚本会保留上一份正常快照，不会用空文件覆盖它，也不会留下新的无效时间点备份。
       </p>
       <div class="command-list">
         <code>docker compose up -d backup</code>
@@ -59,7 +98,7 @@
         <code>git-sync</code> 是可选服务。服务器配置好 git 写权限后，它只会提交
         <code>storage/content/content.json</code> 和 <code>storage/uploads/</code>，
         不会提交代码文件或 <code>storage/backups/</code> 压缩包。
-        它默认只提交 backup 服务已经生成好的快照，所以需要和 <code>backup</code> 服务一起运行。
+        后台“一键同步到 Git”会先刷新备份快照再同步；定时 <code>git-sync</code> 服务默认只提交 backup 服务已经生成好的快照，所以需要和 <code>backup</code> 服务一起运行。
         为了防止误删扩散，默认不会自动提交 <code>storage/uploads/</code> 里的删除操作。
       </p>
       <div class="command-list">
@@ -73,7 +112,7 @@
       <h2>误删内容怎么恢复</h2>
       <ol>
         <li>优先进入左侧 Trash 页面，从回收站恢复内容。</li>
-        <li>如果回收站里没有，查看 git 历史里的 <code>storage/content/content.json</code>。</li>
+        <li>如果回收站里没有，查看 <code>storage/content/checkpoints/</code> 或 git 历史里的 <code>storage/content/content.json</code>。</li>
         <li>找到误删前的版本后，可以对照 JSON 手动补回，也可以由维护者执行恢复命令。</li>
       </ol>
     </section>
@@ -85,8 +124,21 @@
         <li>启动数据库：<code>docker compose up -d mysql</code></li>
         <li>验证快照：<code>make restore-content-dry-run</code></li>
         <li>恢复内容表：<code>make restore-content</code></li>
+        <li>如果要恢复某个月的长期检查点，先 dry run：<code>make restore-content-file-dry-run FILE=../storage/content/checkpoints/monthly/2026-05.json</code></li>
+        <li>确认后恢复该文件：<code>make restore-content-file FILE=../storage/content/checkpoints/monthly/2026-05.json</code></li>
         <li>扫描官网静态资源：<code>make media-import</code></li>
         <li>启动全部服务：<code>docker compose up -d</code></li>
+      </ol>
+    </section>
+
+    <section class="guide-section">
+      <h2>本地开发到服务器部署</h2>
+      <ol>
+        <li>本地开发阶段，MySQL 数据在本机 Docker volume 里，不会天然跟着源码走。</li>
+        <li>本地确认内容后，点“刷新备份快照”或执行 <code>make backup</code>，生成最新 <code>storage/content/content.json</code>。</li>
+        <li>把 <code>storage/content/content.json</code> 和 <code>storage/uploads/</code> 里新增资源提交到 git。</li>
+        <li>服务器拉取项目后，执行 <code>make restore-content</code>，把 JSON 恢复进服务器 MySQL。</li>
+        <li>之后服务器上的后台就是正式数据入口；启用 <code>backup</code> 和可选 <code>git-sync</code> 后，新增内容也会继续沉淀回项目目录和 git。</li>
       </ol>
     </section>
 
@@ -98,10 +150,109 @@
         <li>生产环境必须修改默认密码和 <code>JWT_SECRET</code>。</li>
         <li>只有启用 <code>git-sync</code> 后，恢复快照和新增上传文件才会自动推送到 git。</li>
         <li><code>git-sync</code> 默认拒绝异常小的内容快照，也不会自动推送上传资源删除。</li>
+        <li><code>backup</code> 会拒绝比上一份突然小很多的内容快照，默认阈值是上一份的 30%。</li>
+        <li><code>BACKUP_KEEP_COUNT</code> 控制本地时间点备份保留数量；设置为 <code>0</code> 才会关闭自动清理。</li>
       </ul>
     </section>
   </div>
 </template>
+
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
+import { ElMessage } from 'element-plus'
+import { getMaintenanceStatus, runBackup, runGitSync } from '../../api/admin'
+import type { MaintenanceStatus } from '../../api/client'
+
+const status = ref<MaintenanceStatus | null>(null)
+const statusLoading = ref(false)
+const backupRunning = ref(false)
+const syncRunning = ref(false)
+const commandOutput = ref('')
+
+const loadStatus = async () => {
+  statusLoading.value = true
+  try {
+    status.value = await getMaintenanceStatus()
+  } finally {
+    statusLoading.value = false
+  }
+}
+
+const handleBackup = async () => {
+  backupRunning.value = true
+  commandOutput.value = ''
+  try {
+    const result = await runBackup()
+    commandOutput.value = result.output || '备份完成'
+    ElMessage.success('备份快照已刷新')
+    await loadStatus()
+  } finally {
+    backupRunning.value = false
+  }
+}
+
+const handleGitSync = async () => {
+  syncRunning.value = true
+  commandOutput.value = ''
+  try {
+    const result = await runGitSync()
+    commandOutput.value = result.output || '同步完成'
+    ElMessage.success('已同步到 Git')
+    await loadStatus()
+  } finally {
+    syncRunning.value = false
+  }
+}
+
+const snapshotText = computed(() => {
+  const snapshot = status.value?.contentSnapshot
+  if (!snapshot?.exists) return '还没有生成 content.json'
+  return `${formatSize(snapshot.size)}，更新时间 ${formatDate(snapshot.updatedAt)}`
+})
+
+const uploadsText = computed(() => {
+  const uploads = status.value?.uploads
+  if (!uploads?.exists) return '上传目录还不存在'
+  return `${uploads.fileCount} 个文件，合计 ${formatSize(uploads.totalSize)}`
+})
+
+const backupsText = computed(() => {
+  const backups = status.value?.backups
+  if (!backups) return '正在读取'
+  const newest = backups.newest ? `，最新 ${backups.newest}` : ''
+  return `${backups.count} 份，本地最多保留 ${backups.keepCount} 份${newest}`
+})
+
+const checkpointsText = computed(() => {
+  const weekly = status.value?.weeklyCheckpoints
+  const monthly = status.value?.monthlyCheckpoints
+  if (!weekly || !monthly) return '正在读取'
+  const latestMonthly = monthly.newest ? `，最近月检查点 ${monthly.newest}` : ''
+  return `周 ${weekly.count} 份，月 ${monthly.count} 份${latestMonthly}`
+})
+
+const gitText = computed(() => {
+  const git = status.value?.git
+  if (!git) return '正在读取'
+  if (!git.available) return git.error || '当前环境无法读取 git 状态'
+  if (git.changes.length === 0) return `分支 ${git.branch || '-'}，恢复文件没有待提交变化`
+  return `分支 ${git.branch || '-'}，${git.changes.length} 个恢复文件变更待提交`
+})
+
+const formatSize = (size = 0) => {
+  if (size > 1024 * 1024 * 1024) return `${(size / 1024 / 1024 / 1024).toFixed(2)} GB`
+  if (size > 1024 * 1024) return `${(size / 1024 / 1024).toFixed(1)} MB`
+  if (size > 1024) return `${(size / 1024).toFixed(1)} KB`
+  return `${size} B`
+}
+
+const formatDate = (value?: string) => {
+  if (!value) return '-'
+  return new Date(value).toLocaleString()
+}
+
+onMounted(loadStatus)
+</script>
 
 <style scoped>
 .guide-page {
@@ -126,6 +277,43 @@
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   padding: 20px;
+}
+
+.section-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.section-title-row p {
+  margin: -6px 0 14px;
+}
+
+.status-grid {
+  margin-top: 2px;
+}
+
+.guide-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.command-output {
+  margin: 14px 0 0;
+  max-height: 240px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: #111827;
+  border-radius: 8px;
+  color: #e5e7eb;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 12px;
 }
 
 .guide-section h2 {
