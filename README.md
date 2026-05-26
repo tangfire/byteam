@@ -32,6 +32,19 @@ WEB_PORT=127.0.0.1:18080
 
 然后在宝塔站点里把域名反向代理到 `http://127.0.0.1:18080`。旧静态站点目录先保留一段时间，确认新版正常后再清理。
 
+生产 Dockerfile 和 Compose 默认使用 DaoCloud 镜像代理、阿里云 Alpine 源、npmmirror 和 goproxy.cn，减少国内服务器拉镜像和依赖超时。如果仍然出现 `failed to resolve source metadata`、`i/o timeout`，通常是服务器到镜像站网络不稳定，重新执行构建即可：
+
+```bash
+docker compose --env-file .env.prod -f compose.prod.yaml build --no-cache web
+docker compose --env-file .env.prod -f compose.prod.yaml up -d web
+```
+
+如果 API 或 MySQL 镜像也拉取失败，执行完整构建：
+
+```bash
+docker compose --env-file .env.prod -f compose.prod.yaml up -d --build
+```
+
 生产 Compose 会：
 
 - 用 Nginx 托管构建后的前端静态文件。

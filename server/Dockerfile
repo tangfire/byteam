@@ -1,4 +1,7 @@
-FROM golang:1.25-alpine AS development
+ARG GO_IMAGE=m.daocloud.io/docker.io/library/golang:1.25-alpine
+ARG ALPINE_IMAGE=m.daocloud.io/docker.io/library/alpine:3.22
+
+FROM ${GO_IMAGE} AS development
 
 WORKDIR /app
 
@@ -26,7 +29,7 @@ FROM development AS build
 RUN CGO_ENABLED=0 go build -o /tmp/byml-api ./cmd/api
 RUN CGO_ENABLED=0 go build -o /tmp/byml-restore ./cmd/restore
 
-FROM alpine:3.22 AS production
+FROM ${ALPINE_IMAGE} AS production
 
 WORKDIR /app
 

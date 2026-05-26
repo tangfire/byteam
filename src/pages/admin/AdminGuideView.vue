@@ -216,6 +216,20 @@
     </section>
 
     <section class="guide-section">
+      <h2>服务器拉镜像超时怎么办</h2>
+      <p>
+        生产 Dockerfile 和 Compose 默认使用 DaoCloud 镜像代理、阿里云 Alpine 源、npmmirror 和 goproxy.cn。
+        如果构建时看到 <code>failed to resolve source metadata</code>、<code>i/o timeout</code>，
+        通常是服务器到镜像站网络临时不稳定，不是网站代码错误。
+      </p>
+      <div class="command-list">
+        <code>docker compose --env-file .env.prod -f compose.prod.yaml build --no-cache web</code>
+        <code>docker compose --env-file .env.prod -f compose.prod.yaml up -d web</code>
+        <code>docker compose --env-file .env.prod -f compose.prod.yaml up -d --build</code>
+      </div>
+    </section>
+
+    <section class="guide-section">
       <h2>之后更新代码怎么部署</h2>
       <ol>
         <li>如果只是后台里新增、编辑、发布、隐藏内容，不需要重新部署；内容已经在服务器 MySQL 里。</li>

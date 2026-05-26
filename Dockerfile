@@ -1,4 +1,7 @@
-FROM node:22-alpine AS frontend-build
+ARG NODE_IMAGE=m.daocloud.io/docker.io/library/node:22-alpine
+ARG NGINX_IMAGE=m.daocloud.io/docker.io/library/nginx:1.27-alpine
+
+FROM ${NODE_IMAGE} AS frontend-build
 
 WORKDIR /app
 
@@ -14,7 +17,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM nginx:1.27-alpine
+FROM ${NGINX_IMAGE}
 
 ARG ALPINE_MIRROR=https://mirrors.aliyun.com/alpine
 
