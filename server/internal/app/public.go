@@ -29,9 +29,11 @@ func (s *Server) publicHome(c *gin.Context) {
 	}
 
 	var publicationsCount int64
+	var patentsCount int64
 	var projectsCount int64
 	var peopleCount int64
 	s.db.Model(&Publication{}).Where("status = ?", StatusPublished).Count(&publicationsCount)
+	s.db.Model(&Patent{}).Where("status = ?", StatusPublished).Count(&patentsCount)
 	s.db.Model(&ResearchProject{}).Where("status = ?", StatusPublished).Count(&projectsCount)
 	s.db.Model(&Person{}).Where("status = ? AND category = ?", StatusPublished, "graduate").Count(&peopleCount)
 
@@ -39,7 +41,7 @@ func (s *Server) publicHome(c *gin.Context) {
 		"latestNews":           latestNews,
 		"featuredPublications": featured,
 		"stats": gin.H{
-			"publications": publicationsCount,
+			"publications": publicationsCount + patentsCount,
 			"projects":     projectsCount,
 			"teamMembers":  peopleCount,
 		},
