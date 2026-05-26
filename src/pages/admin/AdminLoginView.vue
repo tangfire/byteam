@@ -10,6 +10,14 @@
         <el-form-item>
           <el-input v-model="form.password" placeholder="密码" type="password" autocomplete="current-password" show-password />
         </el-form-item>
+        <el-alert
+          v-if="errorMessage"
+          class="login-error"
+          :title="errorMessage"
+          type="error"
+          show-icon
+          :closable="false"
+        />
         <el-button type="primary" native-type="submit" :loading="loading" class="login-button">登录</el-button>
       </el-form>
     </el-card>
@@ -28,14 +36,27 @@ useAdminElementPlus()
 const route = useRoute()
 const router = useRouter()
 const loading = ref(false)
+const errorMessage = ref('')
 const form = reactive({ username: 'admin', password: 'admin123456' })
 
 const submit = async () => {
+  errorMessage.value = ''
+  if (!form.username.trim() || !form.password) {
+    errorMessage.value = '请输入用户名和密码'
+    ElMessage.warning(errorMessage.value)
+    return
+  }
   loading.value = true
   try {
-    await login(form.username, form.password)
+    await login(form.username.trim(), form.password)
     ElMessage.success('登录成功')
     await router.push(String(route.query.redirect || '/admin/dashboard'))
+  } catch (error) {
+    errorMessage.value = error instanceof Error ? error.message : '登录失败，请检查用户名和密码'
+    if (/invalid username or password/i.test(errorMessage.value)) {
+      errorMessage.value = '用户名或密码不正确'
+    }
+    ElMessage.error(errorMessage.value)
   } finally {
     loading.value = false
   }
@@ -67,5 +88,9 @@ const submit = async () => {
 
 .login-button {
   width: 100%;
+}
+
+.login-error {
+  margin-bottom: 16px;
 }
 </style>

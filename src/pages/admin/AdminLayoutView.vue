@@ -33,6 +33,7 @@
         </div>
         <div class="admin-header-actions">
           <router-link class="header-link" to="/">查看官网</router-link>
+          <router-link class="header-link subtle" to="/admin/usage-guide">使用说明</router-link>
           <router-link class="header-link subtle" to="/admin/guide">运维说明</router-link>
           <el-button plain @click="handleLogout">退出登录</el-button>
         </div>
@@ -84,6 +85,7 @@ const navSections = [
     title: '维护',
     items: [
       { path: '/admin/trash', label: '回收站', short: '回', description: '恢复误删内容和媒体索引' },
+      { path: '/admin/usage-guide', label: '使用说明', short: '用', description: '查看日常录入、编辑和发布流程' },
       { path: '/admin/guide', label: '运维说明', short: '维', description: '查看备份、同步和服务器恢复流程' },
     ],
   },

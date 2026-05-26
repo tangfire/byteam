@@ -43,7 +43,9 @@ const cards = computed(() => [
 ])
 
 const actions = [
+  { title: '查看使用说明', description: '学习新增论文、视频和媒体文件', path: '/admin/usage-guide' },
   { title: '发布新闻', description: '新增或编辑首页新闻动态', path: '/admin/news' },
+  { title: '新增论文', description: '维护论文、附件和视频链接', path: '/admin/publications' },
   { title: '整理媒体', description: '上传资源、修改显示名称', path: '/admin/media' },
   { title: '恢复误删', description: '从回收站找回内容', path: '/admin/trash' },
   { title: '备份同步', description: '刷新快照并同步到 Git', path: '/admin/guide' },

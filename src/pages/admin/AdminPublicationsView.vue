@@ -9,7 +9,24 @@
     :fields="fields"
     sortable
     :sort-group-key="['year', 'kind']"
-  />
+  >
+    <template #header-actions>
+      <router-link class="usage-link" to="/admin/usage-guide">查看使用说明</router-link>
+    </template>
+
+    <template #before-table>
+      <el-alert
+        class="publication-help"
+        type="info"
+        show-icon
+        :closable="false"
+      >
+        <template #title>
+          新增论文时先填年份和类型，前台会自动生成对应年份下的期刊/会议分组；视频论文先到“页面内容”创建视频页，再在论文链接里添加 Video 并选择该视频页。
+        </template>
+      </el-alert>
+    </template>
+  </AdminCrudView>
 </template>
 
 <script setup lang="ts">
@@ -36,3 +53,26 @@ const fields: FieldConfig[] = [
   { prop: 'status', label: '发布状态', type: 'select', options: [{ label: '已发布', value: 'published' }, { label: '草稿', value: 'draft' }] },
 ]
 </script>
+
+<style scoped>
+.usage-link {
+  color: #7d1231;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.usage-link:hover {
+  text-decoration: underline;
+}
+
+.publication-help {
+  border-color: rgba(125, 18, 49, 0.16);
+  background: #fffafb;
+}
+
+.publication-help :deep(.el-alert__title) {
+  color: #4b5563;
+  line-height: 1.6;
+}
+</style>

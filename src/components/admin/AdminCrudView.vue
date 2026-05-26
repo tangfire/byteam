@@ -5,8 +5,13 @@
         <h1>{{ title }}</h1>
         <p>{{ description }}</p>
       </div>
-      <el-button type="primary" @click="openCreate">新增{{ title.replace('管理', '') }}</el-button>
+      <div class="header-actions">
+        <slot name="header-actions" />
+        <el-button type="primary" @click="openCreate">新增{{ title.replace('管理', '') }}</el-button>
+      </div>
     </div>
+
+    <slot name="before-table" />
 
     <div class="admin-panel">
       <div class="admin-toolbar">
@@ -848,6 +853,14 @@ onUpdated(bindTableDragEvents)
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .admin-page-header h1 {
