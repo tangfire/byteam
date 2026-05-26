@@ -1,0 +1,138 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${WEB_PORT:-80}:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ./server
+      target: production
+    environment:
+      PORT: "8080"
+      DATABASE_DSN: "${MYSQL_USER:-byml}:${MYSQL_PASSWORD:-change-this-db-password}@tcp(mysql:3306)/${MYSQL_DATABASE:-byml}?charset=utf8mb4&parseTime=True&loc=Local"
+      JWT_SECRET: "${JWT_SECRET:?set JWT_SECRET in .env.prod}"
+      ADMIN_USERNAME: "${ADMIN_USERNAME:?set ADMIN_USERNAME in .env.prod}"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD:?set ADMIN_PASSWORD in .env.prod}"
+      UPLOAD_DIR: "/data/uploads"
+      PUBLIC_DIR: "/workspace/public"
+      PROJECT_ROOT: "/workspace"
+      BACKUP_COMMAND: "/workspace/scripts/backup.sh"
+      GIT_SYNC_COMMAND: "/workspace/scripts/git-sync-backup.sh"
+      MYSQL_HOST: "mysql"
+      MYSQL_PORT: "3306"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-byml}"
+      MYSQL_USER: "${MYSQL_USER:-byml}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-change-this-db-password}"
+      MYSQL_ROOT_USER: "root"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-change-this-root-password}"
+      BACKUP_KEEP_COUNT: "${BACKUP_KEEP_COUNT:-28}"
+      BACKUP_INCLUDE_ASSET_ARCHIVES: "${BACKUP_INCLUDE_ASSET_ARCHIVES:-false}"
+      GIT_SYNC_REMOTE: "${GIT_SYNC_REMOTE:-origin}"
+      GIT_SYNC_BRANCH: "${GIT_SYNC_BRANCH:-}"
+      GIT_SYNC_NAME: "${GIT_SYNC_NAME:-BYML Backup Bot}"
+      GIT_SYNC_EMAIL: "${GIT_SYNC_EMAIL:-byml-backup@example.local}"
+      GIT_SYNC_RUN_BACKUP: "true"
+      GIT_SYNC_ALLOW_UPLOAD_DELETES: "${GIT_SYNC_ALLOW_UPLOAD_DELETES:-false}"
+      MAX_UPLOAD_SIZE: "${MAX_UPLOAD_SIZE:-104857600}"
+      GIN_MODE: "release"
+    volumes:
+      - .:/workspace
+      - ./public:/workspace/public:ro
+      - ./storage/uploads:/data/uploads
+      - ~/.ssh:/root/.ssh:ro
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-change-this-root-password}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-byml}"
+      MYSQL_USER: "${MYSQL_USER:-byml}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-change-this-db-password}"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-change-this-root-password}"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+
+  backup:
+    image: mysql:8.4
+    working_dir: /workspace
+    command: >
+      sh -c "while true; do
+        /workspace/scripts/backup.sh;
+        sleep $${BACKUP_INTERVAL_SECONDS:-21600};
+      done"
+    volumes:
+      - .:/workspace
+    environment:
+      MYSQL_HOST: "mysql"
+      MYSQL_PORT: "3306"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-byml}"
+      MYSQL_USER: "${MYSQL_USER:-byml}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-change-this-db-password}"
+      MYSQL_ROOT_USER: "root"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-change-this-root-password}"
+      BACKUP_INTERVAL_SECONDS: "${BACKUP_INTERVAL_SECONDS:-21600}"
+      BACKUP_KEEP_COUNT: "${BACKUP_KEEP_COUNT:-28}"
+      BACKUP_INCLUDE_ASSET_ARCHIVES: "${BACKUP_INCLUDE_ASSET_ARCHIVES:-false}"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  git-sync:
+    image: alpine/git:2.49.1
+    working_dir: /workspace
+    command: >
+      sh -c "while true; do
+        /workspace/scripts/git-sync-backup.sh;
+        sleep $${GIT_SYNC_INTERVAL_SECONDS:-21600};
+      done"
+    volumes:
+      - .:/workspace
+      - ~/.ssh:/root/.ssh:ro
+    environment:
+      MYSQL_HOST: "mysql"
+      MYSQL_PORT: "3306"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-byml}"
+      MYSQL_USER: "${MYSQL_USER:-byml}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-change-this-db-password}"
+      MYSQL_ROOT_USER: "root"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-change-this-root-password}"
+      GIT_SYNC_REMOTE: "${GIT_SYNC_REMOTE:-origin}"
+      GIT_SYNC_BRANCH: "${GIT_SYNC_BRANCH:-}"
+      GIT_SYNC_NAME: "${GIT_SYNC_NAME:-BYML Backup Bot}"
+      GIT_SYNC_EMAIL: "${GIT_SYNC_EMAIL:-byml-backup@example.local}"
+      GIT_SYNC_RUN_BACKUP: "false"
+      GIT_SYNC_INTERVAL_SECONDS: "${GIT_SYNC_INTERVAL_SECONDS:-21600}"
+      GIT_SYNC_ALLOW_UPLOAD_DELETES: "${GIT_SYNC_ALLOW_UPLOAD_DELETES:-false}"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    profiles:
+      - git-sync
+    restart: unless-stopped
+
+volumes:
+  mysql_data:

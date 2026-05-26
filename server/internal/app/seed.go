@@ -1,6 +1,9 @@
 package app
 
-import "gorm.io/gorm/clause"
+import (
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
+)
 
 func (s *Server) seedContent() error {
 	if err := s.seedSitePages(); err != nil {
@@ -24,8 +27,8 @@ func (s *Server) seedContent() error {
 	return s.seedPatents()
 }
 
-func (s *Server) seedSitePages() error {
-	items := []SitePage{
+func defaultSitePages() []SitePage {
+	return []SitePage{
 		{
 			Slug:        "about",
 			Title:       "Beyond Machine Learning Group",
@@ -201,7 +204,15 @@ func (s *Server) seedSitePages() error {
 			},
 		},
 	}
-	return s.db.Clauses(clause.OnConflict{Columns: []clause.Column{{Name: "slug"}}, DoNothing: true}).Create(&items).Error
+}
+
+func SeedDefaultSitePages(db *gorm.DB) error {
+	items := defaultSitePages()
+	return db.Clauses(clause.OnConflict{Columns: []clause.Column{{Name: "slug"}}, DoNothing: true}).Create(&items).Error
+}
+
+func (s *Server) seedSitePages() error {
+	return SeedDefaultSitePages(s.db)
 }
 
 func researchDirectionSeed(title string, image string, alt string, leftTitle string, leftText string, rightTitle string, rightText string) map[string]any {

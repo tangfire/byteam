@@ -33,15 +33,18 @@ Local development to server:
 1. Local MySQL data lives in your local Docker volume, not automatically in source control.
 2. Run `make backup` locally, or use the admin Guide page's backup button, before moving content to the server.
 3. Commit `storage/content/content.json` and any new files under `storage/uploads/`.
-4. On the server, pull the project and run `make restore-content` after MySQL is available.
+4. On the server, pull the project, copy `.env.prod.example` to `.env.prod`, and change the passwords/secrets.
+5. Start production MySQL and API with `docker compose --env-file .env.prod -f compose.prod.yaml up -d --build mysql api`.
+6. Run `make restore-content-prod-dry-run`, then `make restore-content-prod`, then `make media-import-prod`.
+7. Start the full production stack with `docker compose --env-file .env.prod -f compose.prod.yaml up -d --build`.
 
 Recovery routine:
 
 1. Restore repo files from git.
-2. Start MySQL with `docker compose up -d mysql`.
-3. Run `make restore-content-dry-run` to validate the JSON snapshot.
-4. Run `make restore-content` to rebuild CMS tables from `storage/content/content.json`.
-5. Run `make media-import` to scan repo assets under `public/` back into the media library.
+2. For local development, start MySQL with `docker compose up -d mysql`, then run `make restore-content-dry-run` and `make restore-content`.
+3. For production, start MySQL and API with `docker compose --env-file .env.prod -f compose.prod.yaml up -d --build mysql api`, then run `make restore-content-prod-dry-run` and `make restore-content-prod`.
+4. Run `make media-import` locally or `make media-import-prod` in production to scan repo assets under `public/` back into the media library.
+5. Start the remaining services.
 
 Long-delayed recovery:
 
@@ -50,4 +53,6 @@ If a problem is discovered much later, inspect `storage/content/checkpoints/mont
 ```bash
 make restore-content-file-dry-run FILE=../storage/content/checkpoints/monthly/2026-05.json
 make restore-content-file FILE=../storage/content/checkpoints/monthly/2026-05.json
+make restore-content-file-prod-dry-run FILE=storage/content/checkpoints/monthly/2026-05.json
+make restore-content-file-prod FILE=storage/content/checkpoints/monthly/2026-05.json
 ```

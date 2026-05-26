@@ -150,13 +150,14 @@
       <h2>MySQL 崩了怎么恢复</h2>
       <ol>
         <li>从 git 拉回完整项目，确认 <code>public/</code>、<code>storage/uploads/</code> 和 <code>storage/content/content.json</code> 都在。</li>
-        <li>启动数据库：<code>docker compose up -d mysql</code></li>
-        <li>验证快照：<code>make restore-content-dry-run</code></li>
-        <li>恢复内容表：<code>make restore-content</code></li>
-        <li>如果要恢复某个月的长期检查点，先 dry run：<code>make restore-content-file-dry-run FILE=../storage/content/checkpoints/monthly/2026-05.json</code></li>
-        <li>确认后恢复该文件：<code>make restore-content-file FILE=../storage/content/checkpoints/monthly/2026-05.json</code></li>
-        <li>扫描官网静态资源：<code>make media-import</code></li>
-        <li>启动全部服务：<code>docker compose up -d</code></li>
+        <li>本地开发恢复：<code>docker compose up -d mysql</code>，再执行 <code>make restore-content-dry-run</code> 和 <code>make restore-content</code>。</li>
+        <li>生产服务器恢复：先确认 <code>.env.prod</code> 已配置，再执行 <code>docker compose --env-file .env.prod -f compose.prod.yaml up -d --build mysql api</code>。</li>
+        <li>生产环境验证快照：<code>make restore-content-prod-dry-run</code></li>
+        <li>生产环境恢复内容表：<code>make restore-content-prod</code></li>
+        <li>如果要恢复某个月的长期检查点，先 dry run：<code>make restore-content-file-prod-dry-run FILE=storage/content/checkpoints/monthly/2026-05.json</code></li>
+        <li>确认后恢复该文件：<code>make restore-content-file-prod FILE=storage/content/checkpoints/monthly/2026-05.json</code></li>
+        <li>扫描官网静态资源：生产环境执行 <code>make media-import-prod</code>，本地执行 <code>make media-import</code>。</li>
+        <li>启动全部生产服务：<code>docker compose --env-file .env.prod -f compose.prod.yaml up -d --build</code></li>
       </ol>
     </section>
 
@@ -166,7 +167,10 @@
         <li>本地开发阶段，MySQL 数据在本机 Docker volume 里，不会天然跟着源码走。</li>
         <li>本地确认内容后，点“刷新备份快照”或执行 <code>make backup</code>，生成最新 <code>storage/content/content.json</code>。</li>
         <li>把 <code>storage/content/content.json</code> 和 <code>storage/uploads/</code> 里新增资源提交到 git。</li>
-        <li>服务器拉取项目后，执行 <code>make restore-content</code>，把 JSON 恢复进服务器 MySQL。</li>
+        <li>服务器拉取项目后，复制 <code>.env.prod.example</code> 为 <code>.env.prod</code>，修改管理员密码、JWT 密钥和 MySQL 密码。</li>
+        <li>服务器先启动生产 MySQL 和 API：<code>docker compose --env-file .env.prod -f compose.prod.yaml up -d --build mysql api</code></li>
+        <li>执行 <code>make restore-content-prod-dry-run</code>，确认快照无误后执行 <code>make restore-content-prod</code>。</li>
+        <li>执行 <code>make media-import-prod</code>，把 <code>public/</code> 里的旧资源登记进媒体库。</li>
         <li>之后服务器上的后台就是正式数据入口；启用 <code>backup</code> 和可选 <code>git-sync</code> 后，新增内容也会继续沉淀回项目目录和 git。</li>
       </ol>
     </section>
@@ -176,11 +180,12 @@
       <ol>
         <li>部署前在本地后台点“刷新备份快照”，确认 <code>storage/content/content.json</code> 是最新内容。</li>
         <li>把最新代码、<code>storage/content/content.json</code>、<code>storage/content/checkpoints/</code> 和 <code>storage/uploads/</code> 推送到 git。</li>
-        <li>服务器拉取项目后，先启动空数据库：<code>docker compose up -d mysql</code></li>
-        <li>验证项目内快照能恢复：<code>make restore-content-dry-run</code></li>
-        <li>确认无误后恢复内容到服务器 MySQL：<code>make restore-content</code></li>
-        <li>把 <code>public/</code> 里的旧图片、PDF、PPT、视频登记进媒体库：<code>make media-import</code></li>
-        <li>启动全部服务：<code>docker compose up -d --build</code></li>
+        <li>服务器拉取项目后，复制 <code>.env.prod.example</code> 为 <code>.env.prod</code>，修改所有默认密码和密钥。</li>
+        <li>先启动生产 MySQL 和 API：<code>docker compose --env-file .env.prod -f compose.prod.yaml up -d --build mysql api</code></li>
+        <li>验证项目内快照能恢复：<code>make restore-content-prod-dry-run</code></li>
+        <li>确认无误后恢复内容到服务器 MySQL：<code>make restore-content-prod</code></li>
+        <li>把 <code>public/</code> 里的旧图片、PDF、PPT、视频登记进媒体库：<code>make media-import-prod</code></li>
+        <li>启动全部服务：<code>docker compose --env-file .env.prod -f compose.prod.yaml up -d --build</code></li>
         <li>访问前台和后台确认内容正常；之后服务器后台就是正式内容入口。</li>
       </ol>
     </section>
@@ -188,9 +193,10 @@
     <section class="guide-section warning-section">
       <h2>注意事项</h2>
       <ul>
-        <li><code>make restore-content</code> 会重建内容表和媒体索引，执行前一定先跑 dry run。</li>
+        <li><code>make restore-content</code> 和 <code>make restore-content-prod</code> 会重建内容表和媒体索引，执行前一定先跑 dry run。</li>
         <li>管理员账号不在 <code>content.json</code> 里，由环境变量 <code>ADMIN_USERNAME</code> 和 <code>ADMIN_PASSWORD</code> 初始化。</li>
         <li>生产环境必须修改默认密码和 <code>JWT_SECRET</code>。</li>
+        <li>真实生产配置在 <code>.env.prod</code>，这个文件已被 git 忽略，不要提交到仓库。</li>
         <li>只有启用 <code>git-sync</code> 后，恢复快照和新增上传文件才会自动推送到 git。</li>
         <li><code>git-sync</code> 默认拒绝异常小的内容快照，也不会自动推送上传资源删除。</li>
         <li><code>backup</code> 会拒绝比上一份突然小很多的内容快照，默认阈值是上一份的 30%。</li>
@@ -224,7 +230,7 @@ const takeoverCards = [
   { title: '日常更新', text: '进入对应管理页新增或编辑内容，确认无误后发布；不需要改前端源码，也不需要重新构建前端。' },
   { title: '重要修改', text: '发布重要内容后，来这里点“刷新备份快照”；服务器配置了 Git 写权限时，再点“一键同步到 Git”。' },
   { title: '误删恢复', text: '先去回收站恢复；如果发现太晚，再从 storage/content/checkpoints 或 git 历史恢复。' },
-  { title: '服务器空库', text: '拉取项目后先启动 MySQL，再执行 make restore-content-dry-run，确认没问题后执行 make restore-content。' },
+  { title: '服务器空库', text: '拉取项目后先配置 .env.prod，启动生产 MySQL 和 API，再执行 make restore-content-prod-dry-run，确认没问题后执行 make restore-content-prod。' },
 ]
 
 const loadStatus = async () => {

@@ -2325,6 +2325,397 @@
       "updatedAt": "2026-05-25T03:25:59"
     }
   ],
+  "sitePages": [
+    {
+      "id": 1,
+      "slug": "about",
+      "title": "Beyond Machine Learning Group",
+      "status": "published",
+      "content": {
+        "vision": {
+          "text": "We are pioneering the next generation of omni-modal foundation models that seamlessly unify temporal, visual, textual, and sensor modalities. Our work directly supports national priorities in critical domains:",
+          "quote": "Bridging multimodal intelligence with real-world impact through continuous innovation and cross-domain knowledge transfer.",
+          "title": "Strategic Vision",
+          "domains": [
+            "Smart Healthcare",
+            "Industry 4.0",
+            "Sustainable AI",
+            "Edge Intelligence"
+          ]
+        },
+        "mission": {
+          "text": "We pioneer foundational theories and scalable frameworks to overcome challenges in multimodal data across its entire lifecycle. Our research bridges the gap between theoretical innovation and practical deployment in complex real-world scenarios.",
+          "title": "Our Mission"
+        },
+        "subtitle": "Advancing Multimodal Intelligence for Real-World Impact",
+        "expertise": [
+          {
+            "icon": "Connection",
+            "title": "Heterogeneity-Aware Learning",
+            "description": "Federated optimization for distributed multimodal systems"
+          },
+          {
+            "icon": "Aim",
+            "title": "Noise-Robust Annotation",
+            "description": "Weak supervision techniques for imperfect labeling"
+          },
+          {
+            "icon": "Lock",
+            "title": "Secure Perception",
+            "description": "Privacy-preserving multimodal embeddings"
+          },
+          {
+            "icon": "Refresh",
+            "title": "Cross-Modal Transfer",
+            "description": "Knowledge sharing across different data modalities"
+          }
+        ],
+        "researchThrusts": [
+          {
+            "icon": "Search",
+            "items": [
+              "Cross-modal alignment of medical time-series, imaging, and clinical text",
+              "Contrastive learning for video understanding (visual, audio, text)",
+              "Spatiotemporal fusion of heterogeneous IoT sensor data",
+              "Self-supervised pretraining for multimodal foundation models"
+            ],
+            "title": "Multimodal Representation Learning"
+          },
+          {
+            "icon": "Shield",
+            "items": [
+              "Federated learning for cross-institutional collaboration",
+              "Differential privacy in multimodal data sharing",
+              "Automated lesion annotation with attention mechanisms",
+              "Weakly supervised learning under label scarcity"
+            ],
+            "title": "Decentralized & Privacy-Aware AI"
+          },
+          {
+            "icon": "Setting",
+            "items": [
+              "Unified architectures for seamless modality integration",
+              "Reinforcement learning for industrial optimization",
+              "Interpretable AI with cross-modal reasoning",
+              "Memory-efficient model deployment"
+            ],
+            "title": "AI Infrastructure & Scalability"
+          }
+        ]
+      },
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 1,
+      "updatedAt": "2026-05-25T10:29:37",
+      "description": "Advancing Multimodal Intelligence for Real-World Impact"
+    },
+    {
+      "id": 2,
+      "slug": "contact",
+      "title": "Contact Me",
+      "status": "published",
+      "content": {
+        "email": "ybaoyao@gdut.edu.cn",
+        "title": "Contact Me",
+        "availability": "At any time",
+        "backgroundImage": "/background/ContactBackground.jpg"
+      },
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 2,
+      "updatedAt": "2026-05-25T10:29:37",
+      "description": "At any time"
+    },
+    {
+      "id": 3,
+      "slug": "research-direction",
+      "title": "Research Direction",
+      "status": "published",
+      "content": {
+        "directions": [
+          {
+            "alt": "Medical Time-Series Research",
+            "image": "/currentprojects/001.png",
+            "title": "Medical Time-Series Representation Learning",
+            "sections": [
+              {
+                "text": "Irregular sampling intervals, missing/contaminated data, patient-specific variability.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Multimodal alignment networks for fusing EHRs, imaging, and sensor data; contrastive learning frameworks to reconstruct regularized time-series patterns.",
+                "title": "Solutions"
+              }
+            ]
+          },
+          {
+            "alt": "Federated Learning Research",
+            "image": "/currentprojects/002.png",
+            "title": "Federated Learning for Medical Applications",
+            "sections": [
+              {
+                "text": "Data privacy constraints, siloed datasets, heterogeneous model architectures.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Privacy-preserving collaborative training protocols (e.g., differential autoencoders) with adaptive aggregation mechanisms for cross-institutional knowledge sharing.",
+                "title": "Innovations"
+              }
+            ]
+          },
+          {
+            "alt": "Automated Lesion Annotation",
+            "image": "/currentprojects/003.png",
+            "title": "Automated Lesion Annotation",
+            "sections": [
+              {
+                "text": "Labor-intensive manual labeling, limited annotated samples, cross-modal discrepancies.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Weakly supervised and prompt-based learning to localize lesions in multimodal MRI/CT scans while minimizing clinician workload.",
+                "title": "Approaches"
+              }
+            ]
+          },
+          {
+            "alt": "Video Content Intelligence",
+            "image": "/currentprojects/004.jpg",
+            "title": "Short-Form Video Content Intelligence",
+            "sections": [
+              {
+                "text": "Multimodal data fusion (audio, text, video), real-time interpretation, copyright/ethics compliance.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Large-scale pretrained models with attention mechanisms for contextual reasoning; AI-driven metadata tagging for content authorization.",
+                "title": "Tools"
+              }
+            ]
+          },
+          {
+            "alt": "IoT Supply Chain",
+            "image": "/currentprojects/005.jpg",
+            "title": "Industrial IoT & Supply Chain Optimization",
+            "sections": [
+              {
+                "text": "Multi-tier communication latency, dynamic resource allocation, cybersecurity risks.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Reinforcement learning for adaptive scheduling; federated edge computing to balance efficiency and data sovereignty.",
+                "title": "Solutions"
+              }
+            ]
+          },
+          {
+            "alt": "Algorithm Research",
+            "image": "/currentprojects/006.png",
+            "title": "Foundational Algorithm Research",
+            "sections": [
+              {
+                "text": "Model explainability in black-box AI, memory-efficient architectures, robust generalization under limited labels.",
+                "title": "Focus Areas"
+              },
+              {
+                "text": "Hybrid frameworks combining causal reasoning, prompt engineering, and adversarial robustness testing.",
+                "title": "Breakthroughs"
+              }
+            ]
+          },
+          {
+            "alt": "Instance Segmentation",
+            "image": "/currentprojects/007.png",
+            "title": "Weak Supervised Instance Segmentation",
+            "sections": [
+              {
+                "text": "Mask merging often occurs for densely packed objects of the same class.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Contrastive learning to enhance instance discrimination; leveraging motion cues (in video data) or geometric priors.",
+                "title": "Solutions"
+              }
+            ]
+          }
+        ]
+      },
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 3,
+      "updatedAt": "2026-05-26T00:48:18",
+      "description": "Research directions and technical focus areas"
+    },
+    {
+      "id": 4,
+      "slug": "videomind",
+      "title": "VideoMind: An Omni-Modal Video Dataset with Intent Grounding for Deep-Cognitive Video Understanding",
+      "status": "published",
+      "content": {
+        "links": [
+          {
+            "url": "https://github.com/cdx-cindy/VideoMind",
+            "type": "code",
+            "label": "Code"
+          },
+          {
+            "url": "https://arxiv.org/abs/2507.18552",
+            "type": "paper",
+            "label": "Paper"
+          },
+          {
+            "url": "https://opendatalab.com/Dixin/VideoMind",
+            "type": "data",
+            "label": "Data"
+          }
+        ],
+        "title": "VideoMind: An Omni-Modal Video Dataset with\nIntent Grounding for Deep-Cognitive Video Understanding",
+        "results": {
+          "text": "we present the cross-modal retrieval results of several standard video-centric foundation models, including InternVideo, UMT-L, CLIP-VIP, mPLUG-2, and VAST.",
+          "title": "Results",
+          "figures": [
+            {
+              "image": "/VideoMind/results001.jpg",
+              "title": "Results of hybrid-cognitive text-to-video retrieval on VideoMind-3K"
+            },
+            {
+              "image": "/VideoMind/results002.jpg",
+              "title": "Results of hybrid-cognitive video-to-text retrieval on VideoMind-3K"
+            }
+          ]
+        },
+        "citation": "@misc{yang2025videomindomnimodalvideodataset,\n  title={VideoMind: An Omni-Modal Video Dataset with Intent Grounding for Deep-Cognitive Video Understanding},\n  author={Baoyao Yang and Wanyun Li and Dixin Chen and Junxiang Chen and Wenbin Yao and Haifeng Lin},\n  year={2025},\n  eprint={2507.18552},\n  archivePrefix={arXiv},\n  primaryClass={cs.CV},\n  url={https://arxiv.org/abs/2507.18552},\n}",
+        "statistics": {
+          "text": "The dataset contains 110K video samples, each of which is ac-companied by audio, as well as systematic and detailed textual descriptions.",
+          "image": "/VideoMind/caterogy.png",
+          "title": "Dataset statistics",
+          "charts": [
+            {
+              "alt": "ASR length",
+              "image": "/VideoMind/ASR_length.png"
+            },
+            {
+              "alt": "Duration",
+              "image": "/VideoMind/duration.png"
+            },
+            {
+              "alt": "OCR length",
+              "image": "/VideoMind/OCR_length.png"
+            }
+          ]
+        },
+        "introduction": {
+          "text": "VideoMind is a large-scale video-centric multimodal dataset that can be used to learn powerful and transferable text-video representations for video understanding tasks such as video question answering and video retrieval. The corresponding description of each video corresponds to three layers, namely factual layer, abstract layer, intentional layer.",
+          "image": "/VideoMind/Examples-v2.jpg",
+          "items": [
+            "The factual layer includes visual description, OCR of video frames, ASR of videos, description of audio, and the title of the original video",
+            "The intentional layer consists of two parts: the intent of the video uploader and the intent of the video main character"
+          ],
+          "title": "What is VideoMind?"
+        }
+      },
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 4,
+      "updatedAt": "2026-05-25T10:29:37",
+      "description": "VideoMind dataset page"
+    },
+    {
+      "id": 5,
+      "slug": "dr-baoyao-yang",
+      "title": "Dr. Baoyao Yang(Associate Professor)",
+      "status": "published",
+      "content": {
+        "alt": "Dr. Baoyao Yang",
+        "name": "Dr. Baoyao Yang(Associate Professor)",
+        "image": "/currentprojects/yangbaoyao.jpg",
+        "paragraphs": [
+          "Dr. Baoyao Yang, a distinguished young faculty member recruited under the \"Youth Hundred Talents Program\" at Guangdong University of Technology, obtained her Bachelor’s degree from South China University of Technology in 2014 and her Ph.D. from Hong Kong Baptist University in 2018. She has spearheaded several key research projects, including the National Natural Science Foundation General Program, Youth Science Fund, and multiple provincial/ministerial-level scientific research initiatives. Her contributions were recognized with the 2023 Guangdong Province Science and Technology Progress Award (Second Prize, ranked fourth individually).",
+          "Dr. Yang has authored over 50 publications in top-tier journals such as IEEE TIP, TIFS, and TNNLS, as well as leading conferences like AAAI and MICCAI. She holds six authorized national invention patents and emphasizes the integration of industry, academia, and research. Committed to mentorship, she has guided students to win awards in national competitions and helped numerous undergraduates gain admission to prestigious institutions for advanced studies."
+        ]
+      },
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 5,
+      "updatedAt": "2026-05-25T10:29:37",
+      "description": "Faculty profile"
+    },
+    {
+      "id": 6,
+      "slug": "vknow",
+      "title": "vKnow: Decode Omni-modal Intent",
+      "status": "published",
+      "content": {
+        "title": "vKnow: Decode Omni-modal Intent",
+        "dataset": {
+          "image": "/VideoMind/Examples-v2.jpg",
+          "title": "VideoMind-100K Dataset",
+          "imageAlt": "VideoMind Example",
+          "linkPath": "/VideoMind",
+          "linkText": "Learn more →",
+          "description": "VideoMind is a large-scale, video-centric multimodal dataset for learning robust text-video representations. Each video is annotated with three layers: factual, abstract, and intentional, supporting advanced video understanding tasks"
+        },
+        "introduction": {
+          "text": "vKnow is an open framework for video intent intelligence, which mainly includes the following two modules:",
+          "items": [
+            "Publicly releasing VideoMind-100K, the first multimodal dataset annotating factual layer, abstract layer, and intent layer across 100K+ curated videos",
+            "Open-sourcing DeME-7B, a transformer-based architecture specifically designed for deep-cognitive video understanding with video-centric alignment."
+          ],
+          "title": "Introduction"
+        }
+      },
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 6,
+      "updatedAt": "2026-05-25T10:35:11",
+      "description": "vKnow project overview"
+    },
+    {
+      "id": 7,
+      "slug": "video-xiaoqi-zheng-01",
+      "title": "Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations",
+      "status": "published",
+      "content": {
+        "title": "Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations",
+        "video": "/videos/001.mp4"
+      },
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 7,
+      "updatedAt": "2026-05-25T10:29:37",
+      "description": "Publication video"
+    },
+    {
+      "id": 8,
+      "slug": "video-xianrun-xu-01",
+      "title": "Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation",
+      "status": "published",
+      "content": {
+        "title": "Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation",
+        "video": "/videos/003.mp4"
+      },
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 8,
+      "updatedAt": "2026-05-25T10:29:37",
+      "description": "Publication video"
+    },
+    {
+      "id": 9,
+      "slug": "video-yali-ma-01",
+      "title": "Harnessing Feature Distribution Consistency for Federated Learning with Noisy",
+      "status": "published",
+      "content": {
+        "title": "Harnessing Feature Distribution Consistency for Federated Learning with Noisy",
+        "video": "/videos/002.mp4"
+      },
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 9,
+      "updatedAt": "2026-05-25T10:29:37",
+      "description": "Publication video"
+    }
+  ],
   "publications": [
     {
       "id": 1,

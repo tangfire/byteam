@@ -215,6 +215,7 @@ func (b *snapshotBool) UnmarshalJSON(raw []byte) error {
 }
 
 func restoreSnapshot(db *gorm.DB, cfg app.Config, data snapshot) error {
+	includeSitePages := len(data.SitePages) > 0
 	if err := db.AutoMigrate(
 		&app.SitePage{},
 		&app.MediaAsset{},
@@ -230,10 +231,14 @@ func restoreSnapshot(db *gorm.DB, cfg app.Config, data snapshot) error {
 	}
 
 	return db.Transaction(func(tx *gorm.DB) error {
-		if err := clearContentTables(tx); err != nil {
+		if err := clearContentTables(tx, includeSitePages); err != nil {
 			return err
 		}
-		if err := insertAll(tx, mapSitePages(data.SitePages)); err != nil {
+		if includeSitePages {
+			if err := insertAll(tx, mapSitePages(data.SitePages)); err != nil {
+				return err
+			}
+		} else if err := app.SeedDefaultSitePages(tx); err != nil {
 			return err
 		}
 		if err := insertAll(tx, mapNews(data.News)); err != nil {
@@ -261,10 +266,9 @@ func restoreSnapshot(db *gorm.DB, cfg app.Config, data snapshot) error {
 	})
 }
 
-func clearContentTables(tx *gorm.DB) error {
+func clearContentTables(tx *gorm.DB, includeSitePages bool) error {
 	tables := []string{
 		"publication_links",
-		"site_pages",
 		"news_items",
 		"media_assets",
 		"people",
@@ -272,6 +276,9 @@ func clearContentTables(tx *gorm.DB) error {
 		"publications",
 		"patents",
 		"research_projects",
+	}
+	if includeSitePages {
+		tables = append([]string{"publication_links", "site_pages"}, tables[1:]...)
 	}
 	if err := tx.Exec("SET FOREIGN_KEY_CHECKS = 0").Error; err != nil {
 		return err

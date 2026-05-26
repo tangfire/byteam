@@ -146,6 +146,25 @@ cleanup_old_backups() {
 
 CONTENT_SQL="$(cat <<'SQL'
 SELECT JSON_PRETTY(JSON_OBJECT(
+  'sitePages', COALESCE((
+    SELECT JSON_ARRAYAGG(item)
+    FROM (
+      SELECT JSON_OBJECT(
+        'id', id,
+        'slug', slug,
+        'title', title,
+        'description', description,
+        'content', content,
+        'status', status,
+        'sortOrder', sort_order,
+        'createdAt', DATE_FORMAT(created_at, '%Y-%m-%dT%H:%i:%s'),
+        'updatedAt', DATE_FORMAT(updated_at, '%Y-%m-%dT%H:%i:%s'),
+        'deletedAt', DATE_FORMAT(deleted_at, '%Y-%m-%dT%H:%i:%s')
+      ) AS item
+      FROM site_pages
+      ORDER BY sort_order ASC, id ASC
+    ) ordered_site_pages
+  ), JSON_ARRAY()),
   'news', COALESCE((
     SELECT JSON_ARRAYAGG(item)
     FROM (

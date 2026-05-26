@@ -21,6 +21,7 @@ services:
   api:
     build:
       context: ./server
+      target: development
     command: go run ./cmd/api
     working_dir: /app
     ports:
@@ -61,6 +62,11 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
 
   mysql:
     image: mysql:8.4
@@ -102,6 +108,8 @@ services:
       BACKUP_INCLUDE_ASSET_ARCHIVES: "false"
     depends_on:
       mysql:
+        condition: service_healthy
+      api:
         condition: service_healthy
     restart: unless-stopped
 
