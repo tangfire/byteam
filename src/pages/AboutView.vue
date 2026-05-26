@@ -168,14 +168,10 @@ const domains = computed(() => content.vision.domains)
 
 .page-title {
   font-size: 2.8rem;
-  color: #2c3e50;
+  color: #7d1231;
   margin-bottom: 15px;
   font-weight: 700;
-  background: linear-gradient(135deg, #7d1231, #3498db);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.5px;
+  letter-spacing: 0;
   animation: fadeInDown 1s ease-out;
 }
 
@@ -247,7 +243,7 @@ const domains = computed(() => content.vision.domains)
 }
 
 .section-title {
-  color: #2c3e50;
+  color: #7d1231;
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 10px;
@@ -262,20 +258,9 @@ const domains = computed(() => content.vision.domains)
   bottom: -10px;
   left: 0;
   width: 60px;
-  height: 5px;
-  background: linear-gradient(90deg, #7d1231 0%, #a51c41 50%, #7d1231 100%);
-  border-radius: 3px;
-  box-shadow: 0 2px 8px rgba(125, 18, 49, 0.3);
-  animation: shimmer 3s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
+  height: 4px;
+  background: #7d1231;
+  border-radius: 2px;
 }
 
 

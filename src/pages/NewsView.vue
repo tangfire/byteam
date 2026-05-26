@@ -112,14 +112,10 @@ const getDateParts = (timestamp?: string) => {
 
 .page-title {
   font-size: 3rem;
-  color: #2c3e50;
+  color: #7d1231;
   margin-bottom: 15px;
   font-weight: 700;
-  background: linear-gradient(135deg, #7d1231, #3498db);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  letter-spacing: -0.5px;
+  letter-spacing: 0;
 }
 
 .page-subtitle {

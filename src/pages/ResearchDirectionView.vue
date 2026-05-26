@@ -80,14 +80,10 @@ const directions = computed(() => Array.isArray(content.value.directions) ? cont
 }
 
 .research-title {
-  color: #2c3e50;
+  color: #7d1231;
   font-size: 1.8rem;
   font-weight: 600;
   margin: 0;
-  background: linear-gradient(135deg, #7d1231, #3498db);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .research-card {
