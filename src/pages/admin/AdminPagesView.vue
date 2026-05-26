@@ -242,7 +242,7 @@
 
 <script setup lang="ts">
 import { computed, defineComponent, h, nextTick, onMounted, ref, watch, type PropType } from 'vue'
-import { ElButton, ElInput, ElMessage, ElUpload } from 'element-plus'
+import { ElButton, ElInput, ElMessage, ElPopconfirm, ElUpload } from 'element-plus'
 import type { UploadRequestOptions } from 'element-plus'
 import { createSitePage, deleteSitePage, getSitePage, listAdmin, listSitePages, updateSitePage, uploadMedia } from '../../api/admin'
 import type { MediaAsset, SitePage } from '../../api/client'
@@ -625,7 +625,12 @@ const EditableList = defineComponent({
           }, '⋮⋮'),
           h(ElButton, { size: 'small', text: true, disabled: index === 0, onClick: () => move(index, index - 1) }, () => '上移'),
           h(ElButton, { size: 'small', text: true, disabled: index === props.items.length - 1, onClick: () => move(index, index + 1) }, () => '下移'),
-          h(ElButton, { size: 'small', type: 'danger', link: true, onClick: () => emit('remove', index) }, () => '删除'),
+          h(ElPopconfirm, {
+            title: '确认删除这一项？保存后前台将不再显示。',
+            onConfirm: () => emit('remove', index),
+          }, {
+            reference: () => h(ElButton, { size: 'small', type: 'danger', link: true }, () => '删除'),
+          }),
         ]),
         h('div', { class: 'editable-item-fields' }, slots.default?.({ item, index })),
       ])),
@@ -654,7 +659,14 @@ const ImageField = defineComponent({
       h('div', { class: 'media-field-actions' }, [
         h(ElButton, { onClick: () => openMediaPicker(set, props.kind) }, () => '选择媒体'),
         h(ElUpload, { accept: props.kind === 'video' ? '.mp4,video/mp4' : 'image/*', showFileList: false, httpRequest: (options: UploadRequestOptions) => uploadAndSet(options, set) }, () => h(ElButton, { loading: mediaUploading.value }, () => '上传并使用')),
-        props.modelValue ? h(ElButton, { onClick: () => set('') }, () => '清空') : null,
+        props.modelValue
+          ? h(ElPopconfirm, {
+            title: '确认清空这个媒体地址？保存后前台将不再显示这个资源。',
+            onConfirm: () => set(''),
+          }, {
+            reference: () => h(ElButton, null, () => '清空'),
+          })
+          : null,
       ]),
     ])
   },

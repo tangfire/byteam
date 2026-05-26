@@ -60,14 +60,20 @@
       <el-table-column label="操作" fixed="right" width="220">
         <template #default="{ row }">
           <el-button link type="primary" @click="openEdit(row)">编辑</el-button>
-          <el-button
-            link
-            :type="row.status === 'published' ? 'warning' : 'success'"
-            :loading="togglingID === row.id"
-            @click="toggleStatus(row)"
+          <el-popconfirm
+            :title="row.status === 'published' ? '确认隐藏这条内容？隐藏后前台将不再显示。' : '确认发布这条内容？发布后前台将显示。'"
+            @confirm="toggleStatus(row)"
           >
-            {{ row.status === 'published' ? '隐藏' : '发布' }}
-          </el-button>
+            <template #reference>
+              <el-button
+                link
+                :type="row.status === 'published' ? 'warning' : 'success'"
+                :loading="togglingID === row.id"
+              >
+                {{ row.status === 'published' ? '隐藏' : '发布' }}
+              </el-button>
+            </template>
+          </el-popconfirm>
           <el-popconfirm title="确认移入回收站？之后可在回收站恢复。" @confirm="remove(row)">
             <template #reference>
               <el-button link type="danger">移入回收站</el-button>
@@ -119,7 +125,15 @@
                 <el-upload accept="image/*" :show-file-list="false" :http-request="(options: UploadRequestOptions) => uploadFieldMedia(options, field.prop)">
                   <el-button :loading="mediaUploading">上传并使用</el-button>
                 </el-upload>
-                <el-button v-if="editing[field.prop]" @click="editing[field.prop] = ''">清空</el-button>
+                <el-popconfirm
+                  v-if="editing[field.prop]"
+                  title="确认清空这个媒体地址？保存后前台将不再显示这个资源。"
+                  @confirm="editing[field.prop] = ''"
+                >
+                  <template #reference>
+                    <el-button>清空</el-button>
+                  </template>
+                </el-popconfirm>
               </div>
             </div>
           </div>
@@ -155,7 +169,11 @@
                     <el-option v-for="option in linkTypeOptions" :key="option.value" :label="option.label" :value="option.value" />
                   </el-select>
                   <el-input v-model="link.label" class="link-label" placeholder="官网按钮文字" />
-                  <el-button link type="danger" @click="removePublicationLink(index)">删除</el-button>
+                  <el-popconfirm title="确认删除这个附件/链接？保存后前台将不再显示。" @confirm="removePublicationLink(index)">
+                    <template #reference>
+                      <el-button link type="danger">删除</el-button>
+                    </template>
+                  </el-popconfirm>
                 </div>
                 <div class="link-line">
                   <el-input v-model="link.url" :placeholder="linkURLPlaceholder(link)" />
@@ -170,7 +188,6 @@
                   <el-select
                     class="video-page-select"
                     :model-value="selectedVideoSlug(link)"
-                    clearable
                     filterable
                     placeholder="选择站内视频页"
                     @focus="() => loadVideoPages()"
