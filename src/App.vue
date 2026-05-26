@@ -209,8 +209,8 @@ onBeforeUnmount(() => {
 
 
       <!-- 页脚 -->
-      <el-footer height="120px" class="custom-footer">
-        <div class="footer-content" style="height: 100px">
+      <el-footer class="custom-footer">
+        <div class="footer-content">
           <p>Welcome to BYML @ <a class="gdutlink" href="https://www.gdut.edu.cn/"
                                   style="text-decoration: none;color: white" target="_blank" rel="noopener noreferrer">Guangdong University of
             Technology</a></p>
@@ -221,7 +221,7 @@ onBeforeUnmount(() => {
              style="text-decoration: none;color: white" target="_blank" rel="noopener noreferrer">Github-BYML</a>
 
 
-          <p style="margin-top: 20px">© 2025 By Baoyao Yang.</p>
+          <p class="copyright">© 2025 By Baoyao Yang.</p>
           <!--          <div class="social-links" style="line-height: 100px">-->
           <!--            <a href="#" class="social-icon">Facebook</a>-->
           <!--            <a href="#" class="social-icon">Twitter</a>-->
@@ -616,13 +616,23 @@ onBeforeUnmount(() => {
 
 
 .footer-content {
-  text-align: center;
-  padding: 20px;
   color: #fff; /* 设置文字为白色 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  line-height: 1.4;
+  min-height: 0;
+  text-align: center;
 }
 
 .footer-content p {
-  margin: 5px 0;
+  margin: 0;
+}
+
+.footer-content .copyright {
+  margin-top: 4px;
 }
 
 .social-links {
@@ -641,9 +651,15 @@ onBeforeUnmount(() => {
 
 /* 自定义页脚的背景色 */
 .custom-footer {
+  align-items: center;
   background-color: #2c2c2c;
+  box-sizing: border-box;
   color: white;
-  padding: 20px 0;
+  display: flex;
+  height: auto !important;
+  justify-content: center;
+  min-height: 120px;
+  padding: 24px 20px;
 }
 
 
@@ -662,22 +678,8 @@ onBeforeUnmount(() => {
 
 /* 页脚保持在底部 */
 .custom-footer {
-  background-color: #2c2c2c;
-  color: white;
-  padding: 20px 0;
   position: relative;
-  bottom: 0;
   width: 100%;
-}
-
-.footer-content {
-  text-align: center;
-  padding: 20px;
-  color: #fff;
-}
-
-.footer-content p {
-  margin: 5px 0;
 }
 
 .social-links {
