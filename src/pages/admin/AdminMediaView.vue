@@ -140,6 +140,8 @@ const load = async () => {
     const result = await listAdmin<MediaAsset>('media', { page: page.value, pageSize: pageSize.value, q: query.value, kind: kind.value, usage: usage.value })
     items.value = result.items
     total.value = result.total
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '媒体列表加载失败')
   } finally {
     loading.value = false
   }
@@ -164,8 +166,12 @@ const handleUpload = async (options: UploadRequestOptions) => {
   uploading.value = true
   try {
     await uploadMedia(options.file)
+    usage.value = ''
+    page.value = 1
     ElMessage.success('上传成功')
     await load()
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '上传失败')
   } finally {
     uploading.value = false
   }
@@ -175,18 +181,25 @@ const handleImport = async () => {
   importing.value = true
   try {
     const result = await importPublicMedia()
+    usage.value = ''
     ElMessage.success(`扫描完成：新增 ${result.created}，更新 ${result.updated}，跳过 ${result.skipped}`)
     page.value = 1
     await load()
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '扫描失败')
   } finally {
     importing.value = false
   }
 }
 
 const remove = async (id: number) => {
-  await deleteAdmin('media', id)
-  ElMessage.success('已移入回收站')
-  await load()
+  try {
+    await deleteAdmin('media', id)
+    ElMessage.success('已移入回收站')
+    await load()
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '删除失败')
+  }
 }
 
 const formatSize = (size: number) => {
@@ -206,8 +219,12 @@ const formatKind = (value: string) => {
 }
 
 const copyURL = async (url: string) => {
-  await navigator.clipboard.writeText(url)
-  ElMessage.success('URL 已复制')
+  try {
+    await navigator.clipboard.writeText(url)
+    ElMessage.success('URL 已复制')
+  } catch {
+    ElMessage.error('复制失败，请手动复制 URL')
+  }
 }
 
 const openURL = (url: string) => {
@@ -228,6 +245,8 @@ const saveRename = async () => {
     ElMessage.success('显示名称已更新')
     renameVisible.value = false
     await load()
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '保存失败')
   } finally {
     renamingSaving.value = false
   }

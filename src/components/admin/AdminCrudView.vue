@@ -99,7 +99,14 @@
       @size-change="load"
     />
 
-    <el-dialog v-model="dialogVisible" :title="editing?.id ? `编辑${title.replace('管理', '')}` : `新增${title.replace('管理', '')}`" width="900px" class="admin-edit-dialog">
+    <el-dialog
+      v-model="dialogVisible"
+      :title="editing?.id ? `编辑${title.replace('管理', '')}` : `新增${title.replace('管理', '')}`"
+      width="900px"
+      class="admin-edit-dialog"
+      :before-close="beforeDialogClose"
+      @closed="handleDialogClosed"
+    >
       <el-form :model="editing" label-width="120px" class="admin-form" v-if="editing">
         <el-form-item v-for="field in fields" :key="field.prop" :label="field.label">
           <div v-if="field.type === 'color'" class="color-field">
@@ -216,7 +223,7 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button @click="requestCloseDialog">取消</el-button>
         <el-button v-if="editing && editing.status !== 'draft'" :loading="saving" @click="saveWithStatus('draft')">存为草稿</el-button>
         <el-button v-if="editing && editing.status !== 'published'" :loading="saving" @click="saveWithStatus('published')">保存并发布</el-button>
         <el-button type="primary" :loading="saving" @click="save">保存</el-button>
@@ -244,7 +251,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUpdated, reactive, ref, toRaw } from 'vue'
 import type { UploadRequestOptions } from 'element-plus'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { createAdmin, deleteAdmin, listAdmin, listSitePages, placeAdmin, updateAdmin, uploadMedia } from '../../api/admin'
 import type { MediaAsset, PublicationLink, SitePage } from '../../api/client'
 import { legacyVideoRouteSlugs, resolveVideoPagePath, videoPagePath, videoSlugFromPath } from '../../utils/videoLinks'
@@ -276,6 +283,8 @@ const items = ref<Record<string, any>[]>([])
 const total = ref(0)
 const dialogVisible = ref(false)
 const editing = ref<Record<string, any> | null>(null)
+const editingSnapshot = ref('')
+const skipCloseGuard = ref(false)
 const query = reactive({ page: 1, pageSize: 20, q: '', status: '' })
 const draggingRow = ref<Record<string, any> | null>(null)
 const dragOverID = ref<number | null>(null)
@@ -317,6 +326,10 @@ const sortGroupKeys = computed(() => {
 
 const clonePlain = (value: Record<string, any>) => JSON.parse(JSON.stringify(toRaw(value)))
 
+const serializeEditing = () => editing.value ? JSON.stringify(toRaw(editing.value)) : ''
+
+const hasUnsavedChanges = computed(() => Boolean(editing.value) && serializeEditing() !== editingSnapshot.value)
+
 const hasActiveFilters = computed(() => Boolean(query.q || query.status))
 
 const emptyDescription = computed(() => {
@@ -352,6 +365,7 @@ const resetFilters = async () => {
 const openCreate = () => {
   editing.value = clonePlain(props.defaults)
   ensurePublicationLinks()
+  editingSnapshot.value = serializeEditing()
   void loadVideoPagesIfNeeded()
   dialogVisible.value = true
 }
@@ -363,8 +377,41 @@ const openEdit = (row: Record<string, any>) => {
   }
   editing.value = next
   ensurePublicationLinks()
+  editingSnapshot.value = serializeEditing()
   void loadVideoPagesIfNeeded()
   dialogVisible.value = true
+}
+
+const confirmDiscardChanges = async () => {
+  if (!hasUnsavedChanges.value) return true
+  try {
+    await ElMessageBox.confirm('当前弹窗有未保存内容，确认关闭并放弃这些修改？', '未保存修改', {
+      type: 'warning',
+      confirmButtonText: '放弃修改',
+      cancelButtonText: '继续编辑',
+    })
+    return true
+  } catch {
+    return false
+  }
+}
+
+const beforeDialogClose = async (done: () => void) => {
+  if (skipCloseGuard.value || await confirmDiscardChanges()) {
+    done()
+  }
+}
+
+const requestCloseDialog = async () => {
+  if (await confirmDiscardChanges()) {
+    skipCloseGuard.value = true
+    dialogVisible.value = false
+  }
+}
+
+const handleDialogClosed = () => {
+  skipCloseGuard.value = false
+  editingSnapshot.value = ''
 }
 
 const save = async () => {
@@ -378,6 +425,7 @@ const save = async () => {
       await createAdmin(props.resource, editing.value)
     }
     ElMessage.success('已保存')
+    skipCloseGuard.value = true
     dialogVisible.value = false
     await load()
   } catch (error) {

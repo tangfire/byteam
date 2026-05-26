@@ -7,6 +7,21 @@
       </div>
     </div>
 
+    <section class="guide-section takeover-section">
+      <div class="section-title-row">
+        <div>
+          <h2>第一次接手先看这里</h2>
+          <p>日常只需要记住三件事：后台改内容、重要修改后备份、服务器出问题先 dry run 再恢复。</p>
+        </div>
+      </div>
+      <div class="takeover-grid">
+        <div v-for="item in takeoverCards" :key="item.title" class="takeover-card">
+          <strong>{{ item.title }}</strong>
+          <p>{{ item.text }}</p>
+        </div>
+      </div>
+    </section>
+
     <section class="guide-section">
       <h2>这套后台管理了什么</h2>
       <div class="guide-grid">
@@ -71,8 +86,22 @@
         </div>
       </div>
       <div class="guide-actions">
-        <el-button type="primary" :loading="backupRunning" @click="handleBackup">刷新备份快照</el-button>
-        <el-button :loading="syncRunning" @click="handleGitSync">一键同步到 Git</el-button>
+        <el-popconfirm
+          title="确认现在从 MySQL 刷新项目内恢复快照？这不会删除数据。"
+          @confirm="handleBackup"
+        >
+          <template #reference>
+            <el-button type="primary" :loading="backupRunning">刷新备份快照</el-button>
+          </template>
+        </el-popconfirm>
+        <el-popconfirm
+          title="确认执行一键同步到 Git？会先刷新快照，再提交恢复文件和新增上传资源。"
+          @confirm="handleGitSync"
+        >
+          <template #reference>
+            <el-button :loading="syncRunning">一键同步到 Git</el-button>
+          </template>
+        </el-popconfirm>
       </div>
       <pre v-if="commandOutput" class="command-output">{{ commandOutput }}</pre>
     </section>
@@ -189,6 +218,13 @@ const dailySteps = [
   { title: '重要修改手动备份', text: '本页“刷新备份快照”会立刻导出当前数据库内容，适合发布前后使用。' },
   { title: '同步到 Git', text: '服务器配置好写权限后，“一键同步到 Git”会提交恢复快照和新增上传文件。' },
   { title: '短期备份自动清理', text: 'storage/backups/ 默认保留最近 28 份，不会被提交到 git。' },
+]
+
+const takeoverCards = [
+  { title: '日常更新', text: '进入对应管理页新增或编辑内容，确认无误后发布；不需要改前端源码，也不需要重新构建前端。' },
+  { title: '重要修改', text: '发布重要内容后，来这里点“刷新备份快照”；服务器配置了 Git 写权限时，再点“一键同步到 Git”。' },
+  { title: '误删恢复', text: '先去回收站恢复；如果发现太晚，再从 storage/content/checkpoints 或 git 历史恢复。' },
+  { title: '服务器空库', text: '拉取项目后先启动 MySQL，再执行 make restore-content-dry-run，确认没问题后执行 make restore-content。' },
 ]
 
 const loadStatus = async () => {
@@ -329,6 +365,33 @@ onMounted(loadStatus)
 
 .status-grid {
   margin-top: 2px;
+}
+
+.takeover-section {
+  border-color: #ead2d9;
+  background: #fffafb;
+}
+
+.takeover-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.takeover-card {
+  border: 1px solid #ead2d9;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.takeover-card strong {
+  color: #7d1231;
+}
+
+.takeover-card p {
+  margin: 8px 0 0;
+  font-size: 13px;
 }
 
 .guide-actions {

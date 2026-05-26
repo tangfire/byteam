@@ -242,7 +242,7 @@
 
 <script setup lang="ts">
 import { computed, defineComponent, h, nextTick, onMounted, ref, watch, type PropType } from 'vue'
-import { ElButton, ElInput, ElMessage, ElPopconfirm, ElUpload } from 'element-plus'
+import { ElButton, ElInput, ElMessage, ElMessageBox, ElPopconfirm, ElUpload } from 'element-plus'
 import type { UploadRequestOptions } from 'element-plus'
 import { createSitePage, deleteSitePage, getSitePage, listAdmin, listSitePages, updateSitePage, uploadMedia } from '../../api/admin'
 import type { MediaAsset, SitePage } from '../../api/client'
@@ -256,6 +256,7 @@ const loadingPage = ref(false)
 const saving = ref(false)
 const deleting = ref(false)
 const rawJSON = ref('')
+const pageSnapshot = ref('')
 const createDialogVisible = ref(false)
 const creating = ref(false)
 const slugTouched = ref(false)
@@ -271,6 +272,19 @@ const pendingMediaSetter = ref<((url: string) => void) | null>(null)
 const sourceManagedSlugs = new Set(['about', 'contact', 'videomind', 'vknow'])
 
 const content = computed<Record<string, any>>(() => editing.value?.content || {})
+
+const toPlainPage = (page: SitePage) => ({
+  slug: page.slug,
+  title: page.title,
+  description: page.description,
+  content: page.content,
+  status: page.status,
+  sortOrder: page.sortOrder,
+})
+
+const serializePage = () => editing.value ? JSON.stringify(toPlainPage(editing.value)) : ''
+
+const hasUnsavedPageChanges = computed(() => Boolean(editing.value) && serializePage() !== pageSnapshot.value)
 
 const fallbackContent: Record<string, () => Record<string, any>> = {
   'research-direction': () => ({ directions: [] }),
@@ -367,6 +381,7 @@ const loadPages = async () => {
     if (activeSlug.value && !pages.value.some((item) => item.slug === activeSlug.value)) {
       activeSlug.value = ''
       editing.value = null
+      pageSnapshot.value = ''
     }
     if (!activeSlug.value && pages.value.length) {
       await selectPage(pages.value[0].slug)
@@ -378,7 +393,22 @@ const loadPages = async () => {
   }
 }
 
-const selectPage = async (slug: string) => {
+const confirmDiscardPageChanges = async () => {
+  if (!hasUnsavedPageChanges.value) return true
+  try {
+    await ElMessageBox.confirm('当前页面有未保存内容，确认切换并放弃这些修改？', '未保存修改', {
+      type: 'warning',
+      confirmButtonText: '放弃修改',
+      cancelButtonText: '继续编辑',
+    })
+    return true
+  } catch {
+    return false
+  }
+}
+
+const selectPage = async (slug: string, force = false) => {
+  if (!force && slug !== activeSlug.value && !(await confirmDiscardPageChanges())) return
   activeSlug.value = slug
   loadingPage.value = true
   try {
@@ -386,6 +416,7 @@ const selectPage = async (slug: string) => {
     normalizePageContent(page)
     editing.value = page
     rawJSON.value = JSON.stringify(page.content, null, 2)
+    pageSnapshot.value = serializePage()
   } catch (error) {
     ElMessage.error(error instanceof Error ? error.message : '页面内容加载失败')
   } finally {
@@ -401,6 +432,7 @@ const savePage = async () => {
     normalizePageContent(saved)
     editing.value = saved
     rawJSON.value = JSON.stringify(saved.content, null, 2)
+    pageSnapshot.value = serializePage()
     ElMessage.success('页面内容已保存')
     await loadPages()
   } catch (error) {
@@ -454,7 +486,7 @@ const createVideoPage = async () => {
     createDialogVisible.value = false
     ElMessage.success('视频页已创建')
     await loadPages()
-    await selectPage(saved.slug)
+    await selectPage(saved.slug, true)
   } catch (error) {
     ElMessage.error(error instanceof Error ? error.message : '创建失败')
   } finally {
@@ -471,6 +503,7 @@ const deleteCurrentPage = async () => {
     ElMessage.success('已移入回收站')
     activeSlug.value = ''
     editing.value = null
+    pageSnapshot.value = ''
     await loadPages()
   } catch (error) {
     ElMessage.error(error instanceof Error ? error.message : '删除失败')
