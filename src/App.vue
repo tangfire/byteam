@@ -318,6 +318,14 @@ watch(() => route.fullPath, closeMobileMenu)
   .vertical-menu {
     border-right: none;
     padding: 8px 10px 24px;
+    -webkit-tap-highlight-color: rgba(125, 18, 49, 0.12);
+    --el-color-primary: #7d1231;
+    --el-color-primary-light-3: #9f435c;
+    --el-color-primary-light-5: #be7b8d;
+    --el-color-primary-light-7: #deb9c3;
+    --el-color-primary-light-8: #ead0d7;
+    --el-color-primary-light-9: #f6e7eb;
+    --el-color-primary-dark-2: #640e27;
     --el-menu-active-color: #7d1231;
     --el-menu-hover-text-color: #7d1231;
     --el-menu-hover-bg-color: rgba(125, 18, 49, 0.08);
@@ -339,15 +347,26 @@ watch(() => route.fullPath, closeMobileMenu)
 
   .vertical-menu :deep(.el-menu-item:hover),
   .vertical-menu :deep(.el-menu-item:focus),
+  .vertical-menu :deep(.el-menu-item:active),
   .vertical-menu :deep(.el-sub-menu__title:hover),
-  .vertical-menu :deep(.el-sub-menu__title:focus) {
+  .vertical-menu :deep(.el-sub-menu__title:focus),
+  .vertical-menu :deep(.el-sub-menu__title:active) {
     background: rgba(125, 18, 49, 0.08) !important;
     color: #7d1231 !important;
   }
 
   .vertical-menu :deep(.el-menu-item:hover a),
-  .vertical-menu :deep(.el-menu-item:focus a) {
+  .vertical-menu :deep(.el-menu-item:focus a),
+  .vertical-menu :deep(.el-menu-item:active a) {
     color: #7d1231 !important;
+  }
+
+  .vertical-menu :deep(.el-sub-menu.is-opened > .el-sub-menu__title),
+  .vertical-menu :deep(.el-sub-menu.is-opened > .el-sub-menu__title:hover),
+  .vertical-menu :deep(.el-sub-menu.is-opened > .el-sub-menu__title:focus),
+  .vertical-menu :deep(.el-sub-menu.is-opened > .el-sub-menu__title:active) {
+    color: #7d1231 !important;
+    background: rgba(125, 18, 49, 0.08) !important;
   }
 
   .vertical-menu :deep(.el-menu-item.is-active) {
