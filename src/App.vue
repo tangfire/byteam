@@ -145,6 +145,7 @@ onBeforeUnmount(() => {
             @select="handleSelect"
             :router="true"
             :popper-offset="16"
+            popper-class="site-nav-popper"
             text-color="#2f3542"
         >
           <!-- Logo 区域 -->
@@ -256,6 +257,61 @@ onBeforeUnmount(() => {
     height: auto;
   }
 
+  .vertical-menu {
+    border-right: none;
+    --el-menu-active-color: #7d1231;
+    --el-menu-hover-text-color: #fff;
+    --el-menu-hover-bg-color: #7d1231;
+    --el-menu-text-color: #2f3542;
+  }
+
+  .vertical-menu .el-menu-item,
+  .vertical-menu .el-sub-menu__title {
+    height: 48px;
+    line-height: 48px;
+    font-size: 16px;
+  }
+
+  .vertical-menu :deep(.el-menu-item),
+  .vertical-menu :deep(.el-sub-menu__title) {
+    color: #2f3542 !important;
+    background: transparent !important;
+  }
+
+  .vertical-menu :deep(.el-menu-item:hover),
+  .vertical-menu :deep(.el-sub-menu__title:hover) {
+    background: #7d1231 !important;
+    color: #fff !important;
+  }
+
+  .vertical-menu :deep(.el-menu-item:hover a) {
+    color: #fff !important;
+  }
+
+  .vertical-menu :deep(.el-menu-item.is-active) {
+    color: #7d1231 !important;
+    background: rgba(125, 18, 49, 0.08) !important;
+    font-weight: 600;
+  }
+
+  .vertical-menu :deep(.el-menu-item.is-active:hover) {
+    color: #fff !important;
+    background: #7d1231 !important;
+  }
+
+  .vertical-menu :deep(.el-sub-menu.is-active > .el-sub-menu__title) {
+    color: #7d1231 !important;
+    font-weight: 600;
+  }
+
+  .vertical-menu :deep(.el-sub-menu.is-active > .el-sub-menu__title:hover) {
+    color: #fff !important;
+  }
+
+  .vertical-menu :deep(.el-menu--inline) {
+    background: transparent !important;
+  }
+
   .el-menu-item a {
     color: #333b49 !important;  /* 与PC端保持一致 */
     text-decoration: none;
@@ -309,19 +365,8 @@ onBeforeUnmount(() => {
     height: auto !important;
   }
 
-  .vertical-menu {
-    border-right: none;
-  }
-
   .common-layout {
     padding-bottom: env(safe-area-inset-bottom);
-  }
-
-  .vertical-menu .el-menu-item,
-  .vertical-menu .el-sub-menu__title {
-    height: 48px;
-    line-height: 48px;
-    font-size: 16px;
   }
 
   .el-main {
@@ -332,33 +377,6 @@ onBeforeUnmount(() => {
     overflow-y: hidden !important; /* 禁用垂直滚动 */
   }
 
-
-  /* 新增穿透选择器 */
-  .vertical-menu :deep(.el-menu-item) {
-    background-color: rgba(0, 0, 0, 0) !important;
-  }
-
-  .vertical-menu :deep(.el-menu-item.is-active) {
-    color: #7d1231 !important;
-    background-color: transparent !important;
-  }
-
-  .vertical-menu :deep(.el-sub-menu.is-active) > .el-sub-menu__title {
-    color: #7d1231 !important;
-  }
-
-  /* 子菜单激活项 */
-  .vertical-menu :deep(.el-menu--inline) .el-menu-item.is-active {
-    color: #7d1231 !important;
-    background: transparent !important;
-  }
-
-  /* 悬停同步 */
-  .vertical-menu :deep(.el-menu-item:hover),
-  .vertical-menu :deep(.el-sub-menu__title:hover) {
-    background-color: #7d1231 !important;
-    color: #f2f2f2 !important;
-  }
 
   .mobile-menu-content {
     position: fixed;
@@ -459,15 +477,18 @@ onBeforeUnmount(() => {
 }
 
 
-.el-menu {
+.el-menu-demo {
   height: 70px;
   position: relative;
   z-index: 1002;
   border-bottom: none !important;
-  /* 移除 contain 以避免影响生产环境的 hover 背景色 */
+  --el-menu-active-color: #7d1231;
+  --el-menu-hover-text-color: #7d1231;
+  --el-menu-hover-bg-color: transparent;
+  --el-menu-text-color: #2f3542;
 }
 
-.el-menu::after {
+.el-menu-demo::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -475,23 +496,6 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 3px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 移除子菜单展开时的背景色，避免与 hover 冲突 */
-
-:deep(.el-submenu.is-active:not(.is-opened) .el-submenu__title),
-:deep(.el-submenu__title:hover),
-:deep(.el-menu-item:hover),
-:deep(.el-menu-item.is-active) {
-  color: white !important; /* 强制文字变白 */
-  background: #7d1231 !important;
-}
-
-:deep(.el-submenu.is-active:not(.is-opened) .el-submenu__title i),
-:deep(.el-submenu__title:hover i),
-:deep(.el-menu-item:hover i),
-:deep(.el-menu-item.is-active i) {
-  color: white !important;
 }
 
 .el-menu--horizontal {
@@ -541,18 +545,8 @@ onBeforeUnmount(() => {
   transition: all 0.3s ease;
 }
 
-/* 统一颜色变量 */
-:root {
-  --primary-color: #7d1231;
-  --primary-light: rgba(125, 18, 49, 0.15); /* 加深 hover 背景 */
-  --primary-dark: #5a0c22;
-  --hover-bg: rgba(125, 18, 49, 0.15);
-  --text-default: #2f3542;
-}
-
-/* 菜单项基础样式 - 完全重写 */
-.el-menu--horizontal > .el-menu-item,
-.el-menu--horizontal > .el-sub-menu {
+.el-menu-demo > .el-menu-item,
+.el-menu-demo > .el-sub-menu {
   height: 70px;
   font-size: 15px;
   font-weight: 500;
@@ -562,107 +556,45 @@ onBeforeUnmount(() => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent !important; /* 强制透明背景 */
-}
-
-/* 菜单项内部容器 - 使用伪元素实现背景 */
-.el-menu--horizontal > .el-menu-item::before,
-.el-menu--horizontal > .el-sub-menu::before {
-  content: '' !important;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(125, 18, 49, 0.15) !important;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* Hover 时显示背景 */
-.el-menu--horizontal > .el-menu-item:hover::before,
-.el-menu--horizontal > .el-sub-menu:hover::before {
-  opacity: 1 !important;
-}
-
-/* 确保文字在背景之上 */
-.el-menu--horizontal > .el-menu-item,
-.el-menu--horizontal > .el-sub-menu {
-  z-index: 1;
-}
-
-/* 普通菜单项 hover 时文字变白 */
-.el-menu--horizontal > .el-menu-item:hover {
-  color: white !important;
-}
-
-/* 子菜单标题 hover 时文字也变白 */
-.el-menu--horizontal > .el-sub-menu:hover .el-sub-menu__title {
-  color: white !important;
-}
-
-/* 强制子菜单标题背景透明 */
-.el-menu--horizontal :deep(.el-sub-menu__title) {
+  color: #2f3542 !important;
   background: transparent !important;
 }
 
-/* 激活状态 - 底部边框高亮 */
-.el-menu--horizontal > .el-menu-item.is-active {
-  border-bottom: 3px solid #7d1231 !important;
+.el-menu-demo :deep(.el-sub-menu__title) {
+  height: 70px;
+  padding: 0;
+  border: none !important;
+  color: inherit !important;
+  background: transparent !important;
+}
+
+.el-menu-demo > .el-menu-item:hover,
+.el-menu-demo > .el-sub-menu:hover,
+.el-menu-demo > .el-sub-menu.is-opened {
+  color: #fff !important;
+  background: #7d1231 !important;
+}
+
+.el-menu-demo > .el-menu-item.is-active,
+.el-menu-demo > .el-sub-menu.is-active {
   color: #7d1231 !important;
+  background: #fff !important;
+  border-bottom: 3px solid #7d1231 !important;
   font-weight: 600;
 }
 
-/* 激活状态的背景也显示 */
-.el-menu--horizontal > .el-menu-item.is-active::before {
-  opacity: 1 !important;
+.el-menu-demo > .el-menu-item.is-active:hover,
+.el-menu-demo > .el-sub-menu.is-active:hover,
+.el-menu-demo > .el-sub-menu.is-active.is-opened {
+  color: #fff !important;
+  background: #7d1231 !important;
 }
 
-/* 子菜单弹出层优化 - 使用:deep() 穿透 */
-.el-menu--horizontal .el-menu--popup {
-  min-width: 200px;
-  padding: 8px 0;
-  border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  border: none;
-  background: white !important;
+.el-menu-demo > .el-menu-item::after,
+.el-menu-demo > .el-sub-menu :deep(.el-sub-menu__title)::after {
+  display: none !important;
 }
 
-/* 子菜单项基础样式 */
-.el-menu--horizontal :deep(.el-menu--popup .el-menu-item) {
-  height: 45px !important;
-  line-height: 45px !important;
-  font-size: 14px;
-  padding: 0 20px;
-  margin: 0 !important;
-  background: transparent !important;
-  color: #2f3542 !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 6px;
-  margin: 4px 8px !important;
-}
-
-/* 子菜单项悬停效果 - 使用:deep() 穿透 */
-.el-menu--horizontal :deep(.el-menu--popup .el-menu-item:hover) {
-  background-color: rgba(125, 18, 49, 0.15) !important;
-  color: #7d1231 !important;
-  font-weight: 600 !important;
-  transform: translateX(4px);
-}
-
-/* 确保激活状态也生效 */
-.el-menu--horizontal :deep(.el-menu--popup .el-menu-item.is-active) {
-  color: #7d1231 !important;
-  background: rgba(125, 18, 49, 0.15) !important;
-  font-weight: 600 !important;
-}
-
-/* GitHub 链接样式 */
 .githublink {
   color: inherit;
   text-decoration: none;
@@ -670,7 +602,7 @@ onBeforeUnmount(() => {
 }
 
 .githublink:hover {
-  color: #7d1231 !important;
+  color: inherit !important;
 }
 
 
@@ -764,29 +696,58 @@ onBeforeUnmount(() => {
 </style>
 
 <style>
-/* 全局样式 - 强制覆盖 Element Plus 默认样式 */
-.el-menu--horizontal > .el-menu-item,
-.el-menu--horizontal > .el-sub-menu {
-  background-color: transparent !important;
+/* Element Plus popper is mounted outside App.vue scoped DOM. */
+.site-nav-popper {
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 30px rgba(20, 24, 31, 0.16) !important;
+  overflow: hidden;
 }
 
-.el-menu--horizontal > .el-menu-item:hover,
-.el-menu--horizontal > .el-sub-menu:hover {
-  background-color: rgba(125, 18, 49, 0.15) !important;
-  color: white !important;
+.site-nav-popper .el-menu--popup {
+  min-width: 210px;
+  padding: 8px;
+  border: none !important;
+  background: #fff !important;
+  --el-menu-active-color: #7d1231;
+  --el-menu-hover-text-color: #fff;
+  --el-menu-hover-bg-color: #7d1231;
+  --el-menu-text-color: #2f3542;
 }
 
-.el-menu--horizontal > .el-sub-menu:hover .el-sub-menu__title {
-  color: white !important;
+.site-nav-popper .el-menu-item {
+  height: 42px !important;
+  line-height: 42px !important;
+  margin: 2px 0 !important;
+  padding: 0 14px !important;
+  border-radius: 6px;
+  color: #2f3542 !important;
+  background: transparent !important;
+  font-size: 14px;
+  transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
-.el-menu--horizontal .el-sub-menu__title {
-  background-color: transparent !important;
+.site-nav-popper .el-menu-item:hover,
+.site-nav-popper .el-menu-item:focus {
+  color: #fff !important;
+  background: #7d1231 !important;
+  transform: translateX(3px);
 }
 
-.el-menu--horizontal > .el-menu-item.is-active {
-  background-color: rgba(125, 18, 49, 0.15) !important;
-  color: #7d1231 !important;
-  border-bottom: 3px solid #7d1231 !important;
+.site-nav-popper .el-menu-item:hover a,
+.site-nav-popper .el-menu-item:focus a {
+  color: #fff !important;
+}
+
+.site-nav-popper .el-menu-item.is-active {
+  color: #fff !important;
+  background: #7d1231 !important;
+  font-weight: 600;
+}
+
+.site-nav-popper .el-menu-item a {
+  width: 100%;
+  color: inherit !important;
+  text-decoration: none;
 }
 </style>
