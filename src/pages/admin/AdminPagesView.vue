@@ -66,43 +66,109 @@
             </el-form-item>
 
             <template v-if="editing.slug === 'research-direction'">
-              <EditableList
-                :items="content.directions"
-                add-label="添加研究方向"
-                @add="content.directions.push({ title: '', image: '', alt: '', sections: [] })"
-                @remove="removeAt(content.directions, $event)"
-              >
-                <template #default="{ item }">
-                  <el-input v-model="item.title" placeholder="方向标题" />
-                  <ImageField v-model="item.image" label="配图" />
-                  <el-input v-model="item.alt" placeholder="图片说明" />
-                  <EditableList
-                    :items="item.sections"
-                    add-label="添加文本段"
-                    compact
-                    @add="item.sections.push({ title: '', text: '' })"
-                    @remove="removeAt(item.sections, $event)"
-                  >
-                    <template #default="{ item: section }">
-                      <el-input v-model="section.title" placeholder="小标题，如 Challenges" />
-                      <el-input v-model="section.text" type="textarea" :rows="2" placeholder="正文" />
-                    </template>
-                  </EditableList>
-                </template>
-              </EditableList>
+              <div class="content-editor-section">
+                <div class="section-heading">
+                  <div>
+                    <h3>研究方向列表</h3>
+                    <p>每一项对应前台 Research Direction 页面中的一个研究方向卡片。</p>
+                  </div>
+                  <el-tag type="info">{{ content.directions.length }} 项</el-tag>
+                </div>
+                <EditableList
+                  :items="content.directions"
+                  add-label="添加研究方向"
+                  @add="content.directions.push({ title: '', image: '', alt: '', sections: [] })"
+                  @remove="removeAt(content.directions, $event)"
+                >
+                  <template #default="{ item, index }">
+                    <div class="direction-editor">
+                      <div class="item-title-row">
+                        <span class="item-index">方向 {{ index + 1 }}</span>
+                        <el-input v-model="item.title" placeholder="方向标题" />
+                      </div>
+
+                      <div class="direction-body-grid">
+                        <ImageField v-model="item.image" class="direction-image-field" label="配图" />
+                        <div class="field-stack">
+                          <label>图片说明</label>
+                          <el-input v-model="item.alt" placeholder="用于图片 alt 文本，建议简短描述图片内容" />
+                        </div>
+                      </div>
+
+                      <div class="nested-editor-block">
+                        <div class="nested-heading">
+                          <strong>文本段落</strong>
+                          <span>{{ item.sections?.length || 0 }} 段</span>
+                        </div>
+                        <EditableList
+                          :items="item.sections"
+                          add-label="添加文本段"
+                          compact
+                          @add="item.sections.push({ title: '', text: '' })"
+                          @remove="removeAt(item.sections, $event)"
+                        >
+                          <template #default="{ item: section, index: sectionIndex }">
+                            <div class="section-editor-row">
+                              <span class="subitem-index">{{ sectionIndex + 1 }}</span>
+                              <el-input v-model="section.title" placeholder="小标题，如 Challenges" />
+                              <el-input v-model="section.text" type="textarea" :rows="3" placeholder="正文" />
+                            </div>
+                          </template>
+                        </EditableList>
+                      </div>
+                    </div>
+                  </template>
+                </EditableList>
+              </div>
             </template>
 
             <template v-else-if="editing.slug === 'dr-baoyao-yang'">
-              <el-form-item label="姓名标题">
-                <el-input v-model="content.name" />
-              </el-form-item>
-              <ImageField v-model="content.image" label="照片" />
-              <el-form-item label="图片说明">
-                <el-input v-model="content.alt" />
-              </el-form-item>
-              <el-form-item label="简介段落">
-                <TextListEditor v-model="content.paragraphs" placeholder="每行一段；较长段落也可以直接粘贴" :rows="8" />
-              </el-form-item>
+              <div class="content-editor-section">
+                <div class="section-heading">
+                  <div>
+                    <h3>个人主页资料</h3>
+                    <p>维护前台 Baoyao Yang 页面里的姓名、照片和简介段落。</p>
+                  </div>
+                </div>
+                <div class="profile-editor-grid">
+                  <div class="profile-photo-panel">
+                    <ImageField v-model="content.image" class="profile-photo-field" label="照片" preview-size="portrait" />
+                  </div>
+                  <div class="profile-fields">
+                    <div class="field-stack">
+                      <label>姓名标题</label>
+                      <el-input v-model="content.name" />
+                    </div>
+                    <div class="field-stack">
+                      <label>图片说明</label>
+                      <el-input v-model="content.alt" placeholder="用于图片 alt 文本" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="content-editor-section">
+                <div class="section-heading">
+                  <div>
+                    <h3>简介段落</h3>
+                    <p>每张卡片是一段正文，拖动左侧手柄可以调整顺序。</p>
+                  </div>
+                  <el-tag type="info">{{ content.paragraphs.length }} 段</el-tag>
+                </div>
+                <EditableList
+                  :items="content.paragraphs"
+                  add-label="添加简介段落"
+                  @add="content.paragraphs.push('')"
+                  @remove="removeAt(content.paragraphs, $event)"
+                >
+                  <template #default="{ index }">
+                    <div class="paragraph-editor">
+                      <span class="item-index">段落 {{ index + 1 }}</span>
+                      <el-input v-model="content.paragraphs[index]" type="textarea" :rows="5" placeholder="请输入简介段落" />
+                    </div>
+                  </template>
+                </EditableList>
+              </div>
             </template>
 
             <template v-else-if="editing.slug.startsWith('video-')">
@@ -225,6 +291,17 @@ const pageLabel = (slug: string, title: string) => {
 const normalizePageContent = (page: SitePage) => {
   const fallback = fallbackContent[page.slug]?.() || (page.slug.startsWith('video-') ? { title: '', video: '' } : {})
   page.content = deepMerge(fallback, page.content || {})
+  if (page.slug === 'research-direction') {
+    page.content.directions = normalizeDirections(page.content.directions)
+  } else if (page.slug === 'dr-baoyao-yang') {
+    page.content.name = normalizeText(page.content.name)
+    page.content.image = normalizeText(page.content.image)
+    page.content.alt = normalizeText(page.content.alt)
+    page.content.paragraphs = normalizeTextItems(page.content.paragraphs)
+  } else if (page.slug.startsWith('video-')) {
+    page.content.title = normalizeText(page.content.title)
+    page.content.video = normalizeText(page.content.video)
+  }
 }
 
 const deepMerge = (base: Record<string, any>, value: Record<string, any>) => {
@@ -240,6 +317,47 @@ const deepMerge = (base: Record<string, any>, value: Record<string, any>) => {
 }
 
 const isPlainObject = (value: unknown): value is Record<string, any> => Boolean(value) && typeof value === 'object' && !Array.isArray(value)
+
+const toRecord = (value: unknown): Record<string, any> => isPlainObject(value) ? value : {}
+
+const normalizeText = (value: unknown) => typeof value === 'string' ? value : ''
+
+const normalizeTextItems = (value: unknown) => {
+  if (Array.isArray(value)) {
+    return value.map((item) => typeof item === 'string' ? item : String(item ?? ''))
+  }
+  if (typeof value === 'string') {
+    return value.split('\n').map((item) => item.trim()).filter(Boolean)
+  }
+  return []
+}
+
+const normalizeSections = (value: unknown) => {
+  if (!Array.isArray(value)) return []
+  return value.map((section) => {
+    if (typeof section === 'string') return { title: '', text: section }
+    const record = toRecord(section)
+    return {
+      ...record,
+      title: normalizeText(record.title),
+      text: normalizeText(record.text),
+    }
+  })
+}
+
+const normalizeDirections = (value: unknown) => {
+  if (!Array.isArray(value)) return []
+  return value.map((direction) => {
+    const record = toRecord(direction)
+    return {
+      ...record,
+      title: normalizeText(record.title),
+      image: normalizeText(record.image),
+      alt: normalizeText(record.alt),
+      sections: normalizeSections(record.sections),
+    }
+  })
+}
 
 const loadPages = async () => {
   loading.value = true
@@ -399,6 +517,11 @@ const chooseMedia = (url: string) => {
   mediaPickerVisible.value = false
 }
 
+const previewFileName = (url: string) => {
+  const clean = String(url || '').split('?')[0].split('#')[0]
+  return clean.split('/').filter(Boolean).pop() || clean || '未选择'
+}
+
 const uploadAndSet = async (options: UploadRequestOptions, setter: (url: string) => void) => {
   mediaUploading.value = true
   try {
@@ -470,7 +593,7 @@ const EditableList = defineComponent({
     }
     return () => h('div', { class: ['editable-list', props.compact ? 'compact' : ''] }, [
       ...props.items.map((item, index) => h('div', {
-        class: ['editable-item', overIndex.value === index ? 'drag-over' : ''],
+        class: ['editable-item', props.compact ? 'compact-item' : '', overIndex.value === index ? 'drag-over' : ''],
         onDragover: (event: DragEvent) => {
           if (dragIndex.value === null || dragIndex.value === index) return
           event.preventDefault()
@@ -516,15 +639,17 @@ const ImageField = defineComponent({
     modelValue: { type: String, default: '' },
     label: { type: String, default: '图片' },
     kind: { type: String, default: 'image' },
+    previewSize: { type: String, default: 'default' },
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
     const set = (url: string) => emit('update:modelValue', url)
-    return () => h('div', { class: 'media-field' }, [
+    const isImage = () => props.modelValue && props.kind === 'image'
+    return () => h('div', { class: ['media-field', props.previewSize === 'portrait' ? 'portrait-preview' : ''] }, [
       h('label', props.label),
-      props.modelValue && props.kind === 'image'
+      isImage()
         ? h('img', { src: props.modelValue, alt: '', class: 'media-field-preview' })
-        : h('div', { class: 'media-field-empty' }, props.modelValue || '未选择'),
+        : h('div', { class: 'media-field-empty' }, previewFileName(props.modelValue)),
       h(ElInput, { modelValue: props.modelValue, 'onUpdate:modelValue': set, placeholder: '可粘贴 URL，也可选择/上传媒体' }),
       h('div', { class: 'media-field-actions' }, [
         h(ElButton, { onClick: () => openMediaPicker(set, props.kind) }, () => '选择媒体'),
@@ -547,7 +672,12 @@ watch(editing, async () => {
 .pages-admin,
 .page-form,
 .editable-list,
-.editable-item-fields {
+.editable-item-fields,
+.content-editor-section,
+.direction-editor,
+.field-stack,
+.nested-editor-block,
+.paragraph-editor {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -648,13 +778,49 @@ watch(editing, async () => {
 }
 
 .page-form {
-  max-width: 980px;
+  max-width: 1040px;
 }
 
 .create-video-form {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.content-editor-section {
+  gap: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 16px;
+}
+
+.section-heading,
+.nested-heading,
+.item-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.section-heading {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eef0f3;
+}
+
+.section-heading h3 {
+  margin: 0;
+  color: #25313b;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.section-heading p {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .editable-list.compact {
@@ -664,9 +830,14 @@ watch(editing, async () => {
 .editable-item {
   border: 1px solid #e5e7eb;
   border-radius: 8px;
-  padding: 12px;
-  background: #fafafa;
+  padding: 14px;
+  background: #fbfbfc;
   transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.editable-item.compact-item {
+  padding: 10px;
+  background: #ffffff;
 }
 
 .editable-item.drag-over {
@@ -677,9 +848,11 @@ watch(editing, async () => {
 .editable-item-tools {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   gap: 8px;
   margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eceff3;
 }
 
 .editable-drag-handle {
@@ -702,30 +875,128 @@ watch(editing, async () => {
   align-self: flex-start;
 }
 
-.media-field {
-  display: grid;
-  grid-template-columns: 110px 128px minmax(0, 1fr);
-  gap: 10px;
+.direction-editor {
+  gap: 14px;
+}
+
+.item-title-row {
+  align-items: flex-start;
+}
+
+.item-index,
+.subitem-index {
+  display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
+  justify-content: center;
+  min-width: 74px;
+  height: 32px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.subitem-index {
+  min-width: 32px;
+  height: 30px;
+}
+
+.direction-body-grid,
+.profile-editor-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+  gap: 14px;
+  align-items: start;
+}
+
+.direction-image-field {
+  min-width: 0;
+}
+
+.profile-fields {
+  min-width: 0;
+}
+
+.field-stack {
+  gap: 8px;
+  min-width: 0;
+}
+
+.field-stack label,
+.nested-heading strong {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.nested-editor-block {
+  gap: 10px;
+  border-radius: 8px;
+  background: #f7f8fa;
+  padding: 12px;
+}
+
+.nested-heading {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.section-editor-row {
+  display: grid;
+  grid-template-columns: 32px minmax(180px, 0.45fr) minmax(260px, 1fr);
+  gap: 10px;
+  align-items: start;
+}
+
+.profile-editor-grid {
+  grid-template-columns: minmax(260px, 380px) minmax(0, 1fr);
+}
+
+.profile-photo-panel {
+  min-width: 0;
+}
+
+.paragraph-editor {
+  gap: 10px;
+}
+
+.media-field,
+:deep(.media-field) {
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  gap: 10px 12px;
+  align-items: start;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .media-field label,
-.inline-form-row label {
+:deep(.media-field label) {
+  grid-column: 1 / -1;
   color: #606266;
   font-size: 14px;
+  font-weight: 600;
 }
 
 .media-field-preview,
-.media-field-empty {
+:deep(.media-field-preview),
+.media-field-empty,
+:deep(.media-field-empty) {
   width: 128px;
   height: 82px;
+  max-width: 100%;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   background: #f9fafb;
   object-fit: cover;
+  display: block;
 }
 
-.media-field-empty {
+.media-field-empty,
+:deep(.media-field-empty) {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -736,16 +1007,30 @@ watch(editing, async () => {
   word-break: break-all;
 }
 
-.media-field-actions {
-  grid-column: 3;
+.media-field-actions,
+:deep(.media-field-actions) {
+  grid-column: 2;
   justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
-.inline-form-row {
-  display: grid;
-  grid-template-columns: 110px 1fr;
-  gap: 10px;
-  align-items: start;
+.media-field :deep(.el-input),
+:deep(.media-field .el-input) {
+  min-width: 0;
+}
+
+.media-field.portrait-preview,
+:deep(.media-field.portrait-preview) {
+  grid-template-columns: 160px minmax(0, 1fr);
+}
+
+.media-field.portrait-preview .media-field-preview,
+.media-field.portrait-preview .media-field-empty,
+:deep(.media-field.portrait-preview .media-field-preview),
+:deep(.media-field.portrait-preview .media-field-empty) {
+  width: 160px;
+  height: 190px;
+  object-fit: cover;
 }
 
 .media-picker-toolbar {
@@ -813,6 +1098,24 @@ watch(editing, async () => {
 
   .media-field-actions {
     grid-column: auto;
+  }
+
+  .direction-body-grid,
+  .profile-editor-grid,
+  .section-editor-row {
+    grid-template-columns: 1fr;
+  }
+
+  .item-title-row,
+  .section-heading,
+  .nested-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .item-index,
+  .subitem-index {
+    align-self: flex-start;
   }
 }
 </style>
