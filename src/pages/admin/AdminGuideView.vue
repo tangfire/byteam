@@ -181,12 +181,49 @@
         <li>部署前在本地后台点“刷新备份快照”，确认 <code>storage/content/content.json</code> 是最新内容。</li>
         <li>把最新代码、<code>storage/content/content.json</code>、<code>storage/content/checkpoints/</code> 和 <code>storage/uploads/</code> 推送到 git。</li>
         <li>服务器拉取项目后，复制 <code>.env.prod.example</code> 为 <code>.env.prod</code>，修改所有默认密码和密钥。</li>
+        <li>宝塔已有旧站点时，建议先保留旧站点目录；新版先用 <code>WEB_PORT=127.0.0.1:18080</code> 在本机端口跑起来，验证后再用宝塔反向代理切过去。</li>
         <li>先启动生产 MySQL 和 API：<code>docker compose --env-file .env.prod -f compose.prod.yaml up -d --build mysql api</code></li>
         <li>验证项目内快照能恢复：<code>make restore-content-prod-dry-run</code></li>
         <li>确认无误后恢复内容到服务器 MySQL：<code>make restore-content-prod</code></li>
         <li>把 <code>public/</code> 里的旧图片、PDF、PPT、视频登记进媒体库：<code>make media-import-prod</code></li>
         <li>启动全部服务：<code>docker compose --env-file .env.prod -f compose.prod.yaml up -d --build</code></li>
         <li>访问前台和后台确认内容正常；之后服务器后台就是正式内容入口。</li>
+      </ol>
+    </section>
+
+    <section class="guide-section">
+      <h2>生产环境密码说明</h2>
+      <ul>
+        <li><code>WEB_PORT</code> 是生产 Web 容器暴露端口；宝塔反代部署推荐写成 <code>127.0.0.1:18080</code>，避免容器直接占用公网 80 端口。</li>
+        <li><code>MYSQL_PASSWORD</code> 是后端连接业务数据库用户 <code>byml</code> 的密码。</li>
+        <li><code>MYSQL_ROOT_PASSWORD</code> 是 MySQL <code>root</code> 管理员密码，备份、恢复和健康检查会用到。</li>
+        <li><code>ADMIN_PASSWORD</code> 是后台管理系统登录密码，不是 MySQL 密码。</li>
+        <li><code>JWT_SECRET</code> 用来签发后台登录 token，生产环境必须使用很长的随机字符串。</li>
+        <li>MySQL 第一次初始化后，密码会写入 Docker volume；之后直接改 <code>.env.prod</code> 里的 MySQL 密码不会自动改库内密码，反而可能导致后端连不上。</li>
+      </ul>
+    </section>
+
+    <section class="guide-section">
+      <h2>宝塔站点怎么切换新版</h2>
+      <ol>
+        <li>旧的宝塔静态站点先不要删除，保留一段时间作为回滚方案。</li>
+        <li>新版 Docker Compose 正常启动后，先在服务器验证 <code>curl http://127.0.0.1:18080</code> 能返回页面。</li>
+        <li>宝塔站点里添加反向代理，目标地址填 <code>http://127.0.0.1:18080</code>；域名和 SSL 仍由宝塔原站点处理。</li>
+        <li>确认 Nginx 或宝塔站点允许大文件上传，建议设置 <code>client_max_body_size 100m</code>。</li>
+        <li>切换后检查首页、新闻、成员、论文、后台登录和媒体上传。</li>
+        <li>如果新版异常，关闭宝塔反向代理即可临时切回旧静态站点。</li>
+      </ol>
+    </section>
+
+    <section class="guide-section">
+      <h2>之后更新代码怎么部署</h2>
+      <ol>
+        <li>如果只是后台里新增、编辑、发布、隐藏内容，不需要重新部署；内容已经在服务器 MySQL 里。</li>
+        <li>如果改了硬编码页面、导航栏、样式、前端组件或 Go 后端代码，需要在服务器拉取最新代码并重新构建相关容器。</li>
+        <li>只改前端源码时，一般执行：<code>git pull</code>，再执行 <code>docker compose --env-file .env.prod -f compose.prod.yaml up -d --build web</code></li>
+        <li>改了后端、数据库模型、备份脚本或 Compose 配置时，执行：<code>git pull</code>，再执行 <code>docker compose --env-file .env.prod -f compose.prod.yaml up -d --build</code></li>
+        <li>正常代码更新不会清空 MySQL；不要因为更新前端就执行 <code>make restore-content-prod</code>。</li>
+        <li>只有在明确要用项目内 <code>storage/content/content.json</code> 覆盖服务器内容，或者 MySQL 崩了需要恢复时，才执行 restore 命令，并且必须先 dry run。</li>
       </ol>
     </section>
 
