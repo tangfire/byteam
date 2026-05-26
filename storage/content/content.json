@@ -1,4 +1,395 @@
 {
+  "sitePages": [
+    {
+      "id": 1,
+      "slug": "about",
+      "title": "Beyond Machine Learning Group",
+      "description": "Advancing Multimodal Intelligence for Real-World Impact",
+      "content": {
+        "expertise": [
+          {
+            "description": "Federated optimization for distributed multimodal systems",
+            "icon": "Connection",
+            "title": "Heterogeneity-Aware Learning"
+          },
+          {
+            "description": "Weak supervision techniques for imperfect labeling",
+            "icon": "Aim",
+            "title": "Noise-Robust Annotation"
+          },
+          {
+            "description": "Privacy-preserving multimodal embeddings",
+            "icon": "Lock",
+            "title": "Secure Perception"
+          },
+          {
+            "description": "Knowledge sharing across different data modalities",
+            "icon": "Refresh",
+            "title": "Cross-Modal Transfer"
+          }
+        ],
+        "mission": {
+          "text": "We pioneer foundational theories and scalable frameworks to overcome challenges in multimodal data across its entire lifecycle. Our research bridges the gap between theoretical innovation and practical deployment in complex real-world scenarios.",
+          "title": "Our Mission"
+        },
+        "researchThrusts": [
+          {
+            "icon": "Search",
+            "items": [
+              "Cross-modal alignment of medical time-series, imaging, and clinical text",
+              "Contrastive learning for video understanding (visual, audio, text)",
+              "Spatiotemporal fusion of heterogeneous IoT sensor data",
+              "Self-supervised pretraining for multimodal foundation models"
+            ],
+            "title": "Multimodal Representation Learning"
+          },
+          {
+            "icon": "Shield",
+            "items": [
+              "Federated learning for cross-institutional collaboration",
+              "Differential privacy in multimodal data sharing",
+              "Automated lesion annotation with attention mechanisms",
+              "Weakly supervised learning under label scarcity"
+            ],
+            "title": "Decentralized & Privacy-Aware AI"
+          },
+          {
+            "icon": "Setting",
+            "items": [
+              "Unified architectures for seamless modality integration",
+              "Reinforcement learning for industrial optimization",
+              "Interpretable AI with cross-modal reasoning",
+              "Memory-efficient model deployment"
+            ],
+            "title": "AI Infrastructure & Scalability"
+          }
+        ],
+        "subtitle": "Advancing Multimodal Intelligence for Real-World Impact",
+        "vision": {
+          "domains": [
+            "Smart Healthcare",
+            "Industry 4.0",
+            "Sustainable AI",
+            "Edge Intelligence"
+          ],
+          "quote": "Bridging multimodal intelligence with real-world impact through continuous innovation and cross-domain knowledge transfer.",
+          "text": "We are pioneering the next generation of omni-modal foundation models that seamlessly unify temporal, visual, textual, and sensor modalities. Our work directly supports national priorities in critical domains:",
+          "title": "Strategic Vision"
+        }
+      },
+      "status": "published",
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 1,
+      "updatedAt": "2026-05-25T10:29:37"
+    },
+    {
+      "id": 2,
+      "slug": "contact",
+      "title": "Contact Me",
+      "description": "At any time",
+      "content": {
+        "availability": "At any time",
+        "backgroundImage": "/background/ContactBackground.jpg",
+        "email": "ybaoyao@gdut.edu.cn",
+        "title": "Contact Me"
+      },
+      "status": "published",
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 2,
+      "updatedAt": "2026-05-25T10:29:37"
+    },
+    {
+      "id": 3,
+      "slug": "research-direction",
+      "title": "Research Direction",
+      "description": "Research directions and technical focus areas",
+      "content": {
+        "directions": [
+          {
+            "alt": "Medical Time-Series Research",
+            "image": "/currentprojects/001.png",
+            "sections": [
+              {
+                "text": "Irregular sampling intervals, missing/contaminated data, patient-specific variability.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Multimodal alignment networks for fusing EHRs, imaging, and sensor data; contrastive learning frameworks to reconstruct regularized time-series patterns.",
+                "title": "Solutions"
+              }
+            ],
+            "title": "Medical Time-Series Representation Learning"
+          },
+          {
+            "alt": "Federated Learning Research",
+            "image": "/currentprojects/002.png",
+            "sections": [
+              {
+                "text": "Data privacy constraints, siloed datasets, heterogeneous model architectures.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Privacy-preserving collaborative training protocols (e.g., differential autoencoders) with adaptive aggregation mechanisms for cross-institutional knowledge sharing.",
+                "title": "Innovations"
+              }
+            ],
+            "title": "Federated Learning for Medical Applications"
+          },
+          {
+            "alt": "Automated Lesion Annotation",
+            "image": "/currentprojects/003.png",
+            "sections": [
+              {
+                "text": "Labor-intensive manual labeling, limited annotated samples, cross-modal discrepancies.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Weakly supervised and prompt-based learning to localize lesions in multimodal MRI/CT scans while minimizing clinician workload.",
+                "title": "Approaches"
+              }
+            ],
+            "title": "Automated Lesion Annotation"
+          },
+          {
+            "alt": "Video Content Intelligence",
+            "image": "/currentprojects/004.jpg",
+            "sections": [
+              {
+                "text": "Multimodal data fusion (audio, text, video), real-time interpretation, copyright/ethics compliance.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Large-scale pretrained models with attention mechanisms for contextual reasoning; AI-driven metadata tagging for content authorization.",
+                "title": "Tools"
+              }
+            ],
+            "title": "Short-Form Video Content Intelligence"
+          },
+          {
+            "alt": "IoT Supply Chain",
+            "image": "/currentprojects/005.jpg",
+            "sections": [
+              {
+                "text": "Multi-tier communication latency, dynamic resource allocation, cybersecurity risks.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Reinforcement learning for adaptive scheduling; federated edge computing to balance efficiency and data sovereignty.",
+                "title": "Solutions"
+              }
+            ],
+            "title": "Industrial IoT & Supply Chain Optimization"
+          },
+          {
+            "alt": "Algorithm Research",
+            "image": "/currentprojects/006.png",
+            "sections": [
+              {
+                "text": "Model explainability in black-box AI, memory-efficient architectures, robust generalization under limited labels.",
+                "title": "Focus Areas"
+              },
+              {
+                "text": "Hybrid frameworks combining causal reasoning, prompt engineering, and adversarial robustness testing.",
+                "title": "Breakthroughs"
+              }
+            ],
+            "title": "Foundational Algorithm Research"
+          },
+          {
+            "alt": "Instance Segmentation",
+            "image": "/currentprojects/007.png",
+            "sections": [
+              {
+                "text": "Mask merging often occurs for densely packed objects of the same class.",
+                "title": "Challenges"
+              },
+              {
+                "text": "Contrastive learning to enhance instance discrimination; leveraging motion cues (in video data) or geometric priors.",
+                "title": "Solutions"
+              }
+            ],
+            "title": "Weak Supervised Instance Segmentation"
+          }
+        ]
+      },
+      "status": "published",
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 3,
+      "updatedAt": "2026-05-26T00:48:18"
+    },
+    {
+      "id": 4,
+      "slug": "videomind",
+      "title": "VideoMind: An Omni-Modal Video Dataset with Intent Grounding for Deep-Cognitive Video Understanding",
+      "description": "VideoMind dataset page",
+      "content": {
+        "citation": "@misc{yang2025videomindomnimodalvideodataset,\n  title={VideoMind: An Omni-Modal Video Dataset with Intent Grounding for Deep-Cognitive Video Understanding},\n  author={Baoyao Yang and Wanyun Li and Dixin Chen and Junxiang Chen and Wenbin Yao and Haifeng Lin},\n  year={2025},\n  eprint={2507.18552},\n  archivePrefix={arXiv},\n  primaryClass={cs.CV},\n  url={https://arxiv.org/abs/2507.18552},\n}",
+        "introduction": {
+          "image": "/VideoMind/Examples-v2.jpg",
+          "items": [
+            "The factual layer includes visual description, OCR of video frames, ASR of videos, description of audio, and the title of the original video",
+            "The intentional layer consists of two parts: the intent of the video uploader and the intent of the video main character"
+          ],
+          "text": "VideoMind is a large-scale video-centric multimodal dataset that can be used to learn powerful and transferable text-video representations for video understanding tasks such as video question answering and video retrieval. The corresponding description of each video corresponds to three layers, namely factual layer, abstract layer, intentional layer.",
+          "title": "What is VideoMind?"
+        },
+        "links": [
+          {
+            "label": "Code",
+            "type": "code",
+            "url": "https://github.com/cdx-cindy/VideoMind"
+          },
+          {
+            "label": "Paper",
+            "type": "paper",
+            "url": "https://arxiv.org/abs/2507.18552"
+          },
+          {
+            "label": "Data",
+            "type": "data",
+            "url": "https://opendatalab.com/Dixin/VideoMind"
+          }
+        ],
+        "results": {
+          "figures": [
+            {
+              "image": "/VideoMind/results001.jpg",
+              "title": "Results of hybrid-cognitive text-to-video retrieval on VideoMind-3K"
+            },
+            {
+              "image": "/VideoMind/results002.jpg",
+              "title": "Results of hybrid-cognitive video-to-text retrieval on VideoMind-3K"
+            }
+          ],
+          "text": "we present the cross-modal retrieval results of several standard video-centric foundation models, including InternVideo, UMT-L, CLIP-VIP, mPLUG-2, and VAST.",
+          "title": "Results"
+        },
+        "statistics": {
+          "charts": [
+            {
+              "alt": "ASR length",
+              "image": "/VideoMind/ASR_length.png"
+            },
+            {
+              "alt": "Duration",
+              "image": "/VideoMind/duration.png"
+            },
+            {
+              "alt": "OCR length",
+              "image": "/VideoMind/OCR_length.png"
+            }
+          ],
+          "image": "/VideoMind/caterogy.png",
+          "text": "The dataset contains 110K video samples, each of which is ac-companied by audio, as well as systematic and detailed textual descriptions.",
+          "title": "Dataset statistics"
+        },
+        "title": "VideoMind: An Omni-Modal Video Dataset with\nIntent Grounding for Deep-Cognitive Video Understanding"
+      },
+      "status": "published",
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 4,
+      "updatedAt": "2026-05-25T10:29:37"
+    },
+    {
+      "id": 5,
+      "slug": "dr-baoyao-yang",
+      "title": "Dr. Baoyao Yang(Associate Professor)",
+      "description": "Faculty profile",
+      "content": {
+        "alt": "Dr. Baoyao Yang",
+        "image": "/currentprojects/yangbaoyao.jpg",
+        "name": "Dr. Baoyao Yang(Associate Professor)",
+        "paragraphs": [
+          "Dr. Baoyao Yang, a distinguished young faculty member recruited under the \"Youth Hundred Talents Program\" at Guangdong University of Technology, obtained her Bachelor’s degree from South China University of Technology in 2014 and her Ph.D. from Hong Kong Baptist University in 2018. She has spearheaded several key research projects, including the National Natural Science Foundation General Program, Youth Science Fund, and multiple provincial/ministerial-level scientific research initiatives. Her contributions were recognized with the 2023 Guangdong Province Science and Technology Progress Award (Second Prize, ranked fourth individually).",
+          "Dr. Yang has authored over 50 publications in top-tier journals such as IEEE TIP, TIFS, and TNNLS, as well as leading conferences like AAAI and MICCAI. She holds six authorized national invention patents and emphasizes the integration of industry, academia, and research. Committed to mentorship, she has guided students to win awards in national competitions and helped numerous undergraduates gain admission to prestigious institutions for advanced studies."
+        ]
+      },
+      "status": "published",
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 5,
+      "updatedAt": "2026-05-25T10:29:37"
+    },
+    {
+      "id": 6,
+      "slug": "vknow",
+      "title": "vKnow: Decode Omni-modal Intent",
+      "description": "vKnow project overview",
+      "content": {
+        "dataset": {
+          "description": "VideoMind is a large-scale, video-centric multimodal dataset for learning robust text-video representations. Each video is annotated with three layers: factual, abstract, and intentional, supporting advanced video understanding tasks",
+          "image": "/VideoMind/Examples-v2.jpg",
+          "imageAlt": "VideoMind Example",
+          "linkPath": "/VideoMind",
+          "linkText": "Learn more →",
+          "title": "VideoMind-100K Dataset"
+        },
+        "introduction": {
+          "items": [
+            "Publicly releasing VideoMind-100K, the first multimodal dataset annotating factual layer, abstract layer, and intent layer across 100K+ curated videos",
+            "Open-sourcing DeME-7B, a transformer-based architecture specifically designed for deep-cognitive video understanding with video-centric alignment."
+          ],
+          "text": "vKnow is an open framework for video intent intelligence, which mainly includes the following two modules:",
+          "title": "Introduction"
+        },
+        "title": "vKnow: Decode Omni-modal Intent"
+      },
+      "status": "published",
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 6,
+      "updatedAt": "2026-05-25T10:35:11"
+    },
+    {
+      "id": 7,
+      "slug": "video-xiaoqi-zheng-01",
+      "title": "Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations",
+      "description": "Publication video",
+      "content": {
+        "title": "Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations",
+        "video": "/videos/001.mp4"
+      },
+      "status": "published",
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 7,
+      "updatedAt": "2026-05-25T10:29:37"
+    },
+    {
+      "id": 8,
+      "slug": "video-xianrun-xu-01",
+      "title": "Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation",
+      "description": "Publication video",
+      "content": {
+        "title": "Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation",
+        "video": "/videos/003.mp4"
+      },
+      "status": "published",
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 8,
+      "updatedAt": "2026-05-25T10:29:37"
+    },
+    {
+      "id": 9,
+      "slug": "video-yali-ma-01",
+      "title": "Harnessing Feature Distribution Consistency for Federated Learning with Noisy",
+      "description": "Publication video",
+      "content": {
+        "title": "Harnessing Feature Distribution Consistency for Federated Learning with Noisy",
+        "video": "/videos/002.mp4"
+      },
+      "status": "published",
+      "createdAt": "2026-05-25T10:29:37",
+      "deletedAt": null,
+      "sortOrder": 9,
+      "updatedAt": "2026-05-25T10:29:37"
+    }
+  ],
   "news": [
     {
       "id": 1,
@@ -206,8 +597,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T04:03:39",
       "deletedAt": "2026-05-25T04:03:51",
+      "displayName": "",
       "updatedAt": "2026-05-25T04:03:39",
-      "displayName": null,
       "originalName": "个人生活照- Helen.jpg"
     },
     {
@@ -219,8 +610,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "BaoyaoGroup",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "BaoyaoGroup.jpg"
     },
     {
@@ -232,8 +623,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - VideoMind - ASR length",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "ASR_length.png"
     },
     {
@@ -245,8 +636,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - VideoMind - Examples v2",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "Examples-v2.jpg"
     },
     {
@@ -258,8 +649,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - VideoMind - OCR length",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "OCR_length.png"
     },
     {
@@ -271,8 +662,8 @@
       "mimeType": "application/zip",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "VideoMind",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "VideoMind.zip"
     },
     {
@@ -284,8 +675,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - VideoMind - caterogy",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "caterogy.png"
     },
     {
@@ -297,8 +688,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - VideoMind - duration",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "duration.png"
     },
     {
@@ -310,8 +701,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - VideoMind - results001",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "results001.jpg"
     },
     {
@@ -323,8 +714,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - VideoMind - results002",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "results002.jpg"
     },
     {
@@ -336,8 +727,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - preload images - 001",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "001.png"
     },
     {
@@ -349,8 +740,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Aoqi Yan",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "AoqiYan.jpg"
     },
     {
@@ -362,8 +753,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:49:59",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Canrong Du",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "CanrongDu.jpg"
     },
     {
@@ -375,8 +766,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Dixin Chen",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "DixinChen.jpg"
     },
     {
@@ -388,8 +779,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Dongzhe Li",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "DongzheLi.jpg"
     },
     {
@@ -401,8 +792,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Guangyang Lin",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "GuangyangLin.jpg"
     },
     {
@@ -414,8 +805,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Haifeng Lin",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "HaifengLin.jpg"
     },
     {
@@ -427,8 +818,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Huahong Deng",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "HuahongDeng.jpg"
     },
     {
@@ -440,8 +831,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Jiahao Lian",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "JiahaoLian.jpg"
     },
     {
@@ -453,8 +844,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Jianxuan Huang",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "JianxuanHuang.jpg"
     },
     {
@@ -466,8 +857,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Jingchao Wang",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "JingchaoWang.jpg"
     },
     {
@@ -479,8 +870,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Jingsong Lin",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "JingsongLin.jpg"
     },
     {
@@ -492,8 +883,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Kexin Xie",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "KexinXie.jpg"
     },
     {
@@ -505,8 +896,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Sijia Zhou",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "SijiaZhou.jpg"
     },
     {
@@ -518,8 +909,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Weide Zhan",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "WeideZhan.jpg"
     },
     {
@@ -531,8 +922,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Xi Wang",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "XiWang.jpg"
     },
     {
@@ -544,8 +935,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Xianrun Xu",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "XianrunXu.jpg"
     },
     {
@@ -557,8 +948,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Xiaochen He",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "XiaochenHe.jpg"
     },
     {
@@ -570,8 +961,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Xiaojie Chen",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "XiaojieChen.jpg"
     },
     {
@@ -583,8 +974,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Xiaoqi Zheng",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "XiaoqiZheng.jpg"
     },
     {
@@ -596,8 +987,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Yali Ma",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "YaliMa.jpg"
     },
     {
@@ -609,8 +1000,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Yanchao Tang",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "YanchaoTang.jpg"
     },
     {
@@ -622,8 +1013,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Yanhao Huang",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "YanhaoHuang.jpg"
     },
     {
@@ -635,8 +1026,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Yuebin Xie",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "YuebinXie.jpg"
     },
     {
@@ -648,8 +1039,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Yuehui Fan",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "YuehuiFan.jpg"
     },
     {
@@ -661,8 +1052,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Yufei Xu",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "YufeiXu.jpg"
     },
     {
@@ -674,8 +1065,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Yuhao Chen",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "YuhaoChen.jpg"
     },
     {
@@ -687,8 +1078,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "成员头像 - Zhixiang Fang",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "ZhixiangFang.jpg"
     },
     {
@@ -700,8 +1091,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - Contact - ContactBackground",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "ContactBackground.jpg"
     },
     {
@@ -713,8 +1104,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - ResearchDirection - 001",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "001.png"
     },
     {
@@ -726,8 +1117,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - ResearchDirection - 002",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "002.png"
     },
     {
@@ -739,8 +1130,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - ResearchDirection - 003",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "003.png"
     },
     {
@@ -752,8 +1143,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - ResearchDirection - 004",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "004.jpg"
     },
     {
@@ -765,8 +1156,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - ResearchDirection - 005",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "005.jpg"
     },
     {
@@ -778,8 +1169,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - ResearchDirection - 006",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "006.png"
     },
     {
@@ -791,8 +1182,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - ResearchDirection - 007",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "007.png"
     },
     {
@@ -804,8 +1195,8 @@
       "mimeType": "image/svg+xml",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "logo",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "logo.svg"
     },
     {
@@ -817,8 +1208,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - DrBaoyaoYang - yangbaoyao",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "yangbaoyao.jpg"
     },
     {
@@ -830,8 +1221,8 @@
       "mimeType": "application/pdf",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "PPT - FairFed++: Closing the Fairness Gap in Federated Learning through Self-Evolving ...",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "FairFed.pdf"
     },
     {
@@ -843,8 +1234,8 @@
       "mimeType": "application/pdf",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "PPT - Multi-category Brain Tumor Segmentation via Multi-scale and Cross-category Relat...",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "HBAI.pdf"
     },
     {
@@ -856,8 +1247,8 @@
       "mimeType": "application/pdf",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "PPT - MMS: Morphology-mixup Stylized Data Generation for Single Domain Generalization ...",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "MMS.pdf"
     },
     {
@@ -869,8 +1260,8 @@
       "mimeType": "application/pdf",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "PPT - Unlocking the Potential of mLLMs: Enhancing Video-Text Retrieval through Caption...",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "UnlockingThePotentialOfmLLMs.pdf"
     },
     {
@@ -882,8 +1273,8 @@
       "mimeType": "application/pdf",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "PPT - Harnessing Feature Distribution Consistency for Federated Learning with Noisy",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "icip2025.pdf"
     },
     {
@@ -895,8 +1286,8 @@
       "mimeType": "application/pdf",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "Poster - Multi-category Graph Reasoning for Multi-modal Brain Tumor Segmentation",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "ldzposter001.pdf"
     },
     {
@@ -908,8 +1299,8 @@
       "mimeType": "application/pdf",
       "createdAt": "2026-05-25T05:50:00",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "Poster - Beyond Direct Relationships: Exploring Multi-Order Label Pair Dependencies for K...",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "wjcposter001.pdf"
     },
     {
@@ -921,8 +1312,8 @@
       "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "Poster - A Novel Prompt Tuning for Graph Transformers: Tailoring Prompts to Graph Topolog...",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "wjcposter002.pptx"
     },
     {
@@ -934,8 +1325,8 @@
       "mimeType": "image/svg+xml",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "github",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "github.svg"
     },
     {
@@ -947,8 +1338,8 @@
       "mimeType": "image/svg+xml",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "liulian",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "liulian.svg"
     },
     {
@@ -960,8 +1351,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - App - 001",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "001.png"
     },
     {
@@ -973,8 +1364,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - preload images - 002",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "002.png"
     },
     {
@@ -986,8 +1377,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:16",
       "displayName": "源码引用 - preload images - 003",
+      "updatedAt": "2026-05-25T09:49:16",
       "originalName": "003.png"
     },
     {
@@ -999,8 +1390,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "源码引用 - preload images - 004",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "004.png"
     },
     {
@@ -1012,8 +1403,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "源码引用 - preload images - 005",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "005.png"
     },
     {
@@ -1025,8 +1416,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "源码引用 - preload images - 006",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "006.png"
     },
     {
@@ -1038,8 +1429,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "源码引用 - preload images - 007",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "007.png"
     },
     {
@@ -1051,8 +1442,8 @@
       "mimeType": "image/jpeg",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "源码引用 - preload images - name",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "name.jpg"
     },
     {
@@ -1064,8 +1455,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - CAM-Guided translation for unpaired weakly-supervised medical image segmentation",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "001.png"
     },
     {
@@ -1077,8 +1468,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - DNA-T: Deformable Neighborhood Attention Transformer for Irregular Medical Time ...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "002.png"
     },
     {
@@ -1090,8 +1481,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Domain Dilation for Single Domain Generalization",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "003.png"
     },
     {
@@ -1103,8 +1494,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Image-assisted Label Connective Completion for Vessel Segmentation with Insuffic...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "004.png"
     },
     {
@@ -1116,8 +1507,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Allosteric Feature Collaboration for Model-Heterogeneous Federated Learning",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "005.png"
     },
     {
@@ -1129,8 +1520,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - MMS: Morphology-mixup Stylized Data Generation for Single Domain Generalization ...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "006.png"
     },
     {
@@ -1142,8 +1533,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Multi-category Graph Reasoning for Multi-modal Brain Tumor Segmentation",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "007.png"
     },
     {
@@ -1155,8 +1546,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Beyond Direct Relationships: Exploring Multi-Order Label Pair Dependencies for K...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "008.png"
     },
     {
@@ -1168,8 +1559,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - A Novel Prompt Tuning for Graph Transformers: Tailoring Prompts to Graph Topolog...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "009.png"
     },
     {
@@ -1181,8 +1572,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:01",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Early diagnosis of Alzheimer's disease based on multimodal hypergraph attention ...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "010.png"
     },
     {
@@ -1194,8 +1585,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Model-induced Generalization Error Bound for Information-theoretic Representatio...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "011.png"
     },
     {
@@ -1207,8 +1598,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Revealing Task-relevant Model Memorization for Source-Protected Unsupervised Dom...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "012.png"
     },
     {
@@ -1220,8 +1611,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Cross-domain Missingness-aware Time Series Adaptation with Similarity Distillati...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "013.png"
     },
     {
@@ -1233,8 +1624,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Learning Adaptive Geometry for Unsupervised Domain Adaptation",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "015.png"
     },
     {
@@ -1246,8 +1637,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - A Segmentation-Assisted Model for Universal Lesion Detection with Partial Labels",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "016.png"
     },
     {
@@ -1259,8 +1650,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Body Parts Synthesis for Cross-Quality Pose Estimation",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "017.png"
     },
     {
@@ -1272,8 +1663,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Cross-Domain Visual Representations via Unsupervised Graph Alignment",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "018.png"
     },
     {
@@ -1285,8 +1676,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Learning Domain-Shared Group-Sparse Representation for Unsupervised Domain Adapt...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "019.png"
     },
     {
@@ -1298,8 +1689,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Domain-shared Group-sparse Dictionary Learning for Unsupervised Domain Adaptatio...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "020.png"
     },
     {
@@ -1311,8 +1702,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Deep Learning for Brain MRI Confirms Patterned Pathological Progression in Alzhe...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "021.png"
     },
     {
@@ -1324,8 +1715,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Multi-category Brain Tumor Segmentation via Multi-scale and Cross-category Relat...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "022.png"
     },
     {
@@ -1337,8 +1728,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "023.png"
     },
     {
@@ -1350,8 +1741,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - FairFed++: Closing the Fairness Gap in Federated Learning through Self-Evolving ...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "024.png"
     },
     {
@@ -1363,8 +1754,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Harnessing Feature Distribution Consistency for Federated Learning with Noisy",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "025.png"
     },
     {
@@ -1376,8 +1767,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - CAM-interacted Vision GNN for Multi-label Medical Images",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "026.png"
     },
     {
@@ -1389,8 +1780,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - FedCD: A Hybrid Federated Learning Framework for Adaptive Training under Data He...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "027.png"
     },
     {
@@ -1402,8 +1793,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Multi-modal Brain Tumor Segmentation via Multi-category Interaction and Graph Co...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "028.png"
     },
     {
@@ -1415,8 +1806,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Unlocking the Potential of mLLMs: Enhancing Video-Text Retrieval through Caption...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "029.png"
     },
     {
@@ -1428,8 +1819,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Unifying Spatio-Temporal Contexts for Advanced Text-Video Retrieval",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "030.png"
     },
     {
@@ -1441,8 +1832,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Multi-Agent Reinforcement Learning Algorithm Using Dynamic OW-QMIX in Complex Su...",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "031.png"
     },
     {
@@ -1454,8 +1845,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "论文配图 - Action Decomposition-based Actor-Critic for Supply Chain Optimization",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "032.png"
     },
     {
@@ -1467,8 +1858,8 @@
       "mimeType": "image/png",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "源码引用 - ResearchCarousel - online",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "online.png"
     },
     {
@@ -1480,8 +1871,8 @@
       "mimeType": "application/pdf",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "ldzposter001",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "ldzposter001.pdf"
     },
     {
@@ -1493,8 +1884,8 @@
       "mimeType": "application/pdf",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "wjcposter001",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "wjcposter001.pdf"
     },
     {
@@ -1506,8 +1897,8 @@
       "mimeType": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "wjcposter002",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "wjcposter002.pptx"
     },
     {
@@ -1519,8 +1910,8 @@
       "mimeType": "video/mp4",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "源码引用 - XiaoqiZheng01 - 001",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "001.mp4"
     },
     {
@@ -1532,8 +1923,8 @@
       "mimeType": "video/mp4",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "源码引用 - YaliMa01 - 002",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "002.mp4"
     },
     {
@@ -1545,8 +1936,8 @@
       "mimeType": "video/mp4",
       "createdAt": "2026-05-25T05:50:02",
       "deletedAt": null,
-      "updatedAt": "2026-05-25T09:49:17",
       "displayName": "源码引用 - XianrunXu01 - 003",
+      "updatedAt": "2026-05-25T09:49:17",
       "originalName": "003.mp4"
     }
   ],
@@ -1558,6 +1949,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/DixinChen.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 1,
@@ -1571,6 +1965,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/HuahongDeng.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 2,
@@ -1584,6 +1981,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/CanrongDu.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 3,
@@ -1597,6 +1997,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/AoqiYan.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 4,
@@ -1610,6 +2013,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/HaifengLin.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 5,
@@ -1623,6 +2029,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/YanhaoHuang.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 6,
@@ -1636,6 +2045,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/JingsongLin.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 7,
@@ -1649,6 +2061,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/YaliMa.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 8,
@@ -1662,6 +2077,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/YanchaoTang.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 9,
@@ -1675,6 +2093,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/KexinXie.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 10,
@@ -1688,6 +2109,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/YuhaoChen.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 11,
@@ -1701,6 +2125,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/YufeiXu.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 12,
@@ -1714,6 +2141,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/XianrunXu.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 13,
@@ -1727,6 +2157,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/XiaoqiZheng.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 14,
@@ -1740,6 +2173,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/SijiaZhou.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 15,
@@ -1753,6 +2189,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/XiaojieChen.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 16,
@@ -1766,6 +2205,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/XiWang.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 17,
@@ -1779,6 +2221,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/JiahaoLian.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 18,
@@ -1792,6 +2237,9 @@
       "category": "graduate",
       "research": "",
       "avatarUrl": "/avatar/GuangyangLin.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 19,
@@ -1805,6 +2253,9 @@
       "category": "graduate_alumni",
       "research": "",
       "avatarUrl": "/avatar/YuehuiFan.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 20,
@@ -1818,6 +2269,9 @@
       "category": "graduate_alumni",
       "research": "",
       "avatarUrl": "/avatar/JianxuanHuang.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 21,
@@ -1831,6 +2285,9 @@
       "category": "graduate_alumni",
       "research": "",
       "avatarUrl": "/avatar/YuebinXie.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 22,
@@ -1844,6 +2301,9 @@
       "category": "undergraduate_alumni",
       "research": "",
       "avatarUrl": "/avatar/JingchaoWang.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 23,
@@ -1857,6 +2317,9 @@
       "category": "undergraduate_alumni",
       "research": "",
       "avatarUrl": "/avatar/DongzheLi.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 24,
@@ -1870,6 +2333,9 @@
       "category": "undergraduate_alumni",
       "research": "",
       "avatarUrl": "/avatar/XiaochenHe.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 25,
@@ -1883,6 +2349,9 @@
       "category": "undergraduate_alumni",
       "research": "",
       "avatarUrl": "/avatar/WeideZhan.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 26,
@@ -1896,6 +2365,9 @@
       "category": "undergraduate_alumni",
       "research": "",
       "avatarUrl": "/avatar/ZhixiangFang.jpg",
+      "avatarObjectX": 50,
+      "avatarObjectY": 50,
+      "avatarScale": 100,
       "createdAt": "2026-05-25T03:25:59",
       "deletedAt": null,
       "sortOrder": 27,
@@ -2323,397 +2795,6 @@
       "deletedAt": null,
       "sortOrder": 30,
       "updatedAt": "2026-05-25T03:25:59"
-    }
-  ],
-  "sitePages": [
-    {
-      "id": 1,
-      "slug": "about",
-      "title": "Beyond Machine Learning Group",
-      "status": "published",
-      "content": {
-        "vision": {
-          "text": "We are pioneering the next generation of omni-modal foundation models that seamlessly unify temporal, visual, textual, and sensor modalities. Our work directly supports national priorities in critical domains:",
-          "quote": "Bridging multimodal intelligence with real-world impact through continuous innovation and cross-domain knowledge transfer.",
-          "title": "Strategic Vision",
-          "domains": [
-            "Smart Healthcare",
-            "Industry 4.0",
-            "Sustainable AI",
-            "Edge Intelligence"
-          ]
-        },
-        "mission": {
-          "text": "We pioneer foundational theories and scalable frameworks to overcome challenges in multimodal data across its entire lifecycle. Our research bridges the gap between theoretical innovation and practical deployment in complex real-world scenarios.",
-          "title": "Our Mission"
-        },
-        "subtitle": "Advancing Multimodal Intelligence for Real-World Impact",
-        "expertise": [
-          {
-            "icon": "Connection",
-            "title": "Heterogeneity-Aware Learning",
-            "description": "Federated optimization for distributed multimodal systems"
-          },
-          {
-            "icon": "Aim",
-            "title": "Noise-Robust Annotation",
-            "description": "Weak supervision techniques for imperfect labeling"
-          },
-          {
-            "icon": "Lock",
-            "title": "Secure Perception",
-            "description": "Privacy-preserving multimodal embeddings"
-          },
-          {
-            "icon": "Refresh",
-            "title": "Cross-Modal Transfer",
-            "description": "Knowledge sharing across different data modalities"
-          }
-        ],
-        "researchThrusts": [
-          {
-            "icon": "Search",
-            "items": [
-              "Cross-modal alignment of medical time-series, imaging, and clinical text",
-              "Contrastive learning for video understanding (visual, audio, text)",
-              "Spatiotemporal fusion of heterogeneous IoT sensor data",
-              "Self-supervised pretraining for multimodal foundation models"
-            ],
-            "title": "Multimodal Representation Learning"
-          },
-          {
-            "icon": "Shield",
-            "items": [
-              "Federated learning for cross-institutional collaboration",
-              "Differential privacy in multimodal data sharing",
-              "Automated lesion annotation with attention mechanisms",
-              "Weakly supervised learning under label scarcity"
-            ],
-            "title": "Decentralized & Privacy-Aware AI"
-          },
-          {
-            "icon": "Setting",
-            "items": [
-              "Unified architectures for seamless modality integration",
-              "Reinforcement learning for industrial optimization",
-              "Interpretable AI with cross-modal reasoning",
-              "Memory-efficient model deployment"
-            ],
-            "title": "AI Infrastructure & Scalability"
-          }
-        ]
-      },
-      "createdAt": "2026-05-25T10:29:37",
-      "deletedAt": null,
-      "sortOrder": 1,
-      "updatedAt": "2026-05-25T10:29:37",
-      "description": "Advancing Multimodal Intelligence for Real-World Impact"
-    },
-    {
-      "id": 2,
-      "slug": "contact",
-      "title": "Contact Me",
-      "status": "published",
-      "content": {
-        "email": "ybaoyao@gdut.edu.cn",
-        "title": "Contact Me",
-        "availability": "At any time",
-        "backgroundImage": "/background/ContactBackground.jpg"
-      },
-      "createdAt": "2026-05-25T10:29:37",
-      "deletedAt": null,
-      "sortOrder": 2,
-      "updatedAt": "2026-05-25T10:29:37",
-      "description": "At any time"
-    },
-    {
-      "id": 3,
-      "slug": "research-direction",
-      "title": "Research Direction",
-      "status": "published",
-      "content": {
-        "directions": [
-          {
-            "alt": "Medical Time-Series Research",
-            "image": "/currentprojects/001.png",
-            "title": "Medical Time-Series Representation Learning",
-            "sections": [
-              {
-                "text": "Irregular sampling intervals, missing/contaminated data, patient-specific variability.",
-                "title": "Challenges"
-              },
-              {
-                "text": "Multimodal alignment networks for fusing EHRs, imaging, and sensor data; contrastive learning frameworks to reconstruct regularized time-series patterns.",
-                "title": "Solutions"
-              }
-            ]
-          },
-          {
-            "alt": "Federated Learning Research",
-            "image": "/currentprojects/002.png",
-            "title": "Federated Learning for Medical Applications",
-            "sections": [
-              {
-                "text": "Data privacy constraints, siloed datasets, heterogeneous model architectures.",
-                "title": "Challenges"
-              },
-              {
-                "text": "Privacy-preserving collaborative training protocols (e.g., differential autoencoders) with adaptive aggregation mechanisms for cross-institutional knowledge sharing.",
-                "title": "Innovations"
-              }
-            ]
-          },
-          {
-            "alt": "Automated Lesion Annotation",
-            "image": "/currentprojects/003.png",
-            "title": "Automated Lesion Annotation",
-            "sections": [
-              {
-                "text": "Labor-intensive manual labeling, limited annotated samples, cross-modal discrepancies.",
-                "title": "Challenges"
-              },
-              {
-                "text": "Weakly supervised and prompt-based learning to localize lesions in multimodal MRI/CT scans while minimizing clinician workload.",
-                "title": "Approaches"
-              }
-            ]
-          },
-          {
-            "alt": "Video Content Intelligence",
-            "image": "/currentprojects/004.jpg",
-            "title": "Short-Form Video Content Intelligence",
-            "sections": [
-              {
-                "text": "Multimodal data fusion (audio, text, video), real-time interpretation, copyright/ethics compliance.",
-                "title": "Challenges"
-              },
-              {
-                "text": "Large-scale pretrained models with attention mechanisms for contextual reasoning; AI-driven metadata tagging for content authorization.",
-                "title": "Tools"
-              }
-            ]
-          },
-          {
-            "alt": "IoT Supply Chain",
-            "image": "/currentprojects/005.jpg",
-            "title": "Industrial IoT & Supply Chain Optimization",
-            "sections": [
-              {
-                "text": "Multi-tier communication latency, dynamic resource allocation, cybersecurity risks.",
-                "title": "Challenges"
-              },
-              {
-                "text": "Reinforcement learning for adaptive scheduling; federated edge computing to balance efficiency and data sovereignty.",
-                "title": "Solutions"
-              }
-            ]
-          },
-          {
-            "alt": "Algorithm Research",
-            "image": "/currentprojects/006.png",
-            "title": "Foundational Algorithm Research",
-            "sections": [
-              {
-                "text": "Model explainability in black-box AI, memory-efficient architectures, robust generalization under limited labels.",
-                "title": "Focus Areas"
-              },
-              {
-                "text": "Hybrid frameworks combining causal reasoning, prompt engineering, and adversarial robustness testing.",
-                "title": "Breakthroughs"
-              }
-            ]
-          },
-          {
-            "alt": "Instance Segmentation",
-            "image": "/currentprojects/007.png",
-            "title": "Weak Supervised Instance Segmentation",
-            "sections": [
-              {
-                "text": "Mask merging often occurs for densely packed objects of the same class.",
-                "title": "Challenges"
-              },
-              {
-                "text": "Contrastive learning to enhance instance discrimination; leveraging motion cues (in video data) or geometric priors.",
-                "title": "Solutions"
-              }
-            ]
-          }
-        ]
-      },
-      "createdAt": "2026-05-25T10:29:37",
-      "deletedAt": null,
-      "sortOrder": 3,
-      "updatedAt": "2026-05-26T00:48:18",
-      "description": "Research directions and technical focus areas"
-    },
-    {
-      "id": 4,
-      "slug": "videomind",
-      "title": "VideoMind: An Omni-Modal Video Dataset with Intent Grounding for Deep-Cognitive Video Understanding",
-      "status": "published",
-      "content": {
-        "links": [
-          {
-            "url": "https://github.com/cdx-cindy/VideoMind",
-            "type": "code",
-            "label": "Code"
-          },
-          {
-            "url": "https://arxiv.org/abs/2507.18552",
-            "type": "paper",
-            "label": "Paper"
-          },
-          {
-            "url": "https://opendatalab.com/Dixin/VideoMind",
-            "type": "data",
-            "label": "Data"
-          }
-        ],
-        "title": "VideoMind: An Omni-Modal Video Dataset with\nIntent Grounding for Deep-Cognitive Video Understanding",
-        "results": {
-          "text": "we present the cross-modal retrieval results of several standard video-centric foundation models, including InternVideo, UMT-L, CLIP-VIP, mPLUG-2, and VAST.",
-          "title": "Results",
-          "figures": [
-            {
-              "image": "/VideoMind/results001.jpg",
-              "title": "Results of hybrid-cognitive text-to-video retrieval on VideoMind-3K"
-            },
-            {
-              "image": "/VideoMind/results002.jpg",
-              "title": "Results of hybrid-cognitive video-to-text retrieval on VideoMind-3K"
-            }
-          ]
-        },
-        "citation": "@misc{yang2025videomindomnimodalvideodataset,\n  title={VideoMind: An Omni-Modal Video Dataset with Intent Grounding for Deep-Cognitive Video Understanding},\n  author={Baoyao Yang and Wanyun Li and Dixin Chen and Junxiang Chen and Wenbin Yao and Haifeng Lin},\n  year={2025},\n  eprint={2507.18552},\n  archivePrefix={arXiv},\n  primaryClass={cs.CV},\n  url={https://arxiv.org/abs/2507.18552},\n}",
-        "statistics": {
-          "text": "The dataset contains 110K video samples, each of which is ac-companied by audio, as well as systematic and detailed textual descriptions.",
-          "image": "/VideoMind/caterogy.png",
-          "title": "Dataset statistics",
-          "charts": [
-            {
-              "alt": "ASR length",
-              "image": "/VideoMind/ASR_length.png"
-            },
-            {
-              "alt": "Duration",
-              "image": "/VideoMind/duration.png"
-            },
-            {
-              "alt": "OCR length",
-              "image": "/VideoMind/OCR_length.png"
-            }
-          ]
-        },
-        "introduction": {
-          "text": "VideoMind is a large-scale video-centric multimodal dataset that can be used to learn powerful and transferable text-video representations for video understanding tasks such as video question answering and video retrieval. The corresponding description of each video corresponds to three layers, namely factual layer, abstract layer, intentional layer.",
-          "image": "/VideoMind/Examples-v2.jpg",
-          "items": [
-            "The factual layer includes visual description, OCR of video frames, ASR of videos, description of audio, and the title of the original video",
-            "The intentional layer consists of two parts: the intent of the video uploader and the intent of the video main character"
-          ],
-          "title": "What is VideoMind?"
-        }
-      },
-      "createdAt": "2026-05-25T10:29:37",
-      "deletedAt": null,
-      "sortOrder": 4,
-      "updatedAt": "2026-05-25T10:29:37",
-      "description": "VideoMind dataset page"
-    },
-    {
-      "id": 5,
-      "slug": "dr-baoyao-yang",
-      "title": "Dr. Baoyao Yang(Associate Professor)",
-      "status": "published",
-      "content": {
-        "alt": "Dr. Baoyao Yang",
-        "name": "Dr. Baoyao Yang(Associate Professor)",
-        "image": "/currentprojects/yangbaoyao.jpg",
-        "paragraphs": [
-          "Dr. Baoyao Yang, a distinguished young faculty member recruited under the \"Youth Hundred Talents Program\" at Guangdong University of Technology, obtained her Bachelor’s degree from South China University of Technology in 2014 and her Ph.D. from Hong Kong Baptist University in 2018. She has spearheaded several key research projects, including the National Natural Science Foundation General Program, Youth Science Fund, and multiple provincial/ministerial-level scientific research initiatives. Her contributions were recognized with the 2023 Guangdong Province Science and Technology Progress Award (Second Prize, ranked fourth individually).",
-          "Dr. Yang has authored over 50 publications in top-tier journals such as IEEE TIP, TIFS, and TNNLS, as well as leading conferences like AAAI and MICCAI. She holds six authorized national invention patents and emphasizes the integration of industry, academia, and research. Committed to mentorship, she has guided students to win awards in national competitions and helped numerous undergraduates gain admission to prestigious institutions for advanced studies."
-        ]
-      },
-      "createdAt": "2026-05-25T10:29:37",
-      "deletedAt": null,
-      "sortOrder": 5,
-      "updatedAt": "2026-05-25T10:29:37",
-      "description": "Faculty profile"
-    },
-    {
-      "id": 6,
-      "slug": "vknow",
-      "title": "vKnow: Decode Omni-modal Intent",
-      "status": "published",
-      "content": {
-        "title": "vKnow: Decode Omni-modal Intent",
-        "dataset": {
-          "image": "/VideoMind/Examples-v2.jpg",
-          "title": "VideoMind-100K Dataset",
-          "imageAlt": "VideoMind Example",
-          "linkPath": "/VideoMind",
-          "linkText": "Learn more →",
-          "description": "VideoMind is a large-scale, video-centric multimodal dataset for learning robust text-video representations. Each video is annotated with three layers: factual, abstract, and intentional, supporting advanced video understanding tasks"
-        },
-        "introduction": {
-          "text": "vKnow is an open framework for video intent intelligence, which mainly includes the following two modules:",
-          "items": [
-            "Publicly releasing VideoMind-100K, the first multimodal dataset annotating factual layer, abstract layer, and intent layer across 100K+ curated videos",
-            "Open-sourcing DeME-7B, a transformer-based architecture specifically designed for deep-cognitive video understanding with video-centric alignment."
-          ],
-          "title": "Introduction"
-        }
-      },
-      "createdAt": "2026-05-25T10:29:37",
-      "deletedAt": null,
-      "sortOrder": 6,
-      "updatedAt": "2026-05-25T10:35:11",
-      "description": "vKnow project overview"
-    },
-    {
-      "id": 7,
-      "slug": "video-xiaoqi-zheng-01",
-      "title": "Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations",
-      "status": "published",
-      "content": {
-        "title": "Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations",
-        "video": "/videos/001.mp4"
-      },
-      "createdAt": "2026-05-25T10:29:37",
-      "deletedAt": null,
-      "sortOrder": 7,
-      "updatedAt": "2026-05-25T10:29:37",
-      "description": "Publication video"
-    },
-    {
-      "id": 8,
-      "slug": "video-xianrun-xu-01",
-      "title": "Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation",
-      "status": "published",
-      "content": {
-        "title": "Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation",
-        "video": "/videos/003.mp4"
-      },
-      "createdAt": "2026-05-25T10:29:37",
-      "deletedAt": null,
-      "sortOrder": 8,
-      "updatedAt": "2026-05-25T10:29:37",
-      "description": "Publication video"
-    },
-    {
-      "id": 9,
-      "slug": "video-yali-ma-01",
-      "title": "Harnessing Feature Distribution Consistency for Federated Learning with Noisy",
-      "status": "published",
-      "content": {
-        "title": "Harnessing Feature Distribution Consistency for Federated Learning with Noisy",
-        "video": "/videos/002.mp4"
-      },
-      "createdAt": "2026-05-25T10:29:37",
-      "deletedAt": null,
-      "sortOrder": 9,
-      "updatedAt": "2026-05-25T10:29:37",
-      "description": "Publication video"
     }
   ],
   "publications": [
