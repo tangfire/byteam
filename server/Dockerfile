@@ -2,6 +2,14 @@ FROM golang:1.25-alpine AS development
 
 WORKDIR /app
 
+ARG ALPINE_MIRROR=https://mirrors.aliyun.com/alpine
+ARG GOPROXY=https://goproxy.cn,direct
+ARG GOSUMDB=sum.golang.google.cn
+
+ENV GOPROXY=${GOPROXY}
+ENV GOSUMDB=${GOSUMDB}
+
+RUN sed -i "s|https://dl-cdn.alpinelinux.org/alpine|${ALPINE_MIRROR}|g" /etc/apk/repositories
 RUN apk add --no-cache bash ca-certificates curl git gzip mariadb-client openssh-client tar
 
 COPY go.mod go.sum ./
@@ -22,6 +30,9 @@ FROM alpine:3.22 AS production
 
 WORKDIR /app
 
+ARG ALPINE_MIRROR=https://mirrors.aliyun.com/alpine
+
+RUN sed -i "s|https://dl-cdn.alpinelinux.org/alpine|${ALPINE_MIRROR}|g" /etc/apk/repositories
 RUN apk add --no-cache bash ca-certificates curl git gzip mariadb-client openssh-client tar
 
 COPY --from=build /tmp/byml-api /app/byml-api
