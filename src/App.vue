@@ -752,4 +752,13 @@ onBeforeUnmount(() => {
   color: inherit !important;
   text-decoration: none;
 }
+
+.el-backtop {
+  --el-backtop-text-color: #7d1231;
+}
+
+.el-backtop .el-icon,
+.el-backtop .el-icon svg {
+  color: #7d1231 !important;
+}
 </style>

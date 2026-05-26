@@ -1,42 +1,33 @@
 <template>
   <div class="home-container">
-    <!-- 背景图片层 -->
-    <div class="background-image-layer">
-      <div class="image-overlay"></div>
-    </div>
-
-    <!-- 科技感背景元素 -->
-    <div class="tech-background">
-      <div class="floating-particles">
-        <div v-for="(particle, index) in particles" :key="index" class="particle" :style="particle"></div>
-      </div>
-      <div class="gradient-mesh"></div>
-    </div>
-
-    <!-- 主要内容 -->
-    <div class="main-content">
-      <!-- 实验室介绍区域 -->
-      <section class="hero-section">
-        <div class="hero-content">
-          <div class="badge-icon">
+    <section class="hero-band">
+      <div class="hero-section" aria-labelledby="home-title">
+        <div class="hero-copy">
+          <div class="identity-row">
             <img src="/logo/001.png" alt="BYML Logo" class="logo-image">
+            <span>Guangdong University of Technology</span>
           </div>
 
-          <h1 class="lab-title">
-            <span class="title-main">
-              <span class="word word-1">Beyond</span>
-              <span class="word word-2">Machine</span>
-              <span class="word word-3">Learning</span>
-              <span class="word word-4">Group</span>
-            </span>
-          </h1>
+          <h1 id="home-title" class="lab-title">Beyond Machine Learning Group</h1>
 
           <p class="lab-mission">
-            Pioneering the next generation of intelligent systems through interdisciplinary research
-            in machine learning, computer vision, and biomedical computing.
+            We study machine learning methods for multimodal data, with a focus on medical image
+            analysis, video understanding, federated learning, and robust model training.
           </p>
 
-          <div class="mission-stats">
+          <div class="hero-actions">
+            <el-button type="primary" size="large" @click="scrollToResearch" class="primary-action">
+              Latest Research
+              <el-icon><ArrowRight /></el-icon>
+            </el-button>
+            <el-button size="large" @click="$router.push('/about')" class="secondary-action">
+              About the Group
+            </el-button>
+          </div>
+        </div>
+
+        <aside class="hero-summary" aria-label="BYML summary">
+          <div class="stats-grid">
             <div class="stat-item">
               <span class="stat-number">{{ stats.publications }}+</span>
               <span class="stat-label">Publications</span>
@@ -51,148 +42,132 @@
             </div>
           </div>
 
-          <div class="hero-actions">
-            <el-button
-                type="primary"
-                size="large"
-                @click="scrollToResearch"
-                class="cta-button primary"
-            >
-              Explore Our Research
-              <el-icon><ArrowRight /></el-icon>
-            </el-button>
-            <el-button
-                size="large"
-                @click="$router.push('/about')"
-                class="cta-button secondary"
-            >
-              Learn More About Us
-            </el-button>
+          <div class="theme-list">
+            <h2>Research Focus</h2>
+            <ul>
+              <li v-for="theme in researchThemes" :key="theme">{{ theme }}</li>
+            </ul>
           </div>
+        </aside>
+      </div>
+    </section>
+
+    <main class="main-content">
+      <section class="overview-section" aria-labelledby="overview-title">
+        <div class="section-heading">
+          <span class="section-kicker">Overview</span>
+          <h2 id="overview-title" class="section-title">Research With Practical Data Conditions</h2>
         </div>
 
-        <div class="hero-visual">
-          <div class="visual-container">
-            <div class="floating-cards">
-              <div v-for="card in homeHeroCards" :key="card.title" class="card" :class="card.className">
-                <div class="card-icon">{{ card.icon }}</div>
-                <div class="card-content">
-                  <span class="card-title">{{ card.title }}</span>
-                  <span class="card-desc">{{ card.description }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="overview-grid">
+          <article v-for="item in overviewItems" :key="item.title" class="overview-item">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
+          </article>
         </div>
       </section>
 
-      <!-- 研究亮点 -->
-      <section class="highlights-section">
-        <div class="container">
-          <div v-for="highlight in homeHighlights" :key="highlight.title" class="highlight-item">
-            <div class="highlight-icon">{{ highlight.icon }}</div>
-            <div class="highlight-content">
-              <h3>{{ highlight.title }}</h3>
-              <p>{{ highlight.description }}</p>
-            </div>
-          </div>
+      <section class="research-section" id="research-highlights" aria-labelledby="research-title">
+        <div class="section-heading">
+          <span class="section-kicker">Publications</span>
+          <h2 id="research-title" class="section-title">Latest Research</h2>
+          <p class="section-subtitle">Recent representative work from the group.</p>
         </div>
+
+        <ResearchCarousel class="research-carousel-wrapper" />
       </section>
 
-      <!-- 最新研究成果 -->
-      <section class="research-section" id="research-highlights">
-        <div class="section-header">
-          <h2 class="section-title">Latest Research</h2>
-          <p class="section-subtitle">Cutting-edge publications and breakthroughs from our team</p>
+      <section class="news-section" aria-labelledby="news-title">
+        <div class="section-heading">
+          <span class="section-kicker">Updates</span>
+          <h2 id="news-title" class="section-title">Latest News</h2>
+          <p class="section-subtitle">Recent publications, group activities, and announcements.</p>
         </div>
 
-        <research-carousel class="research-carousel-wrapper" />
-      </section>
-
-      <!-- 最新新闻 -->
-      <section class="news-section">
-        <div class="section-header">
-          <h2 class="section-title">Latest News</h2>
-          <p class="section-subtitle">Stay updated with our recent activities and achievements</p>
-        </div>
-
-        <div class="news-timeline">
-          <div
+        <div class="news-list">
+          <article
               v-for="(news, index) in latestNews"
-              :key="index"
+              :key="`${news.date}-${news.title}-${index}`"
               class="news-item"
               @click="$router.push('/news')"
           >
-            <div class="news-date">
+            <time class="news-date" :datetime="news.date">
               <span class="date-day">{{ getDay(news.date) }}</span>
-              <span class="date-month">{{ getMonth(news.date) }}</span>
-            </div>
+              <span class="date-month">{{ getMonth(news.date) }} {{ getYear(news.date) }}</span>
+            </time>
             <div class="news-content">
-              <div class="news-header">
-                <span class="news-type" :class="getNewsTypeClass(news.type)">{{ news.typeLabel }}</span>
-                <span class="news-year">{{ getYear(news.date) }}</span>
-              </div>
+              <span class="news-type" :class="getNewsTypeClass(news.type)">{{ news.typeLabel }}</span>
               <h3 class="news-title">{{ news.title }}</h3>
               <p class="news-excerpt">{{ news.excerpt }}</p>
             </div>
-            <div class="news-arrow">
-              <el-icon><ArrowRight /></el-icon>
-            </div>
-          </div>
+            <el-icon class="news-arrow"><ArrowRight /></el-icon>
+          </article>
         </div>
 
-        <div class="news-actions">
-          <el-button
-              type="primary"
-              plain
-              @click="$router.push('/news')"
-              class="view-all-button"
-          >
+        <div class="section-actions">
+          <el-button type="primary" plain @click="$router.push('/news')" class="link-button">
             View All News
             <el-icon><View /></el-icon>
           </el-button>
         </div>
       </section>
 
-      <!-- 快速导航 -->
-      <section class="quick-nav-section">
-        <div class="section-header">
-          <h2 class="section-title">Explore More</h2>
-          <p class="section-subtitle">Discover our research areas and team</p>
+      <section class="quick-nav-section" aria-labelledby="explore-title">
+        <div class="section-heading">
+          <span class="section-kicker">Explore</span>
+          <h2 id="explore-title" class="section-title">More From BYML</h2>
         </div>
 
-        <div class="nav-grid">
-          <el-card
+        <div class="nav-list">
+          <button
               v-for="link in homeQuickLinks"
               :key="link.route"
-              class="nav-card"
-              shadow="hover"
+              class="nav-item"
+              type="button"
               @click="$router.push(link.route)"
           >
-            <div class="nav-card-content">
-              <div class="nav-icon">{{ link.icon }}</div>
-              <h3>{{ link.title }}</h3>
-              <p>{{ link.description }}</p>
-              <span class="nav-arrow">→</span>
-            </div>
-          </el-card>
+            <span>
+              <strong>{{ link.title }}</strong>
+              <small>{{ link.description }}</small>
+            </span>
+            <el-icon><ArrowRight /></el-icon>
+          </button>
         </div>
       </section>
-    </div>
+    </main>
 
     <el-backtop class="mobile-backtop" :right="100" :bottom="100" />
   </div>
 </template>
 
 <script setup lang="ts">
-import ResearchCarousel from '../components/ResearchCarousel.vue'
 import { ArrowRight, View } from '@element-plus/icons-vue'
-import { ref } from 'vue'
+import ResearchCarousel from '../components/ResearchCarousel.vue'
 import { useHomeContent } from '../composables/useHomeContent'
-import { homeHeroCards, homeHighlights, homeQuickLinks } from '../data/homeSections'
-import { createParticleStyle, getDay, getMonth, getNewsTypeClass, getYear, scrollToResearch } from '../utils/homeView'
+import { homeQuickLinks } from '../data/homeSections'
+import { getDay, getMonth, getNewsTypeClass, getYear, scrollToResearch } from '../utils/homeView'
 
-const particles = ref(Array.from({ length: 20 }, createParticleStyle))
+const researchThemes = [
+  'Multimodal medical image analysis',
+  'Federated and privacy-aware learning',
+  'Video understanding and cross-modal retrieval',
+  'Robust learning with noisy or limited labels',
+]
+
+const overviewItems = [
+  {
+    title: 'Multimodal Learning',
+    description: 'Connecting visual, textual, signal, and structured information for reliable model reasoning.',
+  },
+  {
+    title: 'Healthcare Applications',
+    description: 'Developing learning methods for medical image segmentation, diagnosis support, and clinical data analysis.',
+  },
+  {
+    title: 'Distributed Intelligence',
+    description: 'Studying federated optimization and collaborative learning when data remains across different sites.',
+  },
+]
 
 const { latestNews, stats } = useHomeContent()
 </script>
@@ -200,1203 +175,474 @@ const { latestNews, stats } = useHomeContent()
 <style scoped>
 .home-container {
   --primary-color: #7d1231;
-  --primary-light: #9a2c4d;
   --primary-dark: #5a0c22;
-  --secondary-color: #13393e;
-  --accent-color: #3498db;
-  --accent-light: #5dade2;
-  --text-primary: #2c3e50;
-  --text-secondary: #5d6d7e;
-  --text-light: #7f8c8d;
-  --bg-light: #f8f9fa;
-  --bg-white: #ffffff;
-  --bg-card: rgba(255, 255, 255, 0.95);
-  --gradient-primary: linear-gradient(135deg, #7d1231 0%, #9a2c4d 100%);
-  --gradient-secondary: linear-gradient(135deg, #13393e 0%, #3498db 100%);
-  --gradient-hero: linear-gradient(135deg, #7d1231 0%, #13393e 100%);
-  --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.08);
-  --shadow-medium: 0 15px 40px rgba(0, 0, 0, 0.12);
-  --shadow-large: 0 25px 50px rgba(0, 0, 0, 0.15);
-  --border-radius: 16px;
-  --border-radius-lg: 20px;
+  --text-primary: #273445;
+  --text-secondary: #566273;
+  --text-muted: #7a8492;
+  --border-color: #e8edf1;
+  --theme-border: #e4cfd7;
+  --surface-muted: #faf7f8;
 
+  background: #fff;
+  color: var(--text-primary);
   min-height: 100vh;
-  position: relative;
-  background: var(--bg-light);
-  overflow-x: hidden;
 }
 
- /* 背景图片层 - 采用 Contact 页面的方式 */
-.background-image-layer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.hero-band {
   background:
-      linear-gradient(135deg, rgba(125,18,49,0.08) 0%, rgba(19,57,62,0.12) 100%),
-      url('/background/ContactBackground.jpg') center/cover fixed;
-  z-index: 0;
+      linear-gradient(90deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.86) 48%, rgba(255, 255, 255, 0.72) 100%),
+      url('/background/ContactBackground.jpg') center/cover;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.image-overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at 50% 30%, rgba(248,249,250,0.6) 20%, rgba(248,249,250,0.9) 80%);
-}
-
-/* 科技背景 - 恢复 fixed 定位 */
-.tech-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.floating-particles {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.particle {
-  position: absolute;
-  background: var(--primary-color);
-  border-radius: 50%;
-  opacity: 0.1;
-  animation: floatParticle linear infinite;
-  /* 启用硬件加速 */
-  will-change: transform;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
-@keyframes floatParticle {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0.1;
-  }
-  50% {
-    opacity: 0.05;
-  }
-  100% {
-    transform: translateY(-100vh) rotate(360deg);
-    opacity: 0.1;
-  }
-}
-
-.gradient-mesh {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background:
-      radial-gradient(circle at 20% 80%, rgba(125, 18, 49, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(19, 57, 62, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 40% 40%, rgba(52, 152, 219, 0.05) 0%, transparent 50%);
-  animation: pulseMesh 15s ease-in-out infinite;
-  /* 启用硬件加速 */
-  will-change: transform, opacity;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
-@keyframes pulseMesh {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1);
-  }
-}
-
-/* 主内容 */
 .main-content {
-  position: relative;
-  z-index: 2;
-  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 2rem;
+  max-width: 1180px;
+  padding: 0 24px 76px;
 }
 
-/* 英雄区域 */
 .hero-section {
+  align-items: start;
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 5rem;
+  gap: 70px;
+  grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr);
+  margin: 0 auto;
+  max-width: 1180px;
+  min-height: 620px;
+  padding: 82px 24px 88px;
+}
+
+.hero-copy {
+  max-width: 760px;
+}
+
+.identity-row {
   align-items: center;
-  min-height: 100vh;
-  padding: 2rem 0;
-  position: relative;
-  z-index: 3;
-}
-
-.hero-content {
-  padding-right: 2rem;
-  position: relative;
-  z-index: 10;
-  animation: fadeInUp 1s ease-out;
-  isolation: isolate;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.lab-badge {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
-}
-
-.badge-icon {
-  width: 90px;
-  height: 90px;
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  border-radius: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 12px 36px rgba(125, 18, 49, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  border: 2px solid rgba(125, 18, 49, 0.12);
-  animation: floatLogo 6s ease-in-out infinite;
-}
-
-@keyframes floatLogo {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.badge-icon .logo-image {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-}
-
-.badge-icon:hover {
-  transform: translateY(-10px) scale(1.06) rotate(5deg);
-  box-shadow: 0 20px 50px rgba(125, 18, 49, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  border-color: var(--primary-color);
-  animation-play-state: paused;
-}
-
-.badge-icon svg {
-  width: 35px;
-  height: 35px;
-}
-
-.badge-text {
-  font-size: 1.1rem;
-  font-weight: 600;
   color: var(--primary-color);
-  background: rgba(125, 18, 49, 0.1);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  display: flex;
+  gap: 14px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin-bottom: 26px;
+}
+
+.logo-image {
+  display: block;
+  height: 52px;
+  object-fit: contain;
+  width: 52px;
 }
 
 .lab-title {
-  margin-bottom: 2rem;
-}
-
-.title-main {
-  display: inline-block;
-  font-size: 4.5rem;
-  font-weight: 900;
   color: var(--primary-color);
-  letter-spacing: -1.5px;
-  white-space: nowrap;
-  text-shadow: 0 4px 12px rgba(125, 18, 49, 0.25);
-}
-
-.word {
-  display: inline-block;
-  margin-right: 1.2rem;
-  animation: bounceWord 2.5s ease-in-out infinite;
-}
-
-.word:last-child {
-  margin-right: 0;
-}
-
-.word-1 {
-  animation-delay: 0s;
-}
-
-.word-2 {
-  animation-delay: 0.1s;
-}
-
-.word-3 {
-  animation-delay: 0.2s;
-}
-
-.word-4 {
-  animation-delay: 0.3s;
-}
-
-@keyframes bounceWord {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  20% {
-    transform: translateY(-10px);
-  }
-  40% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  font-size: 4rem;
+  font-weight: 750;
+  letter-spacing: 0;
+  line-height: 1.08;
+  margin: 0;
 }
 
 .lab-mission {
-  font-size: 1.5rem;
-  line-height: 1.9;
+  border-left: 4px solid var(--primary-color);
   color: var(--text-secondary);
-  margin-bottom: 3.5rem;
-  font-weight: 400;
-  max-width: 95%;
-  position: relative;
-  padding-left: 24px;
-  border-left: 5px solid var(--primary-color);
-  animation: fadeInLeft 1s ease-out 0.4s both;
-  background: linear-gradient(90deg, rgba(125, 18, 49, 0.03) 0%, transparent 100%);
-  padding: 1.5rem 1.5rem 1.5rem 24px;
-  border-radius: 0 12px 12px 0;
-}
-
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.mission-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-bottom: 3rem;
-  animation: fadeInUp 1s ease-out 0.6s both;
-}
-
-.stat-item {
-  text-align: center;
-  padding: 2.2rem 1.8rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
-  /* 移除 backdrop-filter 以提升性能 */
-  /* backdrop-filter: blur(20px); */
-  border-radius: var(--border-radius-lg);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  border: 2px solid rgba(125, 18, 49, 0.12);
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
-  overflow: hidden;
-  /* 启用硬件加速 */
-  will-change: transform;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
-.stat-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(125, 18, 49, 0.05) 0%, transparent 50%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.stat-item:hover::before {
-  opacity: 1;
-}
-
-.stat-item:hover {
-  transform: translateY(-12px) scale(1.08);
-  box-shadow: 0 24px 70px rgba(125, 18, 49, 0.25);
-  border-color: var(--primary-color);
-}
-
-.stat-number {
-  display: block;
-  font-size: 3.5rem;
-  font-weight: 900;
-  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1;
-  margin-bottom: 0.6rem;
-  position: relative;
-  z-index: 1;
-}
-
-.stat-label {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  font-weight: 500;
+  font-size: 1.22rem;
+  line-height: 1.85;
+  margin: 30px 0 0;
+  max-width: 720px;
+  padding-left: 22px;
 }
 
 .hero-actions {
   display: flex;
-  gap: 1.5rem;
-  margin-top: 2rem;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
 }
 
-.cta-button {
-  border-radius: 18px;
-  padding: 1.3rem 2.6rem;
-  font-weight: 700;
-  font-size: 1.15rem;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: none;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+.primary-action,
+.secondary-action,
+.link-button {
+  border-radius: 6px;
+  font-weight: 650;
 }
 
-.cta-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
-  transition: left 0.7s ease;
+.primary-action {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
-.cta-button:hover::before {
-  left: 100%;
+.primary-action:hover,
+.primary-action:focus {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
 }
 
-.cta-button.primary {
-  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
-  color: white;
-  box-shadow: 0 12px 32px rgba(125, 18, 49, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.cta-button.primary:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 24px 60px rgba(125, 18, 49, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  filter: brightness(1.1);
-}
-
-.cta-button.secondary {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
+.secondary-action {
+  border-color: var(--theme-border);
   color: var(--primary-color);
-  border: 2px solid var(--primary-color);
-  box-shadow: 0 6px 20px rgba(125, 18, 49, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.cta-button.secondary:hover {
-  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
-  color: white;
-  transform: translateY(-8px);
-  box-shadow: 0 20px 50px rgba(125, 18, 49, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  border-color: transparent;
+.hero-summary {
+  border-top: 4px solid var(--primary-color);
+  background: rgba(250, 247, 248, 0.93);
+  padding: 28px;
 }
 
-/* 英雄区域视觉元素 */
-.hero-visual {
-  position: relative;
-  height: 500px;
-  z-index: 1;
-}
-
-.visual-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.floating-cards {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.card {
-  position: absolute;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  padding: 1.6rem;
-  border-radius: 24px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(0, 0, 0, 0.08);
-  display: flex;
-  align-items: center;
-  gap: 1.4rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  animation: floatCard 8s ease-in-out infinite;
-  border: 2px solid rgba(125, 18, 49, 0.18);
-  /* 移除 backdrop-filter 以提升性能 */
-  /* backdrop-filter: blur(20px); */
-  max-width: 260px;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
-  overflow: hidden;
-  /* 启用硬件加速 */
-  will-change: transform;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(125, 18, 49, 0.12) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.card:hover::before {
-  opacity: 1;
-}
-
-.card:hover {
-  transform: translateY(-20px) scale(1.12) rotate(2deg);
-  box-shadow: 0 28px 80px rgba(125, 18, 49, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.98);
-  border-color: var(--primary-color);
-}
-
-.card-1 {
-  top: 5%;
-  left: 0%;
-  animation-delay: 0s;
-  z-index: 4;
-}
-
-.card-2 {
-  top: 0%;
-  right: 5%;
-  animation-delay: -2s;
-  z-index: 3;
-}
-
-.card-3 {
-  bottom: 5%;
-  left: 5%;
-  animation-delay: -4s;
-  z-index: 2;
-}
-
-.card-4 {
-  bottom: 0%;
-  right: 0%;
-  animation-delay: -6s;
-  z-index: 1;
-}
-
-.card-icon {
-  font-size: 2rem;
-  flex-shrink: 0;
-}
-
-.card-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.card-title {
-  font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 0.2rem;
-}
-
-.card-desc {
-  font-size: 0.8rem;
-  color: var(--text-light);
-}
-
-@keyframes floatCard {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  33% {
-    transform: translateY(-20px) rotate(2deg);
-  }
-  66% {
-    transform: translateY(-10px) rotate(-2deg);
-  }
-}
-
-/* 亮点区域 */
-.highlights-section {
-  padding: 4rem 0;
-  border-radius: var(--border-radius-lg);
-  margin: 2rem 0;
-}
-
-.highlights-section .container {
+.stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  gap: 0;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--theme-border);
+  background: #fff;
 }
 
-.highlight-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.8rem;
-  padding: 2.5rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  /* 移除 backdrop-filter 以提升性能 */
-  /* backdrop-filter: blur(20px); */
-  border-radius: 24px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 12px rgba(0, 0, 0, 0.06);
-  border: 2px solid rgba(125, 18, 49, 0.12);
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
-  overflow: hidden;
-  /* 启用硬件加速 */
-  will-change: transform;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+.stat-item {
+  padding: 22px 14px;
+  text-align: center;
 }
 
-.highlight-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(125, 18, 49, 0.08) 0%, rgba(19, 57, 62, 0.05) 100%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
+.stat-item + .stat-item {
+  border-left: 1px solid var(--theme-border);
 }
 
-.highlight-item:hover::before {
-  opacity: 1;
+.stat-number {
+  color: var(--primary-color);
+  display: block;
+  font-size: 2rem;
+  font-weight: 750;
+  line-height: 1;
 }
 
-.highlight-item:hover {
-  transform: translateY(-12px) scale(1.03);
-  box-shadow: 0 24px 70px rgba(125, 18, 49, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.98);
-  border-color: var(--primary-color);
+.stat-label {
+  color: var(--text-muted);
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-top: 8px;
 }
 
-.highlight-icon {
-  font-size: 3.5rem;
-  flex-shrink: 0;
-  filter: drop-shadow(0 6px 12px rgba(125, 18, 49, 0.25));
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+.theme-list {
+  margin-top: 30px;
 }
 
-.highlight-item:hover .highlight-icon {
-  transform: scale(1.2) rotate(8deg);
-  filter: drop-shadow(0 10px 20px rgba(125, 18, 49, 0.35));
+.theme-list h2 {
+  color: var(--primary-color);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 14px;
 }
 
-.highlight-content h3 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.8rem;
+.theme-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.highlight-content p {
+.theme-list li {
+  border-top: 1px solid var(--theme-border);
   color: var(--text-secondary);
   line-height: 1.6;
+  padding: 13px 0;
 }
 
-/* 通用区域样式 */
+.overview-section,
 .research-section,
-.quick-nav-section,
-.news-section {
-  padding: 6rem 0;
+.news-section,
+.quick-nav-section {
+  border-top: 1px solid var(--border-color);
+  padding: 58px 0;
 }
 
-.section-header {
-  text-align: center;
-  margin-bottom: 4rem;
+.section-heading {
+  margin-bottom: 28px;
+  max-width: 760px;
+}
+
+.section-kicker {
+  color: var(--primary-color);
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin-bottom: 8px;
 }
 
 .section-title {
-  font-size: 3rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 50%, #7d1231 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 1.5rem;
-  position: relative;
-  display: inline-block;
-  letter-spacing: -0.5px;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 5px;
-  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
-  border-radius: 3px;
-  box-shadow: 0 2px 8px rgba(125, 18, 49, 0.3);
+  color: var(--primary-color);
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.25;
+  margin: 0;
 }
 
 .section-subtitle {
-  font-size: 1.4rem;
   color: var(--text-secondary);
-  max-width: 650px;
-  margin: 0 auto;
-  line-height: 1.8;
-  font-weight: 400;
-  opacity: 0.9;
-}
-
-/* 新闻模块样式 - 时间线布局 */
-.news-section {
-  margin: 2rem 0;
-  border-radius: var(--border-radius-lg);
-}
-
-.news-timeline {
-  max-width: 900px;
-  margin: 0 auto 3rem;
-}
-
-.news-item {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  padding: 2.5rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  /* 移除 backdrop-filter 以提升性能 */
-  /* backdrop-filter: blur(20px); */
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 4px 12px rgba(0, 0, 0, 0.05);
-  margin-bottom: 1.5rem;
-  cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 2px solid rgba(125, 18, 49, 0.1);
-  position: relative;
-  overflow: hidden;
-  /* 启用硬件加速 */
-  will-change: transform;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
-.news-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(125, 18, 49, 0.05) 0%, rgba(19, 57, 62, 0.03) 100%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.news-item:hover::before {
-  opacity: 1;
-}
-
-.news-item:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(125, 18, 49, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.98);
-  border-color: var(--primary-color);
-}
-
-.news-date {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 90px;
-  padding: 1.2rem;
-  background: linear-gradient(135deg, rgba(125, 18, 49, 0.08) 0%, rgba(19, 57, 62, 0.05) 100%);
-  border-radius: 16px;
-  border: 2px solid rgba(125, 18, 49, 0.15);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  position: relative;
-  overflow: hidden;
-}
-
-.news-date::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(125, 18, 49, 0.05) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.news-item:hover .news-date::after {
-  opacity: 1;
-}
-
-.date-day {
-  font-size: 2.2rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1;
-  position: relative;
-  z-index: 1;
-}
-
-.date-month {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  margin-top: 0.3rem;
-  letter-spacing: 0.5px;
-  position: relative;
-  z-index: 1;
-}
-
-.news-content {
-  flex: 1;
-}
-
-.news-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.8rem;
-}
-
-.news-type {
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  border: 2px solid transparent;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.type-publication {
-  background: linear-gradient(135deg, rgba(125, 18, 49, 0.1) 0%, rgba(165, 28, 65, 0.08) 100%);
-  color: var(--primary-color);
-  border-color: rgba(125, 18, 49, 0.2);
-}
-
-.type-team {
-  background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(41, 128, 185, 0.08) 100%);
-  color: var(--accent-color);
-  border-color: rgba(52, 152, 219, 0.2);
-}
-
-.type-award {
-  background: linear-gradient(135deg, rgba(241, 196, 15, 0.1) 0%, rgba(243, 156, 18, 0.08) 100%);
-  color: #f39c12;
-  border-color: rgba(241, 196, 15, 0.2);
-}
-
-.type-event {
-  background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(39, 174, 96, 0.08) 100%);
-  color: #27ae60;
-  border-color: rgba(46, 204, 113, 0.2);
-}
-
-.news-item:hover .news-type {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.news-year {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  font-weight: 500;
-}
-
-.news-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 0.8rem;
-  line-height: 1.4;
-  letter-spacing: -0.3px;
-  transition: color 0.3s ease;
-}
-
-.news-item:hover .news-title {
-  color: var(--primary-color);
-}
-
-.news-excerpt {
-  color: var(--text-secondary);
+  font-size: 1.06rem;
   line-height: 1.7;
-  margin: 0;
-  font-size: 1rem;
-  opacity: 0.95;
+  margin: 12px 0 0;
 }
 
-.news-arrow {
-  color: var(--text-light);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0.6;
-}
-
-.news-item:hover .news-arrow {
-  color: var(--primary-color);
-  transform: translateX(8px);
-  opacity: 1;
-}
-
-.news-actions {
-  text-align: center;
-}
-
-.view-all-button {
-  border-radius: 16px;
-  padding: 1rem 2.4rem;
-  font-weight: 600;
-  font-size: 1.05rem;
-  border: 2px solid var(--primary-color);
-  color: var(--primary-color);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 4px 12px rgba(125, 18, 49, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
-
-.view-all-button:hover {
-  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
-  color: white;
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(125, 18, 49, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  border-color: transparent;
-}
-
-/* 快速导航网格 */
-.nav-grid {
+.overview-grid {
   display: grid;
+  gap: 28px;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
 }
 
-.nav-card {
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 2px solid rgba(125, 18, 49, 0.12);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+.overview-item {
+  border-top: 3px solid var(--primary-color);
+  padding-top: 18px;
 }
 
-.nav-card:hover {
-  transform: translateY(-12px) scale(1.03);
-  box-shadow: 0 20px 50px rgba(125, 18, 49, 0.2);
-  border-color: var(--primary-color);
-  border-width: 2px;
-}
-
-.nav-card-content {
-  padding: 2.5rem 2rem;
-  text-align: center;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.nav-icon {
-  font-size: 3.5rem;
-  margin-bottom: 1.5rem;
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  filter: drop-shadow(0 4px 8px rgba(125, 18, 49, 0.15));
-}
-
-.nav-card:hover .nav-icon {
-  transform: scale(1.2) rotate(10deg);
-  filter: drop-shadow(0 8px 16px rgba(125, 18, 49, 0.3));
-}
-
-.nav-card h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
+.overview-item h3 {
   color: var(--text-primary);
-  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
 }
 
-.nav-card p {
+.overview-item p {
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.75;
+  margin: 10px 0 0;
 }
 
-.nav-arrow {
-  color: var(--primary-color);
-  font-size: 1.5rem;
-  font-weight: bold;
-  transition: transform 0.3s ease;
-}
-
-.nav-card:hover .nav-arrow {
-  transform: translateX(5px);
-}
-
-/* 轮播图包装器 */
 .research-carousel-wrapper {
   max-width: 1000px;
   margin: 0 auto;
 }
 
-/* 响应式设计 */
-@media (max-width: 1200px) {
-  .hero-section {
-    gap: 3rem;
-  }
+.news-list {
+  border-top: 1px solid var(--theme-border);
+}
 
-  .title-main {
-    font-size: 3rem;
-  }
+.news-item {
+  align-items: start;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  display: grid;
+  gap: 26px;
+  grid-template-columns: 110px minmax(0, 1fr) 28px;
+  padding: 24px 0;
+  text-align: left;
+  width: 100%;
+}
+
+.news-item:hover .news-title,
+.news-item:focus-within .news-title,
+.news-item:hover .news-arrow {
+  color: var(--primary-color);
+}
+
+.news-date {
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  font-variant-numeric: tabular-nums;
+}
+
+.date-day {
+  color: var(--primary-color);
+  font-size: 1.65rem;
+  font-weight: 750;
+  line-height: 1;
+}
+
+.date-month {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-top: 7px;
+}
+
+.news-content {
+  min-width: 0;
+}
+
+.news-type {
+  color: var(--primary-color);
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.news-title {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.news-excerpt {
+  color: var(--text-secondary);
+  font-size: 0.98rem;
+  line-height: 1.7;
+  margin: 8px 0 0;
+}
+
+.news-arrow {
+  color: var(--text-muted);
+  margin-top: 30px;
+}
+
+.section-actions {
+  margin-top: 26px;
+}
+
+.link-button {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.nav-list {
+  border-top: 1px solid var(--theme-border);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.nav-item {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  gap: 22px;
+  justify-content: space-between;
+  min-height: 150px;
+  padding: 24px;
+  text-align: left;
+}
+
+.nav-item:nth-child(3n) {
+  border-right: 0;
+}
+
+.nav-item:hover strong,
+.nav-item:hover .el-icon {
+  color: var(--primary-color);
+}
+
+.nav-item strong {
+  color: var(--text-primary);
+  display: block;
+  font-size: 1.16rem;
+  line-height: 1.35;
+}
+
+.nav-item small {
+  color: var(--text-secondary);
+  display: block;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin-top: 8px;
+}
+
+.nav-item .el-icon {
+  color: var(--text-muted);
+  flex: 0 0 auto;
+}
+
+.mobile-backtop {
+  right: 100px;
+  bottom: 100px;
 }
 
 @media (max-width: 1024px) {
   .hero-section {
     grid-template-columns: 1fr;
-    gap: 3rem;
-    text-align: center;
-    padding: 2rem 0;
+    min-height: auto;
+    padding-top: 30px;
   }
 
-  .hero-content {
-    padding-right: 0;
+  .hero-summary {
+    max-width: 680px;
   }
 
-  .lab-badge {
-    justify-content: center;
+  .overview-grid {
+    grid-template-columns: 1fr;
   }
 
-  .mission-stats {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+  .nav-list {
+    grid-template-columns: 1fr;
   }
 
-  .title-main {
-    font-size: 2.8rem;
-  }
-
-  .lab-mission {
-    max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .nav-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* 隐藏 logo */
-  .badge-icon {
-    display: none !important;
+  .nav-item,
+  .nav-item:nth-child(3n) {
+    border-right: 0;
   }
 }
 
 @media (max-width: 768px) {
   .main-content {
-    padding: 1rem;
+    padding: 28px 16px 58px;
   }
 
-  .hero-section {
-    padding: 1rem 0;
-    min-height: auto;
-  }
-
-  .title-main {
-    font-size: 2.2rem;
-    white-space: normal;
-    line-height: 1.2;
+  .lab-title {
+    font-size: 2.45rem;
   }
 
   .lab-mission {
-    font-size: 1.1rem;
-  }
-
-  .mission-stats {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .stat-number {
-    font-size: 2rem;
+    font-size: 1.08rem;
   }
 
   .hero-actions {
     flex-direction: column;
-    gap: 1rem;
   }
 
-  .research-section,
-  .quick-nav-section,
-  .news-section {
-    padding: 4rem 0;
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-item + .stat-item {
+    border-left: 0;
+    border-top: 1px solid var(--theme-border);
   }
 
   .section-title {
-    font-size: 2.2rem;
+    font-size: 1.75rem;
   }
 
-  .section-subtitle {
-    font-size: 1.1rem;
+  .news-item {
+    grid-template-columns: 74px minmax(0, 1fr);
   }
 
-  .hero-visual {
-    height: 400px;
-  }
-
-  .card {
-    padding: 1rem;
-    max-width: 180px;
-  }
-
-  .background-image-layer {
-    background-attachment: scroll;
+  .news-arrow {
+    display: none;
   }
 
   .mobile-backtop {
     right: 20px !important;
     bottom: 80px !important;
   }
-
-  .news-item {
-    flex-direction: column;
-    text-align: center;
-    gap: 1.5rem;
-    padding: 1.5rem;
-  }
-
-  .news-date {
-    flex-direction: row;
-    gap: 1rem;
-    min-width: auto;
-  }
-
-  .date-day {
-    font-size: 1.5rem;
-  }
-
-  .news-header {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .news-title {
-    font-size: 1.2rem;
-  }
-
-  .highlights-section .container {
-    grid-template-columns: 1fr;
-  }
-
-  .highlight-item {
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem;
-  }
-
-  .nav-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* 隐藏 logo */
-  .badge-icon {
-    display: none !important;
-  }
 }
 
 @media (max-width: 480px) {
-  .title-main {
-    font-size: 1.8rem;
+  .main-content {
+    padding: 22px 12px 50px;
   }
 
-  .mission-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .section-title {
-    font-size: 1.8rem;
-  }
-
-  .nav-card-content {
-    padding: 1.5rem;
-  }
-
-  .lab-badge {
+  .identity-row {
+    align-items: flex-start;
     flex-direction: column;
-    gap: 0.8rem;
+  }
+
+  .lab-title {
+    font-size: 2rem;
+  }
+
+  .hero-summary {
+    padding: 20px;
   }
 
   .news-item {
-    padding: 1.2rem;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
-
-  /* 隐藏 logo */
-  .badge-icon {
-    display: none !important;
-  }
-}
-
-/* 大屏幕优化 */
-@media (min-width: 1400px) {
-  .main-content {
-    max-width: 1400px;
-  }
-}
-
-/* 保证 el-icon 的图标颜色在初始时是正确的 */
-::v-deep(.el-icon svg) {
-  color: #7d1231 !important;
 }
 </style>

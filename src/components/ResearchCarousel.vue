@@ -1,71 +1,63 @@
 <template>
-  <div class="research-carousel">
-    <!-- 桌面端 -->
-    <div v-if="!isMobile" class="desktop-carousel">
-      <div class="carousel-container">
-        <div class="carousel-track" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
-          <div v-for="pub in publications" :key="pub.id" class="carousel-slide">
-            <div class="slide-card">
-              <div class="slide-image">
-                <img :src="pub.image" :alt="pub.title" @error="handleImageError" />
-                <div class="badges">
-                  <span class="badge type">{{ pub.kind }}</span>
-                  <span class="badge year">{{ pub.year }}</span>
-                </div>
-              </div>
-              <div class="slide-info">
-                <h3 class="title">{{ pub.title }}</h3>
-                <p class="authors">{{ pub.authors }}</p>
-                <p class="venue">{{ pub.venue }}</p>
-                <div class="links">
-                  <el-button v-if="findLink(pub, 'paper')" type="primary" size="small" @click="openLink(findLink(pub, 'paper')!.url)">Paper</el-button>
-                  <el-button v-if="findLink(pub, 'code')" type="success" size="small" @click="openLink(findLink(pub, 'code')!.url)">Code</el-button>
-                  <el-button v-if="findLink(pub, 'video')" type="info" size="small" @click="handleVideoClick(findLink(pub, 'video')!)">Video</el-button>
-                </div>
-              </div>
-            </div>
-          </div>
+  <section class="research-spotlight" aria-label="Featured publications">
+    <div v-if="activePublication" class="spotlight-layout">
+      <div class="paper-visual">
+        <img :src="activePublication.image" :alt="activePublication.title" @error="handleImageError" />
+      </div>
+
+      <div class="paper-info">
+        <div class="paper-meta">
+          <span>{{ activePublication.kind }}</span>
+          <span>{{ activePublication.year }}</span>
         </div>
-        <button class="nav prev" @click="prevSlide"><el-icon><ArrowLeft /></el-icon></button>
-        <button class="nav next" @click="nextSlide"><el-icon><ArrowRight /></el-icon></button>
-        <div class="indicators">
-          <span v-for="(_, i) in publications" :key="i" class="dot" :class="{ active: i === currentIndex }" @click="goToSlide(i)"></span>
+
+        <h3>{{ activePublication.title }}</h3>
+        <p class="authors">{{ activePublication.authors }}</p>
+        <p class="venue">{{ activePublication.venue }}</p>
+
+        <div class="paper-links" v-if="activePublication.links.length">
+          <button
+              v-for="link in sortedLinks(activePublication)"
+              :key="`${link.type}-${link.url}-${link.routeName}`"
+              type="button"
+              class="paper-link"
+              @click="handleLinkClick(link)"
+          >
+            {{ link.label || link.type }}
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- 移动端卡片列表 -->
-    <div v-else class="mobile-carousel">
-      <div class="mobile-track" ref="trackRef" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
-        <div v-for="pub in publications" :key="pub.id" class="mobile-card">
-          <div class="card-image">
-            <img :src="pub.image" :alt="pub.title" @error="handleImageError" />
-            <div class="badges">
-              <span class="badge type">{{ pub.kind }}</span>
-              <span class="badge year">{{ pub.year }}</span>
-            </div>
-          </div>
-          <div class="card-info">
-            <h4 class="title">{{ pub.title }}</h4>
-            <p class="authors">{{ pub.authors }}</p>
-            <p class="venue">{{ pub.venue }}</p>
-            <div class="links">
-              <el-button v-if="findLink(pub, 'paper')" type="primary" size="small" @click="openLink(findLink(pub, 'paper')!.url)">Paper</el-button>
-              <el-button v-if="findLink(pub, 'code')" type="success" size="small" @click="openLink(findLink(pub, 'code')!.url)">Code</el-button>
-              <el-button v-if="findLink(pub, 'video')" type="info" size="small" @click="handleVideoClick(findLink(pub, 'video')!)">Video</el-button>
-            </div>
-          </div>
-        </div>
+    <div class="carousel-controls" v-if="publications.length > 1">
+      <button class="nav-button" type="button" aria-label="Previous publication" @click="prevSlide">
+        <el-icon><ArrowLeft /></el-icon>
+      </button>
+
+      <div class="paper-tabs" role="tablist" aria-label="Featured publication selector">
+        <button
+            v-for="(pub, index) in publications"
+            :key="pub.id || `${pub.title}-${index}`"
+            type="button"
+            class="paper-tab"
+            :class="{ active: index === currentIndex }"
+            :aria-selected="index === currentIndex"
+            @click="goToSlide(index)"
+        >
+          <span class="tab-index">{{ String(index + 1).padStart(2, '0') }}</span>
+          <span class="tab-title">{{ pub.title }}</span>
+        </button>
       </div>
-      <div class="mobile-indicators">
-        <span v-for="(_, i) in publications" :key="i" class="dot" :class="{ active: i === currentIndex }" @click="goToSlide(i)"></span>
-      </div>
+
+      <button class="nav-button" type="button" aria-label="Next publication" @click="nextSlide">
+        <el-icon><ArrowRight /></el-icon>
+      </button>
     </div>
-  </div>
+  </section>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import type { Publication, PublicationLink } from '../api/client'
@@ -74,37 +66,45 @@ import { openExternalLink } from '../utils/links'
 import { resolveExternalVideoURL, resolveVideoPagePath } from '../utils/videoLinks'
 
 const router = useRouter()
-const isMobile = ref(false)
 const currentIndex = ref(0)
-const touchStartX = ref(0)
-const touchEndX = ref(0)
-
 const publications = useFeaturedPublications()
+
+const activePublication = computed(() => publications.value[currentIndex.value])
 
 const handleImageError = (e: Event) => {
   (e.target as HTMLImageElement).src = '/publications/online.png'
 }
 
-const findLink = (pub: Publication, type: string) => pub.links.find((link) => link.type === type)
+const sortedLinks = (pub: Publication) => [...pub.links].sort((a, b) => a.sortOrder - b.sortOrder)
+
 const openLink = (url: string) => openExternalLink(url)
 
-const handleVideoClick = (link: PublicationLink) => {
-  const pagePath = resolveVideoPagePath(link)
-  if (pagePath) {
-    router.push(pagePath)
+const handleLinkClick = (link: PublicationLink) => {
+  if (link.type === 'video') {
+    const pagePath = resolveVideoPagePath(link)
+    if (pagePath) {
+      router.push(pagePath)
+      return
+    }
+    const externalURL = resolveExternalVideoURL(link)
+    if (externalURL) {
+      openLink(externalURL)
+    }
     return
   }
-  const externalURL = resolveExternalVideoURL(link)
-  if (externalURL) {
-    openLink(externalURL)
+
+  if (link.url) {
+    openLink(link.url)
   }
 }
 
 const nextSlide = () => {
+  if (!publications.value.length) return
   currentIndex.value = (currentIndex.value + 1) % publications.value.length
 }
 
 const prevSlide = () => {
+  if (!publications.value.length) return
   currentIndex.value = currentIndex.value === 0 ? publications.value.length - 1 : currentIndex.value - 1
 }
 
@@ -112,363 +112,227 @@ const goToSlide = (index: number) => {
   currentIndex.value = index
 }
 
-const handleTouchStart = (e: TouchEvent) => {
-  touchStartX.value = e.changedTouches[0].screenX
-}
-
-const handleTouchEnd = (e: TouchEvent) => {
-  touchEndX.value = e.changedTouches[0].screenX
-  const diff = touchStartX.value - touchEndX.value
-  if (Math.abs(diff) > 50) {
-    if (diff > 0) nextSlide()
-    else prevSlide()
-  }
-}
-
-const checkMobile = () => {
-  isMobile.value = window.innerWidth <= 768
-}
-
 let interval: ReturnType<typeof setInterval>
 
 onMounted(() => {
-  checkMobile()
-  window.addEventListener('resize', checkMobile)
-  interval = setInterval(nextSlide, 5000)
+  interval = setInterval(nextSlide, 7000)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', checkMobile)
   clearInterval(interval)
 })
 </script>
 
 <style scoped>
-.research-carousel {
-  width: 100%;
+.research-spotlight {
+  border-top: 1px solid #e4cfd7;
 }
 
-.desktop-carousel {
-  position: relative;
-  overflow: hidden;
-  border-radius: 28px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  /* 移除 backdrop-filter 以提升性能 */
-  /* backdrop-filter: blur(20px); */
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(0, 0, 0, 0.08);
-  border: 2px solid rgba(125, 18, 49, 0.15);
-  /* 启用硬件加速 */
-  will-change: transform;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
-.carousel-container {
-  position: relative;
-}
-
-.carousel-track {
-  display: flex;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.carousel-slide {
-  flex: 0 0 100%;
-}
-
-.slide-card {
+.spotlight-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 450px;
-  gap: 0;
-  position: relative;
-  overflow: hidden;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+  min-height: 390px;
+  border-bottom: 1px solid #e8edf1;
 }
 
-.slide-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(125, 18, 49, 0.04) 0%, rgba(19, 57, 62, 0.03) 100%);
-  pointer-events: none;
-}
-
-.slide-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: linear-gradient(180deg, var(--primary-color) 0%, #a51c41 50%, var(--primary-color) 100%);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.desktop-carousel:hover .slide-card::after {
-  opacity: 1;
-}
-
-.slide-image {
-  position: relative;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 249, 250, 0.7) 100%);
-  display: flex;
+.paper-visual {
   align-items: center;
-  justify-content: center;
-  padding: 2.5rem;
-  border-right: 1px solid rgba(125, 18, 49, 0.1);
-}
-
-.slide-image::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(125, 18, 49, 0.05) 0%, transparent 60%);
-  pointer-events: none;
-}
-
-.slide-image img {
-  max-width: 100%;
-  max-height: 300px;
-  object-fit: contain;
-  border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.slide-image:hover img {
-  transform: scale(1.08) rotate(-2deg);
-  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.2);
-}
-
-.badges {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
+  background: #faf7f8;
+  border-right: 1px solid #e8edf1;
   display: flex;
-  gap: 0.5rem;
-  z-index: 2;
+  justify-content: center;
+  padding: 30px;
 }
 
-.badge {
-  padding: 0.5rem 1.4rem;
-  border-radius: 24px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: white;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  /* 移除 backdrop-filter 以提升性能 */
-  /* backdrop-filter: blur(10px); */
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  /* 启用硬件加速 */
-  will-change: transform;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
+.paper-visual img {
+  background: #fff;
+  display: block;
+  max-height: 300px;
+  max-width: 100%;
+  object-fit: contain;
 }
 
-.badge:hover {
-  transform: translateY(-3px) scale(1.08);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-}
-
-.type {
-  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
-}
-
-.year {
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-}
-
-.slide-info {
-  padding: 3rem 2.5rem;
+.paper-info {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1rem;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 250, 0.85) 100%);
+  padding: 34px 40px;
 }
 
-.title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 50%, #7d1231 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 0.8rem;
-  line-height: 1.4;
-  letter-spacing: -0.3px;
+.paper-meta {
+  color: #7d1231;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.paper-meta span {
+  border: 1px solid #e4cfd7;
+  padding: 5px 9px;
+}
+
+.paper-info h3 {
+  color: #273445;
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 0;
 }
 
 .authors {
-  color: var(--primary-color);
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
-  line-height: 1.5;
+  color: #7d1231;
+  font-size: 0.98rem;
+  font-weight: 650;
+  line-height: 1.65;
+  margin: 18px 0 0;
 }
 
 .venue {
-  color: var(--text-secondary);
-  font-style: italic;
-  margin-bottom: 1.5rem;
-  font-weight: 500;
-  opacity: 0.9;
+  color: #566273;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  margin: 8px 0 0;
 }
 
-.links {
+.paper-links {
   display: flex;
-  gap: 1rem;
   flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
 }
 
-.nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 56px;
-  height: 56px;
-  border: none;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(0, 0, 0, 0.1);
+.paper-link {
+  background: #fff;
+  border: 1px solid #7d1231;
+  color: #7d1231;
   cursor: pointer;
-  display: flex;
+  font-size: 0.92rem;
+  font-weight: 650;
+  padding: 8px 14px;
+}
+
+.paper-link:hover,
+.paper-link:focus {
+  background: #7d1231;
+  color: #fff;
+}
+
+.carousel-controls {
+  align-items: stretch;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) 46px;
+  border-bottom: 1px solid #e8edf1;
+}
+
+.nav-button {
   align-items: center;
-  justify-content: center;
-  color: var(--primary-color);
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 10;
-  border: 2px solid rgba(125, 18, 49, 0.15);
-}
-
-.nav:hover {
-  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
-  color: white;
-  transform: translateY(-50%) scale(1.2) rotate(180deg);
-  box-shadow: 0 16px 48px rgba(125, 18, 49, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-}
-
-.prev {
-  left: 1rem;
-}
-
-.next {
-  right: 1rem;
-}
-
-.indicators {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 0.5rem;
-}
-
-.dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #d0d7de 0%, #b8bcc2 100%);
+  background: #fff;
+  border: 0;
+  color: #7d1231;
   cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 2px solid rgba(125, 18, 49, 0.25);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
-.dot.active {
-  background: linear-gradient(135deg, var(--primary-color) 0%, #a51c41 100%);
-  transform: scale(1.6);
-  box-shadow: 0 6px 16px rgba(125, 18, 49, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  border-color: transparent;
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 6px 16px rgba(125, 18, 49, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  }
-  50% {
-    box-shadow: 0 6px 24px rgba(125, 18, 49, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  }
-}
-
-/* 移动端 */
-.mobile-carousel {
-  padding: 0 0.5rem;
-}
-
-.mobile-track {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  gap: 1rem;
-  padding-bottom: 1rem;
-  scrollbar-width: none;
-}
-
-.mobile-track::-webkit-scrollbar {
-  display: none;
-}
-
-.mobile-card {
-  flex: 0 0 90%;
-  scroll-snap-align: start;
-  background: white;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-soft);
-  overflow: hidden;
-}
-
-.card-image {
-  position: relative;
-  background: var(--bg-light);
-  padding: 1.5rem;
-  text-align: center;
-}
-
-.card-image img {
-  max-width: 100%;
-  max-height: 180px;
-  object-fit: contain;
-}
-
-.card-info {
-  padding: 1.5rem;
-}
-
-.mobile-indicators {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
 }
 
-@media (max-width: 768px) {
-  .slide-card {
+.nav-button:first-child {
+  border-right: 1px solid #e8edf1;
+}
+
+.nav-button:last-child {
+  border-left: 1px solid #e8edf1;
+}
+
+.nav-button:hover,
+.nav-button:focus {
+  background: #faf7f8;
+}
+
+.paper-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.paper-tab {
+  background: #fff;
+  border: 0;
+  border-right: 1px solid #e8edf1;
+  cursor: pointer;
+  min-height: 96px;
+  padding: 14px;
+  text-align: left;
+}
+
+.paper-tab:last-child {
+  border-right: 0;
+}
+
+.paper-tab.active {
+  background: #faf7f8;
+  box-shadow: inset 0 4px 0 #7d1231;
+}
+
+.tab-index {
+  color: #7d1231;
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.tab-title {
+  color: #566273;
+  display: -webkit-box;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.paper-tab.active .tab-title {
+  color: #273445;
+  font-weight: 650;
+}
+
+@media (max-width: 900px) {
+  .spotlight-layout {
     grid-template-columns: 1fr;
+  }
+
+  .paper-visual {
+    border-right: 0;
+    border-bottom: 1px solid #e8edf1;
+  }
+
+  .paper-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .paper-tab {
     min-height: auto;
+    border-right: 0;
+    border-bottom: 1px solid #e8edf1;
   }
 
-  .slide-info {
-    padding: 1.5rem;
+  .paper-tab:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .paper-info {
+    padding: 24px 18px;
   }
 
-  .title {
+  .paper-info h3 {
     font-size: 1.2rem;
   }
 
-  .nav {
-    width: 40px;
-    height: 40px;
+  .carousel-controls {
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
   }
 }
 </style>
