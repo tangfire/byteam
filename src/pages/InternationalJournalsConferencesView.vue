@@ -3,9 +3,8 @@ import { Files, Postcard, Promotion, Tickets, VideoPlay } from "@element-plus/ic
 import { computed, onMounted, ref } from 'vue';
 import { getPublicPublications } from '../api/public'
 import type { Publication, PublicationLink } from '../api/client'
+import { openExternalLink } from '../utils/links'
 import { resolveExternalVideoURL, resolveVideoPagePath } from '../utils/videoLinks'
-
-defineProps<{ msg: string }>()
 
 // 统一的下载函数
 const downloadFile = (filePath: string, fileName: string) => {
@@ -71,7 +70,7 @@ const videoHasRoute = (link: PublicationLinkValue) => typeof link === 'object' &
 const videoHasURL = (link: PublicationLinkValue) => typeof link === 'object' && Boolean(link.url)
 const openVideoLink = (link: PublicationLinkValue) => {
   if (typeof link === 'object' && link.url) {
-    window.open(link.url, '_blank')
+    openExternalLink(link.url)
   }
 }
 const runLinkHandler = (link: PublicationLinkValue) => {
@@ -512,6 +511,7 @@ onMounted(async () => {
                           :href="linkHref(link)"
                           class="publication-link"
                           target="_blank"
+                          rel="noopener noreferrer"
                       >
                         <el-icon size="25">
                           <component :is="getIcon(linkType(type))" />
@@ -580,6 +580,7 @@ onMounted(async () => {
                           :href="linkHref(link)"
                           class="publication-link"
                           target="_blank"
+                          rel="noopener noreferrer"
                       >
                         <el-icon size="25">
                           <component :is="getIcon(linkType(type))" />

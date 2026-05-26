@@ -3,8 +3,6 @@ import { ArrowRightBold } from "@element-plus/icons-vue";
 import { computed } from 'vue'
 import { useSitePage } from '../composables/useSitePage'
 
-defineProps<{ msg: string }>()
-
 const { content, hidden } = useSitePage('research-direction', { directions: [] })
 const directions = computed(() => Array.isArray(content.value.directions) ? content.value.directions : [])
 </script>

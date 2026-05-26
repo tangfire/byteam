@@ -254,6 +254,7 @@ import type { UploadRequestOptions } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { createAdmin, deleteAdmin, listAdmin, listSitePages, placeAdmin, updateAdmin, uploadMedia } from '../../api/admin'
 import type { MediaAsset, PublicationLink, SitePage } from '../../api/client'
+import { openExternalLink } from '../../utils/links'
 import { legacyVideoRouteSlugs, resolveVideoPagePath, videoPagePath, videoSlugFromPath } from '../../utils/videoLinks'
 
 export interface FieldConfig {
@@ -677,7 +678,7 @@ const loadVideoPages = async () => {
 }
 
 const openAdminPages = () => {
-  window.open(`${window.location.origin}${window.location.pathname}#/admin/pages`, '_blank')
+  openExternalLink(`${window.location.origin}${window.location.pathname}#/admin/pages`)
 }
 
 const handleLinkDragStart = (index: number, event: DragEvent) => {

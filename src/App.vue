@@ -1,19 +1,16 @@
 <script setup lang="ts">
-
-
-import {ref, onMounted, onBeforeUnmount, computed} from 'vue'
-import {useRoute} from 'vue-router'
-import {Menu} from "@element-plus/icons-vue";
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { Menu } from '@element-plus/icons-vue'
 
 
 const route = useRoute()
 const activeIndex = computed(() => route.path as string)
 const isAdminRoute = computed(() => route.path.startsWith('/admin'))
 const isMobile = ref(false)
-const isMenuCollapsed = ref(true) // 移动端菜单折叠状态
+const isMenuCollapsed = ref(true)
 
 const checkScreenSize = () => {
-  // 增加touch事件检测作为辅助判断
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
   const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
 
@@ -21,11 +18,8 @@ const checkScreenSize = () => {
 }
 
 
-// App.vue script部分修改
-// 修改handleSelect方法
 const handleSelect = () => {
   isMenuCollapsed.value = true
-  // 添加滚动复位逻辑
   if (isMobile.value) {
     window.scrollTo({
       top: 0,
@@ -34,7 +28,6 @@ const handleSelect = () => {
   }
 }
 
-// 添加点击外部关闭菜单的逻辑
 const clickOutsideHandler = (e: MouseEvent) => {
   const menu = document.querySelector('.mobile-menu-content')
   const button = document.querySelector('.hamburger-btn')
@@ -49,40 +42,19 @@ const clickOutsideHandler = (e: MouseEvent) => {
 }
 
 onMounted(() => {
-  // 添加全局点击监听
   document.addEventListener('click', clickOutsideHandler)
-})
 
-onBeforeUnmount(() => {
-  document.removeEventListener('click', clickOutsideHandler)
-})
-
-// 添加窗口大小监听
-// 修改后的onMounted逻辑
-onMounted(() => {
-  // 添加延迟确保DOM渲染完成
   setTimeout(() => {
     checkScreenSize()
-    // 强制触发resize事件
     window.dispatchEvent(new Event('resize'))
   }, 100)
   window.addEventListener('resize', checkScreenSize)
 })
 
 onBeforeUnmount(() => {
+  document.removeEventListener('click', clickOutsideHandler)
   window.removeEventListener('resize', checkScreenSize)
 })
-
-// 在代码中直接判断
-if (import.meta.env.MODE === 'production') {
-  console.log('生产环境');
-} else if (import.meta.env.MODE === 'test') {
-  console.log('测试环境');
-} else {
-  console.log('开发环境');
-}
-
-
 </script>
 
 <template>
@@ -129,7 +101,7 @@ if (import.meta.env.MODE === 'production') {
                 <el-menu-item index="/research-direction">Research Direction</el-menu-item>
                 <el-menu-item index="/research-projects">Research Projects</el-menu-item>
                 <el-menu-item>
-                  <a href="https://github.com/BaoyaoGroup" target="_blank">Github-Repositories</a>
+                  <a href="https://github.com/BaoyaoGroup" target="_blank" rel="noopener noreferrer">Github-Repositories</a>
                 </el-menu-item>
               </el-sub-menu>
 
@@ -195,7 +167,7 @@ if (import.meta.env.MODE === 'production') {
             <el-menu-item index="/research-projects">Research Projects</el-menu-item>
             <el-menu-item>
               <a class="githublink" href="https://github.com/BaoyaoGroup"
-                 target="_blank">Github-Repositories</a>
+                 target="_blank" rel="noopener noreferrer">Github-Repositories</a>
             </el-menu-item>
           </el-sub-menu>
           
@@ -239,13 +211,13 @@ if (import.meta.env.MODE === 'production') {
       <el-footer height="120px" class="custom-footer">
         <div class="footer-content" style="height: 100px">
           <p>Welcome to BYML @ <a class="gdutlink" href="https://www.gdut.edu.cn/"
-                                  style="text-decoration: none;color: white" target="_blank">Guangdong University of
+                                  style="text-decoration: none;color: white" target="_blank" rel="noopener noreferrer">Guangdong University of
             Technology</a></p>
 
           <p>Email: ybaoyao@gdut.edu.cn</p>
 
           <a class="BaoyaoGroupLink" href="https://github.com/BaoyaoGroup"
-             style="text-decoration: none;color: white" target="_blank">Github-BYML</a>
+             style="text-decoration: none;color: white" target="_blank" rel="noopener noreferrer">Github-BYML</a>
 
 
           <p style="margin-top: 20px">© 2025 By Baoyao Yang.</p>
@@ -507,17 +479,19 @@ if (import.meta.env.MODE === 'production') {
 
 /* 移除子菜单展开时的背景色，避免与 hover 冲突 */
 
-.el-submenu.is-active:not(.is-opened) /deep/ .el-submenu__title,
-/deep/ .el-submenu__title:hover,
-/deep/ .el-menu-item:hover,
-/deep/ .el-menu-item.is-active {
-  i {
-    color: white !important;
-  }
-
+:deep(.el-submenu.is-active:not(.is-opened) .el-submenu__title),
+:deep(.el-submenu__title:hover),
+:deep(.el-menu-item:hover),
+:deep(.el-menu-item.is-active) {
   color: white !important; /* 强制文字变白 */
   background: #7d1231 !important;
+}
 
+:deep(.el-submenu.is-active:not(.is-opened) .el-submenu__title i),
+:deep(.el-submenu__title:hover i),
+:deep(.el-menu-item:hover i),
+:deep(.el-menu-item.is-active i) {
+  color: white !important;
 }
 
 .el-menu--horizontal {

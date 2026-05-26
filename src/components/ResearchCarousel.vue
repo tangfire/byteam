@@ -70,6 +70,7 @@ import { useRouter } from 'vue-router'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { getHome } from '../api/public'
 import type { Publication, PublicationLink } from '../api/client'
+import { openExternalLink } from '../utils/links'
 import { resolveExternalVideoURL, resolveVideoPagePath } from '../utils/videoLinks'
 
 const router = useRouter()
@@ -161,7 +162,7 @@ const handleImageError = (e: Event) => {
 }
 
 const findLink = (pub: Publication, type: string) => pub.links.find((link) => link.type === type)
-const openLink = (url: string) => window.open(url, '_blank')
+const openLink = (url: string) => openExternalLink(url)
 
 const handleVideoClick = (link: PublicationLink) => {
   const pagePath = resolveVideoPagePath(link)

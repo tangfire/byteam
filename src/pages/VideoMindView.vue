@@ -116,7 +116,7 @@ const iconForLink = (type: string) => {
             <!-- 水平排列的超链接 -->
             <div class="relevant-links-container" style="display: flex; gap: 70px; align-items: center;margin-left: 20px;">
               <div v-for="item in links" :key="item.label" style="display: flex; align-items: center; ">
-                <a :href="item.url" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank">
+                <a :href="item.url" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank" rel="noopener noreferrer">
                   <el-icon size="25" style="margin-right: 8px; vertical-align: middle;">
                     <component :is="iconForLink(item.type)" />
                   </el-icon>

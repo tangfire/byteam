@@ -8,7 +8,7 @@
     <!-- 科技感背景元素 -->
     <div class="tech-background">
       <div class="floating-particles">
-        <div v-for="n in 20" :key="n" class="particle" :style="particleStyle(n)"></div>
+        <div v-for="(particle, index) in particles" :key="index" class="particle" :style="particle"></div>
       </div>
       <div class="gradient-mesh"></div>
     </div>
@@ -250,6 +250,20 @@ import { onMounted, ref } from 'vue'
 import { getHome } from '../api/public'
 import type { NewsItem } from '../api/client'
 
+const createParticleStyle = () => {
+  const size = Math.random() * 4 + 2
+  return {
+    width: `${size}px`,
+    height: `${size}px`,
+    animationDelay: `${Math.random() * 5}s`,
+    animationDuration: `${Math.random() * 8 + 8}s`,
+    left: `${Math.random() * 100}%`,
+    top: `${Math.random() * 100}%`
+  }
+}
+
+const particles = ref(Array.from({ length: 20 }, createParticleStyle))
+
 // 最新新闻数据 - 增加到 4 条
 const latestNews = ref<NewsItem[]>([
   {
@@ -308,20 +322,6 @@ onMounted(async () => {
     console.warn('Using local home fallback data', error)
   }
 })
-
-const particleStyle = (_index: number) => {
-  const size = Math.random() * 4 + 2
-  const delay = Math.random() * 5
-  const duration = Math.random() * 8 + 8
-  return {
-    width: `${size}px`,
-    height: `${size}px`,
-    animationDelay: `${delay}s`,
-    animationDuration: `${duration}s`,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`
-  }
-}
 
 const getNewsTypeClass = (type: string) => {
   const classMap: { [key: string]: string } = {
