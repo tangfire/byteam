@@ -33,10 +33,23 @@ export function getSitePage(slug: string) {
   return apiRequest<SitePage>(`/api/admin/pages/${slug}`)
 }
 
+export function createSitePage(payload: SitePage) {
+  return apiRequest<SitePage>('/api/admin/pages', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
 export function updateSitePage(slug: string, payload: SitePage) {
   return apiRequest<SitePage>(`/api/admin/pages/${slug}`, {
     method: 'PUT',
     body: JSON.stringify(payload),
+  })
+}
+
+export function deleteSitePage(slug: string) {
+  return apiRequest<{ deleted: boolean }>(`/api/admin/pages/${slug}`, {
+    method: 'DELETE',
   })
 }
 

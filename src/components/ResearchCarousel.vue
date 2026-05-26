@@ -70,6 +70,7 @@ import { useRouter } from 'vue-router'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { getHome } from '../api/public'
 import type { Publication, PublicationLink } from '../api/client'
+import { resolveExternalVideoURL, resolveVideoPagePath } from '../utils/videoLinks'
 
 const router = useRouter()
 const isMobile = ref(false)
@@ -134,7 +135,7 @@ const publications = ref<Publication[]>([
     links: [
       { type: 'code', label: 'Code', url: 'https://github.com/BaoyaoGroup/LabelCompletion', routeName: '', sortOrder: 1 },
       { type: 'paper', label: 'Paper', url: 'https://ieeexplore.ieee.org/document/10888997', routeName: '', sortOrder: 2 },
-      { type: 'video', label: 'Video', url: '', routeName: 'video-player-XiaoqiZheng01', sortOrder: 3 },
+      { type: 'video', label: 'Video', url: '/video/video-xiaoqi-zheng-01', routeName: '', sortOrder: 3 },
     ]
   },
   {
@@ -150,7 +151,7 @@ const publications = ref<Publication[]>([
     sortOrder: 5,
     links: [
       { type: 'paper', label: 'Paper', url: 'https://dl.acm.org/doi/abs/10.1145/3746027.3755652', routeName: '', sortOrder: 1 },
-      { type: 'video', label: 'Video', url: '', routeName: 'video-player-XianrunXu01', sortOrder: 2 },
+      { type: 'video', label: 'Video', url: '/video/video-xianrun-xu-01', routeName: '', sortOrder: 2 },
     ]
   }
 ])
@@ -163,10 +164,14 @@ const findLink = (pub: Publication, type: string) => pub.links.find((link) => li
 const openLink = (url: string) => window.open(url, '_blank')
 
 const handleVideoClick = (link: PublicationLink) => {
-  if (link.routeName) {
-    router.push({ name: link.routeName })
-  } else if (link.url) {
-    openLink(link.url)
+  const pagePath = resolveVideoPagePath(link)
+  if (pagePath) {
+    router.push(pagePath)
+    return
+  }
+  const externalURL = resolveExternalVideoURL(link)
+  if (externalURL) {
+    openLink(externalURL)
   }
 }
 

@@ -5,7 +5,10 @@
         <h1>页面内容</h1>
         <p>只维护仍需要后台编辑的长页面和论文视频页；About、Contact、VideoMind、vKnow 已恢复为源码硬编码。</p>
       </div>
-      <el-button :loading="loading" @click="loadPages">刷新</el-button>
+      <div class="header-actions">
+        <el-button type="primary" @click="openCreateVideoPage">新增视频页</el-button>
+        <el-button :loading="loading" @click="loadPages">刷新</el-button>
+      </div>
     </div>
 
     <div class="page-layout">
@@ -42,6 +45,15 @@
                 inactive-value="draft"
               />
               <el-button type="primary" :loading="saving" @click="savePage">保存</el-button>
+              <el-popconfirm
+                v-if="editing.slug.startsWith('video-')"
+                title="确认移入回收站？之后可在回收站恢复。"
+                @confirm="deleteCurrentPage"
+              >
+                <template #reference>
+                  <el-button type="danger" plain :loading="deleting">移入回收站</el-button>
+                </template>
+              </el-popconfirm>
             </div>
           </div>
 
@@ -94,6 +106,12 @@
             </template>
 
             <template v-else-if="editing.slug.startsWith('video-')">
+              <el-alert
+                type="info"
+                :closable="false"
+                show-icon
+                :title="`前台访问路径：${videoPagePath(editing.slug)}`"
+              />
               <el-form-item label="视频标题">
                 <el-input v-model="content.title" type="textarea" :rows="2" />
               </el-form-item>
@@ -124,6 +142,35 @@
         </button>
       </div>
     </el-dialog>
+
+    <el-dialog v-model="createDialogVisible" title="新增论文视频页" width="640px">
+      <el-form :model="newVideoPage" label-width="110px" class="create-video-form">
+        <el-form-item label="视频页标题">
+          <el-input v-model="newVideoPage.title" placeholder="通常填写论文标题" @input="syncSlugFromTitle" />
+        </el-form-item>
+        <el-form-item label="Slug">
+          <el-input v-model="newVideoPage.slug" placeholder="video-paper-title" @input="slugTouched = true">
+            <template #prepend>/video/</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="视频文件">
+          <ImageField v-model="newVideoPage.video" label="视频文件" kind="video" />
+        </el-form-item>
+        <el-form-item label="发布状态">
+          <el-switch
+            v-model="newVideoPage.status"
+            active-text="发布"
+            inactive-text="草稿"
+            active-value="published"
+            inactive-value="draft"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="createDialogVisible = false">取消</el-button>
+        <el-button type="primary" :loading="creating" @click="createVideoPage">创建</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -131,8 +178,9 @@
 import { computed, defineComponent, h, nextTick, onMounted, ref, watch, type PropType } from 'vue'
 import { ElButton, ElInput, ElMessage, ElUpload } from 'element-plus'
 import type { UploadRequestOptions } from 'element-plus'
-import { getSitePage, listAdmin, listSitePages, updateSitePage, uploadMedia } from '../../api/admin'
+import { createSitePage, deleteSitePage, getSitePage, listAdmin, listSitePages, updateSitePage, uploadMedia } from '../../api/admin'
 import type { MediaAsset, SitePage } from '../../api/client'
+import { videoPagePath } from '../../utils/videoLinks'
 
 const pages = ref<SitePage[]>([])
 const activeSlug = ref('')
@@ -140,7 +188,12 @@ const editing = ref<SitePage | null>(null)
 const loading = ref(false)
 const loadingPage = ref(false)
 const saving = ref(false)
+const deleting = ref(false)
 const rawJSON = ref('')
+const createDialogVisible = ref(false)
+const creating = ref(false)
+const slugTouched = ref(false)
+const newVideoPage = ref({ title: '', slug: '', video: '', status: 'published' })
 const mediaPickerVisible = ref(false)
 const mediaLoading = ref(false)
 const mediaUploading = ref(false)
@@ -200,6 +253,8 @@ const loadPages = async () => {
     if (!activeSlug.value && pages.value.length) {
       await selectPage(pages.value[0].slug)
     }
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '页面列表加载失败')
   } finally {
     loading.value = false
   }
@@ -213,6 +268,8 @@ const selectPage = async (slug: string) => {
     normalizePageContent(page)
     editing.value = page
     rawJSON.value = JSON.stringify(page.content, null, 2)
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '页面内容加载失败')
   } finally {
     loadingPage.value = false
   }
@@ -228,8 +285,79 @@ const savePage = async () => {
     rawJSON.value = JSON.stringify(saved.content, null, 2)
     ElMessage.success('页面内容已保存')
     await loadPages()
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '保存失败')
   } finally {
     saving.value = false
+  }
+}
+
+const openCreateVideoPage = () => {
+  newVideoPage.value = { title: '', slug: '', video: '', status: 'published' }
+  slugTouched.value = false
+  createDialogVisible.value = true
+}
+
+const syncSlugFromTitle = () => {
+  if (slugTouched.value) return
+  newVideoPage.value.slug = slugifyVideoTitle(newVideoPage.value.title)
+}
+
+const slugifyVideoTitle = (value: string) => {
+  const slug = value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-{2,}/g, '-')
+  return `video-${slug || 'publication'}`
+}
+
+const createVideoPage = async () => {
+  const slug = newVideoPage.value.slug.trim().toLowerCase()
+  if (!newVideoPage.value.title.trim()) {
+    ElMessage.warning('请先填写视频页标题')
+    return
+  }
+  if (!/^video-[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+    ElMessage.warning('Slug 需要以 video- 开头，只能包含小写字母、数字和横线')
+    return
+  }
+
+  creating.value = true
+  try {
+    const saved = await createSitePage({
+      slug,
+      title: newVideoPage.value.title.trim(),
+      description: 'Publication video',
+      content: { title: newVideoPage.value.title.trim(), video: newVideoPage.value.video.trim() },
+      status: newVideoPage.value.status,
+      sortOrder: 0,
+    })
+    createDialogVisible.value = false
+    ElMessage.success('视频页已创建')
+    await loadPages()
+    await selectPage(saved.slug)
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '创建失败')
+  } finally {
+    creating.value = false
+  }
+}
+
+const deleteCurrentPage = async () => {
+  if (!editing.value) return
+  deleting.value = true
+  try {
+    const deletedSlug = editing.value.slug
+    await deleteSitePage(deletedSlug)
+    ElMessage.success('已移入回收站')
+    activeSlug.value = ''
+    editing.value = null
+    await loadPages()
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '删除失败')
+  } finally {
+    deleting.value = false
   }
 }
 
@@ -259,6 +387,8 @@ const loadMediaOptions = async () => {
   try {
     const result = await listAdmin<MediaAsset>('media', { page: 1, pageSize: 48, q: mediaQuery.value, kind: mediaKind.value, usage: '' })
     mediaOptions.value = result.items
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '媒体加载失败')
   } finally {
     mediaLoading.value = false
   }
@@ -275,6 +405,8 @@ const uploadAndSet = async (options: UploadRequestOptions, setter: (url: string)
     const asset = await uploadMedia(options.file)
     setter(asset.url)
     ElMessage.success('已上传并填入')
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '上传失败')
   } finally {
     mediaUploading.value = false
   }
@@ -422,6 +554,7 @@ watch(editing, async () => {
 }
 
 .admin-page-header,
+.header-actions,
 .editor-header,
 .editor-actions,
 .media-picker-toolbar,
@@ -442,6 +575,11 @@ watch(editing, async () => {
 .editor-header p {
   margin: 6px 0 0;
   color: #6b7280;
+}
+
+.header-actions {
+  justify-content: flex-end;
+  flex-wrap: wrap;
 }
 
 .page-layout {
@@ -511,6 +649,12 @@ watch(editing, async () => {
 
 .page-form {
   max-width: 980px;
+}
+
+.create-video-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .editable-list.compact {

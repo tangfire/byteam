@@ -52,3 +52,12 @@ func TestCompactSubtitle(t *testing.T) {
 		t.Fatalf("unexpected compact subtitle: %q", got)
 	}
 }
+
+func TestLegacyVideoRoutePath(t *testing.T) {
+	if got := legacyVideoRoutePath("video-player-XiaoqiZheng01"); got != "/video/video-xiaoqi-zheng-01" {
+		t.Fatalf("unexpected legacy video path: %q", got)
+	}
+	if got := legacyVideoRoutePath("unknown"); got != "" {
+		t.Fatalf("expected empty path for unknown route, got %q", got)
+	}
+}

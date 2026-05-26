@@ -18,9 +18,10 @@ const router = createRouter({
         { path: '/contact', name: 'contact', component: () => import('../pages/ContactView.vue') },
         { path: '/vKnow', name: 'vKnow', component: () => import('../pages/VknowView.vue') },
         { path: '/VideoMind', name: 'VideoMind', component: () => import('../pages/VideoMindView.vue') },
-        { path: '/video-player-XiaoqiZheng01', name: 'video-player-XiaoqiZheng01', component: () => import('../pages/VideoPlayerXiaoqiZheng01View.vue') },
-        { path: '/video-player-XianrunXu01', name: 'video-player-XianrunXu01', component: () => import('../pages/VideoPlayerXianrunXu01View.vue') },
-        { path: '/video-player-YaliMa01', name: 'video-player-YaliMa01', component: () => import('../pages/VideoPlayerYaliMa01View.vue') },
+        { path: '/video/:slug', name: 'video-page', component: () => import('../pages/SiteVideoPageView.vue') },
+        { path: '/video-player-XiaoqiZheng01', name: 'video-player-XiaoqiZheng01', redirect: '/video/video-xiaoqi-zheng-01' },
+        { path: '/video-player-XianrunXu01', name: 'video-player-XianrunXu01', redirect: '/video/video-xianrun-xu-01' },
+        { path: '/video-player-YaliMa01', name: 'video-player-YaliMa01', redirect: '/video/video-yali-ma-01' },
         { path: '/admin/login', name: 'admin-login', component: () => import('../pages/admin/AdminLoginView.vue'), meta: { adminPublic: true } },
         {
             path: '/admin',

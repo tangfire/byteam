@@ -12,10 +12,11 @@
         </el-button>
       </div>
 
-      <h2 style="text-align: center;color: #7d1231">{{ content.title }}</h2>
+      <h2 style="text-align: center;color: #7d1231">{{ content.title || fallbackTitle }}</h2>
 
-      <video controls width="100%">
-        <source :src="content.video" type="video/mp4">
+      <el-empty v-if="!videoURL" description="视频文件暂未设置" />
+      <video v-else controls width="100%">
+        <source :src="videoURL" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </el-card>
@@ -23,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import { useSitePage } from '../composables/useSitePage'
@@ -39,6 +40,9 @@ const { content, hidden } = useSitePage(props.slug, {
   title: props.fallbackTitle,
   video: props.fallbackVideo,
 })
+
+const fallbackTitle = computed(() => props.fallbackTitle)
+const videoURL = computed(() => String(content.value.video || props.fallbackVideo || ''))
 
 onMounted(() => {
   window.scrollTo(0, 0)

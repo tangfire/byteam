@@ -3,6 +3,7 @@ import { Files, Postcard, Promotion, Tickets, VideoPlay } from "@element-plus/ic
 import { computed, onMounted, ref } from 'vue';
 import { getPublicPublications } from '../api/public'
 import type { Publication, PublicationLink } from '../api/client'
+import { resolveExternalVideoURL, resolveVideoPagePath } from '../utils/videoLinks'
 
 defineProps<{ msg: string }>()
 
@@ -41,7 +42,7 @@ const getLinkText = (type: string) => {
   return type.charAt(0).toUpperCase() + type.slice(1)
 }
 
-type PublicationLinkValue = string | { name?: string; url?: string; handler?: () => void }
+type PublicationLinkValue = string | { path?: string; url?: string; handler?: () => void }
 type PublicationLinkMap = Record<string, PublicationLinkValue>
 type PublicationViewItem = {
   id?: number
@@ -54,7 +55,7 @@ type PublicationViewItem = {
 
 const mapLinks = (links: PublicationLink[]) => links.reduce((acc: PublicationLinkMap, link) => {
   if (link.type === 'video') {
-    acc.video = { name: link.routeName, url: link.url }
+    acc.video = { path: resolveVideoPagePath(link), url: resolveExternalVideoURL(link) }
   } else if (link.type === 'ppt' || link.type === 'poster') {
     acc[link.type] = { handler: () => downloadFile(link.url, link.label || getLinkText(link.type)) }
   } else {
@@ -65,13 +66,8 @@ const mapLinks = (links: PublicationLink[]) => links.reduce((acc: PublicationLin
 
 const linkType = (type: string | number) => String(type)
 const linkHref = (link: PublicationLinkValue) => (typeof link === 'string' ? link : undefined)
-const linkRoute = (link: PublicationLinkValue) => {
-  if (typeof link === 'object' && link.name) {
-    return { name: link.name }
-  }
-  return '/'
-}
-const videoHasRoute = (link: PublicationLinkValue) => typeof link === 'object' && Boolean(link.name)
+const linkRoute = (link: PublicationLinkValue) => (typeof link === 'object' && link.path ? link.path : '/')
+const videoHasRoute = (link: PublicationLinkValue) => typeof link === 'object' && Boolean(link.path)
 const videoHasURL = (link: PublicationLinkValue) => typeof link === 'object' && Boolean(link.url)
 const openVideoLink = (link: PublicationLinkValue) => {
   if (typeof link === 'object' && link.url) {
@@ -145,7 +141,7 @@ const publications = ref<Record<string, { journal: PublicationViewItem[]; confer
         links: {
           code: "https://github.com/BaoyaoGroup/LabelCompletion",
           paper: "https://ieeexplore.ieee.org/document/10888997",
-          video: { name: 'video-player-XiaoqiZheng01' }
+          video: { path: '/video/video-xiaoqi-zheng-01' }
         }
       },
       {
@@ -187,7 +183,7 @@ const publications = ref<Record<string, { journal: PublicationViewItem[]; confer
         venue: "the 33rd ACM International Conference on Multimedia (ACM MM), 2025",
         links: {
           paper: "https://dl.acm.org/doi/abs/10.1145/3746027.3755652",
-          video: { name: 'video-player-XianrunXu01' }
+          video: { path: '/video/video-xianrun-xu-01' }
         }
       },
       {
@@ -219,7 +215,7 @@ const publications = ref<Record<string, { journal: PublicationViewItem[]; confer
         links: {
           paper: "https://ieeexplore.ieee.org/abstract/document/11084722",
           ppt: { handler: download_ICIP2025_PPT },
-          video: { name: 'video-player-YaliMa01' }
+          video: { path: '/video/video-yali-ma-01' }
         }
       }
     ]

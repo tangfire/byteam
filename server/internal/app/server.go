@@ -89,8 +89,10 @@ func (s *Server) routes() *gin.Engine {
 		protected.POST("/trash/:resource/:id/restore", s.restoreTrash)
 
 		protected.GET("/pages", s.listSitePages)
+		protected.POST("/pages", s.createSitePage)
 		protected.GET("/pages/:slug", s.getSitePage)
 		protected.PUT("/pages/:slug", s.updateSitePage)
+		protected.DELETE("/pages/:slug", s.deleteSitePage)
 
 		protected.GET("/news", s.listNews)
 		protected.POST("/news", s.createNews)

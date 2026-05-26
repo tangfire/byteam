@@ -2,6 +2,7 @@ package app
 
 import (
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -403,7 +404,28 @@ func normalizePublicationLinks(links []PublicationLink, publicationID uint) {
 		}
 		if links[i].Type != "video" {
 			links[i].RouteName = ""
+			continue
 		}
+
+		links[i].URL = strings.TrimSpace(links[i].URL)
+		links[i].RouteName = strings.TrimSpace(links[i].RouteName)
+		if links[i].URL == "" {
+			links[i].URL = legacyVideoRoutePath(links[i].RouteName)
+		}
+		links[i].RouteName = ""
+	}
+}
+
+func legacyVideoRoutePath(routeName string) string {
+	switch strings.TrimSpace(routeName) {
+	case "video-player-XiaoqiZheng01":
+		return "/video/video-xiaoqi-zheng-01"
+	case "video-player-XianrunXu01":
+		return "/video/video-xianrun-xu-01"
+	case "video-player-YaliMa01":
+		return "/video/video-yali-ma-01"
+	default:
+		return ""
 	}
 }
 

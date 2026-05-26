@@ -167,7 +167,31 @@
                   </template>
                 </div>
                 <div v-if="link.type === 'video'" class="link-line">
-                  <el-input v-model="link.routeName" placeholder="站内视频页面路由名；如果上传 MP4，可只填写上面的文件 URL" />
+                  <el-select
+                    class="video-page-select"
+                    :model-value="selectedVideoSlug(link)"
+                    clearable
+                    filterable
+                    placeholder="选择站内视频页"
+                    @focus="() => loadVideoPages()"
+                    @change="selectVideoPage(link, $event)"
+                  >
+                    <el-option v-for="page in videoPageOptions" :key="page.slug" :label="page.title || page.slug" :value="page.slug">
+                      <div class="video-page-option">
+                        <span>{{ page.title || page.slug }}</span>
+                        <small>{{ videoPagePath(page.slug) }}</small>
+                      </div>
+                    </el-option>
+                  </el-select>
+                  <el-button :loading="videoPagesLoading" @click="() => loadVideoPages()">刷新视频页</el-button>
+                  <el-button link type="primary" @click="openAdminPages">去创建视频页</el-button>
+                </div>
+                <p v-if="link.type === 'video'" class="link-help">
+                  站内视频页会在前台打开播放页；如果这里只填 MP4 或外部地址，前台会直接打开这个地址。
+                  <span v-if="!videoPagesLoaded">点击选择框会加载后台已有视频页。</span>
+                </p>
+                <div v-if="link.type === 'video' && link.routeName" class="link-line legacy-route-line">
+                  <el-tag type="warning">旧路由已兼容：{{ link.routeName }}</el-tag>
                 </div>
               </div>
             </div>
@@ -204,8 +228,9 @@
 import { computed, onMounted, onUpdated, reactive, ref, toRaw } from 'vue'
 import type { UploadRequestOptions } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { createAdmin, deleteAdmin, listAdmin, placeAdmin, updateAdmin, uploadMedia } from '../../api/admin'
-import type { MediaAsset, PublicationLink } from '../../api/client'
+import { createAdmin, deleteAdmin, listAdmin, listSitePages, placeAdmin, updateAdmin, uploadMedia } from '../../api/admin'
+import type { MediaAsset, PublicationLink, SitePage } from '../../api/client'
+import { legacyVideoRouteSlugs, resolveVideoPagePath, videoPagePath, videoSlugFromPath } from '../../utils/videoLinks'
 
 export interface FieldConfig {
   prop: string
@@ -246,6 +271,9 @@ const mediaTargetLinkIndex = ref<number | null>(null)
 const mediaKind = ref('')
 const mediaQuery = ref('')
 const mediaOptions = ref<MediaAsset[]>([])
+const videoPageOptions = ref<SitePage[]>([])
+const videoPagesLoaded = ref(false)
+const videoPagesLoading = ref(false)
 const crudRoot = ref<HTMLElement | null>(null)
 const dragEventsBound = ref(false)
 const linkDragIndex = ref<number | null>(null)
@@ -307,6 +335,7 @@ const resetFilters = async () => {
 const openCreate = () => {
   editing.value = clonePlain(props.defaults)
   ensurePublicationLinks()
+  void loadVideoPagesIfNeeded()
   dialogVisible.value = true
 }
 
@@ -317,6 +346,7 @@ const openEdit = (row: Record<string, any>) => {
   }
   editing.value = next
   ensurePublicationLinks()
+  void loadVideoPagesIfNeeded()
   dialogVisible.value = true
 }
 
@@ -547,6 +577,44 @@ const handleLinkTypeChange = (link: PublicationLink) => {
   }
 }
 
+const selectedVideoSlug = (link: PublicationLink) => {
+  return videoSlugFromPath(link.url) || legacyVideoRouteSlugs[link.routeName || ''] || ''
+}
+
+const selectVideoPage = (link: PublicationLink, slug: string) => {
+  if (slug) {
+    link.url = videoPagePath(slug)
+    link.routeName = ''
+    if (!link.label) link.label = defaultLinkLabel('video')
+  } else if (videoSlugFromPath(link.url)) {
+    link.url = ''
+  }
+}
+
+const loadVideoPagesIfNeeded = async () => {
+  if (props.resource !== 'publications') return
+  if (videoPagesLoaded.value && videoPageOptions.value.length) return
+  await loadVideoPages()
+}
+
+const loadVideoPages = async () => {
+  if (videoPagesLoading.value) return
+  videoPagesLoading.value = true
+  try {
+    const result = await listSitePages({ page: 1, pageSize: 100, q: 'video-' })
+    videoPageOptions.value = result.items.filter((page) => page.slug.startsWith('video-'))
+    videoPagesLoaded.value = true
+  } catch (error) {
+    ElMessage.error(error instanceof Error ? error.message : '视频页加载失败')
+  } finally {
+    videoPagesLoading.value = false
+  }
+}
+
+const openAdminPages = () => {
+  window.open(`${window.location.origin}${window.location.pathname}#/admin/pages`, '_blank')
+}
+
 const handleLinkDragStart = (index: number, event: DragEvent) => {
   linkDragIndex.value = index
   event.dataTransfer?.setData('text/plain', String(index))
@@ -592,12 +660,16 @@ const normalizeEditingBeforeSave = () => {
 
 const normalizeLinks = (value: Record<string, any>) => {
   if (!Array.isArray(value.links)) return
-  value.links = value.links.map((link: PublicationLink, index: number) => ({
-    ...link,
-    label: link.label || defaultLinkLabel(link.type),
-    routeName: link.type === 'video' ? link.routeName || '' : '',
-    sortOrder: index + 1,
-  }))
+  value.links = value.links.map((link: PublicationLink, index: number) => {
+    const videoPageURL = link.type === 'video' && !link.url && link.routeName ? resolveVideoPagePath(link) : ''
+    return {
+      ...link,
+      label: link.label || defaultLinkLabel(link.type),
+      url: videoPageURL || link.url,
+      routeName: '',
+      sortOrder: index + 1,
+    }
+  })
 }
 
 const linkMediaKind = (link: PublicationLink) => {
@@ -862,6 +934,33 @@ onUpdated(bindTableDragEvents)
 .link-label {
   width: 160px;
   flex-shrink: 0;
+}
+
+.video-page-select {
+  min-width: min(100%, 360px);
+  flex: 1;
+}
+
+.video-page-option {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.video-page-option small {
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+.link-help {
+  margin: -2px 0 0;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.legacy-route-line {
+  margin-top: -2px;
 }
 
 .media-picker {
