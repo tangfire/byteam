@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { Menu } from '@element-plus/icons-vue'
+import { Close, Fold } from '@element-plus/icons-vue'
 
 
 const route = useRoute()
@@ -9,17 +9,39 @@ const activeIndex = computed(() => route.path as string)
 const isAdminRoute = computed(() => route.path.startsWith('/admin'))
 const isMobile = ref(false)
 const isMenuCollapsed = ref(true)
+const mobileMenuRef = ref<HTMLElement | null>(null)
+const hamburgerButtonRef = ref<HTMLButtonElement | null>(null)
+const mobileBreakpoint = 860
+let bodyOverflowBeforeLock: string | null = null
+
+const mobileDefaultOpeneds = computed(() => {
+  const path = route.path
+  if (path === '/research-direction' || path === '/research-projects') return ['/research']
+  if (path === '/dr-Baoyao-Yang' || path === '/our-group' || path === '/undergraduate' || path === '/Alumni') return ['/our-team']
+  if (path === '/international-journals-conferences' || path === '/patents') return ['/publications']
+  if (path === '/vKnow' || path === '/VideoMind') return ['/Project']
+  return []
+})
 
 const checkScreenSize = () => {
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
   const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+  isMobile.value = viewportWidth <= mobileBreakpoint
 
-  isMobile.value = viewportWidth <= 768 && isTouchDevice
+  if (!isMobile.value) {
+    isMenuCollapsed.value = true
+  }
 }
 
+const closeMobileMenu = () => {
+  isMenuCollapsed.value = true
+}
+
+const toggleMobileMenu = () => {
+  isMenuCollapsed.value = !isMenuCollapsed.value
+}
 
 const handleSelect = () => {
-  isMenuCollapsed.value = true
+  closeMobileMenu()
   if (isMobile.value) {
     window.scrollTo({
       top: 0,
@@ -29,20 +51,38 @@ const handleSelect = () => {
 }
 
 const clickOutsideHandler = (e: MouseEvent) => {
-  const menu = document.querySelector('.mobile-menu-content')
-  const button = document.querySelector('.hamburger-btn')
+  if (isMenuCollapsed.value || !isMobile.value) return
+  const target = e.target as Node | null
+  if (!target) return
 
   if (
-      menu &&
-      !menu.contains(e.target as Node) &&
-      !button?.contains(e.target as Node)
+      !mobileMenuRef.value?.contains(target) &&
+      !hamburgerButtonRef.value?.contains(target)
   ) {
-    isMenuCollapsed.value = true
+    closeMobileMenu()
+  }
+}
+
+const keydownHandler = (event: KeyboardEvent) => {
+  if (event.key === 'Escape') {
+    closeMobileMenu()
+  }
+}
+
+const syncBodyScrollLock = () => {
+  const shouldLock = isMobile.value && !isMenuCollapsed.value && !isAdminRoute.value
+  if (shouldLock && bodyOverflowBeforeLock === null) {
+    bodyOverflowBeforeLock = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+  } else if (!shouldLock && bodyOverflowBeforeLock !== null) {
+    document.body.style.overflow = bodyOverflowBeforeLock
+    bodyOverflowBeforeLock = null
   }
 }
 
 onMounted(() => {
   document.addEventListener('click', clickOutsideHandler)
+  document.addEventListener('keydown', keydownHandler)
 
   setTimeout(() => {
     checkScreenSize()
@@ -53,8 +93,15 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', clickOutsideHandler)
+  document.removeEventListener('keydown', keydownHandler)
   window.removeEventListener('resize', checkScreenSize)
+  if (bodyOverflowBeforeLock !== null) {
+    document.body.style.overflow = bodyOverflowBeforeLock
+  }
 })
+
+watch([isMobile, isMenuCollapsed, isAdminRoute], syncBodyScrollLock)
+watch(() => route.fullPath, closeMobileMenu)
 </script>
 
 <template>
@@ -67,29 +114,39 @@ onBeforeUnmount(() => {
       <!-- 移动端导航 -->
       <div v-if="isMobile" class="mobile-nav">
         <div class="mobile-nav-header">
-          <img class="logo-img" src="/logo/001.png" alt="BYML Logo"/>
+          <router-link class="mobile-brand" to="/" @click="closeMobileMenu">
+            <img class="mobile-logo-img" src="/logo/001.png" alt="BYML Logo"/>
+            <span>BYML</span>
+          </router-link>
           <el-button
-              @click="isMenuCollapsed = !isMenuCollapsed"
+              ref="hamburgerButtonRef"
+              @click="toggleMobileMenu"
               class="hamburger-btn"
-              :style="{
-        background: isMenuCollapsed ? 'transparent' : '#7d1231',
-        color: isMenuCollapsed ? '#7d1231' : 'white'
-      }"
+              :aria-expanded="String(!isMenuCollapsed)"
+              aria-label="切换导航菜单"
           >
             <el-icon :size="24">
-              <Menu/>
+              <Fold v-if="isMenuCollapsed"/>
+              <Close v-else/>
             </el-icon>
           </el-button>
         </div>
 
         <el-collapse-transition>
-          <div v-show="!isMenuCollapsed" class="mobile-menu-content" :style="{top: isMobile ? '60px' : 'auto'}">
+          <div
+              v-show="!isMenuCollapsed"
+              ref="mobileMenuRef"
+              class="mobile-menu-content"
+          >
             <el-menu
+                :key="activeIndex"
                 :default-active="activeIndex"
+                :default-openeds="mobileDefaultOpeneds"
                 active-text-color="#7d1231"
                 @select="handleSelect"
                 :router="true"
                 class="vertical-menu"
+                unique-opened
                 @click.stop
             >
               <el-menu-item index="/">Home</el-menu-item>
@@ -245,108 +302,145 @@ onBeforeUnmount(() => {
 
 
 /* 新增移动端样式 */
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .mobile-nav {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1002; /* 提高 z-index 确保高于首页背景 */
-    background: white;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-    height: auto;
+    z-index: 1002;
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 1px 0 rgba(17, 24, 39, 0.08);
+    height: 60px;
+    padding-top: env(safe-area-inset-top);
   }
 
   .vertical-menu {
     border-right: none;
+    padding: 8px 10px 24px;
     --el-menu-active-color: #7d1231;
-    --el-menu-hover-text-color: #fff;
-    --el-menu-hover-bg-color: #7d1231;
+    --el-menu-hover-text-color: #7d1231;
+    --el-menu-hover-bg-color: rgba(125, 18, 49, 0.08);
     --el-menu-text-color: #2f3542;
-  }
-
-  .vertical-menu .el-menu-item,
-  .vertical-menu .el-sub-menu__title {
-    height: 48px;
-    line-height: 48px;
-    font-size: 16px;
   }
 
   .vertical-menu :deep(.el-menu-item),
   .vertical-menu :deep(.el-sub-menu__title) {
+    height: 46px;
+    line-height: 46px;
+    margin: 2px 0;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
     color: #2f3542 !important;
     background: transparent !important;
+    transition: background-color 0.18s ease, color 0.18s ease;
   }
 
   .vertical-menu :deep(.el-menu-item:hover),
-  .vertical-menu :deep(.el-sub-menu__title:hover) {
-    background: #7d1231 !important;
-    color: #fff !important;
+  .vertical-menu :deep(.el-menu-item:focus),
+  .vertical-menu :deep(.el-sub-menu__title:hover),
+  .vertical-menu :deep(.el-sub-menu__title:focus) {
+    background: rgba(125, 18, 49, 0.08) !important;
+    color: #7d1231 !important;
   }
 
-  .vertical-menu :deep(.el-menu-item:hover a) {
-    color: #fff !important;
+  .vertical-menu :deep(.el-menu-item:hover a),
+  .vertical-menu :deep(.el-menu-item:focus a) {
+    color: #7d1231 !important;
   }
 
   .vertical-menu :deep(.el-menu-item.is-active) {
+    color: #fff !important;
+    background: #7d1231 !important;
+    font-weight: 600;
+  }
+
+  .vertical-menu :deep(.el-menu-item.is-active a) {
+    color: #fff !important;
+  }
+
+  .vertical-menu :deep(.el-sub-menu.is-active > .el-sub-menu__title) {
     color: #7d1231 !important;
     background: rgba(125, 18, 49, 0.08) !important;
     font-weight: 600;
   }
 
-  .vertical-menu :deep(.el-menu-item.is-active:hover) {
-    color: #fff !important;
-    background: #7d1231 !important;
-  }
-
-  .vertical-menu :deep(.el-sub-menu.is-active > .el-sub-menu__title) {
-    color: #7d1231 !important;
-    font-weight: 600;
-  }
-
-  .vertical-menu :deep(.el-sub-menu.is-active > .el-sub-menu__title:hover) {
-    color: #fff !important;
+  .vertical-menu :deep(.el-sub-menu__icon-arrow) {
+    color: currentColor !important;
   }
 
   .vertical-menu :deep(.el-menu--inline) {
-    background: transparent !important;
+    padding: 2px 0 6px;
+    background: #f8f9fb !important;
+    border-radius: 8px;
   }
 
   .el-menu-item a {
-    color: #333b49 !important;  /* 与PC端保持一致 */
+    color: inherit !important;
     text-decoration: none;
-
+    width: 100%;
   }
 
-  .el-menu-item a:hover {
-    color: white !important;
+  .vertical-menu :deep(.el-sub-menu .el-menu-item) {
+    height: 42px;
+    line-height: 42px;
+    padding-left: 40px !important;
+    font-size: 14px;
+  }
+
+  .vertical-menu :deep(.el-sub-menu .el-menu-item.is-active) {
+    background: #7d1231 !important;
+    color: #fff !important;
   }
 
   .mobile-nav-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 15px;
+    box-sizing: border-box;
+    padding: 0 16px;
     height: 60px;
   }
 
-  .logo-img {
-    width: 120px !important; /* 移动端缩小logo */
-    margin: 0 !important;
+  .mobile-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+    color: #2f3542;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  .mobile-logo-img {
+    width: 96px;
+    height: auto;
+    object-fit: contain;
   }
 
   .hamburger-btn {
-    padding: 4px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
     margin-left: auto;
+    border: 1px solid rgba(125, 18, 49, 0.28);
+    border-radius: 8px;
+    color: #7d1231;
+    background: #fff;
+    transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
   }
 
-  .hamburger-btn:hover {
-    background: #f5f5f5;
+  .hamburger-btn:hover,
+  .hamburger-btn:focus {
+    color: #fff;
+    border-color: #7d1231;
+    background: #7d1231;
   }
 
-  /* 调整子菜单项间距 */
-  .el-sub-menu .el-menu-item {
-    padding-left: 30px !important;
+  .hamburger-btn :deep(.el-icon) {
+    color: currentColor;
   }
 
   .vertical-menu .el-sub-menu .el-menu {
@@ -380,25 +474,20 @@ onBeforeUnmount(() => {
 
   .mobile-menu-content {
     position: fixed;
-    top: 60px; /* 固定在导航栏下方 */
+    top: calc(60px + env(safe-area-inset-top));
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(255, 255, 255, 0.98);
-    /* 移除 backdrop-filter 以提升移动端性能 */
-    /* backdrop-filter: blur(5px); */
+    background: #fff;
     z-index: 1000;
     overflow-y: auto;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    /* 新增以下属性 */
-    height: calc(100vh - 60px); /* 占据剩余屏幕高度 */
-    max-height: calc(100vh - 60px); /* 新增最大高度限制 */
-    overscroll-behavior: contain; /* 防止滚动链 */
+    box-shadow: 0 18px 36px rgba(17, 24, 39, 0.14);
+    height: calc(100dvh - 60px - env(safe-area-inset-top));
+    max-height: calc(100dvh - 60px - env(safe-area-inset-top));
+    overscroll-behavior: contain;
     transition:
-        opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-        max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 同步过渡属性 */
-    /* 性能优化：启用硬件加速 */
+        opacity 0.22s ease,
+        transform 0.22s ease;
     will-change: transform;
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
@@ -408,7 +497,7 @@ onBeforeUnmount(() => {
 
 
   .common-layout {
-    padding-top: 60px;  /* 将导航栏高度转为padding */
+    padding-top: calc(60px + env(safe-area-inset-top));
   }
 
 
