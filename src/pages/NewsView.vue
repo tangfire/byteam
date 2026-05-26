@@ -27,7 +27,10 @@ const activitiesByYear = computed(() => {
   })
   return Object.keys(groups)
     .sort((a, b) => Number(b) - Number(a))
-    .map((year) => ({ year, items: groups[year] }))
+    .map((year) => ({
+      year,
+      items: groups[year].slice().sort((a, b) => String(b.timestamp || '').localeCompare(String(a.timestamp || ''))),
+    }))
 })
 
 const getNewsIcon = (type: string = 'general') => {
@@ -40,6 +43,22 @@ const getNewsIcon = (type: string = 'general') => {
   }
   return icons[type as keyof typeof icons] || icons.general
 }
+
+const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+const getDateParts = (timestamp?: string) => {
+  const match = String(timestamp || '').match(/^(\d{4})-(\d{2})-(\d{2})/)
+  if (!match) {
+    return { month: 'Date', day: '--', full: timestamp || 'Undated' }
+  }
+
+  const monthIndex = Number(match[2]) - 1
+  return {
+    month: monthNames[monthIndex] || 'Date',
+    day: match[3],
+    full: `${match[1]}-${match[2]}-${match[3]}`,
+  }
+}
 </script>
 
 <template>
@@ -50,29 +69,27 @@ const getNewsIcon = (type: string = 'general') => {
       <p class="page-subtitle">Latest updates and achievements from our research team</p>
     </div>
 
-    <div v-for="group in activitiesByYear" :key="group.year" class="year-section">
-      <div class="year-badge">
-        <span class="year-icon">📅</span>
-        {{ group.year }}
+    <section v-for="group in activitiesByYear" :key="group.year" class="year-section">
+      <div class="year-header">
+        <h2 class="year-title">{{ group.year }}</h2>
+        <span class="year-count">{{ group.items.length }} {{ group.items.length === 1 ? 'update' : 'updates' }}</span>
       </div>
 
-      <el-timeline class="timeline-container">
-        <el-timeline-item
+      <div class="news-list">
+        <article
             v-for="(activity, index) in group.items"
-            :key="index"
-            :timestamp="activity.timestamp"
-            :color="activity.color"
+            :key="`${group.year}-${activity.timestamp || 'undated'}-${index}`"
             class="news-item"
         >
-          <div class="news-content-wrapper">
-            <div class="news-icon">{{ getNewsIcon(activity.type) }}</div>
-            <div class="news-content">
-              {{ activity.content }}
-            </div>
-          </div>
-        </el-timeline-item>
-      </el-timeline>
-    </div>
+          <time class="news-date" :datetime="getDateParts(activity.timestamp).full">
+            <span class="date-month">{{ getDateParts(activity.timestamp).month }}</span>
+            <span class="date-day">{{ getDateParts(activity.timestamp).day }}</span>
+          </time>
+          <div class="news-icon">{{ getNewsIcon(activity.type) }}</div>
+          <p class="news-content">{{ activity.content }}</p>
+        </article>
+      </div>
+    </section>
 
     <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
   </div>
@@ -80,16 +97,16 @@ const getNewsIcon = (type: string = 'general') => {
 
 <style scoped>
 .news-container {
-  max-width: 1000px;
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 40px 20px;
-  min-height: 100vh;
+  padding: 42px 24px 56px;
+  min-height: calc(100vh - 220px);
 }
 
 /* 页面标题样式 */
 .page-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 48px;
   padding: 0 20px;
 }
 
@@ -117,108 +134,109 @@ const getNewsIcon = (type: string = 'general') => {
 /* 年份区域 */
 .year-section {
   position: relative;
+  margin-bottom: 54px;
 }
 
-.year-badge {
-  display: inline-flex;
+.year-section:last-of-type {
+  margin-bottom: 0;
+}
+
+.year-header {
+  display: flex;
   align-items: center;
-  gap: 10px;
-  background: linear-gradient(135deg, #7d1231, #e74c3c);
-  color: white;
-  padding: 12px 25px;
-  border-radius: 25px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 40px;
-  margin-left: 30px;
-  box-shadow: 0 6px 20px rgba(125, 18, 49, 0.25);
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f1e7eb;
 }
 
-.year-icon {
-  font-size: 1.4rem;
+.year-title {
+  color: #7d1231;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
 }
 
-/* 时间线容器 */
-.timeline-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 30px;
+.year-count {
+  color: #7a8492;
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
 }
 
 /* 新闻项样式 */
 .news-item {
-  margin-bottom: 25px;
-  transition: all 0.3s ease;
+  display: grid;
+  grid-template-columns: 76px 42px minmax(0, 1fr);
+  gap: 18px;
+  align-items: flex-start;
+  border-bottom: 1px solid #edf0f2;
+  padding: 22px 0;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .news-item:hover {
-  transform: translateX(5px);
+  background-color: #fbf8f9;
+  border-bottom-color: #e5d4db;
 }
 
-/* 简化后的新闻内容包装 */
-.news-content-wrapper {
+.news-date {
+  color: #5f6875;
   display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  padding: 20px 0;
-  border-bottom: 1px solid #f0f0f0;
-  transition: all 0.3s ease;
+  flex-direction: column;
+  align-items: flex-end;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  padding-top: 2px;
 }
 
-.news-item:hover .news-content-wrapper {
-  border-bottom-color: #e0e0e0;
-  padding-left: 5px;
+.date-month {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.date-day {
+  color: #273445;
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-top: 6px;
 }
 
 .news-icon {
-  font-size: 1.5rem;
-  margin-top: 2px;
-  flex-shrink: 0;
-  transition: transform 0.3s ease;
+  align-items: center;
+  background: #f7eef2;
+  border: 1px solid #ead0d9;
+  border-radius: 10px;
+  color: #7d1231;
+  display: flex;
+  font-size: 1.25rem;
+  height: 42px;
+  justify-content: center;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  width: 42px;
 }
 
 .news-item:hover .news-icon {
-  transform: scale(1.1);
+  background: #f2e3e9;
+  transform: translateY(-1px);
 }
 
 .news-content {
   color: #2c3e50;
-  font-size: 16px;
+  font-size: 1.08rem;
   line-height: 1.7;
   margin: 0;
   word-break: break-word;
   white-space: normal;
-  flex: 1;
-}
-
-/* 时间线节点样式 */
-:deep(.el-timeline-item__node) {
-  background-color: #7d1231 !important;
-  border: 3px solid white;
-  box-shadow: 0 0 0 2px #7d1231, 0 2px 8px rgba(125, 18, 49, 0.2);
-  width: 16px !important;
-  height: 16px !important;
-  left: -1px;
-  transition: all 0.3s ease;
-}
-
-:deep(.el-timeline-item:hover .el-timeline-item__node) {
-  transform: scale(1.1);
-  box-shadow: 0 0 0 2px #7d1231, 0 4px 12px rgba(125, 18, 49, 0.3);
-}
-
-:deep(.el-timeline-item__tail) {
-  border-left-color: #e8e8e8 !important;
-  left: 7px !important;
-}
-
-/* 时间戳样式 */
-:deep(.el-timeline-item__timestamp) {
-  color: #7d1231 !important;
-  font-size: 14px !important;
-  font-weight: 600;
-  margin-bottom: 8px !important;
-  padding-left: 10px !important;
 }
 
 /* 返回顶部按钮 */
@@ -242,23 +260,27 @@ const getNewsIcon = (type: string = 'general') => {
     padding: 0 10px;
   }
 
-  .year-badge {
-    margin-left: 15px;
-    font-size: 1.1rem;
-    padding: 10px 20px;
+  .year-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
   }
 
-  .timeline-container {
-    padding: 0 15px;
+  .year-title {
+    font-size: 1.75rem;
   }
 
-  .news-content-wrapper {
-    padding: 15px 0;
+  .news-item {
+    grid-template-columns: 58px 36px minmax(0, 1fr);
     gap: 12px;
+    padding: 18px 0;
   }
 
   .news-icon {
-    font-size: 1.3rem;
+    border-radius: 9px;
+    font-size: 1.1rem;
+    height: 36px;
+    width: 36px;
   }
 
   .news-content {
@@ -266,24 +288,8 @@ const getNewsIcon = (type: string = 'general') => {
     line-height: 1.6;
   }
 
-  /* 时间线移动端调整 */
-  :deep(.el-timeline) {
-    padding-left: 10px !important;
-  }
-
-  :deep(.el-timeline-item__node) {
-    width: 14px !important;
-    height: 14px !important;
-    left: 0 !important;
-  }
-
-  :deep(.el-timeline-item__tail) {
-    left: 6px !important;
-  }
-
-  :deep(.el-timeline-item__timestamp) {
-    font-size: 13px !important;
-    padding-left: 5px !important;
+  .date-day {
+    font-size: 1.45rem;
   }
 
   .mobile-backtop {
@@ -306,8 +312,26 @@ const getNewsIcon = (type: string = 'general') => {
     margin-bottom: 40px;
   }
 
-  .news-content-wrapper {
-    padding: 12px 0;
+  .news-item {
+    grid-template-columns: 48px 32px minmax(0, 1fr);
+    gap: 10px;
+    padding: 16px 0;
+  }
+
+  .date-month {
+    font-size: 0.72rem;
+  }
+
+  .date-day {
+    font-size: 1.25rem;
+    margin-top: 5px;
+  }
+
+  .news-icon {
+    border-radius: 8px;
+    font-size: 1rem;
+    height: 32px;
+    width: 32px;
   }
 
   .news-content {
@@ -320,14 +344,5 @@ const getNewsIcon = (type: string = 'general') => {
   .news-container {
     max-width: 1100px;
   }
-
-  .timeline-container {
-    max-width: 950px;
-  }
-}
-
-/* 确保图标颜色正确 */
-::v-deep(.el-icon svg) {
-  color: #7d1231 !important;
 }
 </style>
