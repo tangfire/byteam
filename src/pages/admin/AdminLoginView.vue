@@ -21,6 +21,9 @@ import { reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { login } from '../../api/admin'
+import { useAdminElementPlus } from '../../composables/useAdminElementPlus'
+
+useAdminElementPlus()
 
 const route = useRoute()
 const router = useRouter()

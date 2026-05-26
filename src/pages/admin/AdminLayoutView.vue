@@ -48,6 +48,9 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { logout } from '../../api/admin'
+import { useAdminElementPlus } from '../../composables/useAdminElementPlus'
+
+useAdminElementPlus()
 
 const router = useRouter()
 const route = useRoute()

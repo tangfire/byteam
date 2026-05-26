@@ -1,29 +1,18 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { getPublicPeople } from '../api/public'
 import type { Person } from '../api/client'
+import { usePublicList } from '../composables/usePublicList'
+import { fallbackAlumni } from '../data/fallbacks/publicContent'
 
-const alumni = ref<Person[]>([
-  { name: 'Yuehui Fan', avatarUrl: '/avatar/YuehuiFan.jpg', category: 'graduate_alumni', research: '', graduationDate: 'Graduated: 2025.07', status: 'published', sortOrder: 1 },
-  { name: 'Jianxuan Huang', avatarUrl: '/avatar/JianxuanHuang.jpg', category: 'graduate_alumni', research: '', graduationDate: 'Graduated: 2025.07', status: 'published', sortOrder: 2 },
-  { name: 'Yuebin Xie', avatarUrl: '/avatar/YuebinXie.jpg', category: 'graduate_alumni', research: '', graduationDate: 'Graduated: 2025.07', status: 'published', sortOrder: 3 },
-  { name: 'Jingchao Wang', avatarUrl: '/avatar/JingchaoWang.jpg', category: 'undergraduate_alumni', research: '', graduationDate: 'Graduated: 2025.07', status: 'published', sortOrder: 4 },
-  { name: 'Dongzhe Li', avatarUrl: '/avatar/DongzheLi.jpg', category: 'undergraduate_alumni', research: '', graduationDate: 'Graduated: 2025.07', status: 'published', sortOrder: 5 },
-  { name: 'Xiaochen He', avatarUrl: '/avatar/XiaochenHe.jpg', category: 'undergraduate_alumni', research: '', graduationDate: 'Graduated: 2025.07', status: 'published', sortOrder: 6 },
-  { name: 'Weide Zhan', avatarUrl: '/avatar/WeideZhan.jpg', category: 'undergraduate_alumni', research: '', graduationDate: 'Graduated: 2025.07', status: 'published', sortOrder: 7 },
-  { name: 'Zhixiang Fang', avatarUrl: '/avatar/ZhixiangFang.jpg', category: 'undergraduate_alumni', research: '', graduationDate: 'Graduated: 2025.07', status: 'published', sortOrder: 8 },
-])
+const alumni = usePublicList<Person>({
+  fallback: fallbackAlumni,
+  load: async () => (await getPublicPeople()).items.filter((item) => item.category.includes('alumni')),
+  fallbackMessage: 'Using local alumni fallback data',
+})
 
 const graduateAlumni = computed(() => alumni.value.filter((item) => item.category === 'graduate_alumni'))
 const undergraduateAlumni = computed(() => alumni.value.filter((item) => item.category === 'undergraduate_alumni'))
-
-onMounted(async () => {
-  try {
-    alumni.value = (await getPublicPeople()).items.filter((item) => item.category.includes('alumni'))
-  } catch (error) {
-    console.warn('Using local alumni fallback data', error)
-  }
-})
 </script>
 
 <template>

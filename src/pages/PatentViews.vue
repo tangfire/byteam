@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { getPublicPatents } from '../api/public'
 import type { Patent } from '../api/client'
+import { usePublicList } from '../composables/usePublicList'
+import { fallbackPatents } from '../data/fallbacks/publicContent'
 
-const patents = ref<Patent[]>([
-  { authors: '杨宝瑶，黄彦浩，陈涤新', title: '一种基于时空信息聚合的视频特征提取模型训练方法、系统及特征提取方法', date: '2025-09-09', country: '中国', number: 'ZL202510359255.5', category: 'granted', status: 'published', sortOrder: 1 },
-  { authors: '杨宝瑶，麻亚利，詹伟德，唐彦超，卢泽坚', title: '一种联邦学习场景下的检测噪声标注的方法及系统', date: '2025-09-05', country: '中国', number: 'ZL202510375049.3', category: 'granted', status: 'published', sortOrder: 2 },
-  { authors: '杨宝瑶，陈俊祥，黄彦浩，姚文彬', title: '一种基于多模态大模型的视频 - 文本检索方法', date: '2025-06-13', country: '中国', number: 'ZL202411271756.X', category: 'granted', status: 'published', sortOrder: 3 },
-  { authors: '杨宝瑶，郑晓琦', title: '一种噪声标注的血管图像分割方法及系统', date: '2025-02-11', country: '中国', number: 'ZL 202311792631.7', category: 'granted', status: 'published', sortOrder: 4 },
-  { authors: '杨宝瑶，詹伟德', title: '一种模型异构性联邦学习方法和系统', date: '', country: '中国', number: 'ZL202210989290.1', category: 'review', status: 'published', sortOrder: 14 },
-  { authors: '李春林，吴恒，曾安，惠恩明，富锐，杨思维，曹洪江，骆有隆，杨宝瑶，刘俊，张勇，江焜', title: '产业聚集区域内业务资源服务平台规范', date: '2025-05-01', country: '广东省工业软件学会团体标准', number: 'T/GISF 002-2024', category: 'standard', status: 'published', sortOrder: 30 },
-])
+const patents = usePublicList<Patent>({
+  fallback: fallbackPatents,
+  load: async () => (await getPublicPatents()).items,
+  fallbackMessage: 'Using local patent fallback data',
+})
 
 const sections = computed(() => [
   { key: 'granted', title: '授权专利 (Granted Patents)', items: patents.value.filter((item) => item.category === 'granted') },
@@ -24,13 +23,6 @@ const statusLabel = (category: string) => {
   return '标准'
 }
 
-onMounted(async () => {
-  try {
-    patents.value = (await getPublicPatents()).items
-  } catch (error) {
-    console.warn('Using local patent fallback data', error)
-  }
-})
 </script>
 
 <template>

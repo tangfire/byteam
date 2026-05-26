@@ -88,7 +88,14 @@
                       </div>
 
                       <div class="direction-body-grid">
-                        <ImageField v-model="item.image" class="direction-image-field" label="配图" />
+                        <ImageField
+                          v-model="item.image"
+                          class="direction-image-field"
+                          label="配图"
+                          :uploading="mediaUploading"
+                          @pick="openMediaPicker"
+                          @upload="uploadAndSet"
+                        />
                         <div class="field-stack">
                           <label>图片说明</label>
                           <el-input v-model="item.alt" placeholder="用于图片 alt 文本，建议简短描述图片内容" />
@@ -132,7 +139,15 @@
                 </div>
                 <div class="profile-editor-grid">
                   <div class="profile-photo-panel">
-                    <ImageField v-model="content.image" class="profile-photo-field" label="照片" preview-size="portrait" />
+                    <ImageField
+                      v-model="content.image"
+                      class="profile-photo-field"
+                      label="照片"
+                      preview-size="portrait"
+                      :uploading="mediaUploading"
+                      @pick="openMediaPicker"
+                      @upload="uploadAndSet"
+                    />
                   </div>
                   <div class="profile-fields">
                     <div class="field-stack">
@@ -181,7 +196,14 @@
               <el-form-item label="视频标题">
                 <el-input v-model="content.title" type="textarea" :rows="2" />
               </el-form-item>
-              <ImageField v-model="content.video" label="视频文件" kind="video" />
+              <ImageField
+                v-model="content.video"
+                label="视频文件"
+                kind="video"
+                :uploading="mediaUploading"
+                @pick="openMediaPicker"
+                @upload="uploadAndSet"
+              />
             </template>
 
             <template v-else>
@@ -195,19 +217,13 @@
       </section>
     </div>
 
-    <el-dialog v-model="mediaPickerVisible" title="选择媒体" width="860px">
-      <div class="media-picker-toolbar">
-        <el-input v-model="mediaQuery" placeholder="按显示名称、文件名或 URL 搜索" clearable @keyup.enter="loadMediaOptions" />
-        <el-button @click="loadMediaOptions">搜索</el-button>
-      </div>
-      <div v-loading="mediaLoading" class="media-grid">
-        <button v-for="asset in mediaOptions" :key="asset.id" class="media-option" type="button" @click="chooseMedia(asset.url)">
-          <el-image v-if="asset.kind === 'image'" :src="asset.url" fit="cover" />
-          <span v-else class="media-kind">{{ formatMediaKind(asset.kind) }}</span>
-          <span class="media-name">{{ asset.displayName || asset.originalName }}</span>
-        </button>
-      </div>
-    </el-dialog>
+    <AdminMediaPicker
+      v-model="mediaPickerVisible"
+      :kind="mediaKind"
+      search-placeholder="按显示名称、文件名或 URL 搜索"
+      :query-extra="{ usage: '' }"
+      @choose="chooseMedia"
+    />
 
     <el-dialog v-model="createDialogVisible" title="新增论文视频页" width="640px">
       <el-form :model="newVideoPage" label-width="110px" class="create-video-form">
@@ -220,7 +236,14 @@
           </el-input>
         </el-form-item>
         <el-form-item label="视频文件">
-          <ImageField v-model="newVideoPage.video" label="视频文件" kind="video" />
+          <ImageField
+            v-model="newVideoPage.video"
+            label="视频文件"
+            kind="video"
+            :uploading="mediaUploading"
+            @pick="openMediaPicker"
+            @upload="uploadAndSet"
+          />
         </el-form-item>
         <el-form-item label="发布状态">
           <el-switch
@@ -241,11 +264,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineComponent, h, nextTick, onMounted, ref, watch, type PropType } from 'vue'
-import { ElButton, ElInput, ElMessage, ElMessageBox, ElPopconfirm, ElUpload } from 'element-plus'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import type { UploadRequestOptions } from 'element-plus'
-import { createSitePage, deleteSitePage, getSitePage, listAdmin, listSitePages, updateSitePage, uploadMedia } from '../../api/admin'
-import type { MediaAsset, SitePage } from '../../api/client'
+import { createSitePage, deleteSitePage, getSitePage, listSitePages, updateSitePage, uploadMedia } from '../../api/admin'
+import type { SitePage } from '../../api/client'
+import EditableList from '../../components/admin/AdminEditableList.vue'
+import ImageField from '../../components/admin/AdminMediaField.vue'
+import AdminMediaPicker from '../../components/admin/AdminMediaPicker.vue'
+import { formatStatus } from '../../utils/adminFormat'
+import { normalizePageContent, pageLabel, slugifyVideoTitle, sourceManagedSlugs, toPlainPage } from '../../utils/sitePageContent'
 import { videoPagePath } from '../../utils/videoLinks'
 
 const pages = ref<SitePage[]>([])
@@ -262,116 +290,15 @@ const creating = ref(false)
 const slugTouched = ref(false)
 const newVideoPage = ref({ title: '', slug: '', video: '', status: 'published' })
 const mediaPickerVisible = ref(false)
-const mediaLoading = ref(false)
 const mediaUploading = ref(false)
-const mediaQuery = ref('')
 const mediaKind = ref('')
-const mediaOptions = ref<MediaAsset[]>([])
 const pendingMediaSetter = ref<((url: string) => void) | null>(null)
 
-const sourceManagedSlugs = new Set(['about', 'contact', 'videomind', 'vknow'])
-
 const content = computed<Record<string, any>>(() => editing.value?.content || {})
-
-const toPlainPage = (page: SitePage) => ({
-  slug: page.slug,
-  title: page.title,
-  description: page.description,
-  content: page.content,
-  status: page.status,
-  sortOrder: page.sortOrder,
-})
 
 const serializePage = () => editing.value ? JSON.stringify(toPlainPage(editing.value)) : ''
 
 const hasUnsavedPageChanges = computed(() => Boolean(editing.value) && serializePage() !== pageSnapshot.value)
-
-const fallbackContent: Record<string, () => Record<string, any>> = {
-  'research-direction': () => ({ directions: [] }),
-  'dr-baoyao-yang': () => ({ name: '', image: '', alt: '', paragraphs: [] }),
-}
-
-const pageLabel = (slug: string, title: string) => {
-  const labels: Record<string, string> = {
-    'research-direction': 'Research Direction',
-    'dr-baoyao-yang': 'Baoyao Yang',
-    'video-xiaoqi-zheng-01': '视频：Xiaoqi Zheng',
-    'video-xianrun-xu-01': '视频：Xianrun Xu',
-    'video-yali-ma-01': '视频：Yali Ma',
-  }
-  return labels[slug] || title
-}
-
-const normalizePageContent = (page: SitePage) => {
-  const fallback = fallbackContent[page.slug]?.() || (page.slug.startsWith('video-') ? { title: '', video: '' } : {})
-  page.content = deepMerge(fallback, page.content || {})
-  if (page.slug === 'research-direction') {
-    page.content.directions = normalizeDirections(page.content.directions)
-  } else if (page.slug === 'dr-baoyao-yang') {
-    page.content.name = normalizeText(page.content.name)
-    page.content.image = normalizeText(page.content.image)
-    page.content.alt = normalizeText(page.content.alt)
-    page.content.paragraphs = normalizeTextItems(page.content.paragraphs)
-  } else if (page.slug.startsWith('video-')) {
-    page.content.title = normalizeText(page.content.title)
-    page.content.video = normalizeText(page.content.video)
-  }
-}
-
-const deepMerge = (base: Record<string, any>, value: Record<string, any>) => {
-  const out = structuredClone(base)
-  Object.entries(value || {}).forEach(([key, nextValue]) => {
-    if (isPlainObject(nextValue) && isPlainObject(out[key])) {
-      out[key] = deepMerge(out[key], nextValue)
-    } else {
-      out[key] = nextValue
-    }
-  })
-  return out
-}
-
-const isPlainObject = (value: unknown): value is Record<string, any> => Boolean(value) && typeof value === 'object' && !Array.isArray(value)
-
-const toRecord = (value: unknown): Record<string, any> => isPlainObject(value) ? value : {}
-
-const normalizeText = (value: unknown) => typeof value === 'string' ? value : ''
-
-const normalizeTextItems = (value: unknown) => {
-  if (Array.isArray(value)) {
-    return value.map((item) => typeof item === 'string' ? item : String(item ?? ''))
-  }
-  if (typeof value === 'string') {
-    return value.split('\n').map((item) => item.trim()).filter(Boolean)
-  }
-  return []
-}
-
-const normalizeSections = (value: unknown) => {
-  if (!Array.isArray(value)) return []
-  return value.map((section) => {
-    if (typeof section === 'string') return { title: '', text: section }
-    const record = toRecord(section)
-    return {
-      ...record,
-      title: normalizeText(record.title),
-      text: normalizeText(record.text),
-    }
-  })
-}
-
-const normalizeDirections = (value: unknown) => {
-  if (!Array.isArray(value)) return []
-  return value.map((direction) => {
-    const record = toRecord(direction)
-    return {
-      ...record,
-      title: normalizeText(record.title),
-      image: normalizeText(record.image),
-      alt: normalizeText(record.alt),
-      sections: normalizeSections(record.sections),
-    }
-  })
-}
 
 const loadPages = async () => {
   loading.value = true
@@ -453,15 +380,6 @@ const syncSlugFromTitle = () => {
   newVideoPage.value.slug = slugifyVideoTitle(newVideoPage.value.title)
 }
 
-const slugifyVideoTitle = (value: string) => {
-  const slug = value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .replace(/-{2,}/g, '-')
-  return `video-${slug || 'publication'}`
-}
-
 const createVideoPage = async () => {
   const slug = newVideoPage.value.slug.trim().toLowerCase()
   if (!newVideoPage.value.title.trim()) {
@@ -524,35 +442,15 @@ const applyRawJSON = () => {
 
 const removeAt = (items: unknown[], index: number) => items.splice(index, 1)
 
-const formatStatus = (status: string) => status === 'published' ? '已发布' : '草稿'
-
-const openMediaPicker = async (setter: (url: string) => void, kind = '') => {
+const openMediaPicker = (setter: (url: string) => void, kind = '') => {
   pendingMediaSetter.value = setter
   mediaKind.value = kind
   mediaPickerVisible.value = true
-  await loadMediaOptions()
-}
-
-const loadMediaOptions = async () => {
-  mediaLoading.value = true
-  try {
-    const result = await listAdmin<MediaAsset>('media', { page: 1, pageSize: 48, q: mediaQuery.value, kind: mediaKind.value, usage: '' })
-    mediaOptions.value = result.items
-  } catch (error) {
-    ElMessage.error(error instanceof Error ? error.message : '媒体加载失败')
-  } finally {
-    mediaLoading.value = false
-  }
 }
 
 const chooseMedia = (url: string) => {
   pendingMediaSetter.value?.(url)
   mediaPickerVisible.value = false
-}
-
-const previewFileName = (url: string) => {
-  const clean = String(url || '').split('?')[0].split('#')[0]
-  return clean.split('/').filter(Boolean).pop() || clean || '未选择'
 }
 
 const uploadAndSet = async (options: UploadRequestOptions, setter: (url: string) => void) => {
@@ -568,143 +466,6 @@ const uploadAndSet = async (options: UploadRequestOptions, setter: (url: string)
   }
 }
 
-const formatMediaKind = (kind: string) => {
-  const labels: Record<string, string> = { image: '图片', document: '文档', archive: '压缩包', video: '视频' }
-  return labels[kind] || kind
-}
-
-const TextListEditor = defineComponent({
-  props: {
-    modelValue: { type: Array as PropType<string[]>, default: () => [] },
-    placeholder: { type: String, default: '' },
-    rows: { type: Number, default: 5 },
-  },
-  emits: ['update:modelValue'],
-  setup(props, { emit }) {
-    const value = ref((props.modelValue || []).join('\n'))
-    watch(() => props.modelValue, (next) => {
-      value.value = (next || []).join('\n')
-    })
-    const update = (next: string) => {
-      value.value = next
-      emit('update:modelValue', next.split('\n').map((item) => item.trim()).filter(Boolean))
-    }
-    return () => h(ElInput, {
-      modelValue: value.value,
-      'onUpdate:modelValue': update,
-      type: 'textarea',
-      rows: props.rows,
-      placeholder: props.placeholder,
-    })
-  },
-})
-
-const EditableList = defineComponent({
-  props: {
-    items: { type: Array as PropType<any[]>, required: true },
-    addLabel: { type: String, default: '添加' },
-    compact: { type: Boolean, default: false },
-  },
-  emits: ['add', 'remove'],
-  setup(props, { emit, slots }) {
-    const dragIndex = ref<number | null>(null)
-    const overIndex = ref<number | null>(null)
-    const move = (from: number, to: number) => {
-      if (to < 0 || to >= props.items.length) return
-      const [item] = props.items.splice(from, 1)
-      props.items.splice(to, 0, item)
-    }
-    const handleDrop = (index: number) => {
-      if (dragIndex.value === null || dragIndex.value === index) {
-        dragIndex.value = null
-        overIndex.value = null
-        return
-      }
-      move(dragIndex.value, index)
-      dragIndex.value = null
-      overIndex.value = null
-    }
-    return () => h('div', { class: ['editable-list', props.compact ? 'compact' : ''] }, [
-      ...props.items.map((item, index) => h('div', {
-        class: ['editable-item', props.compact ? 'compact-item' : '', overIndex.value === index ? 'drag-over' : ''],
-        onDragover: (event: DragEvent) => {
-          if (dragIndex.value === null || dragIndex.value === index) return
-          event.preventDefault()
-          overIndex.value = index
-        },
-        onDragleave: () => {
-          if (overIndex.value === index) overIndex.value = null
-        },
-        onDrop: (event: DragEvent) => {
-          event.preventDefault()
-          handleDrop(index)
-        },
-      }, [
-        h('div', { class: 'editable-item-tools' }, [
-          h('button', {
-            class: 'editable-drag-handle',
-            type: 'button',
-            draggable: true,
-            title: '拖动排序',
-            onDragstart: (event: DragEvent) => {
-              dragIndex.value = index
-              overIndex.value = null
-              event.dataTransfer?.setData('text/plain', String(index))
-            },
-            onDragend: () => {
-              dragIndex.value = null
-              overIndex.value = null
-            },
-          }, '⋮⋮'),
-          h(ElButton, { size: 'small', text: true, disabled: index === 0, onClick: () => move(index, index - 1) }, () => '上移'),
-          h(ElButton, { size: 'small', text: true, disabled: index === props.items.length - 1, onClick: () => move(index, index + 1) }, () => '下移'),
-          h(ElPopconfirm, {
-            title: '确认删除这一项？保存后前台将不再显示。',
-            onConfirm: () => emit('remove', index),
-          }, {
-            reference: () => h(ElButton, { size: 'small', type: 'danger', link: true }, () => '删除'),
-          }),
-        ]),
-        h('div', { class: 'editable-item-fields' }, slots.default?.({ item, index })),
-      ])),
-      h(ElButton, { class: 'editable-add', onClick: () => emit('add') }, () => props.addLabel),
-    ])
-  },
-})
-
-const ImageField = defineComponent({
-  props: {
-    modelValue: { type: String, default: '' },
-    label: { type: String, default: '图片' },
-    kind: { type: String, default: 'image' },
-    previewSize: { type: String, default: 'default' },
-  },
-  emits: ['update:modelValue'],
-  setup(props, { emit }) {
-    const set = (url: string) => emit('update:modelValue', url)
-    const isImage = () => props.modelValue && props.kind === 'image'
-    return () => h('div', { class: ['media-field', props.previewSize === 'portrait' ? 'portrait-preview' : ''] }, [
-      h('label', props.label),
-      isImage()
-        ? h('img', { src: props.modelValue, alt: '', class: 'media-field-preview' })
-        : h('div', { class: 'media-field-empty' }, previewFileName(props.modelValue)),
-      h(ElInput, { modelValue: props.modelValue, 'onUpdate:modelValue': set, placeholder: '可粘贴 URL，也可选择/上传媒体' }),
-      h('div', { class: 'media-field-actions' }, [
-        h(ElButton, { onClick: () => openMediaPicker(set, props.kind) }, () => '选择媒体'),
-        h(ElUpload, { accept: props.kind === 'video' ? '.mp4,video/mp4' : 'image/*', showFileList: false, httpRequest: (options: UploadRequestOptions) => uploadAndSet(options, set) }, () => h(ElButton, { loading: mediaUploading.value }, () => '上传并使用')),
-        props.modelValue
-          ? h(ElPopconfirm, {
-            title: '确认清空这个媒体地址？保存后前台将不再显示这个资源。',
-            onConfirm: () => set(''),
-          }, {
-            reference: () => h(ElButton, null, () => '清空'),
-          })
-          : null,
-      ]),
-    ])
-  },
-})
-
 onMounted(loadPages)
 
 watch(editing, async () => {
@@ -716,8 +477,6 @@ watch(editing, async () => {
 <style scoped>
 .pages-admin,
 .page-form,
-.editable-list,
-.editable-item-fields,
 .content-editor-section,
 .direction-editor,
 .field-stack,
@@ -731,9 +490,7 @@ watch(editing, async () => {
 .admin-page-header,
 .header-actions,
 .editor-header,
-.editor-actions,
-.media-picker-toolbar,
-.media-field-actions {
+.editor-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -868,58 +625,6 @@ watch(editing, async () => {
   line-height: 1.5;
 }
 
-.editable-list.compact {
-  gap: 10px;
-}
-
-.editable-item {
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 14px;
-  background: #fbfbfc;
-  transition: border-color 0.18s ease, background 0.18s ease;
-}
-
-.editable-item.compact-item {
-  padding: 10px;
-  background: #ffffff;
-}
-
-.editable-item.drag-over {
-  border-color: #f59e0b;
-  background: #fff7ed;
-}
-
-.editable-item-tools {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eceff3;
-}
-
-.editable-drag-handle {
-  width: 30px;
-  height: 28px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  background: #ffffff;
-  color: #6b7280;
-  cursor: grab;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.editable-drag-handle:active {
-  cursor: grabbing;
-}
-
-.editable-add {
-  align-self: flex-start;
-}
-
 .direction-editor {
   gap: 14px;
 }
@@ -1007,126 +712,6 @@ watch(editing, async () => {
   gap: 10px;
 }
 
-.media-field,
-:deep(.media-field) {
-  display: grid;
-  grid-template-columns: 128px minmax(0, 1fr);
-  gap: 10px 12px;
-  align-items: start;
-  min-width: 0;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.media-field label,
-:deep(.media-field label) {
-  grid-column: 1 / -1;
-  color: #606266;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.media-field-preview,
-:deep(.media-field-preview),
-.media-field-empty,
-:deep(.media-field-empty) {
-  width: 128px;
-  height: 82px;
-  max-width: 100%;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  background: #f9fafb;
-  object-fit: cover;
-  display: block;
-}
-
-.media-field-empty,
-:deep(.media-field-empty) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6b7280;
-  font-size: 12px;
-  overflow: hidden;
-  padding: 6px;
-  word-break: break-all;
-}
-
-.media-field-actions,
-:deep(.media-field-actions) {
-  grid-column: 2;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-}
-
-.media-field :deep(.el-input),
-:deep(.media-field .el-input) {
-  min-width: 0;
-}
-
-.media-field.portrait-preview,
-:deep(.media-field.portrait-preview) {
-  grid-template-columns: 160px minmax(0, 1fr);
-}
-
-.media-field.portrait-preview .media-field-preview,
-.media-field.portrait-preview .media-field-empty,
-:deep(.media-field.portrait-preview .media-field-preview),
-:deep(.media-field.portrait-preview .media-field-empty) {
-  width: 160px;
-  height: 190px;
-  object-fit: cover;
-}
-
-.media-picker-toolbar {
-  justify-content: flex-start;
-  margin-bottom: 14px;
-}
-
-.media-picker-toolbar .el-input {
-  width: 360px;
-}
-
-.media-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-  min-height: 240px;
-}
-
-.media-option {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 8px;
-  background: white;
-  cursor: pointer;
-  text-align: left;
-}
-
-.media-option .el-image,
-.media-kind {
-  width: 100%;
-  height: 86px;
-  border-radius: 6px;
-  background: #f3f4f6;
-}
-
-.media-kind {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6b7280;
-}
-
-.media-name {
-  color: #374151;
-  font-size: 12px;
-  word-break: break-all;
-}
-
 @media (max-width: 980px) {
   .page-layout {
     grid-template-columns: 1fr;
@@ -1135,14 +720,6 @@ watch(editing, async () => {
   .page-list {
     position: static;
     max-height: none;
-  }
-
-  .media-field {
-    grid-template-columns: 1fr;
-  }
-
-  .media-field-actions {
-    grid-column: auto;
   }
 
   .direction-body-grid,

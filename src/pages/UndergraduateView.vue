@@ -1,93 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
 import { getPublicUndergraduates } from '../api/public'
 import type { UndergraduateEducation } from '../api/client'
+import { usePublicList } from '../composables/usePublicList'
+import { fallbackUndergraduates } from '../data/fallbacks/publicContent'
 
-type UndergraduateViewItem = UndergraduateEducation | Omit<UndergraduateEducation, 'status' | 'sortOrder'>
-
-// 本科生培养数据
-const undergraduateStudents = ref<UndergraduateViewItem[]>([
-  {
-    id: 1,
-    name: "穆跃鑫",
-    grade: "19 级",
-    major: "机器人学院",
-    direction: "机器学习与数据挖掘",
-    achievements: [
-      "申请国家发明专利 1 项",
-      "获优秀毕业设计",
-      "保送至重庆大学"
-    ]
-  },
-  {
-    id: 2,
-    name: "何晓琛",
-    grade: "20 级",
-    major: "软件工程（卓越班）",
-    direction: "医学图像处理与单域泛化",
-    achievements: [
-      "发表 CCF-B 类会议 ICASSP2024 论文一篇"
-    ]
-  },
-  {
-    id: 3,
-    name: "王敬超",
-    grade: "21 级",
-    major: "人工智能专业",
-    direction: "机器学习与数据挖掘",
-    achievements: [
-      "以第一作者在 CCF-A 类会议 SIGKDD 2024 发表论文一篇",
-      "以第一作者在 CCF-A 类会议 ACMMM 2024 发表论文一篇",
-      "发表 JBHI 论文一篇",
-      "荣获科技创新奖学金",
-      "保送至北京大学计算机科学与技术专业（博士）"
-    ]
-  },
-  {
-    id: 4,
-    name: "詹伟德",
-    grade: "21 级",
-    major: "计算机科学与技术（伏羲班）",
-    direction: "联邦学习",
-    achievements: [
-      "授权国家发明专利 1 项，实审 2 项",
-      "获省级赛事奖项 2 项",
-      "参与发表 CCF-B 类会议 MICCAI 2024 论文一篇",
-      "连续两年获得校一等奖学金",
-      "国家优秀学生奖学金",
-      "保送至复旦大学电子信息专业（博士）"
-    ]
-  },
-  {
-    id: 5,
-    name: "李东哲",
-    grade: "21 级",
-    major: "计算机科学与技术（伏羲班）",
-    direction: "医学图像分割技术",
-    achievements: [
-      "发表 TMM（CCF-B）论文一篇",
-      "发表医学信息处理顶会 MICCAI 2024（CCF-B）论文一篇",
-      "发表 IJCAI-HBAI 论文一篇"
-    ]
-  },
-  {
-    id: 6,
-    name: "方志祥",
-    grade: "21 级",
-    major: "计算机科学与技术",
-    direction: "联邦学习公平性问题",
-    achievements: [
-      "发表 ECAI 2025（CCF-B）论文一篇"
-    ]
-  }
-])
-
-onMounted(async () => {
-  try {
-    undergraduateStudents.value = (await getPublicUndergraduates()).items
-  } catch (error) {
-    console.warn('Using local undergraduate fallback data', error)
-  }
+const undergraduateStudents = usePublicList<UndergraduateEducation>({
+  fallback: fallbackUndergraduates,
+  load: async () => (await getPublicUndergraduates()).items,
+  fallbackMessage: 'Using local undergraduate fallback data',
 })
 </script>
 

@@ -1,101 +1,25 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { getPublicNews } from '../api/public'
+import { usePublicList } from '../composables/usePublicList'
+import { fallbackNewsActivities, type NewsActivity } from '../data/fallbacks/publicContent'
 
-interface ActivityType {
-  content: string
-  timestamp?: string
-  color?: string
-  type?: 'publication' | 'team' | 'award' | 'event' | 'general'
-}
+const activities = usePublicList<NewsActivity>({
+  fallback: fallbackNewsActivities,
+  load: async () => {
+    const result = await getPublicNews()
+    return result.items.map((item) => ({
+      content: item.content,
+      timestamp: item.date,
+      color: item.color || '#7d1231',
+      type: item.type as NewsActivity['type'],
+    }))
+  },
+  fallbackMessage: 'Using local news fallback data',
+})
 
-const activities2026: ActivityType[] = [
-  {
-    content:'Our paper "AdaGS-Net: An Adaptive Sparse Network for Multimodal Fusion in Alzheimer\'s Disease" has been accepted by ICME 2026. Congrats to all authors!',
-    timestamp:'2026-03-17',
-    color:'#7d1231',
-    type: 'publication'
-  }
-]
-
-const activities2025: ActivityType[] = [
-  {
-    content:'Our paper "Multi-modal Brain Tumor Segmentation via Multi-category Interaction and Graph Co-reasoning" has been accepted by IEEE Transactions on Multimedia. Congrats, Li, Yang and co-authors!',
-    timestamp:'2025-11-06',
-    color:'#7d1231',
-    type: 'publication'
-  },
-  {
-    content:'Our paper "FedCD: A Hybrid Federated Learning Framework for Adaptive Training under Data Heterogeneity" has been accepted by PRCV. Congrats, Zhan, Yang and co-authors!',
-    timestamp:'2025-10-22',
-    color:'#7d1231',
-    type: 'publication'
-  },
-  {
-    content:'Our paper "CAM-interacted Vision GNN for Multi-label Medical Images" to be published in IEEE Journal of Biomedical and Health Informatics. Congrats, Wang, Yang and co-authors!',
-    timestamp:'2025-10-16',
-    color:'#7d1231',
-    type: 'publication'
-  },
-  {
-    content:'Our paper "Multi-Agent Reinforcement Learning Algorithm Using Dynamic OW-QMIX in Complex Supply Chain Scenarios" has been accepted by IEEE SMC. Congrats, Liu, Zhu and co-authors!',
-    timestamp:'2025-07-20',
-    color:'#7d1231',
-    type: 'publication'
-  },
-  {
-    content:'Two of our papers were accepted by ECAI: "FairFed++: Closing the Fairness Gap in Federated Learning through Self-Evolving Clustered Optimization" and "Unlocking the Potential of mLLMs: Enhancing Video-Text Retrieval through Caption Supplementation and Conical Embedding Optimization".',
-    timestamp:'2025-07-11',
-    color:'#7d1231',
-    type: 'publication'
-  },
-  {
-    content:'Our paper "Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation" has been accepted by ACM Multimedia. Congrats, Xu, Yang and co-authors!',
-    timestamp:'2025-07-06',
-    color:'#7d1231',
-    type: 'publication'
-  },
-  {
-    content:'Our paper "Harnessing Feature Distribution Consistency for Federated Learning with Noisy" has been accepted by IEEE International Conference on Image Processing (ICIP). Congrats, Ma, Yang and co-authors!',
-    timestamp:'2025-05-20',
-    color:'#7d1231',
-    type: 'publication'
-  },
-  {
-    content:'Warm welcome to new group members Aoqi Yan, Guangyang Lin, Haifeng Lin, Jiahao Lian, Xiaojie Chen, Xi Wang & Yuhao Chen',
-    timestamp:'2025-05-06',
-    color:'#7d1231',
-    type: 'team'
-  },
-  {
-    content:'Beyond Machine Learning team introduction official website officially launched!',
-    timestamp:'2025-04-08',
-    color:'#7d1231',
-    type: 'event'
-  },
-  {
-    content:'Two of our papers were accepted by ICME: "Unifying Spatio-Temporal Contexts for Advanced Text-Video Retrieval" and "Action Decomposition-based Actor-Critic for Supply Chain Optimization".',
-    timestamp:'2025-03-21',
-    color:'#7d1231',
-    type: 'publication'
-  },
-  {
-    content: 'Our paper "Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations" has been accepted by ICASSP. Congrats, Zheng, Yang and co-authors!',
-    timestamp: '2025-03-08',
-    color: '#7d1231',
-    type: 'publication'
-  },
-  {
-    content: 'Happy Chinese New Year!',
-    timestamp: '2025-01-29',
-    color: '#7d1231',
-    type: 'event'
-  }
-]
-
-const activities = ref<ActivityType[]>([...activities2026, ...activities2025])
 const activitiesByYear = computed(() => {
-  const groups: Record<string, ActivityType[]> = {}
+  const groups: Record<string, NewsActivity[]> = {}
   activities.value.forEach((activity) => {
     const year = String(activity.timestamp || '').slice(0, 4) || 'Other'
     groups[year] = groups[year] || []
@@ -104,20 +28,6 @@ const activitiesByYear = computed(() => {
   return Object.keys(groups)
     .sort((a, b) => Number(b) - Number(a))
     .map((year) => ({ year, items: groups[year] }))
-})
-
-onMounted(async () => {
-  try {
-    const result = await getPublicNews()
-    activities.value = result.items.map((item) => ({
-      content: item.content,
-      timestamp: item.date,
-      color: item.color || '#7d1231',
-      type: item.type as ActivityType['type'],
-    }))
-  } catch (error) {
-    console.warn('Using local news fallback data', error)
-  }
 })
 
 const getNewsIcon = (type: string = 'general') => {

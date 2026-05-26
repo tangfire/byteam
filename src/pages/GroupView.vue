@@ -1,36 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
 import { getPublicPeople } from '../api/public'
 import type { Person } from '../api/client'
+import { usePublicList } from '../composables/usePublicList'
+import { fallbackGraduatePeople } from '../data/fallbacks/publicContent'
 
-const members = ref<Person[]>([
-  { name: 'Dixin Chen', avatarUrl: '/avatar/DixinChen.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 1 },
-  { name: 'Huahong Deng', avatarUrl: '/avatar/HuahongDeng.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 2 },
-  { name: 'Canrong Du', avatarUrl: '/avatar/CanrongDu.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 3 },
-  { name: 'Aoqi Yan', avatarUrl: '/avatar/AoqiYan.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 4 },
-  { name: 'Haifeng Lin', avatarUrl: '/avatar/HaifengLin.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 5 },
-  { name: 'Yanhao Huang', avatarUrl: '/avatar/YanhaoHuang.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 6 },
-  { name: 'Jingsong Lin', avatarUrl: '/avatar/JingsongLin.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 7 },
-  { name: 'Yali Ma', avatarUrl: '/avatar/YaliMa.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 8 },
-  { name: 'Yanchao Tang', avatarUrl: '/avatar/YanchaoTang.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 9 },
-  { name: 'Kexin Xie', avatarUrl: '/avatar/KexinXie.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 10 },
-  { name: 'Yuhao Chen', avatarUrl: '/avatar/YuhaoChen.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 11 },
-  { name: 'Yufei Xu', avatarUrl: '/avatar/YufeiXu.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 12 },
-  { name: 'Xianrun Xu', avatarUrl: '/avatar/XianrunXu.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 13 },
-  { name: 'Xiaoqi Zheng', avatarUrl: '/avatar/XiaoqiZheng.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 14 },
-  { name: 'Sijia Zhou', avatarUrl: '/avatar/SijiaZhou.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 15 },
-  { name: 'Xiaojie Chen', avatarUrl: '/avatar/XiaojieChen.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 16 },
-  { name: 'Xi Wang', avatarUrl: '/avatar/XiWang.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 17 },
-  { name: 'Jiahao Lian', avatarUrl: '/avatar/JiahaoLian.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 18 },
-  { name: 'Guangyang Lin', avatarUrl: '/avatar/GuangyangLin.jpg', category: 'graduate', research: '', graduationDate: '', status: 'published', sortOrder: 19 },
-])
-
-onMounted(async () => {
-  try {
-    members.value = (await getPublicPeople('graduate')).items
-  } catch (error) {
-    console.warn('Using local group fallback data', error)
-  }
+const members = usePublicList<Person>({
+  fallback: fallbackGraduatePeople,
+  load: async () => (await getPublicPeople('graduate')).items,
+  fallbackMessage: 'Using local group fallback data',
 })
 </script>
 

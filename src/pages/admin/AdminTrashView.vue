@@ -63,6 +63,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { listTrash, restoreTrash } from '../../api/admin'
 import type { TrashItem } from '../../api/client'
+import { formatStatus } from '../../utils/adminFormat'
 
 const resources = [
   { label: '页面内容', value: 'pages' },
@@ -121,8 +122,6 @@ const formatDate = (value?: string) => {
   if (!value) return '-'
   return new Date(value).toLocaleString()
 }
-
-const formatStatus = (status: string) => status === 'published' ? '已发布' : '草稿'
 
 onMounted(load)
 </script>

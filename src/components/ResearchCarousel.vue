@@ -68,8 +68,8 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
-import { getHome } from '../api/public'
 import type { Publication, PublicationLink } from '../api/client'
+import { useFeaturedPublications } from '../composables/useFeaturedPublications'
 import { openExternalLink } from '../utils/links'
 import { resolveExternalVideoURL, resolveVideoPagePath } from '../utils/videoLinks'
 
@@ -79,83 +79,7 @@ const currentIndex = ref(0)
 const touchStartX = ref(0)
 const touchEndX = ref(0)
 
-const publications = ref<Publication[]>([
-  {
-    id: 1,
-    image: '/publications/028.png',
-    title: 'Multi-modal Brain Tumor Segmentation via Multi-category Interaction and Graph Co-reasoning',
-    authors: 'Baoyao Yang*, Dongzhe Li, Chong Yin, Fei Lyu, Xiaochen He',
-    venue: 'IEEE Transactions on Multimedia, 2025',
-    kind: 'Journal',
-    status: 'published',
-    featured: true,
-    sortOrder: 1,
-    year: 2025,
-    links: [{ type: 'paper', label: 'Paper', url: 'https://ieeexplore.ieee.org/abstract/document/11205277', routeName: '', sortOrder: 1 }]
-  },
-  {
-    id: 2,
-    image: '/publications/026.png',
-    title: 'CAM-interacted Vision GNN for Multi-label Medical Images',
-    authors: 'Jiangchao Wang, Baoyao Yang*, Siqi Liu, Xiaoqi Zheng, Wenbin Yao* and Junxiang Chen',
-    venue: 'IEEE Journal of Biomedical and Health Informatics, 2025',
-    kind: 'Journal',
-    year: 2025,
-    status: 'published',
-    featured: true,
-    sortOrder: 2,
-    links: [
-      { type: 'code', label: 'Code', url: 'https://github.com/BaoyaoGroup/JBHI_code', routeName: '', sortOrder: 1 },
-      { type: 'paper', label: 'Paper', url: 'https://ieeexplore.ieee.org/abstract/document/11205277', routeName: '', sortOrder: 2 },
-    ]
-  },
-  {
-    id: 3,
-    image: '/publications/027.png',
-    title: 'FedCD: A Hybrid Federated Learning Framework for Adaptive Training under Data Heterogeneity',
-    authors: 'Weide Zhan, Baoyao Yang*',
-    venue: 'PRCV, 2025',
-    kind: 'Conference',
-    year: 2025,
-    status: 'published',
-    featured: true,
-    sortOrder: 3,
-    links: []
-  },
-  {
-    id: 4,
-    image: '/publications/004.png',
-    title: 'Image-assisted Label Connective Completion for Vessel Segmentation with Insufficient Annotations',
-    authors: 'Xiaoqi Zheng, Baoyao Yang*, Xiuwen Fang, Mang Ye',
-    venue: 'ICASSP, 2025',
-    kind: 'Conference',
-    year: 2025,
-    status: 'published',
-    featured: true,
-    sortOrder: 4,
-    links: [
-      { type: 'code', label: 'Code', url: 'https://github.com/BaoyaoGroup/LabelCompletion', routeName: '', sortOrder: 1 },
-      { type: 'paper', label: 'Paper', url: 'https://ieeexplore.ieee.org/document/10888997', routeName: '', sortOrder: 2 },
-      { type: 'video', label: 'Video', url: '/video/video-xiaoqi-zheng-01', routeName: '', sortOrder: 3 },
-    ]
-  },
-  {
-    id: 5,
-    image: '/publications/023.png',
-    title: 'Simple but Effective: Sub-Volume Contrastive Learning for Class-Imbalanced Semi-Supervised 3D Medical Image Segmentation',
-    authors: 'Xianrun Xu, Baoyao Yang*, Wanyun Li, Jingsong Lin, Yufei Xu',
-    venue: 'ACM Multimedia, 2025',
-    kind: 'Conference',
-    year: 2025,
-    status: 'published',
-    featured: true,
-    sortOrder: 5,
-    links: [
-      { type: 'paper', label: 'Paper', url: 'https://dl.acm.org/doi/abs/10.1145/3746027.3755652', routeName: '', sortOrder: 1 },
-      { type: 'video', label: 'Video', url: '/video/video-xianrun-xu-01', routeName: '', sortOrder: 2 },
-    ]
-  }
-])
+const publications = useFeaturedPublications()
 
 const handleImageError = (e: Event) => {
   (e.target as HTMLImageElement).src = '/publications/online.png'
@@ -211,13 +135,6 @@ onMounted(() => {
   checkMobile()
   window.addEventListener('resize', checkMobile)
   interval = setInterval(nextSlide, 5000)
-  getHome()
-    .then((data) => {
-      if (data.featuredPublications.length > 0) {
-        publications.value = data.featuredPublications
-      }
-    })
-    .catch((error) => console.warn('Using local carousel fallback data', error))
 })
 
 onUnmounted(() => {

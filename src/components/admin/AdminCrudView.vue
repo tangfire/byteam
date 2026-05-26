@@ -230,21 +230,12 @@
       </template>
     </el-dialog>
 
-    <el-dialog v-model="mediaPickerVisible" title="选择媒体" width="860px">
-      <div class="media-picker-toolbar">
-        <el-input v-model="mediaQuery" placeholder="按文件名或 URL 搜索" clearable @keyup.enter="loadMediaOptions" />
-        <el-button @click="loadMediaOptions">搜索</el-button>
-      </div>
-      <div v-loading="mediaLoading" class="media-grid">
-        <button v-for="asset in mediaOptions" :key="asset.id" class="media-option" type="button" @click="chooseMedia(asset.url)">
-          <el-image v-if="asset.kind === 'image'" :src="asset.url" fit="cover" />
-          <span v-else class="media-kind">{{ formatMediaKind(asset.kind) }}</span>
-          <span class="media-name">{{ asset.displayName || asset.originalName }}</span>
-          <span class="media-url">{{ asset.originalName }}</span>
-        </button>
-        <el-empty v-if="!mediaLoading && mediaOptions.length === 0" description="没有找到媒体文件" :image-size="72" />
-      </div>
-    </el-dialog>
+    <AdminMediaPicker
+      v-model="mediaPickerVisible"
+      :kind="mediaKind"
+      show-original-name
+      @choose="chooseMedia"
+    />
   </div>
 </template>
 
@@ -253,9 +244,21 @@ import { computed, onMounted, onUpdated, reactive, ref, toRaw } from 'vue'
 import type { UploadRequestOptions } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { createAdmin, deleteAdmin, listAdmin, listSitePages, placeAdmin, updateAdmin, uploadMedia } from '../../api/admin'
-import type { MediaAsset, PublicationLink, SitePage } from '../../api/client'
+import type { PublicationLink, SitePage } from '../../api/client'
+import AdminMediaPicker from './AdminMediaPicker.vue'
+import { formatStatus } from '../../utils/adminFormat'
+import {
+  defaultLinkLabel,
+  defaultPublicationLinkLabels,
+  linkCanUseMedia,
+  linkMediaKind,
+  linkTypeOptions,
+  linkUploadAccept,
+  linkURLPlaceholder,
+  normalizePublicationLinks,
+} from '../../utils/adminPublicationLinks'
 import { openExternalLink } from '../../utils/links'
-import { legacyVideoRouteSlugs, resolveVideoPagePath, videoPagePath, videoSlugFromPath } from '../../utils/videoLinks'
+import { legacyVideoRouteSlugs, videoPagePath, videoSlugFromPath } from '../../utils/videoLinks'
 
 export interface FieldConfig {
   prop: string
@@ -291,13 +294,10 @@ const draggingRow = ref<Record<string, any> | null>(null)
 const dragOverID = ref<number | null>(null)
 const dragSaving = ref(false)
 const mediaPickerVisible = ref(false)
-const mediaLoading = ref(false)
 const mediaUploading = ref(false)
 const mediaTargetProp = ref('')
 const mediaTargetLinkIndex = ref<number | null>(null)
 const mediaKind = ref('')
-const mediaQuery = ref('')
-const mediaOptions = ref<MediaAsset[]>([])
 const videoPageOptions = ref<SitePage[]>([])
 const videoPagesLoaded = ref(false)
 const videoPagesLoading = ref(false)
@@ -310,14 +310,6 @@ const statusOptions = [
   { label: '全部', value: '' },
   { label: '已发布', value: 'published' },
   { label: '草稿', value: 'draft' },
-]
-
-const linkTypeOptions = [
-  { label: '论文 / PDF', shortLabel: '论文', value: 'paper', defaultLabel: 'Paper' },
-  { label: '代码', shortLabel: '代码', value: 'code', defaultLabel: 'Code' },
-  { label: '视频', shortLabel: '视频', value: 'video', defaultLabel: 'Video' },
-  { label: 'PPT', shortLabel: 'PPT', value: 'ppt', defaultLabel: 'PPT' },
-  { label: 'Poster', shortLabel: 'Poster', value: 'poster', defaultLabel: 'Poster' },
 ]
 
 const sortGroupKeys = computed(() => {
@@ -548,34 +540,20 @@ const handleRowDrop = async (row: Record<string, any>, position: 'before' | 'aft
 
 defineExpose({ load })
 
-const openMediaPicker = async (prop: string, kind = '') => {
+const openMediaPicker = (prop: string, kind = '') => {
   mediaTargetProp.value = prop
   mediaTargetLinkIndex.value = null
   mediaKind.value = kind
   mediaPickerVisible.value = true
-  await loadMediaOptions()
 }
 
-const openLinkMediaPicker = async (index: number) => {
+const openLinkMediaPicker = (index: number) => {
   const link = editing.value?.links?.[index]
   if (!link) return
   mediaTargetProp.value = ''
   mediaTargetLinkIndex.value = index
   mediaKind.value = linkMediaKind(link)
   mediaPickerVisible.value = true
-  await loadMediaOptions()
-}
-
-const loadMediaOptions = async () => {
-  mediaLoading.value = true
-  try {
-    const result = await listAdmin<MediaAsset>('media', { page: 1, pageSize: 48, q: mediaQuery.value, kind: mediaKind.value })
-    mediaOptions.value = result.items
-  } catch (error) {
-    ElMessage.error(error instanceof Error ? error.message : '媒体加载失败')
-  } finally {
-    mediaLoading.value = false
-  }
 }
 
 const chooseMedia = (url: string) => {
@@ -619,8 +597,6 @@ const uploadLinkMedia = async (options: UploadRequestOptions, index: number) => 
   }
 }
 
-const defaultLinkLabel = (type: string) => linkTypeOptions.find((option) => option.value === type)?.defaultLabel || 'Link'
-
 const addPublicationLink = (type = 'paper') => {
   if (!editing.value) return
   if (!Array.isArray(editing.value.links)) {
@@ -634,8 +610,7 @@ const removePublicationLink = (index: number) => {
 }
 
 const handleLinkTypeChange = (link: PublicationLink) => {
-  const defaults = linkTypeOptions.map((option) => option.defaultLabel)
-  if (!link.label || defaults.includes(link.label)) {
+  if (!link.label || defaultPublicationLinkLabels.includes(link.label)) {
     link.label = defaultLinkLabel(link.type)
   }
   if (link.type !== 'video') {
@@ -726,37 +701,7 @@ const normalizeEditingBeforeSave = () => {
 
 const normalizeLinks = (value: Record<string, any>) => {
   if (!Array.isArray(value.links)) return
-  value.links = value.links.map((link: PublicationLink, index: number) => {
-    const videoPageURL = link.type === 'video' && !link.url && link.routeName ? resolveVideoPagePath(link) : ''
-    return {
-      ...link,
-      label: link.label || defaultLinkLabel(link.type),
-      url: videoPageURL || link.url,
-      routeName: '',
-      sortOrder: index + 1,
-    }
-  })
-}
-
-const linkMediaKind = (link: PublicationLink) => {
-  if (link.type === 'video') return 'video'
-  if (link.type === 'paper' || link.type === 'ppt') return 'document'
-  return ''
-}
-
-const linkCanUseMedia = (link: PublicationLink) => link.type === 'paper' || link.type === 'ppt' || link.type === 'poster' || link.type === 'video'
-
-const linkUploadAccept = (link: PublicationLink) => {
-  if (link.type === 'paper' || link.type === 'poster') return '.pdf,application/pdf,image/*'
-  if (link.type === 'ppt') return '.ppt,.pptx,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation'
-  if (link.type === 'video') return '.mp4,video/mp4'
-  return ''
-}
-
-const linkURLPlaceholder = (link: PublicationLink) => {
-  if (link.type === 'code') return 'GitHub、项目主页或其他外部链接'
-  if (link.type === 'video') return '视频文件 URL 或外部链接'
-  return '可粘贴外部链接，也可选择/上传文件'
+  value.links = normalizePublicationLinks(value.links)
 }
 
 const splitList = (value: string) => value.split('\n').map((item) => item.trim()).filter(Boolean)
@@ -778,18 +723,6 @@ const formatCell = (value: unknown, column?: FieldConfig) => {
   if (Array.isArray(value)) return value.join('；')
   if (typeof value === 'boolean') return value ? '是' : '否'
   return value ?? ''
-}
-
-const formatStatus = (status: string) => status === 'published' ? '已发布' : '草稿'
-
-const formatMediaKind = (kind: string) => {
-  const labels: Record<string, string> = {
-    image: '图片',
-    document: '文档',
-    archive: '压缩包',
-    video: '视频',
-  }
-  return labels[kind] || kind
 }
 
 onMounted(() => {
@@ -1060,73 +993,11 @@ onUpdated(bindTableDragEvents)
   min-width: 0;
 }
 
-.media-picker-buttons,
-.media-picker-toolbar {
+.media-picker-buttons {
   display: flex;
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-}
-
-.media-picker-toolbar {
-  margin-bottom: 14px;
-}
-
-.media-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-  min-height: 180px;
-  max-height: 58vh;
-  overflow: auto;
-}
-
-.media-option {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 0;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  background: #ffffff;
-  padding: 8px;
-  cursor: pointer;
-  text-align: left;
-}
-
-.media-option:hover {
-  border-color: #7d1231;
-}
-
-.media-option .el-image,
-.media-kind {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 4px;
-  background: #f3f4f6;
-}
-
-.media-kind {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6b7280;
-}
-
-.media-name {
-  overflow: hidden;
-  color: #374151;
-  font-size: 12px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.media-url {
-  overflow: hidden;
-  color: #9ca3af;
-  font-size: 11px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 @media (max-width: 760px) {

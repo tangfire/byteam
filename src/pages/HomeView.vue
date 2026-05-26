@@ -74,32 +74,11 @@
         <div class="hero-visual">
           <div class="visual-container">
             <div class="floating-cards">
-              <div class="card card-1">
-                <div class="card-icon">🧠</div>
+              <div v-for="card in homeHeroCards" :key="card.title" class="card" :class="card.className">
+                <div class="card-icon">{{ card.icon }}</div>
                 <div class="card-content">
-                  <span class="card-title">AI Research</span>
-                  <span class="card-desc">Advanced ML Algorithms</span>
-                </div>
-              </div>
-              <div class="card card-2">
-                <div class="card-icon">👁️</div>
-                <div class="card-content">
-                  <span class="card-title">Computer Vision</span>
-                  <span class="card-desc">Image & Video Analysis</span>
-                </div>
-              </div>
-              <div class="card card-3">
-                <div class="card-icon">🏥</div>
-                <div class="card-content">
-                  <span class="card-title">Medical AI</span>
-                  <span class="card-desc">Healthcare Solutions</span>
-                </div>
-              </div>
-              <div class="card card-4">
-                <div class="card-icon">🔄</div>
-                <div class="card-content">
-                  <span class="card-title">Federated Learning</span>
-                  <span class="card-desc">Privacy-Preserving AI</span>
+                  <span class="card-title">{{ card.title }}</span>
+                  <span class="card-desc">{{ card.description }}</span>
                 </div>
               </div>
             </div>
@@ -110,25 +89,11 @@
       <!-- 研究亮点 -->
       <section class="highlights-section">
         <div class="container">
-          <div class="highlight-item">
-            <div class="highlight-icon">🚀</div>
+          <div v-for="highlight in homeHighlights" :key="highlight.title" class="highlight-item">
+            <div class="highlight-icon">{{ highlight.icon }}</div>
             <div class="highlight-content">
-              <h3>Innovation Driven</h3>
-              <p>Pushing the boundaries of AI research with novel methodologies and approaches</p>
-            </div>
-          </div>
-          <div class="highlight-item">
-            <div class="highlight-icon">🤝</div>
-            <div class="highlight-content">
-              <h3>Collaborative Spirit</h3>
-              <p>Working with leading institutions and industry partners worldwide</p>
-            </div>
-          </div>
-          <div class="highlight-item">
-            <div class="highlight-icon">🎯</div>
-            <div class="highlight-content">
-              <h3>Real-World Impact</h3>
-              <p>Translating research into practical solutions for societal challenges</p>
+              <h3>{{ highlight.title }}</h3>
+              <p>{{ highlight.description }}</p>
             </div>
           </div>
         </div>
@@ -198,40 +163,16 @@
 
         <div class="nav-grid">
           <el-card
+              v-for="link in homeQuickLinks"
+              :key="link.route"
               class="nav-card"
               shadow="hover"
-              @click="$router.push('/research-direction')"
+              @click="$router.push(link.route)"
           >
             <div class="nav-card-content">
-              <div class="nav-icon">🎯</div>
-              <h3>Research Directions</h3>
-              <p>Explore our innovative research areas and methodologies</p>
-              <span class="nav-arrow">→</span>
-            </div>
-          </el-card>
-
-          <el-card
-              class="nav-card"
-              shadow="hover"
-              @click="$router.push('/our-group')"
-          >
-            <div class="nav-card-content">
-              <div class="nav-icon">👥</div>
-              <h3>Our Team</h3>
-              <p>Meet our talented researchers and collaborators</p>
-              <span class="nav-arrow">→</span>
-            </div>
-          </el-card>
-
-          <el-card
-              class="nav-card"
-              shadow="hover"
-              @click="$router.push('/international-journals-conferences')"
-          >
-            <div class="nav-card-content">
-              <div class="nav-icon">📚</div>
-              <h3>Publications</h3>
-              <p>Browse our latest papers and conference proceedings</p>
+              <div class="nav-icon">{{ link.icon }}</div>
+              <h3>{{ link.title }}</h3>
+              <p>{{ link.description }}</p>
               <span class="nav-arrow">→</span>
             </div>
           </el-card>
@@ -246,113 +187,14 @@
 <script setup lang="ts">
 import ResearchCarousel from '../components/ResearchCarousel.vue'
 import { ArrowRight, View } from '@element-plus/icons-vue'
-import { onMounted, ref } from 'vue'
-import { getHome } from '../api/public'
-import type { NewsItem } from '../api/client'
-
-const createParticleStyle = () => {
-  const size = Math.random() * 4 + 2
-  return {
-    width: `${size}px`,
-    height: `${size}px`,
-    animationDelay: `${Math.random() * 5}s`,
-    animationDuration: `${Math.random() * 8 + 8}s`,
-    left: `${Math.random() * 100}%`,
-    top: `${Math.random() * 100}%`
-  }
-}
+import { ref } from 'vue'
+import { useHomeContent } from '../composables/useHomeContent'
+import { homeHeroCards, homeHighlights, homeQuickLinks } from '../data/homeSections'
+import { createParticleStyle, getDay, getMonth, getNewsTypeClass, getYear, scrollToResearch } from '../utils/homeView'
 
 const particles = ref(Array.from({ length: 20 }, createParticleStyle))
 
-// 最新新闻数据 - 增加到 4 条
-const latestNews = ref<NewsItem[]>([
-  {
-    type: 'publication',
-    typeLabel: 'Publication',
-    date: '2026-03-17',
-    title: 'AdaGS-Net Paper Accepted by ICME 2026',
-    content: 'Our paper on adaptive sparse network for multimodal fusion in Alzheimer\'s Disease has been accepted by ICME 2026.',
-    excerpt: 'Our paper on adaptive sparse network for multimodal fusion in Alzheimer\'s Disease has been accepted by ICME 2026.',
-    color: '#7d1231',
-    status: 'published',
-    sortOrder: 1,
-  },
-  {
-    type: 'publication',
-    typeLabel: 'Publication',
-    date: '2025-11-06',
-    title: 'Multi-modal Brain Tumor Segmentation Paper Accepted',
-    content: 'Our paper on brain tumor segmentation has been accepted by IEEE Transactions on Multimedia.',
-    excerpt: 'Our paper on brain tumor segmentation has been accepted by IEEE Transactions on Multimedia.',
-    color: '#7d1231',
-    status: 'published',
-    sortOrder: 2,
-  },
-  {
-    type: 'publication',
-    typeLabel: 'Publication',
-    date: '2025-10-22',
-    title: 'Federated Learning Framework Accepted by PRCV',
-    content: 'FedCD framework for adaptive training under data heterogeneity accepted by PRCV conference.',
-    excerpt: 'FedCD framework for adaptive training under data heterogeneity accepted by PRCV conference.',
-    color: '#7d1231',
-    status: 'published',
-    sortOrder: 3,
-  },
-  {
-    type: 'team',
-    typeLabel: 'Team Update',
-    date: '2025-05-06',
-    title: 'Welcome New Group Members',
-    content: 'Warm welcome to 7 new group members joining our research team this semester.',
-    excerpt: 'Warm welcome to 7 new group members joining our research team this semester.',
-    color: '#7d1231',
-    status: 'published',
-    sortOrder: 4,
-  }
-])
-const stats = ref({ publications: 50, projects: 15, teamMembers: 20 })
-
-onMounted(async () => {
-  try {
-    const data = await getHome()
-    latestNews.value = data.latestNews
-    stats.value = data.stats
-  } catch (error) {
-    console.warn('Using local home fallback data', error)
-  }
-})
-
-const getNewsTypeClass = (type: string) => {
-  const classMap: { [key: string]: string } = {
-    publication: 'type-publication',
-    team: 'type-team',
-    award: 'type-award',
-    event: 'type-event'
-  }
-  return classMap[type] || 'type-general'
-}
-
-// 日期处理函数
-const getDay = (dateString: string) => {
-  return new Date(dateString).getDate()
-}
-
-const getMonth = (dateString: string) => {
-  const date = new Date(dateString)
-  return date.toLocaleString('en-US', { month: 'short' })
-}
-
-const getYear = (dateString: string) => {
-  return new Date(dateString).getFullYear()
-}
-
-const scrollToResearch = () => {
-  const element = document.getElementById('research-highlights')
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
-  }
-}
+const { latestNews, stats } = useHomeContent()
 </script>
 
 <style scoped>
