@@ -3,6 +3,7 @@ import { getPublicPeople } from '../api/public'
 import type { Person } from '../api/client'
 import { usePublicList } from '../composables/usePublicList'
 import { fallbackGraduatePeople } from '../data/fallbacks/publicContent'
+import { avatarDisplayStyle } from '../utils/avatarDisplay'
 
 const members = usePublicList<Person>({
   fallback: fallbackGraduatePeople,
@@ -18,7 +19,7 @@ const members = usePublicList<Person>({
     <div class="members-grid">
       <div v-for="member in members" :key="member.name" class="member-card">
         <div class="avatar-container">
-          <el-avatar shape="square" :size="220" :src="member.avatarUrl" />
+          <img :src="member.avatarUrl" :alt="member.name" :style="avatarDisplayStyle(member)">
         </div>
         <div class="member-info">
           <p class="name">{{ member.name }}</p>
@@ -86,11 +87,22 @@ const members = usePublicList<Person>({
 }
 
 .avatar-container {
+  width: 220px;
+  height: 220px;
   margin-bottom: 15px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+}
+
+.avatar-container img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
+  transition: transform 0.3s ease;
 }
 
 .member-card:hover .avatar-container {
@@ -161,6 +173,11 @@ const members = usePublicList<Person>({
   .name {
     font-size: 1.3rem;
   }
+
+  .avatar-container {
+    width: 180px;
+    height: 180px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -174,11 +191,4 @@ const members = usePublicList<Person>({
   }
 }
 
-::v-deep(.el-avatar) {
-  transition: transform 0.3s ease;
-}
-
-.member-card:hover ::v-deep(.el-avatar) {
-  transform: scale(1.05);
-}
 </style>

@@ -4,6 +4,7 @@ import { getPublicPeople } from '../api/public'
 import type { Person } from '../api/client'
 import { usePublicList } from '../composables/usePublicList'
 import { fallbackAlumni } from '../data/fallbacks/publicContent'
+import { avatarDisplayStyle } from '../utils/avatarDisplay'
 
 const alumni = usePublicList<Person>({
   fallback: fallbackAlumni,
@@ -22,7 +23,7 @@ const undergraduateAlumni = computed(() => alumni.value.filter((item) => item.ca
       <div class="alumni-grid">
         <div v-for="person in graduateAlumni" :key="person.name" class="alumni-card">
           <div class="avatar-container">
-            <el-avatar shape="square" :size="200" :src="person.avatarUrl" />
+            <img :src="person.avatarUrl" :alt="person.name" :style="avatarDisplayStyle(person)">
           </div>
           <div class="alumni-info">
             <h3 class="name">{{ person.name }}</h3>
@@ -40,7 +41,7 @@ const undergraduateAlumni = computed(() => alumni.value.filter((item) => item.ca
       <div class="alumni-grid">
         <div v-for="person in undergraduateAlumni" :key="person.name" class="alumni-card">
           <div class="avatar-container">
-            <el-avatar shape="square" :size="200" :src="person.avatarUrl" />
+            <img :src="person.avatarUrl" :alt="person.name" :style="avatarDisplayStyle(person)">
           </div>
           <div class="alumni-info">
             <h3 class="name">{{ person.name }}</h3>
@@ -119,10 +120,20 @@ const undergraduateAlumni = computed(() => alumni.value.filter((item) => item.ca
 }
 
 .avatar-container {
+  width: 200px;
+  height: 200px;
   margin-bottom: 18px;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-container img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
 }
 
 .alumni-info {
@@ -154,6 +165,11 @@ const undergraduateAlumni = computed(() => alumni.value.filter((item) => item.ca
   .alumni-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 25px 18px;
+  }
+
+  .avatar-container {
+    width: 180px;
+    height: 180px;
   }
 }
 </style>

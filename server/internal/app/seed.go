@@ -283,7 +283,10 @@ func (s *Server) seedPeople() error {
 	}
 	items := make([]Person, 0, len(names))
 	for i, item := range names {
-		items = append(items, Person{Name: item.Name, AvatarURL: item.AvatarURL, Category: item.Category, GraduationDate: item.Graduate, Status: StatusPublished, SortOrder: i + 1})
+		items = append(items, Person{
+			Name: item.Name, AvatarURL: item.AvatarURL, AvatarObjectX: 50, AvatarObjectY: 50, AvatarScale: 100,
+			Category: item.Category, GraduationDate: item.Graduate, Status: StatusPublished, SortOrder: i + 1,
+		})
 	}
 	return s.db.Clauses(clause.OnConflict{Columns: []clause.Column{{Name: "name"}}, DoNothing: true}).Create(&items).Error
 }

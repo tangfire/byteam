@@ -49,8 +49,11 @@
       </el-table-column>
       <el-table-column v-for="column in columns" :key="column.prop" :prop="column.prop" :label="column.label" :min-width="column.width || 120">
         <template #default="{ row }">
-          <el-image v-if="column.type === 'image' && row[column.prop]" :src="row[column.prop]" fit="cover" class="table-image" />
-          <span v-else-if="column.type === 'image'" class="empty-image">未设置</span>
+          <span v-if="column.type === 'avatar' && row[column.prop]" class="table-avatar">
+            <img :src="row[column.prop]" :alt="row.name || '头像'" :style="avatarImageStyle(row)">
+          </span>
+          <el-image v-else-if="column.type === 'image' && row[column.prop]" :src="row[column.prop]" fit="cover" class="table-image" />
+          <span v-else-if="column.type === 'image' || column.type === 'avatar'" class="empty-image">未设置</span>
           <el-tag v-else-if="column.prop === 'status'" :type="row.status === 'published' ? 'success' : 'info'">{{ formatStatus(row.status) }}</el-tag>
           <el-tag v-else-if="column.prop === 'featured' && row[column.prop]" type="warning">精选</el-tag>
           <span v-else-if="column.prop === 'featured'">-</span>
@@ -142,6 +145,39 @@
                   </template>
                 </el-popconfirm>
               </div>
+            </div>
+          </div>
+          <div v-else-if="field.type === 'avatarCrop'" class="avatar-crop-editor">
+            <div
+              class="avatar-crop-preview"
+              @pointerdown.prevent="startAvatarDrag"
+            >
+              <img
+                v-if="editing.avatarUrl"
+                :src="editing.avatarUrl"
+                :alt="editing.name || '头像预览'"
+                :style="avatarImageStyle(editing)"
+                draggable="false"
+              >
+              <div v-else class="avatar-crop-empty">请先选择头像</div>
+            </div>
+            <div class="avatar-crop-controls">
+              <div class="avatar-crop-control">
+                <span>水平位置</span>
+                <el-slider v-model="editing.avatarObjectX" :min="0" :max="100" />
+                <el-input-number v-model="editing.avatarObjectX" :min="0" :max="100" size="small" />
+              </div>
+              <div class="avatar-crop-control">
+                <span>垂直位置</span>
+                <el-slider v-model="editing.avatarObjectY" :min="0" :max="100" />
+                <el-input-number v-model="editing.avatarObjectY" :min="0" :max="100" size="small" />
+              </div>
+              <div class="avatar-crop-control">
+                <span>缩放</span>
+                <el-slider v-model="editing.avatarScale" :min="100" :max="200" />
+                <el-input-number v-model="editing.avatarScale" :min="100" :max="200" size="small" />
+              </div>
+              <el-button size="small" @click="resetAvatarCrop">居中显示</el-button>
             </div>
           </div>
           <div v-else-if="field.type === 'links'" class="links-editor">
@@ -240,7 +276,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUpdated, reactive, ref, toRaw } from 'vue'
+import { computed, onMounted, onUnmounted, onUpdated, reactive, ref, toRaw } from 'vue'
 import type { UploadRequestOptions } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { createAdmin, deleteAdmin, listAdmin, listSitePages, placeAdmin, updateAdmin, uploadMedia } from '../../api/admin'
@@ -259,12 +295,13 @@ import {
 } from '../../utils/adminPublicationLinks'
 import { openExternalLink } from '../../utils/links'
 import { legacyVideoRouteSlugs, videoPagePath, videoSlugFromPath } from '../../utils/videoLinks'
+import { avatarDisplayStyle } from '../../utils/avatarDisplay'
 
 export interface FieldConfig {
   prop: string
   label: string
   width?: number
-  type?: 'text' | 'textarea' | 'number' | 'select' | 'date' | 'boolean' | 'list' | 'links' | 'image' | 'color'
+  type?: 'text' | 'textarea' | 'number' | 'select' | 'date' | 'boolean' | 'list' | 'links' | 'image' | 'avatar' | 'color' | 'avatarCrop'
   rows?: number
   options?: { label: string; value: string | number }[]
 }
@@ -305,6 +342,7 @@ const crudRoot = ref<HTMLElement | null>(null)
 const dragEventsBound = ref(false)
 const linkDragIndex = ref<number | null>(null)
 const linkDragOverIndex = ref<number | null>(null)
+const avatarDragState = ref<{ startX: number; startY: number; objectX: number; objectY: number; rect: DOMRect } | null>(null)
 
 const statusOptions = [
   { label: '全部', value: '' },
@@ -357,6 +395,7 @@ const resetFilters = async () => {
 
 const openCreate = () => {
   editing.value = clonePlain(props.defaults)
+  ensureAvatarDisplay()
   ensurePublicationLinks()
   editingSnapshot.value = serializeEditing()
   void loadVideoPagesIfNeeded()
@@ -369,6 +408,7 @@ const openEdit = (row: Record<string, any>) => {
     next.links = []
   }
   editing.value = next
+  ensureAvatarDisplay()
   ensurePublicationLinks()
   editingSnapshot.value = serializeEditing()
   void loadVideoPagesIfNeeded()
@@ -565,6 +605,7 @@ const chooseMedia = (url: string) => {
     }
   } else if (mediaTargetProp.value) {
     editing.value[mediaTargetProp.value] = url
+    ensureAvatarDisplay()
   }
   mediaPickerVisible.value = false
 }
@@ -575,6 +616,7 @@ const uploadFieldMedia = async (options: UploadRequestOptions, prop: string) => 
   try {
     const asset = await uploadMedia(options.file)
     editing.value[prop] = asset.url
+    ensureAvatarDisplay()
     ElMessage.success('已上传并填入')
   } catch (error) {
     ElMessage.error(error instanceof Error ? error.message : '上传失败')
@@ -696,6 +738,7 @@ const ensurePublicationLinks = () => {
 
 const normalizeEditingBeforeSave = () => {
   if (!editing.value) return
+  ensureAvatarDisplay()
   normalizeLinks(editing.value)
 }
 
@@ -705,6 +748,62 @@ const normalizeLinks = (value: Record<string, any>) => {
 }
 
 const splitList = (value: string) => value.split('\n').map((item) => item.trim()).filter(Boolean)
+
+const clampNumber = (value: unknown, min: number, max: number, fallback: number) => {
+  const numberValue = Number(value)
+  if (!Number.isFinite(numberValue)) return fallback
+  return Math.min(max, Math.max(min, Math.round(numberValue)))
+}
+
+const ensureAvatarDisplay = () => {
+  if (!editing.value || !('avatarUrl' in editing.value)) return
+  editing.value.avatarObjectX = clampNumber(editing.value.avatarObjectX, 0, 100, 50)
+  editing.value.avatarObjectY = clampNumber(editing.value.avatarObjectY, 0, 100, 50)
+  editing.value.avatarScale = clampNumber(editing.value.avatarScale, 100, 200, 100)
+}
+
+const avatarImageStyle = (record: Record<string, any>) => {
+  return avatarDisplayStyle(record)
+}
+
+const resetAvatarCrop = () => {
+  if (!editing.value) return
+  editing.value.avatarObjectX = 50
+  editing.value.avatarObjectY = 50
+  editing.value.avatarScale = 100
+}
+
+const updateAvatarPositionFromPointer = (event: PointerEvent) => {
+  if (!editing.value || !avatarDragState.value) return
+  const state = avatarDragState.value
+  const nextX = state.objectX - ((event.clientX - state.startX) / state.rect.width) * 100
+  const nextY = state.objectY - ((event.clientY - state.startY) / state.rect.height) * 100
+  editing.value.avatarObjectX = clampNumber(nextX, 0, 100, 50)
+  editing.value.avatarObjectY = clampNumber(nextY, 0, 100, 50)
+}
+
+const stopAvatarDrag = () => {
+  avatarDragState.value = null
+  window.removeEventListener('pointermove', updateAvatarPositionFromPointer)
+  window.removeEventListener('pointerup', stopAvatarDrag)
+}
+
+const startAvatarDrag = (event: PointerEvent) => {
+  if (!editing.value?.avatarUrl) return
+  const target = event.currentTarget as HTMLElement | null
+  const rect = target?.getBoundingClientRect()
+  if (!rect) return
+  ensureAvatarDisplay()
+  avatarDragState.value = {
+    startX: event.clientX,
+    startY: event.clientY,
+    objectX: editing.value.avatarObjectX,
+    objectY: editing.value.avatarObjectY,
+    rect,
+  }
+  window.addEventListener('pointermove', updateAvatarPositionFromPointer)
+  window.addEventListener('pointerup', stopAvatarDrag)
+}
 
 const fieldOptions = computed(() => {
   const optionsByProp = new Map<string, Map<string | number, string>>()
@@ -729,6 +828,8 @@ onMounted(() => {
   bindTableDragEvents()
   void load()
 })
+
+onUnmounted(stopAvatarDrag)
 
 onUpdated(bindTableDragEvents)
 </script>
@@ -846,6 +947,24 @@ onUpdated(bindTableDragEvents)
   width: 72px;
   height: 48px;
   border-radius: 6px;
+}
+
+.table-avatar {
+  display: block;
+  width: 54px;
+  height: 54px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+.table-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
 }
 
 .empty-image {
@@ -1000,6 +1119,63 @@ onUpdated(bindTableDragEvents)
   flex-wrap: wrap;
 }
 
+.avatar-crop-editor {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 18px;
+  width: 100%;
+  align-items: start;
+}
+
+.avatar-crop-preview {
+  width: 180px;
+  height: 180px;
+  overflow: hidden;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #f9fafb;
+  cursor: move;
+  user-select: none;
+  touch-action: none;
+}
+
+.avatar-crop-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center;
+}
+
+.avatar-crop-empty {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.avatar-crop-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.avatar-crop-control {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) 108px;
+  gap: 10px;
+  align-items: center;
+}
+
+.avatar-crop-control span {
+  color: #4b5563;
+  font-size: 13px;
+}
+
 @media (max-width: 760px) {
   .admin-page-header {
     align-items: flex-start;
@@ -1016,6 +1192,14 @@ onUpdated(bindTableDragEvents)
   }
 
   .media-picker {
+    grid-template-columns: 1fr;
+  }
+
+  .avatar-crop-editor {
+    grid-template-columns: 1fr;
+  }
+
+  .avatar-crop-control {
     grid-template-columns: 1fr;
   }
 }

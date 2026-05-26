@@ -5,9 +5,19 @@
 <script setup lang="ts">
 import AdminCrudView, { type FieldConfig } from '../../components/admin/AdminCrudView.vue'
 
-const defaults = { name: '', avatarUrl: '', category: 'graduate', research: '', graduationDate: '', status: 'published' }
+const defaults = {
+  name: '',
+  avatarUrl: '',
+  avatarObjectX: 50,
+  avatarObjectY: 50,
+  avatarScale: 100,
+  category: 'graduate',
+  research: '',
+  graduationDate: '',
+  status: 'published',
+}
 const columns: FieldConfig[] = [
-  { prop: 'avatarUrl', label: '头像', type: 'image', width: 90 },
+  { prop: 'avatarUrl', label: '头像', type: 'avatar', width: 90 },
   { prop: 'name', label: '姓名', width: 180 },
   { prop: 'category', label: '分类', width: 160 },
   { prop: 'graduationDate', label: '毕业信息', width: 180 },
@@ -16,6 +26,7 @@ const columns: FieldConfig[] = [
 const fields: FieldConfig[] = [
   { prop: 'name', label: '姓名' },
   { prop: 'avatarUrl', label: '头像', type: 'image' },
+  { prop: 'avatarDisplay', label: '头像显示', type: 'avatarCrop' },
   { prop: 'category', label: '分类', type: 'select', options: [{ label: '研究生', value: 'graduate' }, { label: '研究生校友', value: 'graduate_alumni' }, { label: '本科生校友', value: 'undergraduate_alumni' }] },
   { prop: 'research', label: '研究方向' },
   { prop: 'graduationDate', label: '毕业信息' },

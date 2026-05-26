@@ -79,6 +79,9 @@ type snapshotPerson struct {
 	ID             uint   `json:"id"`
 	Name           string `json:"name"`
 	AvatarURL      string `json:"avatarUrl"`
+	AvatarObjectX  *int   `json:"avatarObjectX"`
+	AvatarObjectY  *int   `json:"avatarObjectY"`
+	AvatarScale    *int   `json:"avatarScale"`
 	Category       string `json:"category"`
 	Research       string `json:"research"`
 	GraduationDate string `json:"graduationDate"`
@@ -378,6 +381,9 @@ func mapPeople(items []snapshotPerson) []app.Person {
 			ID:             item.ID,
 			Name:           item.Name,
 			AvatarURL:      item.AvatarURL,
+			AvatarObjectX:  snapshotIntValue(item.AvatarObjectX, 50),
+			AvatarObjectY:  snapshotIntValue(item.AvatarObjectY, 50),
+			AvatarScale:    snapshotIntValue(item.AvatarScale, 100),
 			Category:       item.Category,
 			Research:       item.Research,
 			GraduationDate: item.GraduationDate,
@@ -389,6 +395,13 @@ func mapPeople(items []snapshotPerson) []app.Person {
 		})
 	}
 	return out
+}
+
+func snapshotIntValue(value *int, fallback int) int {
+	if value == nil {
+		return fallback
+	}
+	return *value
 }
 
 func mapUndergraduates(items []snapshotUndergraduate) []app.UndergraduateEducation {

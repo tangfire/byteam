@@ -131,6 +131,9 @@ type Person struct {
 	ID             uint           `json:"id" gorm:"primaryKey"`
 	Name           string         `json:"name" gorm:"size:180;not null;uniqueIndex"`
 	AvatarURL      string         `json:"avatarUrl" gorm:"size:500"`
+	AvatarObjectX  int            `json:"avatarObjectX" gorm:"default:50"`
+	AvatarObjectY  int            `json:"avatarObjectY" gorm:"default:50"`
+	AvatarScale    int            `json:"avatarScale" gorm:"default:100"`
 	Category       string         `json:"category" gorm:"size:60;index"`
 	Research       string         `json:"research" gorm:"size:255"`
 	GraduationDate string         `json:"graduationDate" gorm:"size:80"`
@@ -139,6 +142,45 @@ type Person struct {
 	CreatedAt      time.Time      `json:"createdAt"`
 	UpdatedAt      time.Time      `json:"updatedAt"`
 	DeletedAt      gorm.DeletedAt `json:"-" gorm:"index"`
+}
+
+func (p *Person) BeforeSave(tx *gorm.DB) error {
+	p.normalizeAvatarDisplay()
+	return nil
+}
+
+func (p *Person) AfterFind(tx *gorm.DB) error {
+	p.normalizeAvatarDisplay()
+	return nil
+}
+
+func (p *Person) normalizeAvatarDisplay() {
+	if p.AvatarObjectX == 0 && p.AvatarObjectY == 0 && p.AvatarScale == 0 {
+		p.AvatarObjectX = 50
+		p.AvatarObjectY = 50
+		p.AvatarScale = 100
+		return
+	}
+	p.AvatarObjectX = clampInt(p.AvatarObjectX, 0, 100)
+	p.AvatarObjectY = clampInt(p.AvatarObjectY, 0, 100)
+	p.AvatarScale = clampInt(defaultInt(p.AvatarScale, 100), 100, 200)
+}
+
+func defaultInt(value int, fallback int) int {
+	if value == 0 {
+		return fallback
+	}
+	return value
+}
+
+func clampInt(value int, min int, max int) int {
+	if value < min {
+		return min
+	}
+	if value > max {
+		return max
+	}
+	return value
 }
 
 type UndergraduateEducation struct {

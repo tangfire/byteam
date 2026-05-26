@@ -74,6 +74,9 @@ type snapshotPerson struct {
 	Category       string  `json:"category"`
 	Research       string  `json:"research"`
 	AvatarURL      string  `json:"avatarUrl"`
+	AvatarObjectX  int     `json:"avatarObjectX"`
+	AvatarObjectY  int     `json:"avatarObjectY"`
+	AvatarScale    int     `json:"avatarScale"`
 	CreatedAt      string  `json:"createdAt"`
 	DeletedAt      *string `json:"deletedAt"`
 	SortOrder      int     `json:"sortOrder"`
@@ -219,8 +222,9 @@ func (s *Server) buildContentSnapshot() (contentSnapshot, error) {
 		data.People = append(data.People, snapshotPerson{
 			ID: item.ID, Name: item.Name, Status: item.Status, Category: item.Category,
 			Research: item.Research, AvatarURL: item.AvatarURL, CreatedAt: times.createdAt,
-			DeletedAt: times.deletedAt, SortOrder: item.SortOrder, UpdatedAt: times.updatedAt,
-			GraduationDate: item.GraduationDate,
+			AvatarObjectX: item.AvatarObjectX, AvatarObjectY: item.AvatarObjectY,
+			AvatarScale: item.AvatarScale, DeletedAt: times.deletedAt,
+			SortOrder: item.SortOrder, UpdatedAt: times.updatedAt, GraduationDate: item.GraduationDate,
 		})
 	}
 

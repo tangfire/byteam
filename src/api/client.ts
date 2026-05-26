@@ -35,6 +35,9 @@ export interface Person {
   id?: number
   name: string
   avatarUrl: string
+  avatarObjectX?: number
+  avatarObjectY?: number
+  avatarScale?: number
   category: string
   research: string
   graduationDate: string
