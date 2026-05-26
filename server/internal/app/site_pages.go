@@ -7,6 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var sourceManagedSitePageSlugs = []string{"about", "contact", "videomind", "vknow"}
+
 func (s *Server) publicSitePage(c *gin.Context) {
 	slug := strings.TrimSpace(c.Param("slug"))
 	var page SitePage
@@ -20,6 +22,7 @@ func (s *Server) publicSitePage(c *gin.Context) {
 func (s *Server) listSitePages(c *gin.Context) {
 	var items []SitePage
 	db, page, pageSize := applyListQuery(c, s.db.Model(&SitePage{}), "slug", "title", "description")
+	db = db.Where("slug NOT IN ?", sourceManagedSitePageSlugs)
 	paged(c, db.Order("sort_order ASC, id ASC"), &items, page, pageSize)
 }
 

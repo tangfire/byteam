@@ -73,7 +73,7 @@ const navSections = [
   {
     title: '页面与资源',
     items: [
-      { path: '/admin/pages', label: '页面内容', short: '页', description: '维护 About、Contact、项目长页面等内容' },
+      { path: '/admin/pages', label: '页面内容', short: '页', description: '维护仍由后台管理的长页面和论文视频页' },
       { path: '/admin/media', label: '媒体文件', short: '媒', description: '上传、命名和管理官网资源文件' },
     ],
   },

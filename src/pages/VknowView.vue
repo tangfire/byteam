@@ -1,18 +1,30 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useSitePage } from '../composables/useSitePage'
 
-const { content, hidden } = useSitePage('vknow', {
+const content = {
   title: 'vKnow: Decode Omni-modal Intent',
-  introduction: { title: 'Introduction', text: '', items: [] },
-  dataset: { title: '', description: '', image: '', imageAlt: '', linkText: 'Learn more →', linkPath: '/VideoMind' },
-})
-const introItems = computed(() => Array.isArray(content.value.introduction?.items) ? content.value.introduction.items : [])
+  introduction: {
+    title: 'Introduction',
+    text: 'vKnow is an open framework for video intent intelligence, which mainly includes the following two modules:',
+    items: [
+      'Publicly releasing VideoMind-100K, the first multimodal dataset annotating factual layer, abstract layer, and intent layer across 100K+ curated videos',
+      'Open-sourcing DeME-7B, a transformer-based architecture specifically designed for deep-cognitive video understanding with video-centric alignment.',
+    ],
+  },
+  dataset: {
+    title: 'VideoMind-100K Dataset',
+    description: 'VideoMind is a large-scale, video-centric multimodal dataset for learning robust text-video representations. Each video is annotated with three layers: factual, abstract, and intentional, supporting advanced video understanding tasks',
+    image: '/VideoMind/Examples-v2.jpg',
+    imageAlt: 'VideoMind Example',
+    linkText: 'Learn more →',
+    linkPath: '/VideoMind',
+  },
+}
+
+const introItems = computed(() => content.introduction.items)
 </script>
 
 <template>
-  <el-empty v-if="hidden" description="页面暂未发布" />
-  <template v-else>
   <el-space direction="vertical" :size="30" style="width: 100%">
     <div style="display: flex; flex-direction: column; align-items: center;">
       <h1 class="section-title">{{ content.title }}</h1>
@@ -53,7 +65,6 @@ const introItems = computed(() => Array.isArray(content.value.introduction?.item
   <!-- 底部间隔 -->
   <div style="height: 50px"></div>
   <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
-  </template>
 </template>
 
 <style scoped>

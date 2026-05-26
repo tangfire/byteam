@@ -1,21 +1,56 @@
 <script setup lang="ts">
 import { Collection, Link, Promotion, Tickets } from '@element-plus/icons-vue'
 import { computed } from 'vue'
-import { useSitePage } from '../composables/useSitePage'
 
-const { content, hidden } = useSitePage('videomind', {
-  title: 'VideoMind',
-  introduction: { title: '', text: '', items: [], image: '' },
-  statistics: { title: '', text: '', image: '', charts: [] },
-  results: { title: '', text: '', figures: [] },
-  links: [],
-  citation: '',
-})
+const content = {
+  title: 'VideoMind: An Omni-Modal Video Dataset with\nIntent Grounding for Deep-Cognitive Video Understanding',
+  introduction: {
+    title: 'What is VideoMind?',
+    text: 'VideoMind is a large-scale video-centric multimodal dataset that can be used to learn powerful and transferable text-video representations for video understanding tasks such as video question answering and video retrieval. The corresponding description of each video corresponds to three layers, namely factual layer, abstract layer, intentional layer.',
+    items: [
+      'The factual layer includes visual description, OCR of video frames, ASR of videos, description of audio, and the title of the original video',
+      'The intentional layer consists of two parts: the intent of the video uploader and the intent of the video main character',
+    ],
+    image: '/VideoMind/Examples-v2.jpg',
+  },
+  statistics: {
+    title: 'Dataset statistics',
+    text: 'The dataset contains 110K video samples, each of which is ac-companied by audio, as well as systematic and detailed textual descriptions.',
+    image: '/VideoMind/caterogy.png',
+    charts: [
+      { image: '/VideoMind/ASR_length.png', alt: 'ASR length' },
+      { image: '/VideoMind/duration.png', alt: 'Duration' },
+      { image: '/VideoMind/OCR_length.png', alt: 'OCR length' },
+    ],
+  },
+  results: {
+    title: 'Results',
+    text: 'we present the cross-modal retrieval results of several standard video-centric foundation models, including InternVideo, UMT-L, CLIP-VIP, mPLUG-2, and VAST.',
+    figures: [
+      { title: 'Results of hybrid-cognitive text-to-video retrieval on VideoMind-3K', image: '/VideoMind/results001.jpg' },
+      { title: 'Results of hybrid-cognitive video-to-text retrieval on VideoMind-3K', image: '/VideoMind/results002.jpg' },
+    ],
+  },
+  links: [
+    { type: 'code', label: 'Code', url: 'https://github.com/cdx-cindy/VideoMind' },
+    { type: 'paper', label: 'Paper', url: 'https://arxiv.org/abs/2507.18552' },
+    { type: 'data', label: 'Data', url: 'https://opendatalab.com/Dixin/VideoMind' },
+  ],
+  citation: `@misc{yang2025videomindomnimodalvideodataset,
+  title={VideoMind: An Omni-Modal Video Dataset with Intent Grounding for Deep-Cognitive Video Understanding},
+  author={Baoyao Yang and Wanyun Li and Dixin Chen and Junxiang Chen and Wenbin Yao and Haifeng Lin},
+  year={2025},
+  eprint={2507.18552},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2507.18552},
+}`,
+}
 
-const lines = computed(() => String(content.value.title || '').split('\n'))
-const charts = computed(() => Array.isArray(content.value.statistics?.charts) ? content.value.statistics.charts : [])
-const figures = computed(() => Array.isArray(content.value.results?.figures) ? content.value.results.figures : [])
-const links = computed(() => Array.isArray(content.value.links) ? content.value.links : [])
+const lines = computed(() => content.title.split('\n'))
+const charts = computed(() => content.statistics.charts)
+const figures = computed(() => content.results.figures)
+const links = computed(() => content.links)
 const iconForLink = (type: string) => {
   if (type === 'code') return Promotion
   if (type === 'paper') return Tickets
@@ -25,8 +60,6 @@ const iconForLink = (type: string) => {
 </script>
 
 <template>
-  <el-empty v-if="hidden" description="页面暂未发布" />
-  <template v-else>
   <el-space direction="vertical" :size="30" style="width: 100%">
     <div style="display: flex; flex-direction: column; align-items: center;">
       <h1 class="section-title">
@@ -109,7 +142,6 @@ const iconForLink = (type: string) => {
   <!-- 底部间隔 -->
   <div style="height: 50px"></div>
   <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
-  </template>
 </template>
 
 <style scoped>

@@ -1,24 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useSitePage } from '../composables/useSitePage'
-
-const { content, hidden } = useSitePage('contact', {
+const content = {
   title: 'Contact Me',
   availability: 'At any time',
   email: 'ybaoyao@gdut.edu.cn',
   backgroundImage: '/background/ContactBackground.jpg',
-})
+}
 
-const backgroundStyle = computed(() => ({
-  background: `linear-gradient(135deg, rgba(125,18,49,0.08) 0%, rgba(19,57,62,0.12) 100%), url('${content.value.backgroundImage || '/background/ContactBackground.jpg'}') center/cover fixed`,
-}))
+const backgroundStyle = {
+  background: `linear-gradient(135deg, rgba(125,18,49,0.08) 0%, rgba(19,57,62,0.12) 100%), url('${content.backgroundImage}') center/cover fixed`,
+}
 </script>
 
 <template>
   <div class="contact-page">
-    <el-empty v-if="hidden" description="页面暂未发布" />
-    <template v-else>
-
     <!-- 背景图层 - 采用主页的 fixed 定位方式 -->
     <div class="hero-background" :style="backgroundStyle">
       <div class="gradient-overlay"></div>
@@ -37,7 +31,6 @@ const backgroundStyle = computed(() => ({
         Email: {{ content.email }}
       </p>
     </div>
-    </template>
   </div>
 </template>
 

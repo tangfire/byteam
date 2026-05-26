@@ -3,7 +3,7 @@
     <div class="admin-page-header">
       <div>
         <h1>页面内容</h1>
-        <p>维护 About、Contact、Research Direction、VideoMind 等长页面内容</p>
+        <p>只维护仍需要后台编辑的长页面和论文视频页；About、Contact、VideoMind、vKnow 已恢复为源码硬编码。</p>
       </div>
       <el-button :loading="loading" @click="loadPages">刷新</el-button>
     </div>
@@ -53,79 +53,7 @@
               <el-input v-model="editing.description" />
             </el-form-item>
 
-            <template v-if="editing.slug === 'about'">
-              <el-divider content-position="left">顶部与使命</el-divider>
-              <el-form-item label="副标题">
-                <el-input v-model="content.subtitle" />
-              </el-form-item>
-              <el-form-item label="使命标题">
-                <el-input v-model="content.mission.title" />
-              </el-form-item>
-              <el-form-item label="使命正文">
-                <el-input v-model="content.mission.text" type="textarea" :rows="4" />
-              </el-form-item>
-
-              <el-divider content-position="left">Research Thrusts</el-divider>
-              <EditableList
-                :items="content.researchThrusts"
-                add-label="添加研究领域"
-                @add="content.researchThrusts.push({ icon: 'Search', title: '', items: [] })"
-                @remove="removeAt(content.researchThrusts, $event)"
-              >
-                <template #default="{ item }">
-                  <el-input v-model="item.title" placeholder="标题" />
-                  <el-select v-model="item.icon" placeholder="图标">
-                    <el-option v-for="icon in iconOptions" :key="icon" :label="icon" :value="icon" />
-                  </el-select>
-                  <TextListEditor v-model="item.items" placeholder="每行一条要点" />
-                </template>
-              </EditableList>
-
-              <el-divider content-position="left">Core Expertise</el-divider>
-              <EditableList
-                :items="content.expertise"
-                add-label="添加核心能力"
-                @add="content.expertise.push({ icon: 'Aim', title: '', description: '' })"
-                @remove="removeAt(content.expertise, $event)"
-              >
-                <template #default="{ item }">
-                  <el-input v-model="item.title" placeholder="标题" />
-                  <el-input v-model="item.description" placeholder="说明" />
-                  <el-select v-model="item.icon" placeholder="图标">
-                    <el-option v-for="icon in iconOptions" :key="icon" :label="icon" :value="icon" />
-                  </el-select>
-                </template>
-              </EditableList>
-
-              <el-divider content-position="left">Strategic Vision</el-divider>
-              <el-form-item label="愿景标题">
-                <el-input v-model="content.vision.title" />
-              </el-form-item>
-              <el-form-item label="愿景正文">
-                <el-input v-model="content.vision.text" type="textarea" :rows="4" />
-              </el-form-item>
-              <el-form-item label="领域标签">
-                <TextListEditor v-model="content.vision.domains" placeholder="每行一个标签" />
-              </el-form-item>
-              <el-form-item label="引用语">
-                <el-input v-model="content.vision.quote" type="textarea" :rows="3" />
-              </el-form-item>
-            </template>
-
-            <template v-else-if="editing.slug === 'contact'">
-              <el-form-item label="标题">
-                <el-input v-model="content.title" />
-              </el-form-item>
-              <el-form-item label="可联系时间">
-                <el-input v-model="content.availability" />
-              </el-form-item>
-              <el-form-item label="邮箱">
-                <el-input v-model="content.email" />
-              </el-form-item>
-              <ImageField v-model="content.backgroundImage" label="背景图" />
-            </template>
-
-            <template v-else-if="editing.slug === 'research-direction'">
+            <template v-if="editing.slug === 'research-direction'">
               <EditableList
                 :items="content.directions"
                 add-label="添加研究方向"
@@ -152,59 +80,6 @@
               </EditableList>
             </template>
 
-            <template v-else-if="editing.slug === 'videomind'">
-              <el-form-item label="页面大标题">
-                <el-input v-model="content.title" type="textarea" :rows="2" />
-              </el-form-item>
-              <ProjectSectionEditor v-model="content.introduction" image-label="示例图" list-label="要点" />
-              <ProjectSectionEditor v-model="content.statistics" image-label="分类图" />
-              <EditableList
-                :items="content.statistics.charts"
-                add-label="添加统计图"
-                compact
-                @add="content.statistics.charts.push({ image: '', alt: '' })"
-                @remove="removeAt(content.statistics.charts, $event)"
-              >
-                <template #default="{ item }">
-                  <ImageField v-model="item.image" label="统计图" />
-                  <el-input v-model="item.alt" placeholder="图片说明" />
-                </template>
-              </EditableList>
-              <ProjectSectionEditor v-model="content.results" image-label="" />
-              <EditableList
-                :items="content.results.figures"
-                add-label="添加结果图"
-                compact
-                @add="content.results.figures.push({ title: '', image: '' })"
-                @remove="removeAt(content.results.figures, $event)"
-              >
-                <template #default="{ item }">
-                  <el-input v-model="item.title" placeholder="图标题" />
-                  <ImageField v-model="item.image" label="结果图" />
-                </template>
-              </EditableList>
-              <EditableList
-                :items="content.links"
-                add-label="添加下载链接"
-                @add="content.links.push({ type: 'code', label: 'Link', url: '' })"
-                @remove="removeAt(content.links, $event)"
-              >
-                <template #default="{ item }">
-                  <el-select v-model="item.type" placeholder="类型">
-                    <el-option label="Code" value="code" />
-                    <el-option label="Paper" value="paper" />
-                    <el-option label="Data" value="data" />
-                    <el-option label="Link" value="link" />
-                  </el-select>
-                  <el-input v-model="item.label" placeholder="按钮文字" />
-                  <el-input v-model="item.url" placeholder="URL" />
-                </template>
-              </EditableList>
-              <el-form-item label="引用">
-                <el-input v-model="content.citation" type="textarea" :rows="10" />
-              </el-form-item>
-            </template>
-
             <template v-else-if="editing.slug === 'dr-baoyao-yang'">
               <el-form-item label="姓名标题">
                 <el-input v-model="content.name" />
@@ -215,30 +90,6 @@
               </el-form-item>
               <el-form-item label="简介段落">
                 <TextListEditor v-model="content.paragraphs" placeholder="每行一段；较长段落也可以直接粘贴" :rows="8" />
-              </el-form-item>
-            </template>
-
-            <template v-else-if="editing.slug === 'vknow'">
-              <el-form-item label="页面标题">
-                <el-input v-model="content.title" />
-              </el-form-item>
-              <ProjectSectionEditor v-model="content.introduction" image-label="" list-label="模块" />
-              <el-divider content-position="left">Dataset Card</el-divider>
-              <el-form-item label="卡片标题">
-                <el-input v-model="content.dataset.title" />
-              </el-form-item>
-              <el-form-item label="卡片说明">
-                <el-input v-model="content.dataset.description" type="textarea" :rows="3" />
-              </el-form-item>
-              <ImageField v-model="content.dataset.image" label="卡片图片" />
-              <el-form-item label="图片说明">
-                <el-input v-model="content.dataset.imageAlt" />
-              </el-form-item>
-              <el-form-item label="按钮文字">
-                <el-input v-model="content.dataset.linkText" />
-              </el-form-item>
-              <el-form-item label="跳转路径">
-                <el-input v-model="content.dataset.linkPath" />
               </el-form-item>
             </template>
 
@@ -298,31 +149,19 @@ const mediaKind = ref('')
 const mediaOptions = ref<MediaAsset[]>([])
 const pendingMediaSetter = ref<((url: string) => void) | null>(null)
 
-const iconOptions = ['Search', 'Shield', 'Setting', 'Connection', 'Aim', 'Lock', 'Refresh']
+const sourceManagedSlugs = new Set(['about', 'contact', 'videomind', 'vknow'])
 
 const content = computed<Record<string, any>>(() => editing.value?.content || {})
 
 const fallbackContent: Record<string, () => Record<string, any>> = {
-  about: () => ({ subtitle: '', mission: { title: '', text: '' }, researchThrusts: [], expertise: [], vision: { title: '', text: '', domains: [], quote: '' } }),
-  contact: () => ({ title: '', availability: '', email: '', backgroundImage: '' }),
   'research-direction': () => ({ directions: [] }),
-  videomind: () => ({ title: '', introduction: emptyProjectSection(), statistics: { ...emptyProjectSection(), charts: [] }, results: { ...emptyProjectSection(), figures: [] }, links: [], citation: '' }),
   'dr-baoyao-yang': () => ({ name: '', image: '', alt: '', paragraphs: [] }),
-  vknow: () => ({ title: '', introduction: emptyProjectSection(), dataset: { title: '', description: '', image: '', imageAlt: '', linkText: '', linkPath: '' } }),
-}
-
-function emptyProjectSection() {
-  return { title: '', text: '', items: [], image: '' }
 }
 
 const pageLabel = (slug: string, title: string) => {
   const labels: Record<string, string> = {
-    about: 'About',
-    contact: 'Contact',
     'research-direction': 'Research Direction',
-    videomind: 'VideoMind',
     'dr-baoyao-yang': 'Baoyao Yang',
-    vknow: 'vKnow',
     'video-xiaoqi-zheng-01': '视频：Xiaoqi Zheng',
     'video-xianrun-xu-01': '视频：Xianrun Xu',
     'video-yali-ma-01': '视频：Yali Ma',
@@ -333,14 +172,6 @@ const pageLabel = (slug: string, title: string) => {
 const normalizePageContent = (page: SitePage) => {
   const fallback = fallbackContent[page.slug]?.() || (page.slug.startsWith('video-') ? { title: '', video: '' } : {})
   page.content = deepMerge(fallback, page.content || {})
-  if (page.slug === 'videomind') {
-    page.content.statistics.charts ||= []
-    page.content.results.figures ||= []
-    page.content.links ||= []
-  }
-  if (page.slug === 'vknow') {
-    page.content.dataset ||= {}
-  }
 }
 
 const deepMerge = (base: Record<string, any>, value: Record<string, any>) => {
@@ -361,7 +192,11 @@ const loadPages = async () => {
   loading.value = true
   try {
     const result = await listSitePages({ page: 1, pageSize: 50 })
-    pages.value = result.items
+    pages.value = result.items.filter((item) => !sourceManagedSlugs.has(item.slug))
+    if (activeSlug.value && !pages.value.some((item) => item.slug === activeSlug.value)) {
+      activeSlug.value = ''
+      editing.value = null
+    }
     if (!activeSlug.value && pages.value.length) {
       await selectPage(pages.value[0].slug)
     }
@@ -568,31 +403,6 @@ const ImageField = defineComponent({
   },
 })
 
-const ProjectSectionEditor = defineComponent({
-  props: {
-    modelValue: { type: Object as () => Record<string, any>, required: true },
-    imageLabel: { type: String, default: '图片' },
-    listLabel: { type: String, default: '要点' },
-  },
-  setup(props) {
-    return () => h('div', { class: 'project-section-editor' }, [
-      h('div', { class: 'inline-form-row' }, [
-        h('label', '小标题'),
-        h(ElInput, { modelValue: props.modelValue.title, 'onUpdate:modelValue': (v: string) => { props.modelValue.title = v } }),
-      ]),
-      h('div', { class: 'inline-form-row' }, [
-        h('label', '正文'),
-        h(ElInput, { modelValue: props.modelValue.text, 'onUpdate:modelValue': (v: string) => { props.modelValue.text = v }, type: 'textarea', rows: 3 }),
-      ]),
-      props.listLabel ? h('div', { class: 'inline-form-row' }, [
-        h('label', props.listLabel),
-        h(TextListEditor, { modelValue: props.modelValue.items || [], 'onUpdate:modelValue': (v: string[]) => { props.modelValue.items = v } }),
-      ]) : null,
-      props.imageLabel ? h(ImageField, { modelValue: props.modelValue.image || '', label: props.imageLabel, 'onUpdate:modelValue': (v: string) => { props.modelValue.image = v } }) : null,
-    ])
-  },
-})
-
 onMounted(loadPages)
 
 watch(editing, async () => {
@@ -605,8 +415,7 @@ watch(editing, async () => {
 .pages-admin,
 .page-form,
 .editable-list,
-.editable-item-fields,
-.project-section-editor {
+.editable-item-fields {
   display: flex;
   flex-direction: column;
   gap: 16px;

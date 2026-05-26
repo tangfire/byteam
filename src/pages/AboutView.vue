@@ -1,32 +1,72 @@
 <script setup lang="ts">
 import { Aim, Connection, Lock, Refresh, Search, Setting } from '@element-plus/icons-vue'
 import { computed } from 'vue'
-import { useSitePage } from '../composables/useSitePage'
 
-const fallbackContent = {
+const pageTitle = 'Beyond Machine Learning Group'
+const content = {
   subtitle: 'Advancing Multimodal Intelligence for Real-World Impact',
-  mission: { title: 'Our Mission', text: '' },
-  researchThrusts: [],
-  expertise: [],
-  vision: { title: 'Strategic Vision', text: '', domains: [], quote: '' },
+  mission: {
+    title: 'Our Mission',
+    text: 'We pioneer foundational theories and scalable frameworks to overcome challenges in multimodal data across its entire lifecycle. Our research bridges the gap between theoretical innovation and practical deployment in complex real-world scenarios.',
+  },
+  researchThrusts: [
+    {
+      icon: 'Search',
+      title: 'Multimodal Representation Learning',
+      items: [
+        'Cross-modal alignment of medical time-series, imaging, and clinical text',
+        'Contrastive learning for video understanding (visual, audio, text)',
+        'Spatiotemporal fusion of heterogeneous IoT sensor data',
+        'Self-supervised pretraining for multimodal foundation models',
+      ],
+    },
+    {
+      icon: 'Shield',
+      title: 'Decentralized & Privacy-Aware AI',
+      items: [
+        'Federated learning for cross-institutional collaboration',
+        'Differential privacy in multimodal data sharing',
+        'Automated lesion annotation with attention mechanisms',
+        'Weakly supervised learning under label scarcity',
+      ],
+    },
+    {
+      icon: 'Setting',
+      title: 'AI Infrastructure & Scalability',
+      items: [
+        'Unified architectures for seamless modality integration',
+        'Reinforcement learning for industrial optimization',
+        'Interpretable AI with cross-modal reasoning',
+        'Memory-efficient model deployment',
+      ],
+    },
+  ],
+  expertise: [
+    { icon: 'Connection', title: 'Heterogeneity-Aware Learning', description: 'Federated optimization for distributed multimodal systems' },
+    { icon: 'Aim', title: 'Noise-Robust Annotation', description: 'Weak supervision techniques for imperfect labeling' },
+    { icon: 'Lock', title: 'Secure Perception', description: 'Privacy-preserving multimodal embeddings' },
+    { icon: 'Refresh', title: 'Cross-Modal Transfer', description: 'Knowledge sharing across different data modalities' },
+  ],
+  vision: {
+    title: 'Strategic Vision',
+    text: 'We are pioneering the next generation of omni-modal foundation models that seamlessly unify temporal, visual, textual, and sensor modalities. Our work directly supports national priorities in critical domains:',
+    domains: ['Smart Healthcare', 'Industry 4.0', 'Sustainable AI', 'Edge Intelligence'],
+    quote: 'Bridging multimodal intelligence with real-world impact through continuous innovation and cross-domain knowledge transfer.',
+  },
 }
-
-const { page, content, hidden } = useSitePage('about', fallbackContent)
 
 const iconMap = { Aim, Connection, Lock, Refresh, Search, Setting, Shield: Lock }
 const iconComponent = (name: string) => iconMap[name as keyof typeof iconMap] || Search
-const researchThrusts = computed(() => Array.isArray(content.value.researchThrusts) ? content.value.researchThrusts : [])
-const expertise = computed(() => Array.isArray(content.value.expertise) ? content.value.expertise : [])
-const domains = computed(() => Array.isArray(content.value.vision?.domains) ? content.value.vision.domains : [])
+const researchThrusts = computed(() => content.researchThrusts)
+const expertise = computed(() => content.expertise)
+const domains = computed(() => content.vision.domains)
 </script>
 
 <template>
   <div class="about-container">
-    <el-empty v-if="hidden" description="页面暂未发布" />
-    <template v-else>
     <!-- 页面标题区域 -->
     <div class="page-header">
-      <h1 class="page-title">{{ page?.title || 'Beyond Machine Learning Group' }}</h1>
+      <h1 class="page-title">{{ pageTitle }}</h1>
       <p class="page-subtitle">{{ content.subtitle }}</p>
     </div>
 
@@ -108,7 +148,6 @@ const domains = computed(() => Array.isArray(content.value.vision?.domains) ? co
     <!-- 底部间隔 -->
     <div class="bottom-spacer"></div>
     <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
-    </template>
   </div>
 </template>
 
