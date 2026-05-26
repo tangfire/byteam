@@ -1,520 +1,335 @@
 <script setup lang="ts">
-import { Aim, Connection, Lock, Refresh, Search, Setting } from '@element-plus/icons-vue'
-import { computed } from 'vue'
-
 const pageTitle = 'Beyond Machine Learning Group'
+
 const content = {
-  subtitle: 'Advancing Multimodal Intelligence for Real-World Impact',
-  mission: {
-    title: 'Our Mission',
-    text: 'We pioneer foundational theories and scalable frameworks to overcome challenges in multimodal data across its entire lifecycle. Our research bridges the gap between theoretical innovation and practical deployment in complex real-world scenarios.',
-  },
-  researchThrusts: [
+  subtitle: 'Multimodal learning for healthcare, video understanding, and trustworthy distributed intelligence.',
+  intro: [
+    'The Beyond Machine Learning Group at Guangdong University of Technology studies machine learning methods that learn from multiple sources of evidence, including images, videos, signals, text, and distributed data.',
+    'Our research is driven by real data conditions: limited labels, noisy annotations, privacy constraints, heterogeneous clients, and changing deployment environments. We build models and systems for medical image analysis, multimodal representation learning, federated learning, and robust training.',
+  ],
+  focusAreas: [
     {
-      icon: 'Search',
-      title: 'Multimodal Representation Learning',
-      items: [
-        'Cross-modal alignment of medical time-series, imaging, and clinical text',
-        'Contrastive learning for video understanding (visual, audio, text)',
-        'Spatiotemporal fusion of heterogeneous IoT sensor data',
-        'Self-supervised pretraining for multimodal foundation models',
-      ],
+      index: '01',
+      title: 'Multimodal Medical Intelligence',
+      text: 'Combining imaging, clinical signals, and structured records for diagnosis-oriented tasks such as segmentation, disease analysis, and decision support.',
     },
     {
-      icon: 'Shield',
-      title: 'Decentralized & Privacy-Aware AI',
-      items: [
-        'Federated learning for cross-institutional collaboration',
-        'Differential privacy in multimodal data sharing',
-        'Automated lesion annotation with attention mechanisms',
-        'Weakly supervised learning under label scarcity',
-      ],
+      index: '02',
+      title: 'Federated and Privacy-Aware Learning',
+      text: 'Designing learning frameworks for cross-site collaboration when data cannot be centralized, with attention to heterogeneity, reliability, and privacy.',
     },
     {
-      icon: 'Setting',
-      title: 'AI Infrastructure & Scalability',
-      items: [
-        'Unified architectures for seamless modality integration',
-        'Reinforcement learning for industrial optimization',
-        'Interpretable AI with cross-modal reasoning',
-        'Memory-efficient model deployment',
-      ],
+      index: '03',
+      title: 'Video and Cross-Modal Understanding',
+      text: 'Learning representations that connect visual, audio, and textual cues for retrieval, reasoning, summarization, and content understanding.',
+    },
+    {
+      index: '04',
+      title: 'Robust Learning from Imperfect Data',
+      text: 'Developing methods for weak supervision, label noise, missing modalities, and data imbalance in practical machine learning pipelines.',
     },
   ],
-  expertise: [
-    { icon: 'Connection', title: 'Heterogeneity-Aware Learning', description: 'Federated optimization for distributed multimodal systems' },
-    { icon: 'Aim', title: 'Noise-Robust Annotation', description: 'Weak supervision techniques for imperfect labeling' },
-    { icon: 'Lock', title: 'Secure Perception', description: 'Privacy-preserving multimodal embeddings' },
-    { icon: 'Refresh', title: 'Cross-Modal Transfer', description: 'Knowledge sharing across different data modalities' },
+  principles: [
+    'Start from concrete scientific or clinical problems, then choose the modeling tools that fit the data.',
+    'Keep experiments reproducible, with clear baselines, ablations, and implementation details.',
+    'Build collaborations across computer science, healthcare, and industrial scenarios.',
+    'Value models that are useful, reliable, and understandable in real deployment settings.',
+  ],
+  keywords: [
+    'Multimodal learning',
+    'Medical image analysis',
+    'Federated learning',
+    'Weak supervision',
+    'Video understanding',
+    'Representation learning',
+    'Privacy-preserving AI',
+    'Robust optimization',
   ],
   vision: {
-    title: 'Strategic Vision',
-    text: 'We are pioneering the next generation of omni-modal foundation models that seamlessly unify temporal, visual, textual, and sensor modalities. Our work directly supports national priorities in critical domains:',
-    domains: ['Smart Healthcare', 'Industry 4.0', 'Sustainable AI', 'Edge Intelligence'],
-    quote: 'Bridging multimodal intelligence with real-world impact through continuous innovation and cross-domain knowledge transfer.',
+    title: 'What We Aim For',
+    text: 'We aim to develop learning systems that connect modalities, institutions, and application domains while remaining practical enough to support real research and deployment needs.',
+    domains: ['Healthcare AI', 'Distributed Learning', 'Multimodal Systems', 'Applied Machine Learning'],
   },
 }
-
-const iconMap = { Aim, Connection, Lock, Refresh, Search, Setting, Shield: Lock }
-const iconComponent = (name: string) => iconMap[name as keyof typeof iconMap] || Search
-const researchThrusts = computed(() => content.researchThrusts)
-const expertise = computed(() => content.expertise)
-const domains = computed(() => content.vision.domains)
 </script>
 
 <template>
   <div class="about-container">
-    <!-- 页面标题区域 -->
-    <div class="page-header">
+    <header class="about-hero">
+      <p class="eyebrow">About BYML</p>
       <h1 class="page-title">{{ pageTitle }}</h1>
       <p class="page-subtitle">{{ content.subtitle }}</p>
-    </div>
+    </header>
 
-    <el-card class="content-card" shadow="hover">
-      <div class="research-content">
+    <main class="about-main">
+      <section class="intro-section" aria-labelledby="about-overview">
+        <div class="section-meta">Overview</div>
+        <div class="intro-copy">
+          <h2 id="about-overview">Research grounded in real multimodal data</h2>
+          <p v-for="paragraph in content.intro" :key="paragraph">{{ paragraph }}</p>
+        </div>
+      </section>
 
-        <!-- 导语部分 -->
-        <div class="overview-section">
-          <div class="overview-header">
-            <h2 class="section-title">{{ content.mission?.title }}</h2>
-            <div class="accent-line"></div>
-          </div>
-          <div class="lead-box">
-            <p class="lead-text">{{ content.mission?.text }}</p>
-          </div>
+      <section class="focus-section" aria-labelledby="about-focus">
+        <div class="section-heading">
+          <span class="section-meta">Focus</span>
+          <h2 id="about-focus">Main Research Directions</h2>
         </div>
 
-        <!-- 研究领域 -->
-        <div class="research-section">
-          <div class="section-header">
-            <h2 class="section-title">Research Thrusts</h2>
-            <div class="accent-line"></div>
-          </div>
-
-          <div class="research-grid">
-            <div v-for="item in researchThrusts" :key="item.title" class="research-category">
-              <div class="category-header">
-                <div class="category-icon">
-                  <el-icon><component :is="iconComponent(item.icon)" /></el-icon>
-                </div>
-                <h3 class="category-title">{{ item.title }}</h3>
-              </div>
-              <ul class="styled-list">
-                <li v-for="point in item.items || []" :key="point">{{ point }}</li>
-              </ul>
+        <div class="focus-list">
+          <article v-for="item in content.focusAreas" :key="item.title" class="focus-row">
+            <span class="focus-index">{{ item.index }}</span>
+            <div class="focus-copy">
+              <h3>{{ item.title }}</h3>
+              <p>{{ item.text }}</p>
             </div>
-          </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="work-section" aria-labelledby="about-work-style">
+        <div class="section-heading work-heading">
+          <span class="section-meta">Approach</span>
+          <h2 id="about-work-style">How We Work</h2>
         </div>
 
-        <!-- 技术特色 -->
-        <div class="expertise-section">
-          <div class="section-header">
-            <h2 class="section-title">Core Expertise</h2>
-            <div class="accent-line"></div>
-          </div>
-          <div class="expertise-grid">
-            <div v-for="item in expertise" :key="item.title" class="expertise-item">
-              <div class="expertise-icon">
-                <el-icon><component :is="iconComponent(item.icon)" /></el-icon>
-              </div>
-              <h4 class="expertise-title">{{ item.title }}</h4>
-              <p class="expertise-desc">{{ item.description }}</p>
+        <div class="work-layout">
+          <ol class="principle-list">
+            <li v-for="(principle, index) in content.principles" :key="principle">
+              <span>{{ String(index + 1).padStart(2, '0') }}</span>
+              <p>{{ principle }}</p>
+            </li>
+          </ol>
+
+          <aside class="keyword-panel" aria-label="Research keywords">
+            <h2>Research Keywords</h2>
+            <div class="keyword-list">
+              <span v-for="keyword in content.keywords" :key="keyword">{{ keyword }}</span>
             </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="vision-section" aria-labelledby="about-vision">
+        <div>
+          <span class="section-meta">Vision</span>
+          <h2 id="about-vision">{{ content.vision.title }}</h2>
+        </div>
+        <div class="vision-copy">
+          <p>{{ content.vision.text }}</p>
+          <div class="domain-list">
+            <span v-for="domain in content.vision.domains" :key="domain">{{ domain }}</span>
           </div>
         </div>
+      </section>
+    </main>
 
-        <!-- 愿景 -->
-        <div class="vision-section">
-          <div class="section-header">
-            <h2 class="section-title">{{ content.vision?.title }}</h2>
-            <div class="accent-line"></div>
-          </div>
-          <div class="vision-content">
-            <div class="vision-text">
-              <p>{{ content.vision?.text }}</p>
-              <div class="vision-domains">
-                <span v-for="domain in domains" :key="domain" class="domain-tag">{{ domain }}</span>
-              </div>
-              <p class="vision-quote">
-                "{{ content.vision?.quote }}"
-              </p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </el-card>
-
-    <!-- 底部间隔 -->
-    <div class="bottom-spacer"></div>
     <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
   </div>
 </template>
 
 <style scoped>
 .about-container {
-  max-width: 1200px;
+  color: #273445;
   margin: 0 auto;
-  padding: 30px 20px;
+  max-width: 1180px;
   min-height: 100vh;
+  padding: 42px 24px 72px;
 }
 
-/* 页面标题区域 */
-.page-header {
-  text-align: center;
-  margin-bottom: 50px;
-  padding: 0 20px;
+.about-hero {
+  border-bottom: 1px solid #e7d9df;
+  margin-bottom: 46px;
+  padding-bottom: 34px;
+}
+
+.eyebrow,
+.section-meta {
+  color: #7d1231;
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin-bottom: 10px;
 }
 
 .page-title {
-  font-size: 2.8rem;
   color: #7d1231;
-  margin-bottom: 15px;
+  font-size: 3.2rem;
   font-weight: 700;
   letter-spacing: 0;
-  animation: fadeInDown 1s ease-out;
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  line-height: 1.12;
+  margin: 0;
 }
 
 .page-subtitle {
-  font-size: 1.3rem;
-  color: #7f8c8d;
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
-  font-weight: 400;
-  animation: fadeInUp 1s ease-out 0.2s both;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* 主卡片样式 - 性能优化 */
-.content-card {
-  max-width: 1100px;
-  margin: 0 auto;
-  border-radius: 20px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(0, 0, 0, 0.06);
-  border: 2px solid rgba(125, 18, 49, 0.12);
-  overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  /* 移除 backdrop-filter 以提升性能 */
-  /* backdrop-filter: blur(20px); */
-  /* 启用硬件加速 */
-  will-change: transform;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
-.content-card:hover {
-  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.98);
-  transform: translateY(-4px);
-}
-
-.research-content {
-  padding: 40px;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  line-height: 1.7;
-  color: #2c3e50;
-}
-
-/* 章节标题样式 */
-.section-header {
-  margin-bottom: 30px;
-}
-
-.section-title {
-  color: #7d1231;
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 10px;
-  letter-spacing: -0.3px;
-  position: relative;
-  display: inline-block;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-  width: 60px;
-  height: 4px;
-  background: #7d1231;
-  border-radius: 2px;
-}
-
-
-
-/* 导语部分 */
-.overview-section {
-  margin-bottom: 50px;
-}
-
-.lead-box {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  padding: 35px;
-  border-radius: 16px;
-  border-left: 6px solid #7d1231;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(0, 0, 0, 0.05);
-  transition: all 0.4s ease;
-}
-
-.lead-box:hover {
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.98);
-  transform: translateX(4px);
-}
-
-.lead-text {
+  color: #566273;
   font-size: 1.25rem;
-  line-height: 1.8;
-  color: #2c3e50;
-  margin: 0;
-  text-align: center;
-  font-weight: 400;
+  line-height: 1.7;
+  margin: 18px 0 0;
+  max-width: 760px;
 }
 
-.highlight {
-  color: #7d1231;
-  font-weight: 600;
-  background: linear-gradient(120deg, rgba(125, 18, 49, 0.12), rgba(52, 152, 219, 0.1));
-  padding: 3px 8px;
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(125, 18, 49, 0.1);
-}
-
-/* 研究领域网格 */
-.research-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 30px;
-  margin-bottom: 40px;
-}
-
-.research-category {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 4px 12px rgba(0, 0, 0, 0.05);
-  border: 2px solid rgba(125, 18, 49, 0.12);
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.research-category::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(90deg, #7d1231, #3498db, #7d1231);
-  background-size: 200% 100%;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  animation: gradientFlow 3s ease-in-out infinite;
-}
-
-@keyframes gradientFlow {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.research-category:hover::before {
-  opacity: 1;
-}
-
-.research-category:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.98);
-  border-color: #7d1231;
-}
-
-.category-header {
+.about-main {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 58px;
+}
+
+.intro-section,
+.vision-section {
+  display: grid;
+  gap: 42px;
+  grid-template-columns: 220px minmax(0, 1fr);
+}
+
+.intro-copy {
+  max-width: 820px;
+}
+
+.intro-copy h2,
+.section-heading h2,
+.keyword-panel h2,
+.vision-section h2 {
+  color: #7d1231;
+  font-size: 1.85rem;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.intro-copy p,
+.focus-copy p,
+.principle-list p,
+.vision-copy p {
+  color: #4f5b6a;
+  font-size: 1.04rem;
+  line-height: 1.8;
+  margin: 16px 0 0;
+}
+
+.focus-section {
+  border-top: 1px solid #eef0f2;
+  padding-top: 44px;
+}
+
+.section-heading {
   margin-bottom: 20px;
 }
 
-.category-icon {
-  font-size: 2rem;
-  margin-right: 15px;
-  flex-shrink: 0;
+.focus-list {
+  border-top: 1px solid #e7d9df;
 }
 
-.category-title {
-  color: #2c3e50;
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin: 0;
-  line-height: 1.3;
-}
-
-/* 列表样式 */
-.styled-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.styled-list li {
-  position: relative;
-  padding-left: 24px;
-  margin-bottom: 12px;
-  line-height: 1.6;
-  color: #5a6c7d;
-}
-
-.styled-list li::before {
-  content: "▶";
-  color: #7d1231;
-  position: absolute;
-  left: 0;
-  font-size: 12px;
-  top: 2px;
-}
-
-/* 技术特色网格 */
-.expertise-section {
-  margin-bottom: 50px;
-}
-
-.expertise-grid {
+.focus-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 25px;
+  gap: 30px;
+  grid-template-columns: 90px minmax(0, 1fr);
+  padding: 26px 0;
+  border-bottom: 1px solid #edf0f2;
 }
 
-.expertise-item {
-  text-align: center;
-  padding: 25px 20px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  border-radius: 16px;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 2px solid rgba(125, 18, 49, 0.12);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+.focus-index {
+  color: #7d1231;
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
 }
 
-.expertise-item:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.98) 100%);
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.98);
-  border-color: #7d1231;
-}
-
-.expertise-icon {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-}
-
-.expertise-title {
-  color: #2c3e50;
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 10px;
-}
-
-.expertise-desc {
-  color: #7f8c8d;
-  font-size: 0.95rem;
-  line-height: 1.5;
+.focus-copy h3 {
+  color: #273445;
+  font-size: 1.25rem;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.3;
   margin: 0;
 }
 
-/* 愿景部分 */
-.vision-section {
-  margin-bottom: 30px;
+.focus-copy p {
+  margin-top: 8px;
 }
 
-.vision-content {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 0.95) 100%);
-  padding: 35px;
-  border-radius: 16px;
-  border: 2px solid rgba(125, 18, 49, 0.12);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  transition: all 0.4s ease;
+.work-section {
+  border-top: 1px solid #eef0f2;
+  padding-top: 44px;
 }
 
-.vision-content:hover {
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.98);
-  transform: translateY(-2px);
+.work-heading {
+  margin-bottom: 28px;
 }
 
-.vision-text {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  color: #2c3e50;
+.work-layout {
+  display: grid;
+  gap: 52px;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+  align-items: start;
 }
 
-.vision-domains {
+.principle-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #e7d9df;
+}
+
+.principle-list li {
+  display: grid;
+  gap: 22px;
+  grid-template-columns: 46px minmax(0, 1fr);
+  padding: 20px 0;
+  border-bottom: 1px solid #edf0f2;
+}
+
+.principle-list span {
+  color: #7d1231;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.principle-list p {
+  margin: 0;
+}
+
+.keyword-panel {
+  background: #faf7f8;
+  border-top: 4px solid #7d1231;
+  padding: 24px 26px 28px;
+}
+
+.keyword-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin: 20px 0;
+  gap: 10px;
+  margin-top: 22px;
 }
 
-.domain-tag {
-  background: linear-gradient(135deg, #7d1231 0%, #e74c3c 100%);
-  color: white;
-  padding: 10px 18px;
-  border-radius: 24px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(125, 18, 49, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border: 2px solid rgba(255, 255, 255, 0.2);
+.keyword-list span,
+.domain-list span {
+  border: 1px solid #e2cdd5;
+  color: #4f2435;
+  font-size: 0.94rem;
+  line-height: 1.2;
+  padding: 8px 12px;
 }
 
-.domain-tag:hover {
-  transform: translateY(-3px) scale(1.08);
-  box-shadow: 0 8px 20px rgba(125, 18, 49, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+.vision-section {
+  align-items: start;
+  background: #faf7f8;
+  border-top: 4px solid #7d1231;
+  padding: 30px;
 }
 
-.vision-quote {
-  font-style: italic;
-  color: #7d1231;
-  font-size: 1.1rem;
-  text-align: center;
-  margin-top: 25px;
-  padding: 25px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.9) 100%);
-  border-radius: 12px;
-  border-left: 6px solid #7d1231;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  transition: all 0.4s ease;
+.vision-copy p {
+  margin-top: 0;
 }
 
-.vision-quote:hover {
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.98);
-  transform: translateX(4px);
-}
-
-.bottom-spacer {
-  height: 50px;
+.domain-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
 }
 
 .mobile-backtop {
@@ -522,76 +337,50 @@ const domains = computed(() => content.vision.domains)
   bottom: 100px;
 }
 
-/* 移动端适配 */
 @media (max-width: 768px) {
   .about-container {
-    padding: 20px 15px;
+    padding: 30px 16px 56px;
   }
 
-  .page-title {
-    font-size: 2.2rem;
+  .about-hero {
+    margin-bottom: 36px;
+    padding-bottom: 28px;
   }
 
   .page-subtitle {
     font-size: 1.1rem;
-    padding: 0 10px;
   }
 
-  .research-content {
-    padding: 25px 20px;
+  .page-title {
+    font-size: 2.4rem;
   }
 
-  .section-title {
-    font-size: 1.6rem;
+  .about-main {
+    gap: 44px;
   }
 
-  .lead-box {
-    padding: 20px;
-  }
-
-  .lead-text {
-    font-size: 1.1rem;
-  }
-
-  .research-grid {
+  .intro-section,
+  .vision-section {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 18px;
   }
 
-  .research-category {
-    padding: 20px;
+  .work-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 
-  .category-header {
-    flex-direction: column;
-    text-align: center;
+  .focus-row {
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 18px;
   }
 
-  .category-icon {
-    margin-right: 0;
-    margin-bottom: 10px;
+  .keyword-panel {
+    padding: 22px 18px;
   }
 
-  .expertise-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-  }
-
-  .expertise-item {
-    padding: 20px 15px;
-  }
-
-  .vision-content {
-    padding: 25px 20px;
-  }
-
-  .vision-domains {
-    justify-content: center;
-  }
-
-  .domain-tag {
-    font-size: 0.8rem;
-    padding: 6px 12px;
+  .vision-section {
+    padding: 24px 18px;
   }
 
   .mobile-backtop {
@@ -600,42 +389,29 @@ const domains = computed(() => content.vision.domains)
   }
 }
 
-/* 小屏手机优化 */
 @media (max-width: 480px) {
   .about-container {
-    padding: 15px 10px;
+    padding: 24px 12px 48px;
+  }
+
+  .intro-copy h2,
+  .section-heading h2,
+  .keyword-panel h2,
+  .vision-section h2 {
+    font-size: 1.55rem;
   }
 
   .page-title {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
-  .research-content {
-    padding: 20px 15px;
-  }
-
-  .expertise-grid {
+  .focus-row {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
 
-  .vision-text {
-    font-size: 1rem;
+  .principle-list li {
+    grid-template-columns: 36px minmax(0, 1fr);
   }
-}
-
-/* 大屏幕优化 */
-@media (min-width: 1400px) {
-  .about-container {
-    max-width: 1300px;
-  }
-
-  .content-card {
-    max-width: 1200px;
-  }
-}
-
-/* 确保图标颜色正确 */
-::v-deep(.el-icon svg) {
-  color: #7d1231 !important;
 }
 </style>
