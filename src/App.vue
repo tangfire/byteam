@@ -273,6 +273,17 @@ watch(() => route.fullPath, closeMobileMenu)
             Technology</a></p>
 
           <p>Email: ybaoyao@gdut.edu.cn</p>
+          <p class="icp-record">
+            备案号：
+            <a
+                class="icp-link"
+                href="https://beian.miit.gov.cn/"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+              粤ICP备2025388828号-1
+            </a>
+          </p>
 
           <a class="BaoyaoGroupLink" href="https://github.com/BaoyaoGroup"
              style="text-decoration: none;color: white" target="_blank" rel="noopener noreferrer">Github-BYML</a>
@@ -741,6 +752,19 @@ watch(() => route.fullPath, closeMobileMenu)
 
 .footer-content .copyright {
   margin-top: 4px;
+}
+
+.footer-content .icp-record {
+  margin-top: 2px;
+}
+
+.icp-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.icp-link:hover {
+  color: #747d8c !important;
 }
 
 .social-links {
