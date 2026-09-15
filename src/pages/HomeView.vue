@@ -67,6 +67,49 @@
         </div>
       </section>
 
+      <section class="world-model-section" aria-labelledby="world-model-title">
+        <div class="section-heading">
+          <span class="section-kicker">Featured Project</span>
+          <h2 id="world-model-title" class="section-title">World Model</h2>
+          <p class="section-subtitle">
+            Deep-learning-based 3D world modeling and simulation — enabling AI to understand and predict the dynamics of the real world.
+          </p>
+        </div>
+
+        <div class="world-model-showcase">
+          <div class="video-wrapper">
+            <video
+              class="world-model-video"
+              controls
+              preload="metadata"
+              poster=""
+            >
+              <source src="/videos/world-model-demo.mp4" type="video/mp4">
+              Your browser does not support video playback.
+            </video>
+          </div>
+
+          <div class="world-model-info">
+            <div class="info-card">
+              <h3>About This Project</h3>
+              <p>
+                World Models represent a cutting-edge research direction in artificial intelligence.
+                By learning the dynamic patterns of environments, the model constructs an internal
+                representation of the physical world, enabling future prediction and reasoning.
+                This technology has broad applications in autonomous driving, robotic control,
+                and sports motion analysis.
+              </p>
+            </div>
+            <div class="info-tags">
+              <span class="tag">Deep Learning</span>
+              <span class="tag">3D Reconstruction</span>
+              <span class="tag">World Simulation</span>
+              <span class="tag">Temporal Prediction</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="research-section" id="research-highlights" aria-labelledby="research-title">
         <div class="section-heading">
           <span class="section-kicker">Publications</span>
@@ -348,9 +391,76 @@ const { latestNews, stats } = useHomeContent()
 .overview-section,
 .research-section,
 .news-section,
-.quick-nav-section {
+.quick-nav-section,
+.world-model-section {
   border-top: 1px solid var(--border-color);
   padding: 58px 0;
+}
+
+/* 世界模型展示区 */
+.world-model-showcase {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 36px;
+  align-items: start;
+}
+
+.video-wrapper {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--border-color);
+  background: #000;
+}
+
+.world-model-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #000;
+}
+
+.world-model-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.info-card {
+  border-top: 3px solid var(--primary-color);
+  padding-top: 18px;
+}
+
+.info-card h3 {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.info-card p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.85;
+  margin: 0;
+}
+
+.info-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  background: var(--surface-muted);
+  border: 1px solid var(--theme-border);
+  color: var(--primary-color);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 20px;
 }
 
 .section-heading {
@@ -565,6 +675,10 @@ const { latestNews, stats } = useHomeContent()
   }
 
   .overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .world-model-showcase {
     grid-template-columns: 1fr;
   }
 
