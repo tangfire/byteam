@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { Collection, Link, Promotion, Tickets, VideoCamera } from '@element-plus/icons-vue'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const asset = (name: string) => `/KineticGS/${name}`
 const content = {
   title: 'KineticGS: Momentum-driven Coherent 4D Gaussian Splatting\nfor Monocular Dynamic Scene Reconstruction',
+  eyebrow: 'ECCV 2026 · Project Page',
+  summary: 'KineticGS reconstructs dynamic scenes from monocular videos through a physically grounded hierarchy of Gaussians, momentum-carrying particles, and dynamic objects — modeling how objects move, rather than only how they appear.',
+  stats: [
+    { value: '+0.91 dB', label: 'Avg. PSNR gain on dynamic objects' },
+    { value: '2 Datasets', label: 'DyCheck-iPhone · HyperNeRF' },
+    { value: 'ECCV 2026', label: 'European Conf. on Computer Vision' },
+  ],
   introduction: {
     title: 'What is KineticGS?',
     text: 'KineticGS reconstructs dynamic scenes from monocular videos through a physically grounded hierarchy of Gaussians, momentum-carrying particles, and dynamic objects. It models how objects move, rather than only how they appear, preserving temporal coherence through occlusion and reappearance.',
@@ -21,11 +28,6 @@ const content = {
   motivation: {
     title: 'Motivation',
     text: 'Monocular videos provide limited observations for dynamic scene reconstruction. Complex motion, occlusion, and non-rigid deformation make depth and optical-flow guidance incomplete and error-prone. Existing 4D Gaussian Splatting methods lack explicit motion modeling, which can cause fragmented trajectories and temporal drift.',
-    items: [
-      'Limited observations: monocular videos struggle with complex motion, occlusion, and non-rigid deformation.',
-      'Motion inconsistency: existing 4DGS lacks explicit motion modeling, causing trajectory fragmentation and temporal drift.',
-      'Noisy guidance: depth and optical-flow cues become unreliable under occlusion and motion blur.',
-    ],
     image: asset('figures/methods_compare4.png'),
     insight: 'Key Insight: Model how objects move, rather than only how they appear, through momentum-aware motion modeling.',
   },
@@ -65,157 +67,387 @@ const lines = computed(() => content.title.split('\n'))
 const figures = computed(() => content.results.figures)
 const links = computed(() => content.links)
 const iconForLink = (type: string) => type === 'code' ? Promotion : type === 'paper' ? Tickets : type === 'video' ? VideoCamera : type === 'data' ? Collection : Link
+
+const previewSrc = ref('')
+const previewAlt = ref('')
+const dialogVisible = ref(false)
+const openPreview = (src: string, alt: string) => {
+  previewSrc.value = src
+  previewAlt.value = alt
+  dialogVisible.value = true
+}
 </script>
 
 <template>
-  <el-space direction="vertical" :size="30" style="width: 100%">
-    <div style="display: flex; flex-direction: column; align-items: center;">
-      <h1 class="section-title">
-        <template v-for="(line, index) in lines" :key="index">
-          {{ line }}<br v-if="index < lines.length - 1">
-        </template>
-      </h1>
+  <div class="kinetic-page">
+    <header class="kinetic-hero">
+      <div class="kinetic-shell hero-center">
+        <p class="eyebrow">{{ content.eyebrow }}</p>
+        <h1 class="hero-title">
+          <template v-for="(line, index) in lines" :key="index">
+            {{ line }}<br v-if="index < lines.length - 1">
+          </template>
+        </h1>
+        <p class="hero-summary">{{ content.summary }}</p>
 
-      <div class="demo-video">
-        <video class="demo-video-player" controls preload="metadata" :src="content.video.src">
-          Your browser does not support video playback.
-        </video>
-      </div>
+        <div class="hero-actions">
+          <a v-for="item in links" :key="item.label" :href="item.url"
+             class="kinetic-button" :class="item.type === 'code' ? 'kinetic-button--primary' : 'kinetic-button--light'"
+             target="_blank" rel="noopener noreferrer">
+            <el-icon size="18" style="margin-right: 8px;"><component :is="iconForLink(item.type)" /></el-icon>
+            {{ item.label }}
+          </a>
+        </div>
 
-      <el-card class="content-card">
-        <div class="project-content">
-          <div class="introduction">
-            <h3 class="subsection-title first-subtitle">{{ content.introduction.title }}</h3>
-            <p class="vision-text">{{ content.introduction.text }}</p>
-            <ul class="styled-list">
-              <li v-for="item in content.introduction.items" :key="item">{{ item }}</li>
-            </ul>
-            <img :src="content.introduction.image" class="example2-image" alt="KineticGS teaser">
-          </div>
+        <figure class="hero-video-frame">
+          <video class="hero-video" controls preload="metadata" :src="content.video.src">
+            Your browser does not support video playback.
+          </video>
+          <figcaption>Demonstration video — KineticGS dynamic scene reconstruction</figcaption>
+        </figure>
 
-          <div class="motivation">
-            <h3 class="subsection-title">{{ content.motivation.title }}</h3>
-            <p class="vision-text">{{ content.motivation.text }}</p>
-            <ul class="styled-list">
-              <li v-for="item in content.motivation.items" :key="item">{{ item }}</li>
-            </ul>
-            <img :src="content.motivation.image" class="caterogy-image" alt="Comparison between appearance-based and momentum-aware Gaussian modeling">
-            <p class="key-insight">{{ content.motivation.insight }}</p>
-          </div>
-
-          <div class="Dataset-statistics">
-            <h3 class="subsection-title">{{ content.statistics.title }}</h3>
-            <p class="vision-text">{{ content.statistics.text }}</p>
-            <img :src="content.statistics.image" class="caterogy-image" alt="KineticGS method overview">
-          </div>
-
-          <div class="Results">
-            <h3 class="subsection-title">{{ content.results.title }}</h3>
-            <p class="vision-text">{{ content.results.text }}</p>
-            <div class="results-container">
-              <template v-for="figure in figures" :key="figure.image">
-                <h4 class="results-title">{{ figure.title }}</h4>
-                <img :src="figure.image" :alt="figure.title" class="results-image">
-              </template>
-            </div>
-            <div class="tables-container">
-              <figure v-for="table in content.results.tables" :key="table.image" class="table-figure">
-                <img :src="table.image" :alt="table.title" class="table-image">
-                <figcaption>{{ table.title }}</figcaption>
-              </figure>
-            </div>
-          </div>
-
-          <div class="relevant-links">
-            <h3 class="subsection-title">Download</h3>
-            <div class="relevant-links-container" style="display: flex; gap: 70px; align-items: center;margin-left: 20px;">
-              <div v-for="item in links" :key="item.label" style="display: flex; align-items: center;">
-                <a :href="item.url" style="color: #7d1231; text-decoration: none; display: flex; align-items: center;" target="_blank" rel="noopener noreferrer">
-                  <el-icon size="25" style="margin-right: 8px; vertical-align: middle;"><component :is="iconForLink(item.type)" /></el-icon>
-                  <span style="font-size: 18px; font-weight: 500;">{{ item.label }}</span>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="Citation">
-            <h3 class="subsection-title">Citation</h3>
-            <p class="vision-text">If you find this work useful in your research, please cite the following paper:</p>
-            <pre class="pillar citation-block">{{ content.citation }}</pre>
+        <div class="hero-stats">
+          <div v-for="stat in content.stats" :key="stat.value">
+            <strong>{{ stat.value }}</strong>
+            <span>{{ stat.label }}</span>
           </div>
         </div>
-      </el-card>
-    </div>
-  </el-space>
-  <div style="height: 50px"></div>
-  <el-backtop class="mobile-backtop" :right="100" :bottom="100"/>
+      </div>
+    </header>
+
+    <section class="kinetic-section">
+      <div class="kinetic-shell intro-grid">
+        <div>
+          <p class="section-kicker">Overview</p>
+          <h2>{{ content.introduction.title }}</h2>
+          <p class="lead">{{ content.introduction.text }}</p>
+          <ul class="feature-list">
+            <li v-for="item in content.introduction.items" :key="item">{{ item }}</li>
+          </ul>
+        </div>
+        <figure class="framed-figure" @click="openPreview(content.introduction.image, 'KineticGS teaser')">
+          <img :src="content.introduction.image" alt="KineticGS teaser">
+          <figcaption>Momentum-aware dynamic scene reconstruction from a single monocular video</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="kinetic-section kinetic-section--soft">
+      <div class="kinetic-shell">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Why</p>
+            <h2>{{ content.motivation.title }}</h2>
+          </div>
+          <p>{{ content.motivation.text }}</p>
+        </div>
+        <figure class="framed-figure" @click="openPreview(content.motivation.image, 'Appearance-based vs momentum-aware modeling')">
+          <img :src="content.motivation.image" alt="Comparison between appearance-based and momentum-aware Gaussian modeling">
+          <figcaption>Appearance-based modeling loses object identity during occlusion; momentum-driven modeling keeps it</figcaption>
+        </figure>
+        <p class="key-insight">{{ content.motivation.insight }}</p>
+      </div>
+    </section>
+
+    <section class="kinetic-section">
+      <div class="kinetic-shell">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Method</p>
+            <h2>{{ content.statistics.title }}</h2>
+          </div>
+          <p>{{ content.statistics.text }}</p>
+        </div>
+        <figure class="framed-figure" @click="openPreview(content.statistics.image, 'KineticGS method overview')">
+          <img :src="content.statistics.image" alt="KineticGS method overview">
+          <figcaption>Three-stage pipeline: momentum-guided initialization → energy-flow activation → kinetic synchronization</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="kinetic-section kinetic-section--soft">
+      <div class="kinetic-shell">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Experiments</p>
+            <h2>{{ content.results.title }}</h2>
+          </div>
+          <p>{{ content.results.text }}</p>
+        </div>
+
+        <div class="result-grid">
+          <figure v-for="figure in figures" :key="figure.image" class="result-card"
+                  @click="openPreview(figure.image, figure.title)">
+            <img :src="figure.image" :alt="figure.title">
+            <figcaption>{{ figure.title }}</figcaption>
+          </figure>
+        </div>
+
+        <div class="table-results">
+          <figure v-for="table in content.results.tables" :key="table.image" class="framed-figure"
+                  @click="openPreview(table.image, table.title)">
+            <img :src="table.image" :alt="table.title">
+            <figcaption>{{ table.title }}</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="kinetic-section kinetic-section--dark">
+      <div class="kinetic-shell citation-grid">
+        <div>
+          <p class="section-kicker">Resources</p>
+          <h2>Download</h2>
+          <div class="resource-links">
+            <a v-for="item in links" :key="item.label" :href="item.url" class="resource-link"
+               target="_blank" rel="noopener noreferrer">
+              <el-icon size="20"><component :is="iconForLink(item.type)" /></el-icon>
+              <span>{{ item.label }}</span>
+              <small>↗</small>
+            </a>
+          </div>
+        </div>
+        <div>
+          <p class="citation-lead">If you find this work useful in your research, please cite the following paper:</p>
+          <pre class="citation-block">{{ content.citation }}</pre>
+        </div>
+      </div>
+    </section>
+
+    <el-backtop class="mobile-backtop" :right="100" :bottom="100" />
+
+    <el-dialog v-model="dialogVisible" width="90%" top="5vh" :title="previewAlt" destroy-on-close>
+      <img class="dialog-image" :src="previewSrc" :alt="previewAlt">
+    </el-dialog>
+  </div>
 </template>
 
 <style scoped>
-.kinetic-page { --ink: #172033; --muted: #617087; --line: #dfe6ef; --brand: #7d1231; --brand-dark: #4f0b20; --blue: #1769aa; color: var(--ink); background: #fff; min-height: 100vh; }
-.kinetic-shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
-.kinetic-hero { background: radial-gradient(circle at 82% 20%, rgba(125,18,49,.45), transparent 35%), linear-gradient(135deg, #280b1a 0%, #111b2f 100%); color: #fff; padding: 66px 0 58px; }
-.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(360px, .9fr); gap: 60px; align-items: center; }
-.eyebrow, .section-kicker, .stage-label { margin: 0 0 12px; font-size: .76rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #e5a7b9; }
-.hero-copy h1 { margin: 0; max-width: 700px; font-size: clamp(2.25rem, 4.5vw, 4.2rem); line-height: 1.06; letter-spacing: -.045em; }
-.title-line { display: block; }
-.authors { margin: 24px 0 0; color: #f0d7df; font-size: .98rem; }
-.hero-summary { max-width: 600px; color: #d7deea; font-size: 1.12rem; line-height: 1.75; }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-.kinetic-button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; border-radius: 999px; font-weight: 700; transition: transform .2s ease, box-shadow .2s ease; }
-.kinetic-button:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0,0,0,.22); }
-.kinetic-button--primary { background: #d95f80; color: #fff; }.kinetic-button--light { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.35); color: #fff; }
-.hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 620px; margin-top: 42px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.22); }
-.hero-stats div { display: flex; flex-direction: column; gap: 4px; }.hero-stats strong { font-size: 1.42rem; color: #fff; }.hero-stats span { color: #b8c2d2; font-size: .76rem; }
-.hero-figure { margin: 0; padding: 14px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 18px; box-shadow: 0 24px 70px rgba(0,0,0,.3); }.hero-figure img { width: 100%; border-radius: 10px; background: #fff; }.hero-figure figcaption { margin: 13px 4px 0; color: #c4cedd; font-size: .82rem; line-height: 1.5; }
-.kinetic-section { padding: 76px 0; }.kinetic-section--soft { background: #f5f7fa; border-top: 1px solid #edf0f4; border-bottom: 1px solid #edf0f4; }.kinetic-section--dark { background: #131b2b; color: #fff; }
-.intro-grid, .download-grid, .citation-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 70px; align-items: center; }.section-kicker { color: var(--brand); }.kinetic-section--dark .section-kicker { color: #e5a7b9; }.kinetic-section h2 { margin: 0 0 18px; color: var(--ink); font-size: clamp(1.75rem, 3vw, 2.55rem); letter-spacing: -.025em; }.kinetic-section--dark h2 { color: #fff; }.lead { margin: 0; color: var(--muted); font-size: 1.07rem; line-height: 1.8; }
-.feature-list { list-style: none; padding: 0; margin: 25px 0 0; display: grid; gap: 12px; }.feature-list li { position: relative; padding: 14px 16px 14px 42px; border-left: 3px solid var(--brand); background: #fafbfc; color: #344258; line-height: 1.55; }.feature-list li::before { content: '✓'; position: absolute; left: 15px; top: 14px; color: var(--brand); font-weight: 800; }
-.principle-card { padding: 30px; min-height: 240px; display: flex; flex-direction: column; justify-content: center; border-radius: 18px; background: linear-gradient(145deg, #f8e8ed, #edf4fb); border: 1px solid #ead6dc; }.principle-number { color: var(--brand); font-size: 4rem; font-weight: 850; line-height: 1; }.principle-card p { margin: 14px 0 8px; font-size: 1.15rem; font-weight: 800; }.principle-card small { color: var(--muted); line-height: 1.55; }
-.section-heading { display: flex; justify-content: space-between; gap: 50px; align-items: end; margin-bottom: 28px; }.section-heading > p { max-width: 490px; margin: 0; color: var(--muted); line-height: 1.7; }.method-figure { margin: 0; padding: 20px; background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 10px 30px rgba(29,46,74,.06); }.method-figure img { width: 100%; }.stage-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 20px; }.stage-card { padding: 24px; background: #fff; border: 1px solid var(--line); border-radius: 14px; }.stage-icon { color: var(--brand); }.stage-label { margin: 14px 0 8px; color: var(--brand); font-size: .7rem; }.stage-card h3 { margin: 0 0 8px; font-size: 1.1rem; }.stage-card p:last-child { margin: 0; color: var(--muted); line-height: 1.6; font-size: .92rem; }
-.metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }.metric-card { position: relative; padding: 24px; background: #fff; border: 1px solid var(--line); border-radius: 14px; }.metric-card strong { display: block; color: var(--brand); font-size: 2rem; }.metric-card span { display: block; margin-top: 8px; color: var(--muted); font-size: .83rem; line-height: 1.4; }.metric-card em { position: absolute; right: 13px; top: 13px; padding: 4px 7px; background: #f8e8ed; border-radius: 999px; color: var(--brand); font-size: .65rem; font-style: normal; font-weight: 700; }
-.result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }.result-card { overflow: hidden; padding: 0; text-align: left; background: #fff; border: 1px solid var(--line); border-radius: 14px; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }.result-card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(29,46,74,.12); }.result-card img { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #f7f8fa; }.result-card-copy { display: flex; flex-direction: column; gap: 7px; padding: 16px 18px 18px; }.result-card-copy strong { color: var(--ink); }.result-card-copy small { color: var(--muted); line-height: 1.45; }.view-figure { color: var(--brand); font-size: .78rem; font-weight: 700; }
-.resource-links { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }.resource-link { display: flex; align-items: center; gap: 10px; padding: 15px 16px; border: 1px solid var(--line); border-radius: 10px; color: var(--ink); background: #fff; }.resource-link:hover { border-color: var(--brand); color: var(--brand); }.resource-link small { margin-left: auto; color: var(--muted); }.citation-grid { align-items: start; }.citation-grid > div > p:last-child { color: #bac5d6; }.citation-grid pre { overflow-x: auto; margin: 0; padding: 20px; color: #e7d2d9; background: #0d1421; border: 1px solid #2d3b53; border-radius: 12px; font: .82rem/1.6 'SFMono-Regular', Consolas, monospace; white-space: pre-wrap; }
-.dialog-image { display: block; width: 100%; max-height: 75vh; object-fit: contain; }
-@media (max-width: 900px) { .hero-grid, .intro-grid, .download-grid, .citation-grid { grid-template-columns: 1fr; gap: 34px; }.hero-figure { max-width: 760px; margin: 0 auto; }.section-heading { display: block; }.section-heading > p { margin-top: 12px; }.metric-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 640px) { .kinetic-shell { width: min(100% - 26px, 1180px); }.kinetic-hero { padding: 38px 0 42px; }.hero-copy h1 { font-size: 2.15rem; }.hero-stats { gap: 8px; }.hero-stats strong { font-size: 1.05rem; }.hero-stats span { font-size: .68rem; }.kinetic-section { padding: 48px 0; }.stage-grid, .result-grid, .resource-links { grid-template-columns: 1fr; }.metric-card { padding: 18px; }.metric-card strong { font-size: 1.6rem; }.feature-list li { padding-left: 35px; } }
-</style>
-
-<style scoped>
-.key-insight { margin: 1.2rem 0 0; padding: 1rem 1.2rem; border-left: 4px solid #7d1231; background: #f8f9fa; color: #7d1231; font-weight: 600; }
-.section-title, .subsection-title { font-weight: 600; }
-.tables-container { margin-top: 2rem; }
-.table-figure { margin: 2rem 0; }
-.table-image { width: 100%; height: auto; }
-.table-figure figcaption { margin-top: .6rem; color: #5d6d7e; font-size: .95rem; text-align: center; line-height: 1.5; }
-</style>
-
-<style scoped>
-/* KineticGS intentionally reuses the VideoMind project-page visual system. */
-@media (max-width: 768px) {
-  .section-title { font-size: 0.85rem !important; }
-  .subsection-title { font-size: 1rem !important; }
-  .results-title { font-size: 0.9rem !important; }
-  .first-subtitle { margin-top: -1rem !important; }
-  .content-card, .project-content, .introduction, .Dataset-statistics, .relevant-links, .Citation { width: 98%; max-width: 100%; margin: 0 auto; box-sizing: border-box; padding: 0.8rem 0.5rem; }
-  .pillar { max-width: 350px; margin: 0 auto; }
-  .example2-image, .caterogy-image, .results-image { max-width: 360px; margin: 0 auto; }
-  .dataset-images { max-width: 300px; margin: 0 auto; }
-  .citation-block { font-size: 0.9rem !important; }
-  .mobile-backtop { right: 20px !important; bottom: 80px !important; }
-  .relevant-links-container { gap: 30px !important; }
+.kinetic-page {
+  --ink: #172033;
+  --muted: #617087;
+  --line: #dfe6ef;
+  --brand: #7d1231;
+  --brand-dark: #4f0b20;
+  --pink: #d95f80;
+  color: var(--ink);
+  background: #fff;
+  min-height: 100vh;
 }
-.project-content { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7; color: #2c3e50; }
-.section-title { color: #7d1231; font-size: 2.2rem; margin: 1rem 0 2rem; font-weight: 600; letter-spacing: -0.5px; text-align: center; }
-.content-card { max-width: 1200px; width: 90%; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
-.subsection-title { color: #7d1231; font-size: 1.5rem; margin: 2rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #eee; }
-.styled-list { list-style: none; padding-left: 1.2rem; margin: 0.8rem 0; }
-.styled-list li { position: relative; padding-left: 1.2rem; margin-bottom: 0.8rem; }
-.styled-list li::before { content: "•"; color: #7d1231; position: absolute; left: 0; font-weight: bold; }
-.pillar { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #7d1231; }
-.results-title { margin-top: 0.5rem; margin-bottom: 0.5rem; text-align: center; }
-::v-deep(.el-icon svg) { color: #7d1231 !important; }
-.citation-block { color: #2c3e50; font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace; font-size: 1rem; box-shadow: 0 2px 8px rgba(44,62,80,0.06); overflow-x: auto; white-space: pre; }
-.example2-image, .caterogy-image, .results-image, .dataset-images { width: 100%; height: auto; object-fit: contain; display: block; }
-.demo-video-player { width: 100%; max-width: 900px; display: block; margin: 0 auto; border-radius: 8px; background: #000; border: 1px solid #e5e8ed; }
+.kinetic-page :deep(h1), .kinetic-page :deep(h2), .kinetic-page :deep(h3) { font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif; }
+.kinetic-shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+
+/* Hero */
+.kinetic-hero {
+  background: radial-gradient(circle at 82% 18%, rgba(217, 95, 128, .35), transparent 40%),
+              radial-gradient(circle at 10% 90%, rgba(23, 105, 170, .25), transparent 45%),
+              linear-gradient(135deg, #280b1a 0%, #111b2f 100%);
+  color: #fff;
+  padding: 64px 0 70px;
+}
+.hero-center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.eyebrow {
+  margin: 0 0 18px;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #e5a7b9;
+}
+.hero-title {
+  margin: 0;
+  max-width: 980px;
+  font-size: clamp(1.9rem, 3.6vw, 3.3rem);
+  line-height: 1.14;
+  letter-spacing: -.03em;
+  font-weight: 700;
+}
+.hero-summary {
+  max-width: 780px;
+  margin: 22px 0 0;
+  color: #d7deea;
+  font-size: 1.08rem;
+  line-height: 1.75;
+}
+.hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 30px; }
+.kinetic-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: .98rem;
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.kinetic-button:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0, 0, 0, .28); }
+.kinetic-button--primary { background: var(--pink); color: #fff; }
+.kinetic-button--light { background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .35); color: #fff; }
+.kinetic-button--light:hover { background: rgba(255, 255, 255, .18); }
+
+.hero-video-frame {
+  margin: 44px 0 0;
+  padding: 14px;
+  width: min(960px, 100%);
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .35);
+}
+.hero-video { display: block; width: 100%; border-radius: 10px; background: #000; }
+.hero-video-frame figcaption { margin: 12px 4px 2px; color: #c4cedd; font-size: .84rem; }
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  width: min(760px, 100%);
+  margin-top: 44px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, .22);
+}
+.hero-stats div { display: flex; flex-direction: column; gap: 5px; }
+.hero-stats strong { font-size: 1.5rem; color: #fff; }
+.hero-stats span { color: #b8c2d2; font-size: .8rem; line-height: 1.4; }
+
+/* Sections */
+.kinetic-section { padding: 78px 0; }
+.kinetic-section--soft { background: #f5f7fa; border-top: 1px solid #edf0f4; border-bottom: 1px solid #edf0f4; }
+.kinetic-section--dark { background: #131b2b; color: #fff; }
+.section-kicker {
+  margin: 0 0 12px;
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+.kinetic-section--dark .section-kicker { color: #e5a7b9; }
+.kinetic-section h2 {
+  margin: 0 0 18px;
+  font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+.kinetic-section--dark h2 { color: #fff; }
+.lead { margin: 0; color: var(--muted); font-size: 1.06rem; line-height: 1.8; }
+.section-heading { display: flex; justify-content: space-between; gap: 56px; align-items: flex-end; margin-bottom: 32px; }
+.section-heading > p { max-width: 520px; margin: 0; color: var(--muted); line-height: 1.75; }
+
+.intro-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 64px; align-items: center; }
+.feature-list { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 12px; }
+.feature-list li {
+  position: relative;
+  padding: 14px 16px 14px 44px;
+  border-left: 3px solid var(--brand);
+  background: #fafbfc;
+  border-radius: 0 8px 8px 0;
+  color: #344258;
+  line-height: 1.55;
+}
+.feature-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  color: var(--brand);
+  font-weight: 800;
+}
+
+/* Figures */
+.framed-figure {
+  margin: 0;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 12px 34px rgba(29, 46, 74, .08);
+  cursor: zoom-in;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.framed-figure:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(29, 46, 74, .14); }
+.framed-figure img { display: block; width: 100%; height: auto; border-radius: 8px; }
+.framed-figure figcaption { margin-top: 12px; color: var(--muted); font-size: .88rem; line-height: 1.55; text-align: center; }
+.key-insight {
+  margin: 26px 0 0;
+  padding: 18px 22px;
+  border-left: 4px solid var(--brand);
+  background: #fff;
+  border-radius: 0 10px 10px 0;
+  color: var(--brand);
+  font-weight: 600;
+  font-size: 1.02rem;
+  box-shadow: 0 6px 18px rgba(29, 46, 74, .06);
+}
+
+/* Results */
+.result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.result-card {
+  margin: 0;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  cursor: zoom-in;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.result-card:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(29, 46, 74, .14); }
+.result-card img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; background: #f7f8fa; }
+.result-card figcaption { padding: 15px 18px 17px; color: var(--ink); font-weight: 600; font-size: .95rem; line-height: 1.5; }
+.table-results { display: grid; gap: 24px; margin-top: 24px; }
+
+/* Dark resources / citation */
+.citation-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; align-items: start; }
+.resource-links { display: grid; gap: 12px; margin-top: 8px; }
+.resource-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 18px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .06);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.resource-link:hover { border-color: var(--pink); background: rgba(255, 255, 255, .12); transform: translateX(4px); }
+.resource-link small { margin-left: auto; color: #9fb0c8; }
+.citation-lead { margin: 0 0 14px; color: #bac5d6; line-height: 1.7; }
+.citation-block {
+  overflow-x: auto;
+  margin: 0;
+  padding: 20px;
+  color: #e7d2d9;
+  background: #0d1421;
+  border: 1px solid #2d3b53;
+  border-radius: 12px;
+  font: .84rem/1.65 'SFMono-Regular', Consolas, monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.dialog-image { display: block; width: 100%; max-height: 78vh; object-fit: contain; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .intro-grid, .citation-grid { grid-template-columns: 1fr; gap: 36px; }
+  .section-heading { display: block; }
+  .section-heading > p { margin-top: 14px; }
+  .result-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .kinetic-hero { padding: 42px 0 48px; }
+  .hero-title { font-size: 1.75rem; }
+  .hero-summary { font-size: .98rem; }
+  .hero-stats { gap: 10px; }
+  .hero-stats strong { font-size: 1.15rem; }
+  .kinetic-section { padding: 50px 0; }
+  .hero-video-frame { padding: 8px; border-radius: 12px; }
+  .framed-figure { padding: 10px; }
+  .mobile-backtop { right: 20px !important; bottom: 80px !important; }
+}
 </style>
