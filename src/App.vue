@@ -19,7 +19,7 @@ const mobileDefaultOpeneds = computed(() => {
   if (path === '/research-direction' || path === '/research-projects') return ['/research']
   if (path === '/dr-Baoyao-Yang' || path === '/our-group' || path === '/undergraduate' || path === '/Alumni') return ['/our-team']
   if (path === '/international-journals-conferences' || path === '/patents') return ['/publications']
-  if (path === '/vKnow' || path === '/VideoMind') return ['/Project']
+  if (path === '/vKnow' || path === '/VideoMind' || path === '/KineticGS') return ['/Project']
   return []
 })
 
@@ -183,6 +183,7 @@ watch(() => route.fullPath, closeMobileMenu)
                 <template #title>Project</template>
                 <el-menu-item index="/vKnow">vKnow</el-menu-item>
                 <el-menu-item index="/VideoMind">Dataset</el-menu-item>
+                <el-menu-item index="/KineticGS">KineticGS</el-menu-item>
               </el-sub-menu>
 
               <el-menu-item index="/contact">Contact</el-menu-item>
@@ -250,6 +251,7 @@ watch(() => route.fullPath, closeMobileMenu)
             <template #title>Project</template>
             <el-menu-item index="/vKnow">vKnow</el-menu-item>
             <el-menu-item index="/VideoMind">Dataset</el-menu-item>
+            <el-menu-item index="/KineticGS">KineticGS</el-menu-item>
           </el-sub-menu>
 
           <el-menu-item index="/contact">Contact</el-menu-item>

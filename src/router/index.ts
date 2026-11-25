@@ -18,6 +18,7 @@ const router = createRouter({
         { path: '/contact', name: 'contact', component: () => import('../pages/ContactView.vue') },
         { path: '/vKnow', name: 'vKnow', component: () => import('../pages/VknowView.vue') },
         { path: '/VideoMind', name: 'VideoMind', component: () => import('../pages/VideoMindView.vue') },
+        { path: '/KineticGS', name: 'KineticGS', component: () => import('../pages/KineticGSView.vue') },
         { path: '/video/:slug', name: 'video-page', component: () => import('../pages/SiteVideoPageView.vue') },
         { path: '/video-player-XiaoqiZheng01', name: 'video-player-XiaoqiZheng01', redirect: '/video/video-xiaoqi-zheng-01' },
         { path: '/video-player-XianrunXu01', name: 'video-player-XianrunXu01', redirect: '/video/video-xianrun-xu-01' },
