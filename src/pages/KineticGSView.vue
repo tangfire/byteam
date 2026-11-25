@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Collection, Link, Promotion, Tickets, VideoCamera } from '@element-plus/icons-vue'
-import { computed, nextTick, onMounted } from 'vue'
+import { computed } from 'vue'
 
 const asset = (name: string) => `/KineticGS/${name}`
 const content = {
@@ -16,7 +16,6 @@ const content = {
     image: asset('figures/teaser_ver2.6.png'),
   },
   video: {
-    title: 'Demo Video',
     src: asset('kineticgs-results.mp4'),
   },
   motivation: {
@@ -34,39 +33,6 @@ const content = {
     title: 'Three-stage momentum hierarchy',
     text: 'KineticGS combines momentum-guided initialization, learnable energy-flow activation, and holistic kinetic synchronization to bridge pixel observations and object-level coherence.',
     image: asset('figures/main_ver9.png'),
-    charts: [
-      {
-        title: '(a) Motion-aware particles initialization',
-        description: 'Motion prior: residual flow and depth confidence form the momentum field. The sampling score normalizes momentum over image space, then selected pixels are back-projected into 3D particles.',
-        formulae: [
-          '\\mathbf{p}(u,v) = m(u,v) \\otimes \\big(\\mathbf{f}(u,v) - \\mathbf{f}_{\\mathrm{geom}}(u,v)\\big)',
-          'E(u,v) = \\frac{|\\mathbf{p}(u,v)|^2}{\\sum_{u,v}|\\mathbf{p}(u,v)|^2}',
-          '\\bm{l}_i = \\pi^{-1}\\big((u_i,v_i), \\mathbf{d}(u_i,v_i)\\big)',
-        ],
-        image: asset('figures/init_vis.png'),
-        alt: 'Momentum-guided particle initialization',
-      },
-      {
-        title: '(b) Particle-gating over time',
-        description: 'Temporal gate: activate each particle inside its support window. The gated update applies momentum only when the particle is active.',
-        formulae: [
-          '\\mathbf{w}_i^t = \\sigma\\Big(\\frac{t - (t_i^{ct} - t_i^{cr})}{\\tau}\\Big) \\cdot \\sigma\\Big(\\frac{(t_i^{ct} + t_i^{cr}) - t}{\\tau}\\Big)',
-          '\\mathbf{p}^{\\prime t}_i = \\mathbf{p}^t_i + \\mathcal{H}(\\mathbf{w}_i^t) \\cdot \\Delta\\mathbf{p}_i^t',
-        ],
-        image: asset('figures/mask_vis_horiz.png'),
-        alt: 'Learnable energy-flow activation',
-      },
-      {
-        title: '(c) Object-level coherence',
-        description: 'Coherence loss keeps neighboring particles consistent. The total objective combines rendering with flow, regularization, and coherence constraints.',
-        formulae: [
-          '\\mathcal{L}_{\\mathrm{coh}} = \\sum_{(i,j)\\in \\mathrm{neighbors}} \\|\\Delta\\bm{l}_i - \\Delta\\bm{l}_j\\|^2 + \\|t_i^{ct} - t_j^{ct}\\|^2',
-          '\\mathcal{L}_{\\mathrm{total}} = \\mathcal{L}_{\\mathrm{render}} + \\lambda_{\\mathrm{flow}}\\mathcal{L}_{\\mathrm{flow}} + \\lambda_{\\mathrm{reg}}\\mathcal{L}_{\\mathrm{reg}} + \\lambda_{\\mathrm{coh}}\\mathcal{L}_{\\mathrm{coh}}',
-        ],
-        image: asset('figures/methods_compare4.png'),
-        alt: 'Holistic kinetic synchronization',
-      },
-    ],
   },
   results: {
     title: 'Results',
@@ -96,28 +62,9 @@ const content = {
 }
 
 const lines = computed(() => content.title.split('\n'))
-const charts = computed(() => content.statistics.charts)
 const figures = computed(() => content.results.figures)
 const links = computed(() => content.links)
 const iconForLink = (type: string) => type === 'code' ? Promotion : type === 'paper' ? Tickets : type === 'video' ? VideoCamera : type === 'data' ? Collection : Link
-const typesetFormulas = () => {
-  const mathJax = (window as any).MathJax
-  if (mathJax?.typesetPromise) {
-    mathJax.typesetPromise()
-    return true
-  }
-  return false
-}
-onMounted(() => {
-  nextTick(() => {
-    if (typesetFormulas()) return
-    let attempts = 0
-    const timer = window.setInterval(() => {
-      attempts += 1
-      if (typesetFormulas() || attempts > 20) window.clearInterval(timer)
-    }, 250)
-  })
-})
 </script>
 
 <template>
@@ -129,6 +76,12 @@ onMounted(() => {
         </template>
       </h1>
 
+      <div class="demo-video">
+        <video class="demo-video-player" controls preload="metadata" :src="content.video.src">
+          Your browser does not support video playback.
+        </video>
+      </div>
+
       <el-card class="content-card">
         <div class="project-content">
           <div class="introduction">
@@ -138,13 +91,6 @@ onMounted(() => {
               <li v-for="item in content.introduction.items" :key="item">{{ item }}</li>
             </ul>
             <img :src="content.introduction.image" class="example2-image" alt="KineticGS teaser">
-          </div>
-
-          <div class="demo-video">
-            <h3 class="subsection-title">{{ content.video.title }}</h3>
-            <video class="demo-video-player" controls preload="metadata" :src="content.video.src">
-              Your browser does not support video playback.
-            </video>
           </div>
 
           <div class="motivation">
@@ -161,13 +107,6 @@ onMounted(() => {
             <h3 class="subsection-title">{{ content.statistics.title }}</h3>
             <p class="vision-text">{{ content.statistics.text }}</p>
             <img :src="content.statistics.image" class="caterogy-image" alt="KineticGS method overview">
-            <div class="pillar-container">
-              <div v-for="chart in charts" :key="chart.image" class="pillar">
-                <h4 class="pillar-title">{{ chart.title }}</h4>
-                <p class="pillar-text">{{ chart.description }}</p>
-                <div class="formula-block" v-for="formula in chart.formulae" :key="formula">\({{ formula }}\)</div>
-              </div>
-            </div>
           </div>
 
           <div class="Results">
@@ -244,9 +183,6 @@ onMounted(() => {
 
 <style scoped>
 .key-insight { margin: 1.2rem 0 0; padding: 1rem 1.2rem; border-left: 4px solid #7d1231; background: #f8f9fa; color: #7d1231; font-weight: 600; }
-.pillar-title { margin: 0 0 .6rem; color: #7d1231; font-size: 1.05rem; line-height: 1.35; }
-.pillar-text { margin: 0 0 .8rem; font-size: .92rem; line-height: 1.55; }
-.formula-block { margin: .55rem 0; padding: .7rem .8rem; overflow-x: auto; color: #2c3e50; background: #fff; border: 1px solid #e5e8ed; border-radius: 5px; font: .86rem/1.35 'Fira Mono', 'Consolas', monospace; white-space: pre-wrap; }
 .section-title, .subsection-title { font-weight: 600; }
 .tables-container { margin-top: 2rem; }
 .table-figure { margin: 2rem 0; }
@@ -262,7 +198,6 @@ onMounted(() => {
   .results-title { font-size: 0.9rem !important; }
   .first-subtitle { margin-top: -1rem !important; }
   .content-card, .project-content, .introduction, .Dataset-statistics, .relevant-links, .Citation { width: 98%; max-width: 100%; margin: 0 auto; box-sizing: border-box; padding: 0.8rem 0.5rem; }
-  .pillar-container { display: flex !important; flex-direction: column !important; gap: 1rem !important; }
   .pillar { max-width: 350px; margin: 0 auto; }
   .example2-image, .caterogy-image, .results-image { max-width: 360px; margin: 0 auto; }
   .dataset-images { max-width: 300px; margin: 0 auto; }
@@ -277,7 +212,6 @@ onMounted(() => {
 .styled-list { list-style: none; padding-left: 1.2rem; margin: 0.8rem 0; }
 .styled-list li { position: relative; padding-left: 1.2rem; margin-bottom: 0.8rem; }
 .styled-list li::before { content: "•"; color: #7d1231; position: absolute; left: 0; font-weight: bold; }
-.pillar-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
 .pillar { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #7d1231; }
 .results-title { margin-top: 0.5rem; margin-bottom: 0.5rem; text-align: center; }
 ::v-deep(.el-icon svg) { color: #7d1231 !important; }
