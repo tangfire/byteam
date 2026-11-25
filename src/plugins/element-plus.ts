@@ -6,6 +6,7 @@ import {
   ElCard,
   ElCollapseTransition,
   ElContainer,
+  ElDialog,
   ElEmpty,
   ElFooter,
   ElHeader,
@@ -24,6 +25,7 @@ import 'element-plus/es/components/backtop/style/css'
 import 'element-plus/es/components/button/style/css'
 import 'element-plus/es/components/card/style/css'
 import 'element-plus/es/components/container/style/css'
+import 'element-plus/es/components/dialog/style/css'
 import 'element-plus/es/components/empty/style/css'
 import 'element-plus/es/components/icon/style/css'
 import 'element-plus/es/components/menu/style/css'
@@ -37,6 +39,7 @@ const components: Plugin[] = [
   ElCard,
   ElCollapseTransition,
   ElContainer,
+  ElDialog,
   ElEmpty,
   ElFooter,
   ElHeader,
